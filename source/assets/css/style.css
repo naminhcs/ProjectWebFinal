@@ -5705,7 +5705,7 @@ input:focus::-webkit-input-placeholder {
   font-size: 17px;
   margin-bottom: 6px;
   color: #140C40;
-  text-transform: capitalize;
+  text-transform: none;
   font-weight: 500;
   text-align: left;
 }
@@ -5825,7 +5825,7 @@ input:focus::-webkit-input-placeholder {
   font-size: 17px;
   margin-bottom: 6px;
   color: #140C40;
-  text-transform: capitalize;
+  text-transform: none;
   font-weight: 500;
   text-align: left;
 }

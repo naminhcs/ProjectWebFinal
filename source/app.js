@@ -52,12 +52,12 @@ app.get('/is-available-username', function (req, res) {
   //Kiem tra co ton tai account voi username = req.query.username hay chua
 })
 
-
 app.get('/login', function (req, res) {
   res.render('login')
 })
 
 app.post('/login', function (req, res) {
+  console.log(req.body)
   //check username/email + password
 })
 

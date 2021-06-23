@@ -1,3 +1,61 @@
+{{#section 'css'}}
+
+<style>
+    input {
+        text-transform: none !important
+    }
+
+    select {
+        color: black !important
+    }
+</style>
+
+{{/section}}
+
+{{#section 'js'}}
+<script>
+    $('#frmLogin').on('submit', function (e) {
+        
+        const username = $('#userName').val();
+        if (username.length === 0) {
+            //alert("Your user name is not valid")
+            $("#txtRequireUserName").html("Please fill out your username");
+            $("#txtRequireUserName").css('color', 'red');
+            $("#userName").focus()
+
+            e.preventDefault()
+            return;
+        }
+        else{
+             $("#txtRequireUserName").hide()
+        }
+
+        const password = String($("#password").val())
+        if (password.length < 6) {
+            //alert("Your password must have at least 6 characters")
+            $("#txtRequirePassword").html("Your password must have at least 6 characters");
+            $("#txtRequirePassword").css('color', 'red');
+            $("#password").focus()
+            e.preventDefault()
+            return;
+        }
+        else{
+            $("#txtRequirePassword").hide()
+        }
+
+
+
+    })
+
+    //check email validation
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+</script>
+{{/section}}
+
+
 <main>
     <!-- breadcrumb Start-->
     <div class="page-notification">
@@ -20,34 +78,42 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-7 col-lg-8">
-                    <div class="login-form">
-                        <!-- Login Heading -->
-                        <div class="login-heading">
-                            <span>Login</span>
-                            <p>Enter Login details to get access</p>
-                        </div>
-                        <!-- Single Input Fields -->
-                        <div class="input-box">
-                            <div class="single-input-fields">
-                                <label>Username or Email Address</label>
-                                <input type="text" placeholder="Username / Email address">
+                    <form id="frmLogin" action="" method="POST">
+                        <div class="login-form">
+                            <!-- Login Heading -->
+                            <div class="login-heading">
+                                <span>Login</span>
+                                <p>Enter Login details to get access</p>
                             </div>
-                            <div class="single-input-fields">
-                                <label>Password</label>
-                                <input type="password" placeholder="Enter Password">
+                            <!-- Single Input Fields -->
+                            <div class="input-box">
+                                <div class="single-input-fields">
+                                    <div class="d-flex justify-content-between">
+                                        <label>Username</label>
+                                        <span class="txtRequire" id="txtRequireUserName"></span>
+                                    </div>
+                                    <input type="text" id="userName" name="userName" placeholder="Enter your username">
+                                </div>
+                                <div class="single-input-fields">
+                                    <div class="d-flex justify-content-between">
+                                        <label>Password</label>
+                                        <span class="txtRequire" id="txtRequirePassword"></span>
+                                    </div>
+                                    <input type="password" id="password" name="password" placeholder="Enter Password">
+                                </div>
+                                <div class="single-input-fields login-check">
+                                    <input type="checkbox" id="fruit1" name="keep-log">
+                                    <label for="fruit1">Keep me logged in</label>
+                                    <a href="#" class="f-right">Forgot Password?</a>
+                                </div>
                             </div>
-                            <div class="single-input-fields login-check">
-                                <input type="checkbox" id="fruit1" name="keep-log">
-                                <label for="fruit1">Keep me logged in</label>
-                                <a href="#" class="f-right">Forgot Password?</a>
+                            <!-- form Footer -->
+                            <div class="login-footer">
+                                <p>Don’t have an account? <a href="/register">Sign Up</a> here</p>
+                                <button type="submit" class="submit-btn3">Login</button>
                             </div>
                         </div>
-                        <!-- form Footer -->
-                        <div class="login-footer">
-                            <p>Don’t have an account? <a href="/register">Sign Up</a> here</p>
-                            <button class="submit-btn3">Login</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

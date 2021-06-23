@@ -1,14 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const exphbs = require('express-handlebars');
-<<<<<<< HEAD
-const bodyParser = require('body-parser');
-=======
 var hbs_sections = require('express-handlebars-sections');
 const moment = require('moment');
 
 
->>>>>>> cafd584093e70ac06e8e9d98e9cb519cf62c35f1
 const app = express();
 
 //logger

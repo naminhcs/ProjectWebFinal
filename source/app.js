@@ -47,6 +47,9 @@ app.post('/register', function (req, res) {
   console.log(req.body)
 })
 
+app.get('/register-premium', function (req, res) {
+  res.render('register-premium')
+})
 app.get('/is-available-username', function (req, res) {
   const username = req.query.username;
   //Kiem tra co ton tai account voi username = req.query.username hay chua

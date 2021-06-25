@@ -1,6 +1,7 @@
 {{#section 'css'}}
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
 <style>
     input {
         text-transform: none !important
@@ -28,45 +29,226 @@
 <script>
 
     $(document).ready(function () {
+
+        //---------------userName----------------------
         $("#userName").blur(function () {
-            const username = $('#userName').val();
+            const username = $("#userName").val();
+            const noti = $('#txtRequireUserName');
+            //alert('abcksj')
             if (username.length === 0) {
-                //alert("This input field has lost its focus.");
-                return;
+                noti.html("Please fill out your username");
+                noti.css('color', 'red');
+            }
+
+        });
+
+        $("#userName").keyup(function () {
+            const username = $('#userName').val();
+            const noti = $('#txtRequireUserName');
+
+            if (username.length === 0) {
+                noti.html("Please fill out your username");
+                noti.css('color', 'red');
+            }
+            else {
+                noti.html("Ok");
+                noti.css('color', 'blue');
             }
         });
-        $("#nameOfUser").blur(function () {
 
-            //alert("This input field has lost its focus.");
+        //----------------full name-----------------------
+        $("#nameOfUser").blur(function () {
+            const username = $("#nameOfUser").val();
+            const noti = $('#txtRequireNameOfUser');
+
+            if (username.length === 0) {
+                noti.html("Please fill out your name");
+                noti.css('color', 'red');
+            }
+            else {
+                noti.html("Ok");
+                noti.css('color', 'blue');
+            }
         });
 
+        $("#nameOfUser").keyup(function () {
+            const username = $('#nameOfUser').val();
+            const noti = $('#txtRequireNameOfUser');
 
-    })
+            if (username.length === 0) {
+                noti.html("Please fill out your name");
+                noti.css('color', 'red');
+            }
+            else {
+                noti.html("Ok");
+                noti.css('color', 'blue');
+            }
+        });
 
-    //check email validation
-    function validateEmail(email) {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    }
+        //---------------- Gmail----------------
+        $("#gmail").blur(function () {
+            const gmail = $('#gmail').val();
+            const noti = $('#txtRequireGmail');
+            if (!validateEmail(gmail)) {
+                noti.html("Please fill out your Gmail");
+                noti.css('color', 'red');
+            }
+            else {
+                noti.html("Ok");
+                noti.css('color', 'blue');
+            }
+        })
 
-    $('#frmRegister').on('submit', function (e) {
-        const username = $('#nameOfUser').val();
-        if (username.length === 0) {
-            alert('');
-            return;
+        //-------------password------------------
+
+        $("#password").blur(function () {
+            const password = $('#password').val();
+            const noti = $('#txtRequirePassword');
+            if (password.length === 0) {
+                noti.html("Please fill out your password");
+                noti.css('color', 'red');
+            }
+        })
+
+        $("#password").keyup(function () {
+            const noti = $("#txtRequirePassword")
+            const pwd = String($("#password").val());
+            console.log(pwd)
+            var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!_.@#\$%\^&\*])(?=.{8,})");
+            var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+            var enoughRegex = new RegExp("(?=.{6,}).*", "g");
+            if (pwd.length == 0) {
+                noti.html('Type Password');
+                noti.css('color', 'red');
+                //console.log("Type Password")
+            } else if (false == enoughRegex.test(pwd)) {
+                noti.html('More Characters');
+                noti.css('color', 'Orangered');
+                //console.log("More Characters")
+            } else if (strongRegex.test(pwd)) {
+                noti.html('Strong!');
+                noti.css('color', 'green');
+                //console.log("Strong")
+            } else if (mediumRegex.test(pwd)) {
+                noti.html('Medium');
+                noti.css('color', 'lightgreen');
+                //console.log("Medium")
+            } else {
+                noti.html('Weak!');
+                noti.css('color', 'LightSalmon');
+                //console.log("Weak")
+            }
+
+        })
+
+
+        //-------------confirm password------------------
+        $("#confirmPassword").keyup(function () {
+            //alert('asdhk')
+            const confirmPassword = String($("#confirmPassword").val())
+            const password = String($("#password").val())
+            console.log(confirmPassword, password)
+            const noti = $("#txtRequireConfirmPassword")
+            if (confirmPassword.localeCompare(password) === 0) {
+                noti.html('Match')
+                noti.css('color', 'green');
+            }
+            else {
+                noti.html('Not Match')
+                noti.css('color', 'red');
+            }
+        })
+
+        //check email validation
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
         }
 
-        //check existing account
-    })
+        //check bitthday validation
+        function validateBirthday(str) {
+            var temp = str.split('/');
+            const nowDate = new Date();
 
-    $('#txtDayOfBirth').datetimepicker({
-        format: 'd/m/Y',
-        timepicker: false,
-        mask: true
+            if (parseInt(temp[2]) <= nowDate.getFullYear()) {
+                if (parseInt(temp[1]) <= nowDate.getMonth() + 1) {
+                    if (parseInt(temp[0]) <= nowDate.getDate())
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+        $('#frmRegister').on('submit', function (e) {
+            
+            const username = $('#userName').val();
+            if (username.length === 0) {
+                $("#txtRequireUserName").html("Please fill out your username");
+                $("#txtRequireUserName").css('color', 'red');
+                alert("Your user name is not valid")
+                e.preventDefault()
+                return;
+            }
+
+            //check existing account
+            $.getJSON(`/is-available-username?username=${username}`, function(data){
+                console.log(data)
+            })
+
+            const nameOfUser = $('#nameOfUser').val();
+            if (nameOfUser.length === 0) {
+                $("#txtRequireNameOfUser").html("Please fill out your full name");
+                $("#txtRequireNameOfUser").css('color', 'red');
+                alert("Your name is not valid")
+                e.preventDefault()
+                return;
+            }
+
+            const gmail = $('#gmail').val();
+            if (!validateEmail(gmail)) {
+                $("#txtRequireGmail").html("Please fill out your Gmail");
+                $("#txtRequireGmail").css('color', 'red');
+                alert("Your Gmail is not valid")
+                e.preventDefault()
+                return;
+            }
+
+            const DOB = $("#dayOfBirth").val();
+            if (!validateBirthday(String(DOB))) {
+                alert("Your birthday is not valid")
+                e.preventDefault()
+                return;
+            }
+
+            const password = String($("#password").val())
+            if (password.length < 6) {
+                alert("Your password must have at least 6 characters")
+                e.preventDefault()
+                return;
+            }
+
+            const confirmPassword = String($("#confirmPassword").val())
+            if (confirmPassword.localeCompare(password) !== 0) {
+                alert("The confirm password does not match with your password")
+                e.preventDefault()
+                return;
+            }
+
+        })
+
+
+        $('#dayOfBirth').datetimepicker({
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true
+        });
     });
 
 </script>
 {{/section}}
+
+
 
 <main>
     <!-- breadcrumb Start-->
@@ -104,7 +286,7 @@
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>User Name</label>
-                                        <span class="txtRequire" id = "txtRequireUserName">Require</span>
+                                        <span class="txtRequire" id="txtRequireUserName">Require</span>
                                     </div>
                                     <input type="text" id="userName" name="userName" placeholder="Enter username"
                                         autofocus>
@@ -114,7 +296,7 @@
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>Full Name</label>
-                                        <span class="txtRequire" id = "txtRequireNameOfUser">Require</span>
+                                        <span class="txtRequire" id="txtRequireNameOfUser">Require</span>
                                     </div>
                                     <input type="text" id="nameOfUser" name="nameOfUser" placeholder="Enter full name">
                                 </div>
@@ -123,7 +305,7 @@
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>Gmail Address</label>
-                                        <span class="txtRequire" id = "txtRequireGmail" >Require</span>
+                                        <span class="txtRequire" id="txtRequireGmail">Require</span>
                                     </div>
                                     <input type="" placeholder="Enter gmail address" id="gmail" name="gmail">
                                 </div>
@@ -133,7 +315,7 @@
                                     {{!-- birthday --}}
                                     <div class="single-input-fields mr-10">
                                         <label>Date of birth</label>
-                                        <input type="" id="txtDayOfBirth" name="dayOfBirth">
+                                        <input type="" id="dayOfBirth" name="dayOfBirth">
                                     </div>
 
                                     {{!-- phone number --}}
@@ -164,20 +346,24 @@
                                     <div class="single-input-fields">
                                         <div class="d-flex justify-content-between">
                                             <label>Password</label>
-                                            <span class="txtRequire" id = "txtRequireNameOfUser">Require</span>
+                                            <span class="txtRequire" id="txtRequirePassword">Require</span>
                                         </div>
-                                        <input type="password" placeholder="Enter Password">
+                                        <input type="password" id="password" name="password"
+                                            placeholder="Enter Password">
                                     </div>
                                 </div>
                                 {{!-- confirm password --}}
                                 <div class="single-input-fields">
-                                    <label>Confirm Password</label>
-                                    <input type="password" placeholder="Confirm Password">
+                                    <div class="d-flex justify-content-between">
+                                        <label>Confirm Password</label>
+                                        <span class="txtRequire" id="txtRequireConfirmPassword"></span>
+                                    </div>
+                                    <input type="password" id="confirmPassword" placeholder="Confirm Password">
                                 </div>
                             </div>
                             <!-- form Footer -->
                             <div class="register-footer">
-                                <p> Already have an account? <a href="login.html"> Login</a> here</p>
+                                <p> Already have an account? <a href="/login"> Login</a> here</p>
                                 <button type="submit" class="submit-btn3">Sign Up</button>
                             </div>
                         </div>

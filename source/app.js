@@ -4,7 +4,6 @@ const exphbs = require('express-handlebars');
 var hbs_sections = require('express-handlebars-sections');
 const moment = require('moment');
 
-
 const app = express();
 
 //logger
@@ -30,24 +29,8 @@ app.use(express.urlencoded({
 app.use('/assets', express.static('assets'))
 
 
-//route
-app.get('/', function (req, res) {
-  res.render('home');
-})
-
-app.get('/post_detail', function (req, res) {
-  res.render('post_detail')
-})
-
-app.get('/register', function (req, res) {
-  res.render('register')
-})
-
-app.post('/register', function (req, res) {
-  console.log(req.body)
-})
-
-
+require('./middlewares/userMiddle')(app);
+require('./middlewares/confirmationMiddle')(app);
 
 //listening at PORT...
 const PORT = 3000

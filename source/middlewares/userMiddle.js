@@ -1,4 +1,4 @@
 module.exports = function (app) {
-    app.use('/user/', require('../controller/userRoutes'));
+    app.use('/user/', require('../controllers/userRoute'));
 }
   

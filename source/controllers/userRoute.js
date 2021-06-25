@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const user = require('../models/userModel')
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -23,10 +24,38 @@ function generateAccessToken(userName) {
   return jwt.sign(userName, process.env.TOKEN_SECRET, { expiresIn: '60s' });
 };
 
-router.post('/register', async function (req, res) {
+router.post('/register', async function (req, res, next) {
     const data = req.body;
+    const checkUserName = await userModel.getUserByUserName(data.userName);
+    const checkNickName = await userModel.getUserByNickName(data.nickName);
+    const checkGmail = await userModel.getUserByGmail(data.gmail);
+
+    console.log(checkNickName);
+    console.log(checkGmail);
+    console.log(checkUserName);
+    if (checkGmail !== null){
+        res.end('Gmail is used');
+        return;
+    }
+
+    if (checkNickName !== null){
+        res.end('NickName is used');
+        return;
+    }
+
+    if (checkUserName !== null){
+        res.end('UserName is used');
+        return;
+    }
+
     const hash = bcrypt.hashSync(data.passWord, 10);
     data.passWord = hash;
+    var dataUser = new user(data);
+    const dataPush = {};
+    for (x in dataUser){
+      dataPush[x] = dataUser[x];
+    }
+    // Sending Email
     const token = generateAccessToken({userName: data.userName});
     const s = `http://localhost:3000/confirmation/${token}`;
     
@@ -37,8 +66,9 @@ router.post('/register', async function (req, res) {
       text: s
     }
     await transporter.sendMail(mailOption)
-    await userModel.addUser(data);
-    res.send("ok");
+    // ---- Add user into database
+    await userModel.addUser(dataPush);
+    res.send(data);
 })
 
 
@@ -54,6 +84,11 @@ router.post('/login', async function (req, res) {
     }
     res.send("ok")
   }
+})
+
+router.post('/update', async function(req,res){
+    userModel.updateUserByUserName(req.body.userName, req.body);
+    res.send("ok /update user");
 })
 
 module.exports = router;

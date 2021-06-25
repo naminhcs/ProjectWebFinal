@@ -21,67 +21,85 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 function generateAccessToken(userName) {
-  return jwt.sign(userName, process.env.TOKEN_SECRET, { expiresIn: '60s' });
+  return jwt.sign(userName, process.env.TOKEN_SECRET, {
+    expiresIn: '60s'
+  });
 };
 
-router.get('/register', function (req, res){
-  res.render('register');
+router.get('/login', function (req, res) {
+  res.render('vwAccount/login');
 })
+
+
+router.get('/register', function (req, res) {
+  res.render('vwAccount/register');
+})
+
 router.post('/register', async function (req, res) {
-    const data = req.body;
-    data.nickName = "bacvdsa";
-    const checkUserName = await userModel.getUserByUserName(data.userName);
-    const checkNickName = await userModel.getUserByNickName(data.nickName);
-    const checkGmail = await userModel.getUserByGmail(data.gmail);
+  const data = req.body;
+  console.log(data)
 
-    console.log(checkNickName);
-    console.log(checkGmail);
-    console.log(checkUserName);
-    if (checkGmail !== null){
-        res.end('Gmail is used');
-        return;
-    }
+  data.nickName = "";
+  const checkUserName = await userModel.getUserByUserName(data.userName);
+  //const checkNickName = await userModel.getUserByNickName(data.nickName);
+  const checkGmail = await userModel.getUserByGmail(data.gmail);
 
-    if (checkNickName !== null){
-        res.end('NickName is used');
-        return;
-    }
+  //console.log(checkNickName);
+  console.log(checkGmail);
+  console.log(checkUserName);
+  if (checkGmail !== null) {
 
-    if (checkUserName !== null){
-        res.end('UserName is used');
-        return;
-    }
+    res.end('Gmail is used');
+    return;
+  }
 
-    const hash = bcrypt.hashSync(data.passWord, 10);
-    data.passWord = hash;
-    var dataUser = new user(data);
-    const dataPush = {};
-    for (x in dataUser){
-      dataPush[x] = dataUser[x];
-    }
-    // Sending Email
-    const token = generateAccessToken({userName: data.userName});
-    const s = `http://localhost:3000/confirmation/${token}`;
-    
-    const mailOption = {
-      from : 'noreply@webapp.com',
-      to: data.gmail,
-      subject: 'Confirm email', 
-      text: s
-    }
-    await transporter.sendMail(mailOption)
-    // ---- Add user into database
-    await userModel.addUser(dataPush);
-    res.send(data);
+  // if (checkNickName !== null) {
+  //   res.end('NickName is used');
+  //   return;
+  // }
+
+  if (checkUserName !== null) {
+    res.end('UserName is used');
+    return;
+  }
+
+  const hash = bcrypt.hashSync(data.password, 10);
+  data.password = hash;
+  var dataUser = new user(data);
+  const dataPush = {};
+  for (x in dataUser) {
+    dataPush[x] = dataUser[x];
+  }
+  // Sending Email
+  const token = generateAccessToken({
+    userName: data.userName
+  });
+  const s = `http://localhost:3000/confirmation/${token}`;
+
+  const mailOption = {
+    from: 'noreply@webapp.com',
+    to: data.gmail,
+    subject: 'Confirm email',
+    text: s
+  }
+  await transporter.sendMail(mailOption)
+  // ---- Add user into database
+  await userModel.addUser(dataPush);
+
+
+  res.send(data);
 })
 
 
 router.post('/login', async function (req, res) {
-  const user = await userModel.findByUsername(req.body.userName);
+  console.log(req.body)
+
+  const user = await userModel.getUserByUserName(req.body.userName);
   if (user === null) {
     res.send("userName isn't avaiable")
   }
-  const ret = bcrypt.compareSync(req.body.passWord, user.passWord);
+
+  const ret = bcrypt.compareSync(req.body.password, user.password);
   if (ret === true) {
     if (user.comfirmation === false) {
       res.send('U need to confirm your email.')
@@ -90,9 +108,9 @@ router.post('/login', async function (req, res) {
   }
 })
 
-router.post('/update', async function(req,res){
-    userModel.updateUserByUserName(req.body.userName, req.body);
-    res.send("ok /update user");
+router.post('/update', async function (req, res) {
+  userModel.updateUserByUserName(req.body.userName, req.body);
+  res.send("ok /update user");
 })
 
 module.exports = router;

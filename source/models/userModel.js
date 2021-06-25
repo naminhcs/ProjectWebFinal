@@ -2,7 +2,7 @@ const d = new Date();
 class User {
     constructor (user){
         this.userName = user.userName; // only one
-        this.passWord = user.passWord; // can change
+        this.password = user.passWord; // can change
         this.profilePicture = user.profilePicture; // can chage
         this.permission = 0; // only admin can be change
         this.gmail = user.gmail; // cant change

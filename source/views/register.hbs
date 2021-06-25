@@ -192,9 +192,6 @@
             }
 
             //check existing account
-            $.getJSON(`/is-available-username?username=${username}`, function(data){
-                console.log(data)
-            })
 
             const nameOfUser = $('#nameOfUser').val();
             if (nameOfUser.length === 0) {

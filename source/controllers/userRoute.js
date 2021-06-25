@@ -24,8 +24,12 @@ function generateAccessToken(userName) {
   return jwt.sign(userName, process.env.TOKEN_SECRET, { expiresIn: '60s' });
 };
 
-router.post('/register', async function (req, res, next) {
+router.get('/register', function (req, res){
+  res.render('register');
+})
+router.post('/register', async function (req, res) {
     const data = req.body;
+    data.nickName = "bacvdsa";
     const checkUserName = await userModel.getUserByUserName(data.userName);
     const checkNickName = await userModel.getUserByNickName(data.nickName);
     const checkGmail = await userModel.getUserByGmail(data.gmail);

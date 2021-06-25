@@ -26,7 +26,7 @@ app.use(express.urlencoded({
 }));
 
 
-app.use('/assets', express.static('assets'))
+app.use('/user/assets', express.static('assets'))
 
 
 require('./middlewares/userMiddle')(app);

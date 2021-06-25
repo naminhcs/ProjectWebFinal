@@ -19,6 +19,7 @@ module.exports = {
     },
 
     async getUserByUserName(userName){
+        console.log(userName);
         const data = await db.collection('User').where('userName', '==', userName).get();
         if (data.empty){
             return null;

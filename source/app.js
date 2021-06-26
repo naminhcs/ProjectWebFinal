@@ -30,6 +30,8 @@ app.use(express.urlencoded({
 
 app.use('/user/assets', express.static('assets'))
 app.use('/assets', express.static('assets'))
+app.use('/user/forget/assets', express.static('assets'))
+
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({

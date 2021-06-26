@@ -24,22 +24,35 @@ function generateAccessToken(userName) {
   });
 };
 
+//--------------GET /regiser-------------------
 router.get('/register', function (req, res) {
   res.render('vwAccount/register');
 })
 
+//--------------POST /regiser-------------------
 router.post('/register', async function (req, res) {
   const data = req.body;
   const checkUserName = await userModel.getUserByUserName(data.userName);
   const checkGmail = await userModel.getUserByGmail(data.gmail);
 
   if (checkGmail !== null) {
-    res.send('Gmail is used')
+    console.log('Gmail is used')
+    res.render('vwAccount/register', {
+      data: data,
+      error: 'Gmail is used',
+      errorGmail: true
+    })
     return;
   }
 
   if (checkUserName !== null) {
-    res.end('UserName is used');
+    console.log('Username is used')
+    res.render('vwAccount/register', {
+      data: data,
+      error: 'Username is used',
+      errorUserName: true
+    })
+
     return;
   }
 
@@ -65,27 +78,45 @@ router.post('/register', async function (req, res) {
   await transporter.sendMail(mailOption)
   // ---- Add user into database
   await userModel.addUser(dataPush);
-  res.send(data);
+
+  //res.send(data);
+  const successNotification = 'Check your mail and click link to confirm account!';
+  res.redirect(`./login?successNotification=${successNotification}`);
 })
 
-
+//--------------GET /login-------------------
 router.get('/login', function (req, res) {
-  res.render('vwAccount/login');
+  const successNotification = req.query.successNotification;
+  res.render('vwAccount/login', {
+    successNotification: successNotification
+  });
+
 })
 
+//--------------POST /login-------------------
 router.post('/login', async function (req, res) {
   if (req.session.auth === true) {
     res.send('u need to logout');
     return;
   }
+
   const user = await userModel.getUserByUserName(req.body.userName);
   if (user === null) {
-    res.send("userName isn't avaiable")
+    //res.send("userName isn't avaiable")
+    console.log("Username isn't avaiable")
+    res.render('vwAccount/login', {
+      error: "Username isn't avaiable"
+    })
+    return;
   }
+
   const ret = bcrypt.compareSync(req.body.password, user.password);
   if (ret === true) {
     if (user.confirmation === false) {
-      res.send('U need to confirm your email.')
+      // res.send('U need to confirm your email.')
+      res.render('vwAccount/login', {
+        error: "You need to confirm your email to active account"
+      })
       return;
     }
     req.session.data = {
@@ -98,10 +129,13 @@ router.post('/login', async function (req, res) {
 
     res.locals.auth = req.session.auth;
     res.locals.data = req.session.data;
-    res.send("ok")
+    res.redirect('/')
     return;
   } else {
-    res.send('password incorrect');
+    // res.send('password incorrect');
+    res.render('vwAccount/login', {
+      error: "password is not correct"
+    })
     return;
   }
 })
@@ -141,11 +175,15 @@ router.post('/forget', async function (req, res) {
   // if (data.gmail !== null){
   //   user = await userModel.getUserByGmail(data.gmail);
   // }
-  
+
   if (user === null) {
-    res.send("cant find user");
+    //res.send("cant find user");
+    res.render('vwAccount/forgetPassword',{
+      error: 'User does not exists!'
+    })
     return;
   }
+
   //generate Token and send email.
   const token = generateAccessToken({
     userName: user.userName
@@ -159,21 +197,22 @@ router.post('/forget', async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption);
-  res.send("ok")
+  const successNotification = 'Check your mail and click link to confirm account!';
+  res.redirect(`./login?successNotification=${successNotification}`);
 })
 
 // router.get('/forget/:token', function(res, req){
 //   res.render('formchangepassword');
 // })
 
-router.get('/changeForgetPassword', function(req, res){
+router.get('/forget/:token', function (req, res) {
   res.render('vwAccount/changeForgetPassword')
 })
 
-router.post('/changeForgetPassword', function(req, res){
-  console.log(req.body)
-  res.end()
-})
+// router.post('/changeForgetPassword', function (req, res) {
+//   console.log(req.body)
+//   res.end()
+// })
 
 
 
@@ -187,7 +226,8 @@ router.post('/forget/:token', async function (req, res) {
         password: hash
       }
       userModel.updateUserByUserName(userName, dataChange);
-      res.send('success');
+      //res.send('success');
+      res.redirect('../login');
       return;
     } catch (error) {
       res.send('token is unavailable');

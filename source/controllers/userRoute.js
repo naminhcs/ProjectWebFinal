@@ -19,7 +19,7 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 function generateAccessToken(userName) {
-  return jwt.sign(userName, process.env.TOKEN_SECRET, { expiresIn: '1d' });
+  return jwt.sign(userName, process.env.TOKEN_SECRET, { expiresIn: '200s' });
 };
 
 router.get('/register', function (req, res){

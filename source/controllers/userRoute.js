@@ -166,6 +166,17 @@ router.post('/forget', async function (req, res) {
 //   res.render('formchangepassword');
 // })
 
+router.get('/changeForgetPassword', function(req, res){
+  res.render('vwAccount/changeForgetPassword')
+})
+
+router.post('/changeForgetPassword', function(req, res){
+  console.log(req.body)
+  res.end()
+})
+
+
+
 router.post('/forget/:token', async function (req, res) {
   const dataNewPassword = req.body;
   const data = jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err, decode) {

@@ -135,7 +135,7 @@ router.post('/forget', async function(req,res){
     }
     //generate Token and send email.
     const token = generateAccessToken({userName: user.userName});
-    const s = `http://localhost:3000/forget/${token}`;
+    const s = `http://localhost:3000/user/forget/${token}`;
     
     const mailOption = {
       from : 'noreply@webapp.com',

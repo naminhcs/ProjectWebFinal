@@ -2,7 +2,9 @@ const express = require('express')
 const morgan = require('morgan')
 const exphbs = require('express-handlebars');
 var hbs_sections = require('express-handlebars-sections');
-const moment = require('moment');
+const session = require('express-session');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 
@@ -28,6 +30,12 @@ app.use(express.urlencoded({
 
 app.use('/user/assets', express.static('assets'))
 
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: process.env.TOKEN_SECRET_SESSION,
+  resave: false,
+  saveUninitialized: true
+}))
 
 require('./middlewares/userMiddle')(app);
 require('./middlewares/confirmationMiddle')(app);

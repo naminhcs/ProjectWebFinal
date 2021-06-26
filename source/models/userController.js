@@ -19,7 +19,6 @@ module.exports = {
     },
 
     async getUserByUserName(userName){
-        console.log(userName);
         const data = await db.collection('User').where('userName', '==', userName).get();
         if (data.empty){
             return null;
@@ -74,9 +73,11 @@ module.exports = {
         if (data.empty){
             return 'user cannot find'
         }
-        for (x in userDataUpdate){
-            await db.collection('User').doc(data.id).update({x: userDataUpdate[x]});
-        }
+        var userID;
+        data.forEach(doc =>{
+            userID = doc.id;
+        })
+        db.collection('User').doc(userID).update(userDataUpdate);
         return 'success';
     }
 }

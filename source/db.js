@@ -9,7 +9,7 @@ const configDatabase = {
 }
 
 const firebase = require('firebase')
-const db = firebase.initializeApp(configDatabase)
+firebase.initializeApp(configDatabase)
 const firestore = firebase.firestore();
 
 module.exports = firestore;

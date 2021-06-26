@@ -12,11 +12,16 @@ router.get('/confirmation/:token', async function(req, res){
             const userName = decode.userName;
             const userUpdate = userModel.getUserByUserName(userName);
             if (userUpdate === null){
-                res.send('unsuccess')
+                res.send('user cannot found');
+                res.redirect('/login');
+                return;
+            }
+            if (userUpdate.confirmation === true){
+                res.send('token is unavailable');
+                return;
             }
             var userUpdateData = {
                 "confirmation" : true,
-                "checkUpdate" : "ok"
             }
             userModel.updateUserByUserName(userName, userUpdateData);
             res.send('success');

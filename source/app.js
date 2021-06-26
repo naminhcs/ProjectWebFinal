@@ -41,6 +41,10 @@ app.use(session({
 require('./middlewares/userMiddle')(app);
 require('./middlewares/confirmationMiddle')(app);
 
+app.get('/', function (req, res) {
+  res.render('home')
+})
+
 //listening at PORT...
 const PORT = 3000
 app.listen(PORT, function () {

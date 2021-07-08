@@ -42,6 +42,7 @@ app.use(session({
 
 require('./middlewares/userMiddle')(app);
 require('./middlewares/confirmationMiddle')(app);
+require('./middlewares/adminMiddle')(app);
 
 app.get('/', function (req, res) {
   res.render('home')

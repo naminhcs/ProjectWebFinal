@@ -1,0 +1,195 @@
+{{#section 'css'}}
+<title>Table</title>
+
+<style>
+    #myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
+
+{{/section}}
+
+{{#section 'js'}}
+<script>
+	const title1 = 'Table';const title2 = 'Table ';const title3 = 'Table';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script>
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("/table/editpost");
+    });
+});
+</script>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue,x;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 1; i < tr.length; i++) {
+    x=0;
+    for(j=0;j<tr[i].getElementsByTagName("td").length;j++)
+    {
+        td = tr[i].getElementsByTagName("td")[j];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) 
+                x=1;
+        }
+    }
+
+    
+    if (x>0) {
+    tr[i].style.display = "";
+    } else {
+    tr[i].style.display = "none";
+    }
+  }
+}
+</script>
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+{{/section}}
+
+<main>
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" >
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#">
+					<em class="fa fa-home"></em>
+				</a></li>
+				<li class="active" id='title1'>Tag</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header" id='title2'>Tag</h1>
+                
+			</div>
+		</div><!--/.row-->
+        <div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					{{!-- <div class="panel-heading" id='title3'>Tags</div> --}}
+					<div class="panel-body">
+						<div class="col-md-12">
+                {{!-- ///////////////////////////////////////////////////////////////////// --}}
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                <table id="myTable">
+                  <tr class="header">
+                    <th style="width:20%;" onclick="sortTable(0)">Title</th>
+                    <th style="width:20%;" onclick="sortTable(1)">Topic</th>
+                    <th style="width:20%;" onclick="sortTable(2)">Date</th>
+                    <th style="width:20%;" onclick="sortTable(3)">Pumary</th>
+                    <th style="width:20%;" onclick="sortTable(4)">Permission</th>
+                  </tr>
+                  {{#each list as |alias|}}
+                    
+                  {{/each}}
+                  {{#each this.db}}
+                  <tr id="row-{{index}}">
+                    <td>{{titlePost}}</td>
+                    <td>{{topicID}}</td>
+                    <td>{{dateUpload}}</td>
+                    <td>{{summary}}</td>
+                    <td>{{permission}}</td>
+                    {{!-- <td class="text-right">
+                      <a class="btn btn-primary btn-sm" href="/admin/categories/edit?id={{CatID}}" role="button" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </a>
+                    </td> --}}
+                  </tr>
+                  {{/each}}
+                </table>
+                {{!-- ///////////////////////////////////////////////////////////////////// --}}
+						</div>
+					</div>
+				</div><!-- /.panel-->
+		
+	</div><!--/.main-->
+</main>

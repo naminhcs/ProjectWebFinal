@@ -23,6 +23,10 @@
 {{/section}}
 
 {{#section 'js'}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
@@ -181,9 +185,9 @@
 
 
         $('#frmRegister').on('submit', function (e) {
-            
-            const username = $('#userName').val();
-            if (username.length === 0) {
+
+            const userName = $('#userName').val();
+            if (userName.length === 0) {
                 $("#txtRequireUserName").html("Please fill out your username");
                 $("#txtRequireUserName").css('color', 'red');
                 alert("Your user name is not valid")
@@ -192,6 +196,16 @@
             }
 
             //check existing account
+            //$.getJSON(`/user/isAvailableUsername?userName=${userName}`, async function (data) {
+            //alert(data);
+            //console.log(data);
+            //if (data) {
+            //    alert('Not available!');
+            //} else {
+            //$('#frmRegister').off('submit').submit();
+            //  alert('available!');
+            //}
+            // });
 
             const nameOfUser = $('#nameOfUser').val();
             if (nameOfUser.length === 0) {
@@ -279,32 +293,76 @@
                             <!-- Single Input Fields -->
                             <div class="input-box">
 
+                                {{#if this.error}}
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{this.error}}
+                                </div>
+                                {{/if}}
                                 {{!-- username --}}
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>User Name</label>
-                                        <span class="txtRequire" id="txtRequireUserName">Require</span>
+                                        <span class="txtRequire" id="txtRequireUserName" style="
+                                            {{#if errorUserName}}
+                                                color: red;
+                                            {{else}}
+                                                {{#if this.error}}
+                                                    color: blue;
+                                                {{/if}}
+                                            {{/if}}">
+                                            {{#if errorUserName}}
+                                            This username is used
+                                            {{else}}
+                                            {{#if this.error}}
+                                            Ok
+                                            {{else}}
+                                            Require
+                                            {{/if}}
+                                            {{/if}}
+                                        </span>
                                     </div>
                                     <input type="text" id="userName" name="userName" placeholder="Enter username"
-                                        autofocus>
+                                        value="{{#if errorGmail}}{{this.data.userName}}{{/if}}">
                                 </div>
 
                                 {{!-- Full Name --}}
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>Full Name</label>
-                                        <span class="txtRequire" id="txtRequireNameOfUser">Require</span>
+                                        <span class="txtRequire" id="txtRequireNameOfUser" style="
+                                            {{#if this.error}}
+                                                color: blue;
+                                            {{/if}}">{{#if this.error}}
+                                            Ok
+                                            {{else}}
+                                            Require
+                                            {{/if}}</span>
                                     </div>
-                                    <input type="text" id="nameOfUser" name="nameOfUser" placeholder="Enter full name">
+                                    <input type="text" id="nameOfUser" name="nameOfUser" placeholder="Enter full name"
+                                        value="{{#if error}}{{this.data.nameOfUser}}{{/if}}">
                                 </div>
 
                                 {{!-- Gamil --}}
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
                                         <label>Gmail Address</label>
-                                        <span class="txtRequire" id="txtRequireGmail">Require</span>
+                                        <span class="txtRequire" id="txtRequireGmail" style="
+                                            {{#if errorGmail}}
+                                                color: red;
+                                            {{else}}
+                                                {{#if this.error}}
+                                                    color: blue;
+                                                {{/if}}
+                                            {{/if}}">{{#if errorGmail}}This gmail is
+                                            used{{else}}{{#if this.error}}
+                                            Ok
+                                            {{else}}
+                                            Require
+                                            {{/if}}{{/if}}</span>
                                     </div>
-                                    <input type="" placeholder="Enter gmail address" id="gmail" name="gmail">
+                                    <input type="" placeholder="Enter gmail address" id="gmail" name="gmail"
+                                        value="{{#if errorUserName}}{{this.data.gmail}}{{/if}}">
                                 </div>
 
 
@@ -312,14 +370,16 @@
                                     {{!-- birthday --}}
                                     <div class="single-input-fields mr-10">
                                         <label>Date of birth</label>
-                                        <input type="" id="dayOfBirth" name="dayOfBirth">
+                                        <input type="" id="dayOfBirth" name="dayOfBirth"
+                                            value="{{#if error}}{{this.data.dayOfBirth}}{{/if}}">
                                     </div>
 
                                     {{!-- phone number --}}
                                     <div class="single-input-fields">
                                         <label>Your phone</label>
                                         <input type="" id="txtPhoneNumber" name="phoneNumber"
-                                            placeholder="Enter phone number">
+                                            placeholder="Enter phone number"
+                                            value="{{#if error}}{{this.data.phoneNumber}}{{/if}}">
                                     </div>
                                 </div>
 

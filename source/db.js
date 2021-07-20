@@ -1,3 +1,6 @@
+const fireStorage = require('firebase/storage')
+global.XMLHttpRequest = require("xhr2");
+
 const configDatabase = {
     apiKey: "AIzaSyBplWJSzjQIXRp3EnxGjVCWV1rHMvhVV2g",
     authDomain: "web-app-484e0.firebaseapp.com",
@@ -11,5 +14,9 @@ const configDatabase = {
 const firebase = require('firebase')
 firebase.initializeApp(configDatabase)
 const firestore = firebase.firestore();
+const firestorage = firebase.storage();
 
-module.exports = firestore;
+module.exports = {
+    firestore: firestore,
+    firestorage: firestorage
+}

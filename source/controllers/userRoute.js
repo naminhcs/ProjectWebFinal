@@ -22,15 +22,24 @@ function generateAccessToken(userName) {
   return jwt.sign(userName, process.env.TOKEN_SECRET, {
     expiresIn: '200s'
   });
-};
+};  
 
-//--------------GET /regiser-------------------
+//---------------isLogin---------------------
+
+function isLogin(req){
+  if (req.session.auth !== true){
+    req.session.auth = false;
+    return false;
+  }
+  return true;
+}
+
+//--------------Register-------------------
 router.get('/register', function (req, res) {
   res.render('vwAccount/register');
 })
 
-//--------------POST /regiser-------------------
-router.post('/register', async function (req, res) {
+router.post('/register',isLogin(req), async function (req, res) {
   const data = req.body;
   const checkUserName = await userModel.getUserByUserName(data.userName);
   const checkGmail = await userModel.getUserByGmail(data.gmail);
@@ -84,7 +93,7 @@ router.post('/register', async function (req, res) {
   res.redirect(`./login?successNotification=${successNotification}`);
 })
 
-//--------------GET /login-------------------
+//--------------Login-------------------
 router.get('/login', function (req, res) {
   const successNotification = req.query.successNotification;
   res.render('vwAccount/login', {
@@ -93,7 +102,6 @@ router.get('/login', function (req, res) {
 
 })
 
-//--------------POST /login-------------------
 router.post('/login', async function (req, res) {
   if (req.session.auth === true) {
     res.send('u need to logout');
@@ -140,6 +148,7 @@ router.post('/login', async function (req, res) {
   }
 })
 
+//-----------------Logout---------------------------------------
 router.post('/logout', async function (req, res) {
   if (req.session.auth === false) {
     res.send('need to login');
@@ -153,6 +162,7 @@ router.post('/logout', async function (req, res) {
   return;
 })
 
+//--------------------Forget-----------------------------------
 router.get('/forget', function (req, res) {
   res.render('vwAccount/forgetPassword')
 })
@@ -169,15 +179,7 @@ router.post('/forget', async function (req, res) {
     user = await userModel.getUserByUserName(data.userName);
   }
 
-  // if (data.userName !== null){
-  //   user = await userModel.getUserByUserName(data.userName);
-  // }
-  // if (data.gmail !== null){
-  //   user = await userModel.getUserByGmail(data.gmail);
-  // }
-
   if (user === null) {
-    //res.send("cant find user");
     res.render('vwAccount/forgetPassword',{
       error: 'User does not exists!'
     })
@@ -201,20 +203,10 @@ router.post('/forget', async function (req, res) {
   res.redirect(`./login?successNotification=${successNotification}`);
 })
 
-// router.get('/forget/:token', function(res, req){
-//   res.render('formchangepassword');
-// })
-
+//----------------------------Change password via token-------------------------------------------
 router.get('/forget/:token', function (req, res) {
   res.render('vwAccount/changeForgetPassword')
 })
-
-// router.post('/changeForgetPassword', function (req, res) {
-//   console.log(req.body)
-//   res.end()
-// })
-
-
 
 router.post('/forget/:token', async function (req, res) {
   const dataNewPassword = req.body;
@@ -226,7 +218,6 @@ router.post('/forget/:token', async function (req, res) {
         password: hash
       }
       userModel.updateUserByUserName(userName, dataChange);
-      //res.send('success');
       res.redirect('../login');
       return;
     } catch (error) {
@@ -235,8 +226,41 @@ router.post('/forget/:token', async function (req, res) {
   });
 })
 
+//--------------------------Profile---------------------------------------------------------
 router.get('/profile', function (req, res) {
   res.send(req.session.data);
 })
 
+//--------------------------Resend Token----------------------------------------------------
+router.post('/resend', async function (req, res){
+  const data = req.body;
+  const user = await userModel.getUserByUserName(data.userName)
+  if (user === null){
+    res.send("Can not find user")
+  }
+
+  const token = generateAccessToken({
+    userName: user.userName
+  });
+
+  const s = `http://localhost:3000/confirmation/${token}`;
+
+  const mailOption = {
+    from: 'noreply@webapp.com',
+    to: data.gmail,
+    subject: 'Confirm email',
+    text: s
+  }
+  await transporter.sendMail(mailOption)
+  res.send("OK")
+})
+
 module.exports = router;
+
+// test upload file and load file
+// async function getURL(){
+//   var storageRef = firebase.storage().ref();
+//   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
+//   console.log(urlDownloadLink);
+// }
+// getURL();

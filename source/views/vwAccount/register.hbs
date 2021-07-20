@@ -173,8 +173,9 @@
         function validateBirthday(str) {
             var temp = str.split('/');
             const nowDate = new Date();
-
-            if (parseInt(temp[2]) <= nowDate.getFullYear()) {
+            if (parseInt(temp[2]) < nowDate.getFullYear()) {
+                return true;
+            } else{
                 if (parseInt(temp[1]) <= nowDate.getMonth() + 1) {
                     if (parseInt(temp[0]) <= nowDate.getDate())
                         return true;

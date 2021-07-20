@@ -15,3 +15,5 @@ router.get('/all', async function(req, res){
     const data = await tagModel.getAllTag();
     res.send(data);
 })
+
+module.exports = router;

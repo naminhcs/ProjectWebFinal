@@ -40,13 +40,21 @@ app.use(session({
   saveUninitialized: true
 }))
 
+
+
+require('./middlewares/localsMiddleware')(app);
 require('./middlewares/userMiddle')(app);
 require('./middlewares/confirmationMiddle')(app);
 require('./middlewares/adminMiddle')(app)
 require('./middlewares/tagMiddle')(app)
 
 app.get('/', function (req, res) {
+  // console.log(res.locals.data)
   res.render('home')
+})
+
+app.get('/post-detail', function (req, res) {
+  res.render('post-detail')
 })
 
 //listening at PORT...

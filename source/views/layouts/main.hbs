@@ -74,6 +74,8 @@
 </head>
 
 <body>
+    <form id="frmLogout" action="/user/logout" method="POST"></form>
+
     <!-- ? Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
@@ -126,10 +128,12 @@
                                     <!-- logo -->
                                     <div class="">
                                         <!-- <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a> -->
-                                        <h1 style="
+                                        <a href="/">
+                                            <h1 style="
                                         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
                                         font-size: 32pt;">
-                                            Báo DKM</h1>
+                                                Báo DKM</h1>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -145,7 +149,7 @@
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
-                                                    <a href="#" class="dropdown-item dropdown-item-custom">
+                                                    <a href="/user/profile" class="dropdown-item dropdown-item-custom">
                                                         <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
                                                     </a>
                                                     {{#if isPremium}}
@@ -162,7 +166,8 @@
                                                         ý</a>
 
                                                     <div class="dropdown-divider dropdown-divider-custom"></div>
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                    <a href="javascript: $('#frmLogout').submit();"
+                                                        class="dropdown-item dropdown-item-custom"><i
                                                             class="fa fa-sign-out mr-10" aria-hidden="true"></i>
                                                         Logout</a>
                                                 </div>
@@ -419,7 +424,7 @@
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
-                                                    <a href="#" class="dropdown-item dropdown-item-custom">
+                                                    <a href="/user/profile" class="dropdown-item dropdown-item-custom">
                                                         <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
                                                     </a>
                                                     {{#if isPremium}}
@@ -436,7 +441,8 @@
                                                         ý</a>
 
                                                     <div class="dropdown-divider dropdown-divider-custom"></div>
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                    <a href="javascript: $('#frmLogout').submit();"
+                                                        class="dropdown-item dropdown-item-custom"><i
                                                             class="fa fa-sign-out mr-10" aria-hidden="true"></i>
                                                         Logout</a>
                                                 </div>
@@ -468,6 +474,9 @@
         </div>
         <!-- Header End -->
     </header>
+
+
+
     {{{body}}}
 
     <footer>
@@ -490,10 +499,12 @@
                                     <div class="header-info-mid">
                                         <!-- logo -->
                                         <div class="logo">
-                                            <h1 style="
+                                            <a href="/">
+                                                <h1 style="
                                             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
                                             font-size: 32pt;">
-                                                Báo DKM</h1>
+                                                    Báo DKM</h1>
+                                            </a>
                                             <!-- <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a> -->
                                         </div>
                                     </div>

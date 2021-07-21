@@ -24,6 +24,13 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!--Menu css + fonts -->
+    <link rel="stylesheet" href="assets/css/style-menu.css">
+    <link rel="stylesheet" href="assets/fonts/icomoon/style-menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
 
     <style>
         .carousel-inner img {
@@ -89,17 +96,35 @@
                             <div class="row d-flex justify-content-lg-between align-items-center">
                                 <div class="header-info-left">
                                     <li class="d-none d-lg-block">
-                                        <div class="form-box f-right ">
-                                            <input type="text" name="Search" placeholder="Search your interest...">
-                                            <div class="search-icon">
-                                                <i class="ti-search"></i>
+                                        <div class="site-mobile-menu site-navbar-target">
+                                            <div class="site-mobile-menu-header">
+                                                <div class="site-mobile-menu-close mt-3">
+                                                    <span class="icon-close2 js-menu-toggle"></span>
+                                                </div>
                                             </div>
+                                            <div class="site-mobile-menu-body"></div>
+                                        </div> <!-- .site-mobile-menu -->
+
+                                        <div class="d-flex">
+                                            <div class="align-self-center site-navbar left-cta-menu mr-3">
+                                                <a href="#" class="site-menu-toggle js-menu-toggle d-xl-none-menu"><span
+                                                        class="icon-menu"></span></a>
+                                            </div>
+
+                                            <div class="align-self-center form-box f-right mb-0">
+                                                <input class="mb-0" type="text" name="Search"
+                                                    placeholder="Search your interest...">
+                                                <div class="search-icon mb-0">
+                                                    <i class="ti-search"></i>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </li>
                                 </div>
                                 <div class="header-info-mid">
                                     <!-- logo -->
-                                    <div class="logo">
+                                    <div class="">
                                         <!-- <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a> -->
                                         <h1 style="
                                         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -107,66 +132,342 @@
                                             Báo DKM</h1>
                                     </div>
                                 </div>
+
+                                {{#if auth}}
+                                <nav class="navbar navbar-expand-md navbar-light d-none d-lg-block"
+                                    style="background: white; position:relative; z-index: 2000; ">
+                                    <div id="navbarCollapse" class="">
+                                        <ul class="nav navbar-nav ml-auto">
+                                            <li class="nav-item dropdown">
+                                                <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
+                                                    data-toggle="dropdown">
+                                                    Hi, userName
+                                                </a>
+                                                <div
+                                                    class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
+                                                    <a href="#" class="dropdown-item dropdown-item-custom">
+                                                        <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
+                                                    </a>
+                                                    {{#if isPremium}}
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
+                                                        cấp</a>
+                                                    {{/if}}
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
+                                                        cấp</a>
+
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fa fa-comments-o mr-10" aria-hidden="true"></i>Góp
+                                                        ý</a>
+
+                                                    <div class="dropdown-divider dropdown-divider-custom"></div>
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fa fa-sign-out mr-10" aria-hidden="true"></i>
+                                                        Logout</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                                {{else}}
                                 <div class="header-info-right d-flex align-items-center">
                                     <ul>
-                                        <li><a href="/about">About</a></li>
                                         <!-- <li><a href="contact.html">Contact</a></li> -->
-                                        <li><a href="/user/login">Login</a></li>
+                                        <li>
+                                            <a href="/user/login">
+                                                <button class="genric-btn primary-border radius">
+                                                    Login</button>
+                                            </a>
+                                        </li>
+
+                                        {{!-- <li><a href="/about">About</a></li> --}}
                                     </ul>
                                     <!-- Social -->
-                                    <div class="header-social">
+                                    <div class="header-social d-none d-xl-block">
                                         <a href="#"><i class="fab fa-twitter"></i></a>
                                         <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                        <a href="#"><i class="fab fa-google"></i></a>
+
                                     </div>
+
                                 </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="header-bottom  header-sticky">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <!-- logo 2 -->
-                                <div class="logo2">
-                                    <a href="/"><img src="assets/img/logo/logo.png" alt=""></a>
-                                </div>
-                                <!-- logo 3 -->
-                                <div class="logo3 d-block d-sm-none">
-                                    <a href="/"><img src="assets/img/logo/logo-mobile.png" alt=""></a>
-                                </div>
-                                <!-- Main-menu -->
-                                <div class="main-menu text-center d-none d-lg-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a href="/category">Lifestyle</a></li>
-                                            <li><a href="/category">Business</a></li>
-                                            <li><a href="/category">Fashion</a></li>
-                                            <li><a href="/category">Design</a></li>
-                                            <li><a href="/category">Health</a></li>
-                                            <li><a href="/category">Harmful</a></li>
-                                            <li><a href="/category">Technology</a></li>
-                                            <li><a href="/category">Travel</a></li>
-                                            <li><a href="/category">Food</a></li>
-                                            <li><a href="/category">Creative</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <!-- Mobile Menu -->
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-lg-none"></div>
+                <div class="header-bottom">
+
+                    {{!-- <div class="site-mobile-menu site-navbar-target">
+                        <div class="site-mobile-menu-header">
+                            <div class="site-mobile-menu-close mt-3">
+                                <span class="icon-close2 js-menu-toggle"></span>
                             </div>
                         </div>
+                        <div class="site-mobile-menu-body"></div>
+                    </div> <!-- .site-mobile-menu --> --}}
+
+
+                    <!-- NAVBAR -->
+                    <div class="site-navbar mt-3">
+                        <div class="">
+                            <div class="row align-items-center">
+                                <nav class="mx-auto site-navigation">
+                                    <ul class="site-menu js-clone-nav d-none d-xl-block-menu ml-0 pl-0">
+                                        {{!-- <li><a href="" class="nav-link active">THỜI SỰ</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">THỜI SỰ</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Pháp luật</a></li>
+                                                <li><a href="service-single.html">Phóng sự / Điều tra</a></li>
+                                                <li><a href="blog-single.html">Quốc phòng</a></li>
+                                                <li><a href="portfolio.html">Dân sinh</a></li>
+                                                <li><a href="portfolio-single.html">Lao động - Việc làm</a></li>
+                                                <li><a href="testimonials.html">Chính trị</a></li>
+
+                                            </ul>
+                                        </li>
+
+                                        <!-- <li><a href="" class="nav-link ">THẾ GIỚI</a></li> -->
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">THẾ GIỚI</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Quân sự</a></li>
+                                                <li><a href="service-single.html">Kinh tế thế giới</a></li>
+                                                <li><a href="blog-single.html">Góc nhìn</a></li>
+                                                <li><a href="portfolio.html">Người Việt năm châu</a></li>
+                                                <li><a href="portfolio-single.html">Chuyện lạ</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">VĂN HÓA</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">VĂN HÓA</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Câu chuyện văn hóa</a></li>
+                                                <li><a href="portfolio-single.html">Sống đẹp</a></li>
+                                                <li><a href="service-single.html">Khảo cứu</a></li>
+                                                <li><a href="blog-single.html">Thành phố tôi yêu</a></li>
+                                                <li><a href="portfolio.html">Thương nhớ miền trung</a></li>
+                                                <li><a href="testimonials.html">Món ngon Hà Nội</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">GIẢI TRÍ</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">GIẢI TRÍ</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Truyền hình</a></li>
+                                                <li><a href="portfolio-single.html">Phim</a></li>
+                                                <li><a href="service-single.html">Đời nghệ sĩ</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">THỂ THAO</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">THỂ THAO</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Bóng đá Việt Nam</a></li>
+                                                <li class=""><a href="services.html">Bóng đá Quốc tế</a></li>
+                                                <li class=""><a href="services.html">Bình luận</a></li>
+                                                <li><a href="portfolio-single.html">Quần vợt</a></li>
+                                                <li><a href="service-single.html">Thể thao khác</a></li>
+                                                <li><a href="service-single.html">Tin chuyển nhượng</a></li>
+                                                <li><a href="service-single.html">Hậu trường</a></li>
+                                                <li><a href="service-single.html">Thể thao - Cộng đồng</a></li>
+                                                <li><a href="service-single.html">Bóng rổ</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">TÀI CHÍNH - KINH DOANH</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">TÀI CHÍNH - KINH DOANH</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Chứng khoán</a></li>
+                                                <li class=""><a href="services.html">Địa ốc</a></li>
+                                                <li class=""><a href="services.html">Doanh nhân</a></li>
+                                                <li><a href="portfolio-single.html">Tiêu dùng</a></li>
+                                                <li><a href="service-single.html">Làm giàu</a></li>
+                                                <li><a href="service-single.html">Chính sách - Phát triển</a></li>
+                                                <li><a href="service-single.html">Ngân hàng</a></li>
+                                                <li><a href="service-single.html">Doanh nghiệp</a></li>
+                                                <li><a href="service-single.html">Kinh tế xanh</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">ĐỜI SỐNG</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">ĐỜI SỐNG</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Ẩm thực</a></li>
+                                                <li class=""><a href="services.html">Gia đình</a></li>
+                                                <li class=""><a href="services.html">Cộng đồng</a></li>
+                                                <li><a href="portfolio-single.html">Người sống quanh ta</a></li>
+                                                <li><a href="service-single.html">Sống xanh</a></li>
+                                                <li><a href="service-single.html">Gương sáng biên cương</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">GIỚI TRẺ</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">GIỚI TRẺ</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Sống - Yêu - Ăn - Chơi</a></li>
+                                                <li class=""><a href="services.html">Thế giới mạng</a></li>
+                                                <li class=""><a href="services.html">Kết nối</a></li>
+                                                <li><a href="portfolio-single.html">Đoàn - Hội</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">GIÁO DỤC</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">GIÁO DỤC</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Du học</a></li>
+                                                <li class=""><a href="services.html">Chọn nghề</a></li>
+                                                <li class=""><a href="services.html">Chọn trường</a></li>
+                                                <li><a href="portfolio-single.html">Sức khỏe học đường</a></li>
+                                                <li><a href="portfolio-single.html">Tuyển sinh 2021</a></li>
+                                                <li><a href="portfolio-single.html">Cẩm nang tuyển sinh 2021</a></li>
+                                            </ul>
+                                        </li>
+
+
+                                        {{!-- <li><a href="" class="nav-link ">CÔNG NGHỆ</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">CÔNG NGHỆ</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Sản phẩm mới</a></li>
+                                                <li><a href="service-single.html">Ý tưởng</a></li>
+                                                <li><a href="blog-single.html">Xu hướng</a></li>
+                                                <li><a href="portfolio.html">Chuyển đổi số</a></li>
+                                                <li><a href="portfolio-single.html">Kinh Nghiệm</a></li>
+                                            </ul>
+                                        </li>
+
+
+
+
+
+
+
+
+                                        {{!-- <li><a href="" class="nav-link ">SỨC KHỎE</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">SỨC KHỎE</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Làm đẹp</a></li>
+                                                <li><a href="service-single.html">Giới tính</a></li>
+                                                <li><a href="blog-single.html">Khỏe đẹp mỗi ngày</a></li>
+                                                <li><a href="portfolio.html">Sống vui khỏe</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {{!-- <li><a href="" class="nav-link ">DU LỊCH</a></li> --}}
+                                        <li class="has-children">
+                                            <a href="" class="nav-link ">DU LỊCH</a>
+                                            <ul class="dropdown">
+                                                <li class=""><a href="services.html">Khám phá</a></li>
+                                                <li><a href="service-single.html">A-Z</a></li>
+                                                <li><a href="blog-single.html">Săn Tour</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                                {{!-- <div class="left-cta-menu">
+                                    <a href="#"
+                                        class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span
+                                            class="icon-menu"></span></a>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="site-mobile-menu site-navbar-target d-inline-block d-xl-none">
+                        <div class="site-mobile-menu-header">
+                            <div class="site-mobile-menu-close mt-3">
+                                <span class="icon-close2 js-menu-toggle"></span>
+                            </div>
+                        </div>
+                        <div class="site-mobile-menu-body"></div>
+                    </div> <!-- .site-mobile-menu -->
+
+                    <div class="mobile-menu">
+                        <div class="d-flex justify-content-between mb-10">
+                            <div class="site-navbar left-cta-menu my-auto ml-0">
+                                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none ml-0">
+                                    <span class="icon-menu"></span>
+                                </a>
+                            </div>
+
+                            <div class="text-center my-auto mx-auto">
+                                <a href="#" style="color: rgb(20, 12, 64); ">Báo DKM</a>
+                            </div>
+
+                            <div class="my-auto">
+                                {{#if auth}}
+                                <nav class="navbar navbar-expand-md navbar-light "
+                                    style="background: white; position:relative; z-index: 2000; ">
+                                    <div id="navbarCollapse" class="">
+                                        <ul class="nav navbar-nav ml-auto">
+                                            <li class="nav-item dropdown">
+                                                <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
+                                                    data-toggle="dropdown">
+                                                    Hi, userName
+                                                </a>
+                                                <div
+                                                    class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
+                                                    <a href="#" class="dropdown-item dropdown-item-custom">
+                                                        <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
+                                                    </a>
+                                                    {{#if isPremium}}
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
+                                                        cấp</a>
+                                                    {{/if}}
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
+                                                        cấp</a>
+
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fa fa-comments-o mr-10" aria-hidden="true"></i>Góp
+                                                        ý</a>
+
+                                                    <div class="dropdown-divider dropdown-divider-custom"></div>
+                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                            class="fa fa-sign-out mr-10" aria-hidden="true"></i>
+                                                        Logout</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                                {{else}}
+                                <ul>
+                                    <li><a href="/user/login" style="color: rgb(20, 12, 64);">Login</a></li>
+                                </ul>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <div class="form-box mb-0 d-flex" style="width: 250px; padding: 0px">
+                                <input class="mb-0" type="text" name="Search" placeholder="Search your interest...">
+                                <div class="search-icon mb-0 align-items-center"
+                                    style="height: 50px; width:50px; padding-top:15px; padding-left:15px; border: 1px solid #eaeaea">
+                                    <i class="ti-search my-auto"></i>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
         <!-- Header End -->
     </header>
-
-
     {{{body}}}
 
     <footer>
@@ -274,6 +575,9 @@
     <!-- Jquery Mobile Menu -->
     <script src="./assets/js/jquery.slicknav.min.js"></script>
 
+    <!--Menu custom-->
+    <script src="./assets/js/menu.js"></script>
+
     <!-- Jquery Slick , Owl-Carousel Plugins -->
     <script src="./assets/js/owl.carousel.min.js"></script>
     <script src="./assets/js/slick.min.js"></script>
@@ -307,6 +611,7 @@
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
     {{{_sections.js}}}
+
 
 </body>
 

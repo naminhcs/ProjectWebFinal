@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 const user = require('../models/userModel')
+const auth = require('../middlewares/authMethod')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -24,22 +25,12 @@ function generateAccessToken(userName) {
   });
 };  
 
-//---------------isLogin---------------------
-
-function isLogin(req){
-  if (req.session.auth !== true){
-    req.session.auth = false;
-    return false;
-  }
-  return true;
-}
-
 //--------------Register-------------------
-router.get('/register', function (req, res) {
+router.get('/register', auth.isNotLogin, function (req, res) {
   res.render('vwAccount/register');
 })
 
-router.post('/register',isLogin(req), async function (req, res) {
+router.post('/register', auth.isNotLogin, async function (req, res) {
   const data = req.body;
   const checkUserName = await userModel.getUserByUserName(data.userName);
   const checkGmail = await userModel.getUserByGmail(data.gmail);
@@ -94,7 +85,7 @@ router.post('/register',isLogin(req), async function (req, res) {
 })
 
 //--------------Login-------------------
-router.get('/login', function (req, res) {
+router.get('/login', auth.isNotLogin, function (req, res) {
   const successNotification = req.query.successNotification;
   res.render('vwAccount/login', {
     successNotification: successNotification
@@ -102,16 +93,9 @@ router.get('/login', function (req, res) {
 
 })
 
-router.post('/login', async function (req, res) {
-  if (req.session.auth === true) {
-    res.send('u need to logout');
-    return;
-  }
-
+router.post('/login', auth.isNotLogin, async function (req, res) {
   const user = await userModel.getUserByUserName(req.body.userName);
   if (user === null) {
-    //res.send("userName isn't avaiable")
-    console.log("Username isn't avaiable")
     res.render('vwAccount/login', {
       error: "Username isn't avaiable"
     })
@@ -119,6 +103,7 @@ router.post('/login', async function (req, res) {
   }
 
   const ret = bcrypt.compareSync(req.body.password, user.password);
+  console.log("nfsdahfjasnv");
   if (ret === true) {
     if (user.confirmation === false) {
       // res.send('U need to confirm your email.')
@@ -149,11 +134,7 @@ router.post('/login', async function (req, res) {
 })
 
 //-----------------Logout---------------------------------------
-router.post('/logout', async function (req, res) {
-  if (req.session.auth === false) {
-    res.send('need to login');
-    return;
-  }
+router.post('/logout', auth.isLogin, async function (req, res) {
   req.session.auth = false;
   req.session.data = null;
   res.locals.auth = false;
@@ -163,11 +144,11 @@ router.post('/logout', async function (req, res) {
 })
 
 //--------------------Forget-----------------------------------
-router.get('/forget', function (req, res) {
+router.get('/forget', auth.isNotLogin, function (req, res) {
   res.render('vwAccount/forgetPassword')
 })
 
-router.post('/forget', async function (req, res) {
+router.post('/forget',  auth.isNotLogin , async function (req, res) {
   const type = String(req.body.select);
   const data = req.body;
 
@@ -227,7 +208,7 @@ router.post('/forget/:token', async function (req, res) {
 })
 
 //--------------------------Profile---------------------------------------------------------
-router.get('/profile', function (req, res) {
+router.get('/profile', auth.isLogin , function (req, res) {
   res.send(req.session.data);
 })
 

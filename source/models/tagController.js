@@ -13,9 +13,16 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 ans.push(doc.data());
-                ans[ans.length - 1]["Id"] = doc.id; 
+                ans[ans.length - 1]["id"] = doc.id; 
             })
             return ans;
         }
+    },
+
+    async checkTagByName(name){
+        const data = await db.firestore.collection('Tag').where('name', '==', name).get();
+        if (data.empty){
+            return true;
+        } else return false;
     }
 }

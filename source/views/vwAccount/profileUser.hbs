@@ -1,0 +1,64 @@
+{{#section 'css'}}
+<style>
+    .row {
+        margin-bottom: 10px !important;
+
+    }
+
+    .vline {
+        border-right: 1px solid black;
+    }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+
+{{/section}}
+<main>
+    <!-- breadcrumb Start-->
+    <div class="page-notification">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+    
+    <div class="container mt-5">
+        <div class="row">
+            <h2 class="mx-auto pb-10" style="border-bottom: 1px solid black ;">Thông tin người người</h2>
+        </div>
+        <div class="row mt-10 ">
+            <div class="col-6 text-right vline">Username</div>
+            <div class="col-6">{{data.userName}}</div>
+        </div>
+        <div class="row ">
+            <div class="col-6 text-right vline">Name</div>
+            <div class="col-6">{{data.nameOfUser}}</div>
+        </div>
+        <div class="row ">
+            <div class="col-6 text-right vline">Nickname</div>
+            <div class="col-6">{{data.nickName}}</div>
+        </div>
+        <div class="row">
+            <div class="col-6 text-right vline">Gmail</div>
+            <div class="col-6 ">{{data.gmail}}</div>
+        </div>
+        <div class="row ">
+            <div class="col-6 text-right vline">Phone number</div>
+            <div class="col-6 ">{{data.phoneNumber}}</div>
+        </div>
+        <div class="row">
+            <div class="col-6 text-right vline">Birthday</div>
+            <div class="col-6 ">{{data.dayOfBirth}}</div>
+        </div>
+    </div>
+</main>

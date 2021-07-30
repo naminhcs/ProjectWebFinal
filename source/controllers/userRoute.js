@@ -24,7 +24,7 @@ function generateAccessToken(userName) {
   return jwt.sign(userName, process.env.TOKEN_SECRET, {
     expiresIn: '200s'
   });
-};  
+};
 
 //--------------Register-------------------
 router.get('/register', auth.isNotLogin, function (req, res) {
@@ -87,6 +87,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
 
 //--------------Login-------------------
 router.get('/login', auth.isNotLogin, function (req, res) {
+  
   const successNotification = req.query.successNotification;
   res.render('vwAccount/login', {
     successNotification: successNotification
@@ -122,7 +123,11 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
 
     res.locals.auth = req.session.auth;
     res.locals.data = req.session.data;
-    res.redirect('/')
+
+    console.log(req.session.urlRedirect)
+    url = req.session.urlRedirect || '/'
+    res.redirect(url)
+    
     return;
   } else {
     // res.send('password incorrect');
@@ -139,7 +144,10 @@ router.post('/logout', auth.isLogin, async function (req, res) {
   req.session.data = null;
   res.locals.auth = false;
   res.locals.data = null;
-  res.send("ok");
+
+  // get previous url
+  const url = req.headers.referer || '/';
+  res.redirect(url)
   return;
 })
 
@@ -148,7 +156,7 @@ router.get('/forget', auth.isNotLogin, function (req, res) {
   res.render('vwAccount/forgetPassword')
 })
 
-router.post('/forget',  auth.isNotLogin , async function (req, res) {
+router.post('/forget', auth.isNotLogin, async function (req, res) {
   const type = String(req.body.select);
   const data = req.body;
 
@@ -161,7 +169,7 @@ router.post('/forget',  auth.isNotLogin , async function (req, res) {
   }
 
   if (user === null) {
-    res.render('vwAccount/forgetPassword',{
+    res.render('vwAccount/forgetPassword', {
       error: 'User does not exists!'
     })
     return;
@@ -224,15 +232,16 @@ router.post('/forget/:token', async function (req, res) {
 })
 
 //--------------------------Profile---------------------------------------------------------
-router.get('/profile', auth.isLogin , function (req, res) {
-  res.send(req.session.data);
+router.get('/profile', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/profileUser')
 })
 
 //--------------------------Resend Token----------------------------------------------------
-router.post('/resend', async function (req, res){
+router.post('/resend', async function (req, res) {
   const data = req.body;
   const user = await userModel.getUserByUserName(data.userName)
-  if (user === null){
+  if (user === null) {
     res.send("Can not find user")
   }
 

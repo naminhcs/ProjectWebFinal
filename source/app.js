@@ -44,6 +44,7 @@ require('./middlewares/userMiddle')(app);
 require('./middlewares/confirmationMiddle')(app);
 require('./middlewares/adminMiddle')(app)
 require('./middlewares/tagMiddle')(app)
+require('./middlewares/postMiddle')(app)
 
 app.get('/', function (req, res) {
   res.render('home')

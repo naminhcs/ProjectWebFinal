@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const userModel = require('../models/userController');
+const tokenModel = require('../models/tokenController')
 const router = express.Router();
 router.use(bodyParser.json());
 
@@ -103,7 +104,6 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
   }
 
   const ret = bcrypt.compareSync(req.body.password, user.password);
-  console.log("nfsdahfjasnv");
   if (ret === true) {
     if (user.confirmation === false) {
       // res.send('U need to confirm your email.')
@@ -186,13 +186,32 @@ router.post('/forget',  auth.isNotLogin , async function (req, res) {
 
 //----------------------------Change password via token-------------------------------------------
 router.get('/forget/:token', function (req, res) {
-  res.render('vwAccount/changeForgetPassword')
+    jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function(err){
+      if (err){
+        res.send("token is expired")
+        return;
+      }
+      res.render('vwAccount/changeForgetPassword')
+    })
 })
 
 router.post('/forget/:token', async function (req, res) {
-  const dataNewPassword = req.body;
-  const data = jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err, decode) {
-    try {
+
+  jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err, decode) {
+      if (err){
+        res.send("token is expired")
+      }
+      const dataNewPassword = req.body;
+      token = req.params.token;
+      isAvailable = await tokenModel.checkTokenIsAvailable(token);
+      console.log(isAvailable)
+      if (isAvailable){
+        res.send('token is unavailable')
+        return;
+      } else{
+        obj = {"token": token};
+        await tokenModel.addToken(obj);
+      }
       const userName = decode.userName;
       const hash = bcrypt.hashSync(dataNewPassword.password, 10);
       var dataChange = {
@@ -201,9 +220,6 @@ router.post('/forget/:token', async function (req, res) {
       userModel.updateUserByUserName(userName, dataChange);
       res.redirect('../login');
       return;
-    } catch (error) {
-      res.send('token is unavailable');
-    }
   });
 })
 
@@ -244,4 +260,4 @@ module.exports = router;
 //   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
 //   console.log(urlDownloadLink);
 // }
-// getURL();
+// getURL()

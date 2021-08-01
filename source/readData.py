@@ -33,8 +33,10 @@ f.close()
 
 cnt = 0
 for Aobj in listPost:
-    stringObj = Aobj
-    res = requests.post('http://localhost:3000/post/upload', json = stringObj, timeout=2.5)
     cnt = cnt + 1
-    if (cnt == 50): break
+    if (cnt > 50):
+        stringObj = Aobj
+        res = requests.post('http://localhost:3000/post/upload', json = stringObj, timeout=2.5)
+    cnt = cnt + 1
+    if (cnt == 100): break
     print(cnt)

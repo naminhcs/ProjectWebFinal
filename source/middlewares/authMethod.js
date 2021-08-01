@@ -11,13 +11,33 @@ module.exports = {
             req.session.urlRedirect = req.originalUrl;
             return res.redirect('/user/login');
         }
-        if (req.session.permission !== -1){
+        if (req.session.data.permission !== -1){
             return res.redirect('/');
         }
         next();
     },
     isNotLogin(req, res, next){
         if (req.session.auth === true){
+            return res.redirect('/');
+        }
+        next();
+    },
+    isEditor(req, res, next){
+        if (req.session.auth !== true){
+            req.session.urlRedirect = req.originalUrl;
+            return res.redirect('/user/login');
+        }
+        if (req.session.data.permission !== -2){
+            return res.redirect('/');
+        }
+        next();
+    },
+    isWriter(req, res, next){
+        if (req.session.auth !== true){
+            req.session.urlRedirect = req.originalUrl;
+            return res.redirect('/user/login');
+        }
+        if (req.session.data.permission !== -3){
             return res.redirect('/');
         }
         next();

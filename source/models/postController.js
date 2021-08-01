@@ -19,7 +19,7 @@ module.exports = {
         }
     }, 
 
-    async getPostById(id){
+    async getPostByID(id){
         const data = await db.firestore.collection('Post').doc(id).get();
         if (data.empty){
             return "Post cann't found";
@@ -73,7 +73,7 @@ module.exports = {
     },
 
     async getPostInWeek(time){
-        var data = await db.firestore.collection('Post').where("dateUpload", ">=" , time).orderBy('dateUpload').orderBy("view", "desc").limit(3).get();
+        var data = await db.firestore.collection('Post').orderBy('dateUpload').get();
         if (data.empty){
             return "null"
         } else {
@@ -83,6 +83,53 @@ module.exports = {
                 ans[ans.length - 1]["id"] = doc.id; 
             })
             return ans;
+        }
+    },
+
+    async editPost(post, id){
+        var data = await db.firestore.collection('Post').doc(id).get()
+        const type = typeof data.data();
+        if (type === "undefined"){
+            return "can't find post"
+        } else {
+            await db.firestore.collection('Post').doc(id).update(post);
+            return 'done'
+        }
+    },
+
+    async delPost(id){
+        var data = await db.firestore.collection('Post').doc(id).get()
+        const type = typeof data.data();
+        if (type === "undefined"){
+            return "can't find post"
+        } else {
+            await db.firestore.collection('Post').doc(id).delete();
+            return 'done'
+        }
+    },
+
+    async getAllPostByNickName(nickName){
+        var data = await db.firestore.collection('Post').where('nickName', '==', nickName).get();
+        if (data.empty){
+            return "can't find post"
+        } else {
+            var ans = []
+            data.forEach(doc =>{
+                ans.push(doc.data());
+                ans[ans.length - 1]["id"] = doc.id; 
+            })
+            return ans;
+        }
+    },
+    
+    async updateStatusById(id, stt){
+        var data = await db.firestore.collection('Post').doc(id).get();
+        const type = typeof data.data();
+        if (type === "undefined"){
+            return "can't find post"
+        } else {
+            await db.firestore.collection('Post').doc(id).update({'status': stt});
+            return 'done'
         }
     }
 }

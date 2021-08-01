@@ -1,5 +1,8 @@
 class Tag{
-    constructor (name){
+    constructor (key, name){
         this.name = name;
+        this.key = key;
     }
 }
+
+module.exports = Tag;

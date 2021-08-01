@@ -63,22 +63,34 @@ module.exports = {
         return user;
     },
     async addUser(user){
-        return db.firestore.collection('User').doc().set(user);  
+        const checkUserName = await this.getUserByUserName(user.userName);
+        const checkGmail = await this.getUserByGmail(user.gmail);
+        if (checkGmail !== null) {
+            console.log('Gmail is used')
+            return 'Gmail is used'
+        }
+        if (checkUserName !== null) {
+            console.log('Username is used')
+            return 'Username is used'
+        }
+        await db.firestore.collection('User').doc().set(user);
+        return "ok"
     },
 
-    async delUser(user){
-        const data = await db.firestore.collection('User').where('userName', '==', userName).get();
-        if (data.empty){
-            return 'dont have user';
+    async delUser(id){
+        const data = await db.firestore.collection('User').doc(id).get();
+        const type = typeof data.data();
+        if (type === "undefined"){
+            return "can't find tag"
+        } else {
+            await db.firestore.collection('User').doc(id).delete();
+            return 'done'
         }
-        data.forEach(async doc=>{
-            await db.firestore.collection('User').doc(doc.id).delete();
-        })
-        return 'success'; 
     },
 
     async updateUserByUserName(userName, userDataUpdate){
         const data = await db.firestore.collection('User').where('userName', '==', userName).get();
+        console.log(data.empty)
         if (data.empty){
             return 'user cannot find'
         }
@@ -88,5 +100,20 @@ module.exports = {
         })
         db.firestore.collection('User').doc(userID).update(userDataUpdate);
         return 'success';
+    },
+
+    async editUser(user){
+        const data = await db.firestore.collection('User').where("userName", "==", user.userName).get();
+        check = data.empty
+        if (check === true){
+            return "user not found"
+        } else {
+            var id
+            data.forEach(doc =>{
+                id = doc.id
+            })
+            await db.firestore.collection('User').doc(id).update(user);
+            return 'ok'
+        }
     }
 }

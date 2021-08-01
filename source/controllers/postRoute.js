@@ -45,7 +45,8 @@ router.get('/get/topnews', async function(req, res){
 //3 post
 router.get('/get/topinweek', async function(req, res){
     const d = new Date();
-    const time = d.getTime() - 604800000;
+    const time = d.getTime();
+    console.log(time)
     const data = await postModel.getPostInWeek(time);
     res.send(data);
 })

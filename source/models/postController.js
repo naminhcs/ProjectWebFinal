@@ -49,7 +49,7 @@ module.exports = {
     },
 
     async getHighlighByView(){
-        const data = await db.firestore.collection('Post').orderBy("view", "desc").limit(10).get();
+        const data = await db.firestore.collection('Post').orderBy("views", "desc").limit(10).get();
         if (data.empty){
             return "null"
         } else {

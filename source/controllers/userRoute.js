@@ -86,7 +86,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
 
 //--------------Login-------------------
 router.get('/login', auth.isNotLogin, function (req, res) {
-  
+
   const successNotification = req.query.successNotification;
   res.render('vwAccount/login', {
     successNotification: successNotification

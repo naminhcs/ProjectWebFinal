@@ -7,67 +7,31 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- icon  -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <link rel="stylesheet" href="assets/css/progressbar_barfiller.css">
-    <link rel="stylesheet" href="assets/css/gijgo.css">
-    <link rel="stylesheet" href="assets/css/animate.min.css">
-    <link rel="stylesheet" href="assets/css/animated-headline.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/slick.css">
-    <link rel="stylesheet" href="assets/css/nice-select.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/progressbar_barfiller.css">
+    <link rel="stylesheet" href="/assets/css/gijgo.css">
+    <link rel="stylesheet" href="/assets/css/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/animated-headline.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <!--Menu css + fonts -->
-    <link rel="stylesheet" href="assets/css/style-menu.css">
-    <link rel="stylesheet" href="assets/fonts/icomoon/style-menu.css">
+    <link rel="stylesheet" href="/assets/css/style-menu.css">
+    <link rel="stylesheet" href="/assets/fonts/icomoon/style-menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
-
     <style>
-        .carousel-inner img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .carousel-caption {
-            position: relative;
-            left: 0;
-            top: 0;
-            background-color: rgba(186, 191, 196, 0.9);
-            padding-left: 50px;
-            padding-right: 50px;
-            text-align: justify;
-
-        }
-
-        .card-img-new-post {
-            width: 150px;
-            height: 100px;
-        }
-
-        .card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
-
-
-        }
-
-        .carousel:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
-        }
-
-        .card h3:hover {
-            color: rgb(76, 62, 201) !important
+        body {
+            background: #F7F7F7;
         }
     </style>
     {{{_sections.css}}}
@@ -82,7 +46,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
+                    <img src="/assets/img/logo/loder.png" alt="">
                 </div>
             </div>
         </div>
@@ -127,7 +91,7 @@
                                 <div class="header-info-mid">
                                     <!-- logo -->
                                     <div class="">
-                                        <!-- <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a> -->
+                                        <!-- <a href="index.html"><img src="/assets/img/logo/logo.png" alt=""></a> -->
                                         <a href="/">
                                             <h1 style="
                                         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -145,7 +109,7 @@
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, userName
+                                                    Hi, {{data.userName}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
@@ -178,7 +142,6 @@
                                 {{else}}
                                 <div class="header-info-right d-flex align-items-center">
                                     <ul>
-                                        <!-- <li><a href="contact.html">Contact</a></li> -->
                                         <li>
                                             <a href="/user/login">
                                                 <button class="genric-btn primary-border radius">
@@ -204,193 +167,33 @@
                 </div>
                 <div class="header-bottom">
 
-                    {{!-- <div class="site-mobile-menu site-navbar-target">
-                        <div class="site-mobile-menu-header">
-                            <div class="site-mobile-menu-close mt-3">
-                                <span class="icon-close2 js-menu-toggle"></span>
-                            </div>
-                        </div>
-                        <div class="site-mobile-menu-body"></div>
-                    </div> <!-- .site-mobile-menu --> --}}
-
-
                     <!-- NAVBAR -->
                     <div class="site-navbar mt-3">
                         <div class="">
                             <div class="row align-items-center">
                                 <nav class="mx-auto site-navigation">
                                     <ul class="site-menu js-clone-nav d-none d-xl-block-menu ml-0 pl-0">
-                                        {{!-- <li><a href="" class="nav-link active">THỜI SỰ</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">THỜI SỰ</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Pháp luật</a></li>
-                                                <li><a href="service-single.html">Phóng sự / Điều tra</a></li>
-                                                <li><a href="blog-single.html">Quốc phòng</a></li>
-                                                <li><a href="portfolio.html">Dân sinh</a></li>
-                                                <li><a href="portfolio-single.html">Lao động - Việc làm</a></li>
-                                                <li><a href="testimonials.html">Chính trị</a></li>
 
+                                        {{#each lcCategory}}
+                                        <li class="has-children">
+                                            <a href="/post/cat/{{keyCat1}}" class="nav-link"
+                                                style="text-transform: uppercase;">{{nameCat1}}</a>
+                                            <ul class="dropdown">
+                                                {{#each listCat}}
+                                                <li><a href="/post/cat/{{../keyCat1}}/{{keyCat2}}">{{nameCat2}}</a>
+                                                </li>
+                                                {{/each}}
                                             </ul>
                                         </li>
+                                        {{/each}}
 
-                                        <!-- <li><a href="" class="nav-link ">THẾ GIỚI</a></li> -->
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">THẾ GIỚI</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Quân sự</a></li>
-                                                <li><a href="service-single.html">Kinh tế thế giới</a></li>
-                                                <li><a href="blog-single.html">Góc nhìn</a></li>
-                                                <li><a href="portfolio.html">Người Việt năm châu</a></li>
-                                                <li><a href="portfolio-single.html">Chuyện lạ</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">VĂN HÓA</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">VĂN HÓA</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Câu chuyện văn hóa</a></li>
-                                                <li><a href="portfolio-single.html">Sống đẹp</a></li>
-                                                <li><a href="service-single.html">Khảo cứu</a></li>
-                                                <li><a href="blog-single.html">Thành phố tôi yêu</a></li>
-                                                <li><a href="portfolio.html">Thương nhớ miền trung</a></li>
-                                                <li><a href="testimonials.html">Món ngon Hà Nội</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">GIẢI TRÍ</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">GIẢI TRÍ</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Truyền hình</a></li>
-                                                <li><a href="portfolio-single.html">Phim</a></li>
-                                                <li><a href="service-single.html">Đời nghệ sĩ</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">THỂ THAO</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">THỂ THAO</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Bóng đá Việt Nam</a></li>
-                                                <li class=""><a href="services.html">Bóng đá Quốc tế</a></li>
-                                                <li class=""><a href="services.html">Bình luận</a></li>
-                                                <li><a href="portfolio-single.html">Quần vợt</a></li>
-                                                <li><a href="service-single.html">Thể thao khác</a></li>
-                                                <li><a href="service-single.html">Tin chuyển nhượng</a></li>
-                                                <li><a href="service-single.html">Hậu trường</a></li>
-                                                <li><a href="service-single.html">Thể thao - Cộng đồng</a></li>
-                                                <li><a href="service-single.html">Bóng rổ</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">TÀI CHÍNH - KINH DOANH</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">TÀI CHÍNH - KINH DOANH</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Chứng khoán</a></li>
-                                                <li class=""><a href="services.html">Địa ốc</a></li>
-                                                <li class=""><a href="services.html">Doanh nhân</a></li>
-                                                <li><a href="portfolio-single.html">Tiêu dùng</a></li>
-                                                <li><a href="service-single.html">Làm giàu</a></li>
-                                                <li><a href="service-single.html">Chính sách - Phát triển</a></li>
-                                                <li><a href="service-single.html">Ngân hàng</a></li>
-                                                <li><a href="service-single.html">Doanh nghiệp</a></li>
-                                                <li><a href="service-single.html">Kinh tế xanh</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">ĐỜI SỐNG</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">ĐỜI SỐNG</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Ẩm thực</a></li>
-                                                <li class=""><a href="services.html">Gia đình</a></li>
-                                                <li class=""><a href="services.html">Cộng đồng</a></li>
-                                                <li><a href="portfolio-single.html">Người sống quanh ta</a></li>
-                                                <li><a href="service-single.html">Sống xanh</a></li>
-                                                <li><a href="service-single.html">Gương sáng biên cương</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">GIỚI TRẺ</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">GIỚI TRẺ</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Sống - Yêu - Ăn - Chơi</a></li>
-                                                <li class=""><a href="services.html">Thế giới mạng</a></li>
-                                                <li class=""><a href="services.html">Kết nối</a></li>
-                                                <li><a href="portfolio-single.html">Đoàn - Hội</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">GIÁO DỤC</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">GIÁO DỤC</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Du học</a></li>
-                                                <li class=""><a href="services.html">Chọn nghề</a></li>
-                                                <li class=""><a href="services.html">Chọn trường</a></li>
-                                                <li><a href="portfolio-single.html">Sức khỏe học đường</a></li>
-                                                <li><a href="portfolio-single.html">Tuyển sinh 2021</a></li>
-                                                <li><a href="portfolio-single.html">Cẩm nang tuyển sinh 2021</a></li>
-                                            </ul>
-                                        </li>
-
-
-                                        {{!-- <li><a href="" class="nav-link ">CÔNG NGHỆ</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">CÔNG NGHỆ</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Sản phẩm mới</a></li>
-                                                <li><a href="service-single.html">Ý tưởng</a></li>
-                                                <li><a href="blog-single.html">Xu hướng</a></li>
-                                                <li><a href="portfolio.html">Chuyển đổi số</a></li>
-                                                <li><a href="portfolio-single.html">Kinh Nghiệm</a></li>
-                                            </ul>
-                                        </li>
-
-
-
-
-
-
-
-
-                                        {{!-- <li><a href="" class="nav-link ">SỨC KHỎE</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">SỨC KHỎE</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Làm đẹp</a></li>
-                                                <li><a href="service-single.html">Giới tính</a></li>
-                                                <li><a href="blog-single.html">Khỏe đẹp mỗi ngày</a></li>
-                                                <li><a href="portfolio.html">Sống vui khỏe</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{!-- <li><a href="" class="nav-link ">DU LỊCH</a></li> --}}
-                                        <li class="has-children">
-                                            <a href="" class="nav-link ">DU LỊCH</a>
-                                            <ul class="dropdown">
-                                                <li class=""><a href="services.html">Khám phá</a></li>
-                                                <li><a href="service-single.html">A-Z</a></li>
-                                                <li><a href="blog-single.html">Săn Tour</a></li>
-                                            </ul>
-                                        </li>
                                     </ul>
                                 </nav>
-
-                                {{!-- <div class="left-cta-menu">
-                                    <a href="#"
-                                        class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span
-                                            class="icon-menu"></span></a>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
 
-                    <div class="site-mobile-menu site-navbar-target d-inline-block d-xl-none">
+                    <div class="site-mobile-menu site-navbar-target d-inline-block d-lg-none">
                         <div class="site-mobile-menu-header">
                             <div class="site-mobile-menu-close mt-3">
                                 <span class="icon-close2 js-menu-toggle"></span>
@@ -475,8 +278,6 @@
         <!-- Header End -->
     </header>
 
-
-
     {{{body}}}
 
     <footer>
@@ -505,7 +306,7 @@
                                             font-size: 32pt;">
                                                     Báo DKM</h1>
                                             </a>
-                                            <!-- <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a> -->
+                                            <!-- <a href="index.html"><img src="/assets/img/logo/logo.png" alt=""></a> -->
                                         </div>
                                     </div>
                                     <div class="header-info-right d-flex align-items-center">
@@ -578,49 +379,49 @@
 
     <!-- JS here -->
 
-    <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
-    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="./assets/js/popper.min.js"></script>
-    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
     <!-- Jquery Mobile Menu -->
-    <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script src="/assets/js/jquery.slicknav.min.js"></script>
 
     <!--Menu custom-->
-    <script src="./assets/js/menu.js"></script>
+    <script src="/assets/js/menu.js"></script>
 
     <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="./assets/js/owl.carousel.min.js"></script>
-    <script src="./assets/js/slick.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/slick.min.js"></script>
     <!-- One Page, Animated-HeadLin -->
-    <script src="./assets/js/wow.min.js"></script>
-    <script src="./assets/js/animated.headline.js"></script>
-    <script src="./assets/js/jquery.magnific-popup.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/animated.headline.js"></script>
+    <script src="/assets/js/jquery.magnific-popup.js"></script>
 
     <!-- Date Picker -->
-    <script src="./assets/js/gijgo.min.js"></script>
+    <script src="/assets/js/gijgo.min.js"></script>
     <!-- Nice-select, sticky -->
-    <script src="./assets/js/jquery.nice-select.min.js"></script>
-    <script src="./assets/js/jquery.sticky.js"></script>
+    <script src="/assets/js/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/jquery.sticky.js"></script>
     <!-- Progress -->
-    <script src="./assets/js/jquery.barfiller.js"></script>
+    <script src="/assets/js/jquery.barfiller.js"></script>
 
     <!-- counter , waypoint,Hover Direction -->
-    <script src="./assets/js/jquery.counterup.min.js"></script>
-    <script src="./assets/js/waypoints.min.js"></script>
-    <script src="./assets/js/jquery.countdown.min.js"></script>
-    <script src="./assets/js/hover-direction-snake.min.js"></script>
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <script src="/assets/js/jquery.countdown.min.js"></script>
+    <script src="/assets/js/hover-direction-snake.min.js"></script>
 
     <!-- contact js -->
-    <script src="./assets/js/contact.js"></script>
-    <script src="./assets/js/jquery.form.js"></script>
-    <script src="./assets/js/jquery.validate.min.js"></script>
-    <script src="./assets/js/mail-script.js"></script>
-    <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/assets/js/contact.js"></script>
+    <script src="/assets/js/jquery.form.js"></script>
+    <script src="/assets/js/jquery.validate.min.js"></script>
+    <script src="/assets/js/mail-script.js"></script>
+    <script src="/assets/js/jquery.ajaxchimp.min.js"></script>
 
     <!-- Jquery Plugins, main Jquery -->
-    <script src="./assets/js/plugins.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/main.js"></script>
     {{{_sections.js}}}
 
 

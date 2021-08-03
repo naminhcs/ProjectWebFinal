@@ -4,6 +4,8 @@ const exphbs = require('express-handlebars');
 var hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
 const dotenv = require('dotenv');
+const postModel = require('./models/postController');
+
 
 dotenv.config();
 
@@ -17,11 +19,33 @@ app.use(morgan('dev'));
 app.engine('hbs', exphbs({
   defaultLayout: 'main.hbs',
   helpers: {
-    section: hbs_sections()
-  }
+    section: hbs_sections(),
+  },
 }));
 app.set('view engine', 'hbs');
 
+// Start - Helpers handelbars
+var hbs = exphbs.create({});
+hbs.handlebars.registerHelper("when", (operand_1, operator, operand_2, options) => {
+  let operators = {                     //  {{#when <operand1> 'eq' <operand2>}}
+    'eq': (l,r) => l == r,              //  {{/when}}
+    'noteq': (l,r) => l != r,
+    'gt': (l,r) => (+l) > (+r),                        // {{#when var1 'eq' var2}}
+    'gteq': (l,r) => ((+l) > (+r)) || (l == r),        //               eq
+    'lt': (l,r) => (+l) < (+r),                        // {{else when var1 'gt' var2}}
+    'lteq': (l,r) => ((+l) < (+r)) || (l == r),        //               gt
+    'or': (l,r) => l || r,                             // {{else}}
+    'and': (l,r) => l && r,                            //               lt
+    '%': (l,r) => (l % r) === 0                        // {{/when}}
+  }
+  let result = operators[operator](operand_1,operand_2);
+  if(result) return options.fn(this); 
+  return options.inverse(this);       
+});
+hbs.handlebars.registerHelper('break', function (context, options) {
+  eachExit.push(true);
+});
+// End - Helpers handelbars
 
 // url processing
 app.use(express.urlencoded({
@@ -29,9 +53,9 @@ app.use(express.urlencoded({
 }));
 
 
-app.use('/user/assets', express.static('assets'))
+
 app.use('/assets', express.static('assets'))
-app.use('/user/forget/assets', express.static('assets'))
+
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -52,14 +76,31 @@ require('./middlewares/editorMiddle')(app)
 require('./middlewares/writerMiddle')(app)
 require('./middlewares/categoryMiddle')(app)
 
-app.get('/', function (req, res) {
-  // console.log(res.locals.data)
-  res.render('home')
+app.get('/', async function (req, res) {
+  console.log(res.locals.data)
+  const bai_viet_noi_bat_nhat = require('./assets/json_file/bai_viet_noi_bat.json');
+  // const bai_viet_moi_nhat = require('./assets/json_file/bai_viet_moi_nhat.json');
+
+  
+  // topview
+  const topview = await postModel.getHighlighByView();
+  // console.log(topview)
+  console.log('----------------------------')
+
+  // topnews
+  const topnews = await postModel.getNew();
+  // console.log(topnews)
+
+  // post in week
+  res.render('home', {
+    bai_viet_noi_bat_nhat: bai_viet_noi_bat_nhat,
+    bai_viet_moi_nhat: topnews,
+    bai_viet_duoc_xem_nhieu_nhat: topview
+  })
 })
 
-app.get('/post-detail', function (req, res) {
-  res.render('post-detail')
-})
+
+
 
 //listening at PORT...
 const PORT = 3000

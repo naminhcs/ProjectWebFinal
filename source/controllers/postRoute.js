@@ -24,63 +24,24 @@ router.post('/upload', async function(req, res){
 })
 
 // 10 posts
-router.get('/get/topview', async function(req, res){
-    const data = await postModel.getHighlighByView();
-    res.send(data)
-})
+// router.get('/get/topview', async function(req, res){
+//     const data = await postModel.getHighlighByView();
+//     res.send(data)
+// })
 
-//10 post
-router.get('/get/topnews', async function(req, res){
-    const data = await postModel.getNew();
-    res.send(data)
-})
+// //10 post
+// router.get('/get/topnews', async function(req, res){
+//     const data = await postModel.getNew();
+//     res.send(data)
+// })
 
-//3 post
-router.get('/get/topinweek', async function(req, res){
-    const d = new Date();
-    const time = d.getTime();
-    console.log(time)
-    const data = await postModel.getPostInWeek(time);
-    res.send(data);
-})
-
-// get 10post/page    (category2)
-router.get('/cat/:cat1/:cat2', async function(req, res){
-    const cat1 = req.params.cat1
-    const cat2 = req.params.cat2
-    const page = req.query.page | 1
-    var ans = await postModel.getPostByCat2(cat2, page);
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    res.send(jsonAns)
-})
-
-// get 10 posts/page (category1)
-
-router.get('/cat/:cat1', async function(req, res){
-    const cat1 = req.params.cat1
-    const page = req.query.page | 1
-    var ans = await postModel.getPostByCat1(cat1, page);
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    res.send(jsonAns)
-})
-
-// get 10 posts/page for Tag
-
-router.get('/tag/:key', async function(req, res){
-    const key = req.params.key;
-    const page = req.query.page | 1
-    var ans = await postModel.getPostByTag(key, page)
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    res.send(jsonAns)
-})
-
-router.get('/updatedata', async function(req, res){
-    console.log('hihihi')
-    result = await postModel.updateData();
-    res.send(result)
-})
+// //3 post
+// router.get('/get/topinweek', async function(req, res){
+//     const d = new Date();
+//     const time = d.getTime();
+//     console.log(time)
+//     const data = await postModel.getPostInWeek(time);
+//     res.send(data);
+// })
 
 module.exports = router;

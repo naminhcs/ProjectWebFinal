@@ -1,11 +1,15 @@
 const db = require('../db');
-const {expect} = require('chai');
+const admin = require('firebase-admin');
+
 module.exports = {
     async addPost(post){
         const data = await db.firestore.collection('Post').doc();
         var id;
         id = data.id
+        const d = new Date(post['dateUpload'])
+        const t = d.getTime()
         post['id'] = id
+        post['dateUpload'] = t;
         data.set(post);
     },
 
@@ -49,7 +53,7 @@ module.exports = {
     },
 
     async getHighlighByView(){
-        const data = await db.firestore.collection('Post').orderBy("view", "desc").limit(10).get();
+        const data = await db.firestore.collection('Post').orderBy("views", "desc").limit(10).get();
         if (data.empty){
             return "null"
         } else {
@@ -186,40 +190,23 @@ module.exports = {
     async getPostByTag(key, page){
         page = (page - 1) * 10 - 1;
         if (page > 1){
-            var first = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('listTag', 'array-contains', key).limit(page);
+            var first = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('listKeyOfTag', 'array-contains', key).limit(page);
             const snapshot = await first.get();
             const last = snapshot.docs[snapshot.docs.length - 1];
 
-            const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('listTag', 'array-contains', key).startAfter(last.data().dateUpload).limit(10).get();
+            const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('listKeyOfTag', 'array-contains', key).startAfter(last.data().dateUpload).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
                 ans.push(doc.data())
             })
             return ans
         } else {
-            const data = await db.firestore.collection('Post').where('listTag', 'array-contains', 'ma-tuy').limit(10).get();
+            const data = await db.firestore.collection('Post').where('listKeyOfTag', 'array-contains', key).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
                 ans.push(doc.data())
             })
             return ans
         }
-    },
-
-    async updateData(){
-        console.log('OK')
-        const data = await db.firestore.collection('Post').doc('00hXI0tqQqPLdVINVF97').get();
-        dt = data.data();
-        var arrKey = []
-        var arrName = []
-        var keys = Object.keys(dt['listTag'])
-        keys.forEach(function(key){
-            arrKey.push((dt['listTag'][key]['key']))
-            arrName.push((dt['listTag'][key]['name']))
-        })
-        delete dt['listTag']
-        dt['listTagKey'] = arrKey;
-        dt['listTagName'] = arrName;
-        return dt
     }
 }

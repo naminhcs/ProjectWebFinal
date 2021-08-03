@@ -24,7 +24,8 @@ router.get('/', auth.isAdmin, async function(req, res){
 })
 
 router.get('/tag/getalltag', auth.isAdmin, async function(req, res){
-    var data = await tagModel.getAllTag()
+    page = req.query.page | 1
+    var data = await tagModel.getAllTag(page)
     res.send(data);
 })
 

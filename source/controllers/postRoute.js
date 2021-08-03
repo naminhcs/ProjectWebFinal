@@ -11,22 +11,15 @@ const postModel = require('../models/postController');
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.get('/get/post', async function(req, res){
-    var query = require('url').parse(req.url,true).query;
-    id = query.id
-    var data = await postModel.getPostById(id);
+router.get('/', async function(req, res){
+    id = req.query.id
+    var data = await postModel.getPostByID(id);
     res.send(data);
 })
 
 router.post('/upload', async function(req, res){
     const data = req.body;
-    var dataPush = new post(data)
-    var obj = {}
-    for (x in dataPush){
-        obj[x] = dataPush[x]
-    }
-    console.log(obj);
-    await postModel.addPost(obj);
+    await postModel.addPost(data);
     res.send('OK')
 })
 
@@ -49,6 +42,45 @@ router.get('/get/topinweek', async function(req, res){
     console.log(time)
     const data = await postModel.getPostInWeek(time);
     res.send(data);
+})
+
+// get 10post/page    (category2)
+router.get('/cat/:cat1/:cat2', async function(req, res){
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    const page = req.query.page | 1
+    var ans = await postModel.getPostByCat2(cat2, page);
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    res.send(jsonAns)
+})
+
+// get 10 posts/page (category1)
+
+router.get('/cat/:cat1', async function(req, res){
+    const cat1 = req.params.cat1
+    const page = req.query.page | 1
+    var ans = await postModel.getPostByCat1(cat1, page);
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    res.send(jsonAns)
+})
+
+// get 10 posts/page for Tag
+
+router.get('/tag/:key', async function(req, res){
+    const key = req.params.key;
+    const page = req.query.page | 1
+    var ans = await postModel.getPostByTag(key, page)
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    res.send(jsonAns)
+})
+
+router.get('/updatedata', async function(req, res){
+    console.log('hihihi')
+    result = await postModel.updateData();
+    res.send(result)
 })
 
 module.exports = router;

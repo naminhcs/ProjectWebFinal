@@ -19,6 +19,10 @@ router.use(bodyParser.json());
 
 //--------------------------Tag--------------------------------------
 
+router.get('/', auth.isAdmin, async function(req, res){
+    res.render('/')
+})
+
 router.get('/tag/getalltag', auth.isAdmin, async function(req, res){
     var data = await tagModel.getAllTag()
     res.send(data);
@@ -30,19 +34,19 @@ router.get('/tag/gettagbyid/:id', auth.isAdmin, async function(req, res){
     res.send(data);
 })
 
-// router.get('/tag/edit', auth.isAdmin, async function(req, res){
-//     var data = await tagModel.getTagByID(id)
-//     res.send(data);
-// })
+router.get('/tag/edit/:id', auth.isAdmin, async function(req, res){
+    var data = await tagModel.getTagByID(id)
+    res.send(data);
+})
 
-router.post('/tag/edit', auth.isAdmin, async function(req, res){
+router.post('/tag/edit/:id', auth.isAdmin, async function(req, res){
     const data = req.body;
     const result = await tagModel.editTag(data)
     res.send(result)
 })
 
 router.get('/tag/add', auth.isAdmin, async function(req, res){
-    res.send('direct')
+    res.send('/')
 })
 
 router.post('/tag/add', auth.isAdmin, async function(req, res){
@@ -116,7 +120,7 @@ router.get('/post/edit/:id', auth.isAdmin, async function(req, res){
     res.send(data);
 })
 
-router.post('/post/edit', auth.isAdmin, async function(req, res){
+router.post('/post/edit/:id', auth.isAdmin, async function(req, res){
     const id = req.body.id
     var data = req.body;
     delete data['id'] 

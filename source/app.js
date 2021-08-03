@@ -50,6 +50,7 @@ require('./middlewares/tagMiddle')(app)
 require('./middlewares/postMiddle')(app)
 require('./middlewares/editorMiddle')(app)
 require('./middlewares/writerMiddle')(app)
+require('./middlewares/categoryMiddle')(app)
 
 app.get('/', function (req, res) {
   // console.log(res.locals.data)

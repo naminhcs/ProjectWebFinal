@@ -53,7 +53,6 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
       error: 'Username is used',
       errorUserName: true
     })
-
     return;
   }
 

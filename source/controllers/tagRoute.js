@@ -17,15 +17,8 @@ router.get('/all', async function(req, res){
 })
 
 router.post('/add', async function(req, res){
-    const data = await tagModel.checkTagByName(req.body.name);
-    if (data === false){
-        res.send('Tag is available');
-        return;
-    } else{
-        await tagModel.addTag(req.body);
-        res.send("done");
-        return;
-    }
+    result = await tagModel.addTag(req.body);
+    res.send(result);   
 })
 
 module.exports = router;

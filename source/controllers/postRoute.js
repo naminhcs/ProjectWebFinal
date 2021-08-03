@@ -11,13 +11,16 @@ const postModel = require('../models/postController');
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.get('/', async function(req, res){
+router.get('/', async function (req, res) {
     id = req.query.id
     var data = await postModel.getPostByID(id);
-    res.send(data);
+    // res.send(data);
+    res.render('posts/post-detail', {
+        post: data
+    })
 })
 
-router.post('/upload', async function(req, res){
+router.post('/upload', async function (req, res) {
     const data = req.body;
     await postModel.addPost(data);
     res.send('OK')

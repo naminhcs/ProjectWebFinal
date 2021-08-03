@@ -1,0 +1,520 @@
+{{#section 'css'}}
+<style>
+    img {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .source {
+        display: none;
+    }
+
+    a {
+        color: #212529;
+    }
+
+    .content-post .detail div {
+        text-align: justify;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .imgcaption {
+        text-align: center !important;
+        margin-bottom: 5px;
+    }
+
+    .content-post {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto
+    }
+
+    @media (min-width:576px) {
+        .content-post {
+            max-width: 540px
+        }
+    }
+
+    @media (min-width:768px) {
+        .content-post {
+            max-width: 720px
+        }
+    }
+
+    @media (min-width:992px) {
+        .content-post {
+            max-width: 960px
+        }
+    }
+
+    .content-post {
+        background: white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .content-post .ava-post {
+        text-align: center;
+    }
+
+    .title {
+        color: #212529;
+        font-size: 3.6rem;
+        line-height: 100%;
+        padding-top: 10px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .details__author img {
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        margin: 10px;
+
+    }
+
+    .details__author {
+        padding-left: 10px;
+    }
+
+    .date-upload {
+        padding-right: 10px;
+    }
+
+    .list-tag {
+        margin-bottom: 50px !important;
+    }
+
+    .tags {
+        background: rgb(216, 216, 216);
+        padding: 2px;
+        margin-left: 3px;
+        color: black;
+        border: 1px solid rgb(207, 207, 207);
+        box-shadow: 1px 2px rgb(224, 224, 224);
+    }
+</style>
+
+{{/section}}
+
+
+<main>
+    <!-- breadcrumb Start-->
+    <div class="page-notification">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{post.nameCat1}}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{post.nameCat2}}</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+    <!-- Post Details Stat -->
+
+    <div class="content-post">
+        {{!-- category name --}}
+        <div class="mr-auto align-self-center pt-3">
+            <b>{{post.nameCat2}}</b>
+        </div>
+
+        {{!-- title post --}}
+        <div class="title">
+            {{post.title}}
+        </div>
+
+
+        <div class="d-flex" style="background: #f7f7f7;">
+            {{!-- writer's nickname --}}
+            <div class="details__author mr-auto d-flex">
+                <div class="align-self-center">
+                    <img src="//static.thanhnien.vn/v3/App_Themes/img/no-ava.png">
+                </div>
+                <div class="align-self-center">
+                    <h4><a href="/author/lam-vien-600.html" title="Lâm Viên">Admin</a></h4>
+                </div>
+            </div>
+            {{!-- public date --}}
+            <div class="date-upload align-self-center">
+                {{post.dateUpload}}
+            </div>
+        </div>
+
+        <div class="ava-post">
+            <img src="{{post.urlPic}}" alt="">
+            <div class="pswp-content__caption">
+                <div class="imgcaption">
+                    <p> Ảnh đại diện bài viêt </p>
+                </div>
+            </div>
+        </div>
+
+        {{!-- data from DB Start --}}
+        <div class="cms-body detail" id="abody" itemprop="articleBody">
+            <div> HLV Kiatisak vẫn giống như HLV quốc dân tại Thái Lan, dù đã 4 năm ông rời đội tuyển Voi chiến khi đưa
+                bóng
+                đá quê nhà lên đỉnh cao: lần đầu lọt vào vòng loại thứ 3 World Cup 2018. Và chưa bao giờ người Thái nhớ
+                Kiatisak như lúc này! </div>
+            <div> Bước tiến lịch sử đó, tiếc thay đã không thể làm hòn đá kê cho tham vọng nâng tầm đội tuyển Thái Lan
+                khi
+                FAT có sự thay đổi thượng tầng, với tân chủ tịch Somyot Poompanmoung - một cựu tướng cảnh sát hoàng gia.
+            </div>
+            <div> Cũng mang tham vọng lột xác đội tuyển Thái Lan, nhưng ông Somyot có tầm nhìn khác người tiền nhiệm khi
+                tin
+                rằng con đường đúng đắn phải là thuê những HLV hàng đầu <a href="https://thanhnien.vn/the-gioi/" rel="">
+                    thế
+                    giới </a> từng dự World Cup, để nâng tầm cho người trong nước. </div>
+            <div> Chia tay Kiatisak, đội tuyển Thái Lan sau đó đặt niềm tin vào HLV Milovan Rajevac, kể cả khi chia tay
+                ông
+                này cũng chỉ đặt niềm tin tạm thời vào HLV tạm quyền Sirisak Yodyardthai, trước khi chốt bản hợp đồng
+                triệu
+                USD với cựu HLV trưởng đội tuyển Nhật Bản Akira Nishino có mức lương khủng 2 tỉ đồng/tháng! </div>
+            <div>
+                <table align="center" style="mwidth:600px;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="text-align:center;color: #595959;"> <img
+                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 1"
+                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 1"
+                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/nishino_mfbz_mkyb.jpeg">
+                                    <div class="pswp-content__caption">
+                                        <div class="imgcaption">
+                                            <p> Chủ tịch FAT Somyot trong ngày ra mắt HLV Akira Nishino </p>
+                                            <div class="source">
+                                                <p> FAT </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div> Phải nói thêm sự xuất hiện của HLV Akira Nishino có ý nghĩa rất lớn với bóng đá Thái Lan, không chỉ là
+                cấp
+                độ đội tuyển mà còn ảnh hưởng nhiều mặt của bóng đá nơi đây, thể hiện qua số cầu thủ Thái ngày càng đông
+                ở
+                các cấp J-League. </div>
+            <div> Nhưng thất bại ở <a href="https://thanhnien.vn/vong-loai-world-cup-2022/" rel=""> vòng loại World Cup
+                    2022
+                </a> , không lọt vào nổi vòng loại thứ 3 và thậm chí còn bị Malaysia qua mặt trong trận cuối đã khiến
+                FAT đi
+                đến quyết định chia tay chiến lược gia người Nhật, sau một buổi họp trực tuyến kèm mức đền bù khoảng 12
+                tỉ
+                đồng. </div>
+            <div> Một quyết định chóng vánh và bất ngờ, khi <a
+                    href="https://thanhnien.vn/the-thao/bong-da-quoc-te/ldbd-thai-lan-chinh-thuc-sa-thai-hlv-akira-nishino-137954t.html"
+                    rel="" target="_blank"> HLV Akira Nisihno </a> chỉ vừa trở lại Thái Lan và đang thực hiện cách ly.
+                Có
+                tin, FAT dứt khoát bỏ số tiền bồi thường kỷ lục cho bản hợp đồng chỉ còn thời hạn 6 tháng nữa để chủ
+                động
+                cho một chiến lược mới. </div>
+            <div> Tờ <em> SiamSport </em> mới đây đã có bài tổng hợp những ý kiến bức xúc của người hâm mộ về việc FAT 5
+                năm
+                thay 5 HLV khiến đội tuyển Thái Lan mất phương hướng, quá trọng danh tiếng của những HLV từng dự World
+                Cup,
+                xem nhẹ nguồn nhân lực trong nước và phá vỡ cấu trúc phát triển của bóng đá xứ Chùa vàng. </div>
+            <div>
+                <table align="center" class="imagefull" style="mwidth:600px;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="text-align:center;color: #595959;"> <img
+                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 2"
+                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 2"
+                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/00bauduckiatisaklanlanz2646798005594_6d457ae7aa13cec6dd03e85447afbec6_nhpr.jpg">
+                                    <div class="pswp-content__caption">
+                                        <div class="imgcaption">
+                                            <p> Kiatisak và bầu Đức có mối quan hệ mật thiết như người một gia đình </p>
+                                            <div class="source">
+                                                <p> Lan Di </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div> Thậm chí đang có rất nhiều lời kêu gọi ông Somyot nên chủ động từ chức để mở đường cho cuộc cách mạng
+                lớn
+                cho bóng đá Thái Lan, mở ra một xu hướng để người Thái dẫn dắt bóng đá Thái với con số hàng chục HLV bản
+                địa
+                đã có bằng FIFA Pro. </div>
+            <div> Trong lòng rất nhiều tuyển thủ và người hâm mộ Thái Lan thì Kiatisak vẫn là số 1. Rào cản duy nhất lúc
+                này, chỉ có thể là... bầu Đức mà thôi! Mà bầu Đức thì khẳng định rất rõ: "Kiatisak có hợp đồng 2 năm tại
+                HAGL và sẽ tôn trọng cam kết với CLB. FAT luôn liên hệ thì phải chờ Kiatisak hết hợp đồng và không gia
+                hạn
+                với HAGL". </div>
+            <div> Cũng nói thêm, bầu Đức một khi đã tạm ổn tái cấu trúc tài chính của tập đoàn đã gọi Kiatisak trở về
+                lần
+                thứ 3 dẫn dắt đội bóng phố núi để hiện thực hóa giấc mơ cho những Tuấn Anh, Xuân Trường, Công Phượng,
+                Văn
+                Toàn... được chơi bóng ở AFC <a href="https://thanhnien.vn/the-thao/bong-da-quoc-te/" rel=""> Champions
+                    League </a> . </div>
+            <div> Việc Kiatisak giúp các cầu thủ như Xuân Trường, Tuấn Anh, Công Phượng, Minh Vương... tiến bộ sẽ càng
+                khiến
+                ông Đức quyết liệt hơn trong việc giữ chân Kiatisak, dù vì sự phát triển của HAGL hay xa hơn là sự so kè
+                giữa 2 đội tuyển Việt Nam và Thái Lan. </div>
+            <div>
+                <table align="center" class="imagefull" style="mwidth:600px;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="text-align:center;color: #595959;"> <img
+                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 3"
+                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 3"
+                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/z2640907529977_e5b8384fbc09cdb9792e20e4d5239ba6_npzr.jpg">
+                                    <div class="pswp-content__caption">
+                                        <div class="imgcaption">
+                                            <p> Kiatisak ở lại HAGL có thể ảnh hưởng trực tiếp hướng đi của tuyển Thái
+                                                Lan
+                                                vài năm tới </p>
+                                            <div class="source">
+                                                <p> Lan Di </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div> Bằng mối quan hệ đặc biệt giữa bầu Đức và Kiatisak, chắc chắn cả 2 sẽ không cần phải ngồi vào đàm phán
+                vì
+                tất cả có thể hiểu nhau nhanh chóng chỉ qua một câu nói hoặc ánh mắt. Là một người nguyên tắc, có lẽ trừ
+                trường hợp quá đặc biệt còn không Kiatisak sẽ giữ lời hứa của mình. </div>
+            <div> Điều đó chắc chắn như việc HLV Kiatisak sẽ không đời nào lên tuyển Việt Nam để làm trợ lý cho HLV Park
+                Hang-seo hoặc tương lai sau này dẫn dắt <a
+                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/hlv-park-hang-seo-nang-cap-hang-thu-tuyen-viet-nam-bang-y-tuong-moi-138094t.html"
+                    rel="" target="_blank"> tuyển Việt Nam </a> , vì ông hiểu rất rõ mối kình địch giữa 2 nền bóng đá và
+                trên hết là một người tự hào về Thái Lan. </div>
+            <div> Nhưng ai biết được, biết đâu việc Kiatisak tiếp tục làm việc tại HAGL sẽ mở ra một cơ hội khác cho
+                tuyển
+                Thái Lan cũng như một chuyên gia bản địa nào đó, vì không lẽ <a
+                    href="https://thanhnien.vn/the-thao/bong-da-quoc-te/chu-tich-ldbd-thai-lan-fat-phai-co-uy-tin-moi-dam-di-vay-tien-120344t.html"
+                    rel="" target="_blank"> FAT </a> không thể nào tìm được một người khác ngoài Kiatisak để dẫn dắt Voi
+                chiến. </div>
+            <div> Nếu thực là thế, rõ ràng giấc mơ World Cup vẫn quá tầm... </div>
+            <div> Còn đối với <a
+                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/phan-ung-rat-bau-duc-khi-thai-lan-muon-moi-kiatisak-nam-doi-tuyen-quoc-gia-137688t.html"
+                    rel="" target="_blank"> bầu Đức </a> , việc truyền thông Thái Lan làm ầm ĩ về tương lai của Kiatisak
+                sẽ
+                chỉ khiến ông vui vẻ về quyết định trước đó của mình. Tương lai <a
+                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/v-league-2021-nen-da-tiep-hay-dung-137828t.html"
+                    rel="" target="_blank"> V-League 2021 </a> vẫn còn để ngỏ khi VPF trình VFF đề xuất kéo dài đến tận
+                tháng 2.2022 và chắc chắn <a
+                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/hlv-kiatisak-cho-hagl-xa-trai-cau-thu-o-lai-cho-tiem-vac-xin-137988t.html"
+                    rel="" target="_blank"> Kiatisak </a> sẽ còn gắn bó với Hàm Rồng thời gian dài hơn thế. </div>
+        </div>
+        {{!-- data from DB End --}}
+
+
+        <hr>
+
+
+        {{!-- list tags --}}
+        <div class="list-tag mb-5">
+            <p>Tags</p>
+            {{#each post.listTag}}
+            {{#when @index 'lt' '4'}}
+            <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
+                <small class="tags">{{../this.name}}</small>
+            </a>
+            {{/when}}
+            {{/each}}
+        </div>
+        <br>
+
+    </div>
+    <!-- Post Details End -->
+
+    <!--comments Area -->
+    <div class="content-post mt-5">
+        <div class="coments-area pb-80">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="small-tittle mb-30">
+                            <h2>Drop your message</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="single-comments mb-40">
+                            <div class="comments-items">
+                                <div class="comments-img">
+                                    <a href="#"><img src="assets/img/gallery/comment-img1.png" alt=""></a>
+                                </div>
+                                <div class="comments-tittle">
+                                    <a href="#">
+                                        <h4>Kristiana</h4>
+                                    </a>
+                                    <span>2 days ago</span>
+                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                                        quia
+                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-11">
+                        <div class="single-comments mb-30 ml-80">
+                            <div class="comments-items">
+                                <div class="comments-img">
+                                    <a href="#"><img src="assets/img/gallery/comment-img2.png" alt=""></a>
+                                </div>
+                                <div class="comments-tittle">
+                                    <a href="#">
+                                        <h4>Jonson Alex</h4> <span class="author">Author</span>
+                                    </a>
+                                    <span>2 days ago</span>
+                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                                        quia
+                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- contact-form -->
+                        <div class="form-wrapper pt-80">
+                            <div class="row ">
+                                <div class="col-xl-12">
+                                    <div class="small-tittle mb-30">
+                                        <h2>Drop your message</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <form id="contact-form" action="#" method="POST">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-box user-icon mb-15">
+                                            <input type="text" name="name" placeholder="Enter your name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-box email-icon mb-15">
+                                            <input type="text" name="email" placeholder="Enter your email">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-box email-icon mb-15">
+                                            <input type="text" name="email" placeholder="Website">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-12 col-md-6 mb-15">
+                                        <div class="select-itms">
+                                            <select name="select" id="select2">
+                                                <option value="">Topic</option>
+                                                <option value="">Topic one</option>
+                                                <option value="">Topic Two</option>
+                                                <option value="">Topic Three</option>
+                                            </select>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-12">
+                                        <div class="form-box message-icon mb-15">
+                                            <textarea name="message" id="message" placeholder="Comment"></textarea>
+                                        </div>
+                                        <div class="submit-info">
+                                            <button class="submit-btn2" type="submit">Leave Comment</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--comments Area End -->
+
+    <!-- Latest Posts Area -->
+    <div class="content-post mt-5">
+        <div class="latest-posts pt-80 pb-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-tittle mb-35">
+                            <h2>Latest Posts</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-baner-nw2 mb-30">
+                            <div class="banner-img-cap2">
+                                <div class="banner-img">
+                                    <img src="assets/img/gallery/trend1.png" alt="">
+                                </div>
+                                <div class="banner-cap2">
+                                    <p>Technology</p>
+                                    <h3><a href="post_details.html">The pomelo case: scope of plant rights in China</a>
+                                    </h3>
+                                    <p class="blog-text" style="text-transform: normal !important;">Indie folks start
+                                        out by
+                                        making something they want to read, that tell stories they want told..</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-baner-nw2 mb-30">
+                            <div class="banner-img-cap2">
+                                <div class="banner-img">
+                                    <img src="assets/img/gallery/trend2.png" alt="">
+                                </div>
+                                <div class="banner-cap2">
+                                    <p>Technology</p>
+                                    <h3><a href="post_details.html">The pomelo case: scope of plant rights in China</a>
+                                    </h3>
+                                    <p class="blog-text" style="text-transform: normal !important;">Indie folks start
+                                        out by
+                                        making something they want to read, that tell stories they want told..</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-baner-nw2 mb-30">
+                            <div class="banner-img-cap2">
+                                <div class="banner-img">
+                                    <img src="assets/img/gallery/trend3.png" alt="">
+                                </div>
+                                <div class="banner-cap2">
+                                    <p>Technology</p>
+                                    <h3><a href="post_details.html">The pomelo case: scope of plant rights in China</a>
+                                    </h3>
+                                    <p class="blog-text" style="text-transform: normal !;">Indie folks start out by
+                                        making
+                                        something they want to read, that tell stories they want told..</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

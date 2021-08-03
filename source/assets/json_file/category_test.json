@@ -1,0 +1,370 @@
+{
+    "0": {
+        "name_catogory_level_1": "Thời sự",
+        "link_catogory_level_1": "thoi-su",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Pháp luật",
+                "link_catogory_level_2": "thoi-su/phap-luat"
+            },
+            "1": {
+                "name_catogory_level_2": "Phóng sự / Điều tra",
+                "link_catogory_level_2": "thoi-su/phong-su-dieu-tra"
+            },
+            "2": {
+                "name_catogory_level_2": "Quốc phòng",
+                "link_catogory_level_2": "thoi-su/quoc-phong"
+            },
+            "3": {
+                "name_catogory_level_2": "Dân sinh",
+                "link_catogory_level_2": "thoi-su/dan-sinh"
+            },
+            "5": {
+                "name_catogory_level_2": "Lao động - Việc làm",
+                "link_catogory_level_2": "thoi-su/lao-dong-viec-lam"
+            },
+            "11": {
+                "name_catogory_level_2": "Chính trị",
+                "link_catogory_level_2": "thoi-su/chinh-tri"
+            }
+        }
+    },
+    "1": {
+        "name_catogory_level_1": "Thế giới",
+        "link_catogory_level_1": "the-gioi",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Người Việt năm châu",
+                "link_catogory_level_2": "the-gioi/nguoi-viet-nam-chau"
+            },
+            "1": {
+                "name_catogory_level_2": "Góc nhìn",
+                "link_catogory_level_2": "the-gioi/goc-nhin"
+            },
+            "3": {
+                "name_catogory_level_2": "Quân sự",
+                "link_catogory_level_2": "the-gioi/quan-su"
+            },
+            "4": {
+                "name_catogory_level_2": "Kinh tế thế giới",
+                "link_catogory_level_2": "the-gioi/kinh-te-the-gioi"
+            },
+            "5": {
+                "name_catogory_level_2": "Chuyện lạ",
+                "link_catogory_level_2": "the-gioi/chuyen-la"
+            }
+        }
+    },
+    "2": {
+        "name_catogory_level_1": "Văn hóa",
+        "link_catogory_level_1": "van-hoa",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Câu chuyện văn hóa",
+                "link_catogory_level_2": "van-hoa/cau-chuyen"
+            },
+            "1": {
+                "name_catogory_level_2": "Thành phố tôi yêu",
+                "link_catogory_level_2": "van-hoa/thanh-pho-toi-yeu"
+            },
+            "2": {
+                "name_catogory_level_2": "Khảo cứu",
+                "link_catogory_level_2": "van-hoa/khao-cuu"
+            },
+            "3": {
+                "name_catogory_level_2": "Xem - Nghe",
+                "link_catogory_level_2": "van-hoa/xem-nghe"
+            },
+            "4": {
+                "name_catogory_level_2": "Thương nhớ miền trung",
+                "link_catogory_level_2": "van-hoa/thuong-nho-mien-trung"
+            },
+            "6": {
+                "name_catogory_level_2": "Sống đẹp",
+                "link_catogory_level_2": "van-hoa/song-dep"
+            },
+            "7": {
+                "name_catogory_level_2": "Món ngon Hà Nội",
+                "link_catogory_level_2": "van-hoa/mon-ngon-ha-noi"
+            }
+        }
+    },
+    "3": {
+        "name_catogory_level_1": "Giải trí",
+        "link_catogory_level_1": "giai-tri",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Truyền hình",
+                "link_catogory_level_2": "giai-tri/truyen-hinh"
+            },
+            "1": {
+                "name_catogory_level_2": "Phim",
+                "link_catogory_level_2": "giai-tri/phim"
+            },
+            "2": {
+                "name_catogory_level_2": "Đời nghệ sĩ",
+                "link_catogory_level_2": "giai-tri/doi-nghe-si"
+            }
+        }
+    },
+    "4": {
+        "name_catogory_level_1": "Thể thao",
+        "link_catogory_level_1": "the-thao",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Bóng đá Việt Nam",
+                "link_catogory_level_2": "the-thao/bong-da-viet-nam"
+            },
+            "1": {
+                "name_catogory_level_2": "Bóng đá Quốc tế",
+                "link_catogory_level_2": "the-thao/bong-da-quoc-te"
+            },
+            "2": {
+                "name_catogory_level_2": "Bình luận",
+                "link_catogory_level_2": "the-thao/binh-luan"
+            },
+            "3": {
+                "name_catogory_level_2": "Quần vợt",
+                "link_catogory_level_2": "the-thao/quan-vot"
+            },
+            "4": {
+                "name_catogory_level_2": "Hậu trường",
+                "link_catogory_level_2": "the-thao/hau-truong"
+            },
+            "5": {
+                "name_catogory_level_2": "Thể thao khác",
+                "link_catogory_level_2": "the-thao/toan-canh-the-thao"
+            },
+            "6": {
+                "name_catogory_level_2": "Sea Games 2019",
+                "link_catogory_level_2": "the-thao/sea-games-2019"
+            },
+            "7": {
+                "name_catogory_level_2": "Tin chuyển nhượng",
+                "link_catogory_level_2": "the-thao/tin-chuyen-nhuong"
+            },
+            "8": {
+                "name_catogory_level_2": "Thể thao & Cộng đồng",
+                "link_catogory_level_2": "the-thao/the-thao-cong-dong"
+            },
+            "9": {
+                "name_catogory_level_2": "Bóng rổ",
+                "link_catogory_level_2": "the-thao/bong-ro"
+            },
+            "10": {
+                "name_catogory_level_2": "Sôi động cùng V-League",
+                "link_catogory_level_2": "the-thao/soi-dong-cung-vleague"
+            },
+            "11": {
+                "name_catogory_level_2": "Euro 2020",
+                "link_catogory_level_2": "the-thao/euro-2020"
+            }
+        }
+    },
+    "5": {
+        "name_catogory_level_1": "Đời sống",
+        "link_catogory_level_1": "doi-song",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Ẩm thực",
+                "link_catogory_level_2": "doi-song/am-thuc"
+            },
+            "1": {
+                "name_catogory_level_2": "Gia đình",
+                "link_catogory_level_2": "doi-song/gia-dinh"
+            },
+            "2": {
+                "name_catogory_level_2": "Cộng đồng",
+                "link_catogory_level_2": "doi-song/cong-dong"
+            },
+            "3": {
+                "name_catogory_level_2": "Người sống quanh ta",
+                "link_catogory_level_2": "doi-song/nguoi-song-quanh-ta"
+            },
+            "4": {
+                "name_catogory_level_2": "Sống xanh",
+                "link_catogory_level_2": "doi-song/song-xanh"
+            },
+            "5": {
+                "name_catogory_level_2": "Gương sáng biên cương",
+                "link_catogory_level_2": "doi-song/guong-sang-bien-cuong"
+            }
+        }
+    },
+    "6": {
+        "name_catogory_level_1": "Tài chính - Kinh doanh",
+        "link_catogory_level_1": "tai-chinh-kinh-doanh",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Chứng khoán",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/chung-khoan"
+            },
+            "1": {
+                "name_catogory_level_2": "Doanh nhân",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/doanh-nhan"
+            },
+            "2": {
+                "name_catogory_level_2": "Địa ốc",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/dia-oc"
+            },
+            "3": {
+                "name_catogory_level_2": "Tiêu dùng",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/tieu-dung"
+            },
+            "4": {
+                "name_catogory_level_2": "Làm giàu",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/lam-giau"
+            },
+            "5": {
+                "name_catogory_level_2": "Chính sách - Phát triển",
+                "link_catogory_level_2": "kinh-doanh/chinh-sach-phat-trien"
+            },
+            "6": {
+                "name_catogory_level_2": "Ngân hàng",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/ngan-hang"
+            },
+            "7": {
+                "name_catogory_level_2": "Doanh nghiệp",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/doanh-nghiep"
+            },
+            "8": {
+                "name_catogory_level_2": "Kinh tế xanh",
+                "link_catogory_level_2": "tai-chinh-kinh-doanh/kinh-te-xanh"
+            }
+        }
+    },
+    "7": {
+        "name_catogory_level_1": "Giới trẻ",
+        "link_catogory_level_1": "gioi-tre",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Sống - Yêu - Ăn - Chơi",
+                "link_catogory_level_2": "gioi-tre/song-yeu-an-choi"
+            },
+            "1": {
+                "name_catogory_level_2": "Thế giới mạng",
+                "link_catogory_level_2": "gioi-tre/the-gioi-mang"
+            },
+            "2": {
+                "name_catogory_level_2": "Kết nối",
+                "link_catogory_level_2": "gioi-tre/ket-noi"
+            },
+            "3": {
+                "name_catogory_level_2": "Đoàn - Hội",
+                "link_catogory_level_2": "gioi-tre/doan-hoi"
+            }
+        }
+    },
+    "8": {
+        "name_catogory_level_1": "Giáo dục",
+        "link_catogory_level_1": "giao-duc",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Du học",
+                "link_catogory_level_2": "giao-duc/du-hoc"
+            },
+            "1": {
+                "name_catogory_level_2": "Chọn nghề",
+                "link_catogory_level_2": "giao-duc/chon-nghe"
+            },
+            "2": {
+                "name_catogory_level_2": "Người thầy",
+                "link_catogory_level_2": "giao-duc/nguoi-thay"
+            },
+            "3": {
+                "name_catogory_level_2": "Chọn trường",
+                "link_catogory_level_2": "giao-duc/chon-truong"
+            },
+            "4": {
+                "name_catogory_level_2": "Hộp thư Tư vấn 24/7",
+                "link_catogory_level_2": "giao-duc/hop-thu-tu-van-24-7"
+            },
+            "5": {
+                "name_catogory_level_2": "Ôn thi THPT Quốc gia 2019",
+                "link_catogory_level_2": "giao-duc/on-thi-thpt-quoc-gia-2019"
+            },
+            "6": {
+                "name_catogory_level_2": "Tra cứu điểm thi 2021",
+                "link_catogory_level_2": "giao-duc/tuyen-sinh/2021/tra-cuu"
+            },
+            "7": {
+                "name_catogory_level_2": "Tuyển sinh 2021",
+                "link_catogory_level_2": "giao-duc/tuyen-sinh/2021"
+            },
+            "8": {
+                "name_catogory_level_2": "Sức khỏe học đường",
+                "link_catogory_level_2": "giao-duc/suc-khoe-hoc-duong"
+            },
+            "9": {
+                "name_catogory_level_2": "Cẩm nang tuyển sinh 2021",
+                "link_catogory_level_2": "giao-duc/cam-nang-tuyen-sinh-2021"
+            }
+        }
+    },
+    "9": {
+        "name_catogory_level_1": "Công nghệ",
+        "link_catogory_level_1": "cong-nghe",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Sản phẩm mới",
+                "link_catogory_level_2": "cong-nghe/san-pham-moi"
+            },
+            "1": {
+                "name_catogory_level_2": "Kinh Nghiệm",
+                "link_catogory_level_2": "cong-nghe/kinh-nghiem"
+            },
+            "2": {
+                "name_catogory_level_2": "Ý tưởng",
+                "link_catogory_level_2": "cong-nghe/y-tuong"
+            },
+            "3": {
+                "name_catogory_level_2": "Xu hướng",
+                "link_catogory_level_2": "cong-nghe/xu-huong"
+            },
+            "4": {
+                "name_catogory_level_2": "Chuyển đổi số",
+                "link_catogory_level_2": "cong-nghe/chuyen-doi-so"
+            }
+        }
+    },
+    "11": {
+        "name_catogory_level_1": "Sức khỏe",
+        "link_catogory_level_1": "suc-khoe",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Làm đẹp",
+                "link_catogory_level_2": "suc-khoe/lam-dep"
+            },
+            "1": {
+                "name_catogory_level_2": "Giới tính",
+                "link_catogory_level_2": "suc-khoe/gioi-tinh"
+            },
+            "2": {
+                "name_catogory_level_2": "Khoẻ đẹp mỗi ngày",
+                "link_catogory_level_2": "suc-khoe/khoe-dep-moi-ngay"
+            },
+            "3": {
+                "name_catogory_level_2": "Sống vui khỏe",
+                "link_catogory_level_2": "suc-khoe/song-vui-khoe"
+            }
+        }
+    },
+    "12": {
+        "name_catogory_level_1": "Du lịch",
+        "link_catogory_level_1": "du-lich",
+        "list_category_level_2": {
+            "0": {
+                "name_catogory_level_2": "Khám phá",
+                "link_catogory_level_2": "du-lich/kham-pha"
+            },
+            "1": {
+                "name_catogory_level_2": "A-Z",
+                "link_catogory_level_2": "du-lich/a-z"
+            },
+            "2": {
+                "name_catogory_level_2": "Săn Tour",
+                "link_catogory_level_2": "du-lich/san-tour"
+            }
+        }
+    }
+}

@@ -1,10 +1,61 @@
+{{#section 'css'}}
+
+<style>
+    .carousel-inner img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+
+    }
+
+    .carousel-caption {
+        position: relative;
+        left: 0;
+        top: 0;
+        background-color: rgba(186, 191, 196, 0.9);
+        padding-left: 50px;
+        padding-right: 50px;
+        text-align: justify;
+        color: black;
+    }
+
+    .card-img-new-post {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+
+
+    }
+
+    .carousel:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    }
+
+    .card h3:hover {
+        color: rgb(76, 62, 201) !important
+    }
+
+    .card-text{
+        color: black;
+    }
+</style>
+
+{{/section}}
+
+
 <main>
     <div class="container mt-50">
         <div class="row">
-            <div class="col-12 col-xl-7">
+            <div class="col-12 col-xl-8">
                 <!-- Bai viet noi bat nhat Start-->
                 <div class="row ">
-                    <div class="trending-news">
+                    <div class="trending-news" style="width: 100%;">
                         <div class="section-tittle section-tittle2">
                             <h1> <b> Bài viết nổi bật</b></h1>
                         </div>
@@ -14,49 +65,28 @@
                                 <li data-target="#demo" data-slide-to="0" class="active"></li>
                                 <li data-target="#demo" data-slide-to="1"></li>
                                 <li data-target="#demo" data-slide-to="2"></li>
+                                <li data-target="#demo" data-slide-to="3"></li>
                             </ul>
 
                             <!-- The slideshow -->
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <a href="/post-detail"><img src="/assets/img/temp/la.jpg" alt="Los Angeles"></a>
+                                {{!-- https://handlebarsjs.com/api-reference/data-variables.html#root --}}
+                                {{#each bai_viet_noi_bat_nhat}}
+                                <div class="carousel-item {{#if @first}}active{{/if}}">
+                                    <a href="/post?id={{id}}"><img src="{{urlPic}}" alt=""></a>
 
                                     <div class="carousel-caption ">
-                                        <a href="/post-detail">
-                                            <h1 class="section-tittle2" style="color: black;">Tối 19-6 thêm 102 ca
-                                                COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có ca mắc</h1>
-                                            <span>Chuyên mục</span>
+                                        <a href="/post?id={{id}}">
+                                            <h3 class="section-tittle2" style="color: black;"> {{title}} </h3>
+                                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><span>{{nameCat2}} </span></a>
                                             <br>
-                                            <p>2 giờ trước</p>
+                                            <p class="text-right">{{dateUpload}}</p>
                                         </a>
                                     </div>
-                                </div>
-                                <div class="carousel-item ">
-                                    <a href="/post-detail"><img src="/assets/img/temp/la.jpg" alt="Los Angeles"></a>
 
-                                    <div class="carousel-caption ">
-                                        <a href="/post-detail">
-                                            <h1 class="section-tittle2" style="color: black;">Tối 19-6 thêm 102 ca
-                                                COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có ca mắc</h1>
-                                            <span>Chuyên mục</span>
-                                            <br>
-                                            <p>2 giờ trước</p>
-                                        </a>
-                                    </div>
                                 </div>
-                                <div class="carousel-item ">
-                                    <a href="/post-detail"><img src="/assets/img/temp/la.jpg" alt="Los Angeles"></a>
+                                {{/each}}
 
-                                    <div class="carousel-caption ">
-                                        <a href="/post-detail">
-                                            <h1 class="section-tittle2" style="color: black;">Tối 19-6 thêm 102 ca
-                                                COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có ca mắc</h1>
-                                            <span>Chuyên mục</span>
-                                            <br>
-                                            <p>2 giờ trước</p>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Left and right controls -->
@@ -74,110 +104,122 @@
 
                 <!-- Bai viet duoc xem nhieu nhat Start -->
                 <hr>
-                <div class="row mb-20">
+                <div class="row mb-20" >
                     <div class="section-tittle section-tittle2 ">
-                        <h1> <b> Bài viết xem nhiều nhất </b></h1>
+                        <h1> <b style="margin-left: 15px;"> Bài viết xem nhiều nhất </b></h1>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6 mb-10 ">
+                    {{#each bai_viet_duoc_xem_nhieu_nhat}}
+                    <div class="col-12 col-md-6 mb-10">
                         <div class="">
-                            <div class="card ">
-                                <img src="/assets/img/temp/chicago.jpg" class="card-img" alt="...">
+                            <div class="card">
+                                <img src="{{urlPic}}" class="card-img" style="height: 180px; object-fit:cover">
                                 <div class="card-body">
-                                    <a href=".//post-detail">
-                                        <h3 class="card-text text-justify">
-                                            Tối 19-6 thêm 102 ca COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có
-                                            ca
-                                        </h3>
+                                    <a href="/post?id={{id}}">
+                                        <p class="card-text text-justify"
+                                            style="height:40px; line-height: 1.2; font-size: 11pt; color:black">
+                                            <b>{{title}}</b>
+                                        </p>
                                     </a>
-                                    <small class="card-text">Chuyên mục</small>
+                                    <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><small class="card-text">{{nameCat2}}</small></a>
                                 </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                <div class="card-footer text-right">
+                                    <small class="text-muted ">{{dateUpload}}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
+                    {{/each}}
                 </div>
-                <!-- Bai viet duoc xem nhieu nhat End -->
+               
+
+            </div>
+
+            {{!-- spacing col --}}
+            {{!-- <div class="col-xl-1"></div> --}}
+
+            <!-- Bai viet moi nhat (tat ca cac chuyen muc) Start-->
+            <div class="col-12 col-xl-4 ">
+                <div class="section-tittle section-tittle2 ml-lg-4">
+                    <h1> <b> Bài viết mới nhất </b></h1>
+                </div>
+
+                {{#each bai_viet_moi_nhat}}
+                <div class="row ml-lg-1">
+                    <div class="col-12 mb-10">
+                        <div class="card mb-10" style="border-radius: 10px;">
+                            <div class=" d-flex">
+                                <div class="align-self-center"><img class="card-img-new-post" src="{{urlPic}}" alt="">
+                                </div>
+                                <div class="m-2">
+                                    <div
+                                        style="display:flex;flex-direction: column; justify-content: space-between; height:100%">
+                                        <div class="">
+                                            <a href="/post?id={{id}}">
+                                                <p style="color: black;line-height: 1.2; font-size: 11pt"
+                                                    class="card-text text-justify">
+                                                    <b>{{title}}</b>
+                                                </p>
+                                            </a>
+                                        </div>
+
+                                        <div>
+                                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><small class="card-text">{{nameCat2}}</small></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <small class="text-muted">{{dateUpload}}</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <!-- Bai viet moi nhat (tat ca cac chuyen muc) Start-->
+        </div>
+
+         <!-- Bai viet duoc xem nhieu nhat End -->
 
 
                 <!-- Bai viet moi nhat theo tung chuyen muc Start -->
                 <hr>
                 <div class="row">
                     <div class="section-tittle section-tittle2 mb-20">
-                        <h1> <b> Bài viết mới theo từng chuyên mục </b></h1>
+                        <h1> <b > Bài viết mới theo từng chuyên mục </b></h1>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-6 mb-20">
+
+                    {{#each bai_viet_duoc_xem_nhieu_nhat}}
+                    <div class="col-12 col-md-4 col-lg-3 mb-20">
                         <div>
-                            <h3> <b>Chuyên mục</b></h3>
+                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><h3> <b>{{nameCat2}}</b></h3></a>
                         </div>
 
-                        <div class="card-deck">
-                            <div class="card ">
-                                <img src="/assets/img/temp/chicago.jpg" class="card-img" alt="...">
+                        <div class="card-deck" style="height: 250px;">
+                            <div class="card">
+                                <img src="{{urlPic}}" class="card-img" alt="..." style="height: 120px; object-fit:cover">
                                 <div class="card-body">
-                                    <a href=".//post-detail">
-                                        <h3 class="card-text text-justify">
-                                            Tối 19-6 thêm 102 ca COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có
-                                            ca
-                                        </h3>
+                                    <a href="/post?id={{id}}">
+                                        <p class="card-text text-justify" style="line-height: 1.2; font-size:11pt">
+                                            <b>{{title}}</b>
+                                        </p>
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                    <small class="text-muted">{{dateUpload}}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{/each}}
                 </div>
                 <!-- Bai viet moi nhat theo tung chuyen muc End -->
-
-            </div>
-
-
-
-            <!-- Bai viet moi nhat (tat ca cac chuyen muc) Start-->
-            <div class="col-12 col-xl-5">
-                <div class="section-tittle section-tittle2">
-                    <h1> <b> Bài viết mới nhất </b></h1>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-12 mb-10">
-
-                        <div class="card ">
-                            <div class=" d-flex  align-items">
-                                <div class="align-self-center"><img class="card-img-new-post" src="/assets/img/temp/chicago.jpg"
-                                        alt="">
-                                </div>
-                                <div class="align-self-center  m-2">
-                                    <a href=".//post-detail">
-                                        <h3 class="card-text text-justify">
-                                            Tối 19-6 thêm 102 ca COVID-19, Đà Nẵng có 5 ca sau nhiều ngày không có
-                                            ca
-                                        </h3>
-                                    </a>
-                                    <small class="card-text">Chuyên mục</small>
-                                </div>
-                            </div>
-                            <div class="card-footer text-right">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- Bai viet moi nhat (tat ca cac chuyen muc) Start-->
-        </div>
 
     </div>
 

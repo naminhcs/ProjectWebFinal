@@ -18,6 +18,17 @@ router.use(bodyParser.json());
 //     res.send(result);   
 // })
 
+// util function
+function processingNumberOfPagesToView(nPages, page) { // needing to get total pages of cat
+    var page_numbers = [];
+    for (i = 1; i <= nPages; i++) {
+        page_numbers.push({
+            value: i,
+            isCurrent: i === +page
+        });
+    }
+    return page_numbers
+}
 
 router.get('/:key', async function(req, res){
     const key = req.params.key;
@@ -25,7 +36,14 @@ router.get('/:key', async function(req, res){
     var ans = await postModel.getPostByTag(key, page)
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
-    res.send(jsonAns)
+
+    // res.send(jsonAns)
+    res.render('posts/categories',  {
+        data: jsonAns,
+        isEmpty: jsonAns.length,
+        page_numbers: processingNumberOfPagesToView(1, 1),
+        isTag: true
+    })
 })
 
 module.exports = router;

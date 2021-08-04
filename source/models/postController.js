@@ -291,4 +291,13 @@ module.exports = {
         }
         return res
     },
+
+    async getPage(key){
+        const data = await db.firestore.collection('Count').where('key', '==', key).get();
+        ans = {}
+        data.forEach(doc =>{
+            ans = doc.data()
+        })
+        return ans;
+    }
 }

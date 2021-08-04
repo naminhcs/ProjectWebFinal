@@ -71,7 +71,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -88,7 +88,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -106,7 +106,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -182,7 +182,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -193,7 +193,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -213,7 +213,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -224,7 +224,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -244,7 +244,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -255,7 +255,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
-                time = new Date(['dateUpload'])
+                time = new Date(val['dateUpload'])
                 time = time.toGMTString();
                 val['dateUpload'] = time
                 ans.push(val);
@@ -269,7 +269,7 @@ module.exports = {
         var ans = [];
         data.forEach(doc =>{
             var val = doc.data()
-            time = new Date(['dateUpload'])
+            time = new Date(val['dateUpload'])
             time = time.toGMTString();
             val['dateUpload'] = time
             ans.push(val);

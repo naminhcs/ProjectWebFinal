@@ -96,6 +96,10 @@
         border: 1px solid rgb(207, 207, 207);
         box-shadow: 1px 2px rgb(224, 224, 224);
     }
+
+    #back-top i{
+        color: #FFF;
+    }
 </style>
 
 {{/section}}
@@ -110,8 +114,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">{{post.nameCat1}}</a></li>
-                            <li class="breadcrumb-item"><a href="#">{{post.nameCat2}}</a></li>
+                            <li class="breadcrumb-item"><a href="/cat/{{post.keyCat1}}">{{post.nameCat1}}</a></li>
+                            <li class="breadcrumb-item"><a href="/cat/{{post.keyCat1}}/{{post.keyCat2}}">{{post.nameCat2}}</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -120,8 +124,22 @@
     </div>
     <!-- breadcrumb End -->
 
-    <!-- Post Details Stat -->
+    <!-- processing 2 arrays (choose 1 on 2 following way) -->
+    <!--
+    <div>
+        {{#each post.keyTags}}
+        {{.}} {{lookup ../post.nameTags @index}}
+        {{/each}}
+    </div>
+    <hr>
+    <div>
+        {{#each post.arr.keyTags}}
+        {{.}} {{lookup ../post.arr.nameTags @index}}
+        {{/each}}
+    </div>
+    -->
 
+    <!-- Post Details Stat -->
     <div class="content-post">
         {{!-- category name --}}
         <div class="mr-auto align-self-center pt-3">
@@ -134,14 +152,14 @@
         </div>
 
 
-        <div class="d-flex" style="background: #f7f7f7;">
+        <div class="d-flex" style="background: #F7F7F7;">
             {{!-- writer's nickname --}}
             <div class="details__author mr-auto d-flex">
                 <div class="align-self-center">
                     <img src="//static.thanhnien.vn/v3/App_Themes/img/no-ava.png">
                 </div>
                 <div class="align-self-center">
-                    <h4><a href="/author/lam-vien-600.html" title="Lâm Viên">Admin</a></h4>
+                    <h4> {{post.nickName}}</h4>
                 </div>
             </div>
             {{!-- public date --}}
@@ -160,176 +178,26 @@
         </div>
 
         {{!-- data from DB Start --}}
-        <div class="cms-body detail" id="abody" itemprop="articleBody">
-            <div> HLV Kiatisak vẫn giống như HLV quốc dân tại Thái Lan, dù đã 4 năm ông rời đội tuyển Voi chiến khi đưa
-                bóng
-                đá quê nhà lên đỉnh cao: lần đầu lọt vào vòng loại thứ 3 World Cup 2018. Và chưa bao giờ người Thái nhớ
-                Kiatisak như lúc này! </div>
-            <div> Bước tiến lịch sử đó, tiếc thay đã không thể làm hòn đá kê cho tham vọng nâng tầm đội tuyển Thái Lan
-                khi
-                FAT có sự thay đổi thượng tầng, với tân chủ tịch Somyot Poompanmoung - một cựu tướng cảnh sát hoàng gia.
-            </div>
-            <div> Cũng mang tham vọng lột xác đội tuyển Thái Lan, nhưng ông Somyot có tầm nhìn khác người tiền nhiệm khi
-                tin
-                rằng con đường đúng đắn phải là thuê những HLV hàng đầu <a href="https://thanhnien.vn/the-gioi/" rel="">
-                    thế
-                    giới </a> từng dự World Cup, để nâng tầm cho người trong nước. </div>
-            <div> Chia tay Kiatisak, đội tuyển Thái Lan sau đó đặt niềm tin vào HLV Milovan Rajevac, kể cả khi chia tay
-                ông
-                này cũng chỉ đặt niềm tin tạm thời vào HLV tạm quyền Sirisak Yodyardthai, trước khi chốt bản hợp đồng
-                triệu
-                USD với cựu HLV trưởng đội tuyển Nhật Bản Akira Nishino có mức lương khủng 2 tỉ đồng/tháng! </div>
-            <div>
-                <table align="center" style="mwidth:600px;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="text-align:center;color: #595959;"> <img
-                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 1"
-                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 1"
-                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/nishino_mfbz_mkyb.jpeg">
-                                    <div class="pswp-content__caption">
-                                        <div class="imgcaption">
-                                            <p> Chủ tịch FAT Somyot trong ngày ra mắt HLV Akira Nishino </p>
-                                            <div class="source">
-                                                <p> FAT </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div> Phải nói thêm sự xuất hiện của HLV Akira Nishino có ý nghĩa rất lớn với bóng đá Thái Lan, không chỉ là
-                cấp
-                độ đội tuyển mà còn ảnh hưởng nhiều mặt của bóng đá nơi đây, thể hiện qua số cầu thủ Thái ngày càng đông
-                ở
-                các cấp J-League. </div>
-            <div> Nhưng thất bại ở <a href="https://thanhnien.vn/vong-loai-world-cup-2022/" rel=""> vòng loại World Cup
-                    2022
-                </a> , không lọt vào nổi vòng loại thứ 3 và thậm chí còn bị Malaysia qua mặt trong trận cuối đã khiến
-                FAT đi
-                đến quyết định chia tay chiến lược gia người Nhật, sau một buổi họp trực tuyến kèm mức đền bù khoảng 12
-                tỉ
-                đồng. </div>
-            <div> Một quyết định chóng vánh và bất ngờ, khi <a
-                    href="https://thanhnien.vn/the-thao/bong-da-quoc-te/ldbd-thai-lan-chinh-thuc-sa-thai-hlv-akira-nishino-137954t.html"
-                    rel="" target="_blank"> HLV Akira Nisihno </a> chỉ vừa trở lại Thái Lan và đang thực hiện cách ly.
-                Có
-                tin, FAT dứt khoát bỏ số tiền bồi thường kỷ lục cho bản hợp đồng chỉ còn thời hạn 6 tháng nữa để chủ
-                động
-                cho một chiến lược mới. </div>
-            <div> Tờ <em> SiamSport </em> mới đây đã có bài tổng hợp những ý kiến bức xúc của người hâm mộ về việc FAT 5
-                năm
-                thay 5 HLV khiến đội tuyển Thái Lan mất phương hướng, quá trọng danh tiếng của những HLV từng dự World
-                Cup,
-                xem nhẹ nguồn nhân lực trong nước và phá vỡ cấu trúc phát triển của bóng đá xứ Chùa vàng. </div>
-            <div>
-                <table align="center" class="imagefull" style="mwidth:600px;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="text-align:center;color: #595959;"> <img
-                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 2"
-                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 2"
-                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/00bauduckiatisaklanlanz2646798005594_6d457ae7aa13cec6dd03e85447afbec6_nhpr.jpg">
-                                    <div class="pswp-content__caption">
-                                        <div class="imgcaption">
-                                            <p> Kiatisak và bầu Đức có mối quan hệ mật thiết như người một gia đình </p>
-                                            <div class="source">
-                                                <p> Lan Di </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div> Thậm chí đang có rất nhiều lời kêu gọi ông Somyot nên chủ động từ chức để mở đường cho cuộc cách mạng
-                lớn
-                cho bóng đá Thái Lan, mở ra một xu hướng để người Thái dẫn dắt bóng đá Thái với con số hàng chục HLV bản
-                địa
-                đã có bằng FIFA Pro. </div>
-            <div> Trong lòng rất nhiều tuyển thủ và người hâm mộ Thái Lan thì Kiatisak vẫn là số 1. Rào cản duy nhất lúc
-                này, chỉ có thể là... bầu Đức mà thôi! Mà bầu Đức thì khẳng định rất rõ: "Kiatisak có hợp đồng 2 năm tại
-                HAGL và sẽ tôn trọng cam kết với CLB. FAT luôn liên hệ thì phải chờ Kiatisak hết hợp đồng và không gia
-                hạn
-                với HAGL". </div>
-            <div> Cũng nói thêm, bầu Đức một khi đã tạm ổn tái cấu trúc tài chính của tập đoàn đã gọi Kiatisak trở về
-                lần
-                thứ 3 dẫn dắt đội bóng phố núi để hiện thực hóa giấc mơ cho những Tuấn Anh, Xuân Trường, Công Phượng,
-                Văn
-                Toàn... được chơi bóng ở AFC <a href="https://thanhnien.vn/the-thao/bong-da-quoc-te/" rel=""> Champions
-                    League </a> . </div>
-            <div> Việc Kiatisak giúp các cầu thủ như Xuân Trường, Tuấn Anh, Công Phượng, Minh Vương... tiến bộ sẽ càng
-                khiến
-                ông Đức quyết liệt hơn trong việc giữ chân Kiatisak, dù vì sự phát triển của HAGL hay xa hơn là sự so kè
-                giữa 2 đội tuyển Việt Nam và Thái Lan. </div>
-            <div>
-                <table align="center" class="imagefull" style="mwidth:600px;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="text-align:center;color: #595959;"> <img
-                                        alt="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 3"
-                                        caption="Giấc mơ Kiatisak của tuyển Thái Lan vấp phải rào cản mang tên bầu Đức - ảnh 3"
-                                        src="https://image.thanhnien.vn/2048/uploaded/quocviet/2021_08_01/kiatisk/z2640907529977_e5b8384fbc09cdb9792e20e4d5239ba6_npzr.jpg">
-                                    <div class="pswp-content__caption">
-                                        <div class="imgcaption">
-                                            <p> Kiatisak ở lại HAGL có thể ảnh hưởng trực tiếp hướng đi của tuyển Thái
-                                                Lan
-                                                vài năm tới </p>
-                                            <div class="source">
-                                                <p> Lan Di </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div> Bằng mối quan hệ đặc biệt giữa bầu Đức và Kiatisak, chắc chắn cả 2 sẽ không cần phải ngồi vào đàm phán
-                vì
-                tất cả có thể hiểu nhau nhanh chóng chỉ qua một câu nói hoặc ánh mắt. Là một người nguyên tắc, có lẽ trừ
-                trường hợp quá đặc biệt còn không Kiatisak sẽ giữ lời hứa của mình. </div>
-            <div> Điều đó chắc chắn như việc HLV Kiatisak sẽ không đời nào lên tuyển Việt Nam để làm trợ lý cho HLV Park
-                Hang-seo hoặc tương lai sau này dẫn dắt <a
-                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/hlv-park-hang-seo-nang-cap-hang-thu-tuyen-viet-nam-bang-y-tuong-moi-138094t.html"
-                    rel="" target="_blank"> tuyển Việt Nam </a> , vì ông hiểu rất rõ mối kình địch giữa 2 nền bóng đá và
-                trên hết là một người tự hào về Thái Lan. </div>
-            <div> Nhưng ai biết được, biết đâu việc Kiatisak tiếp tục làm việc tại HAGL sẽ mở ra một cơ hội khác cho
-                tuyển
-                Thái Lan cũng như một chuyên gia bản địa nào đó, vì không lẽ <a
-                    href="https://thanhnien.vn/the-thao/bong-da-quoc-te/chu-tich-ldbd-thai-lan-fat-phai-co-uy-tin-moi-dam-di-vay-tien-120344t.html"
-                    rel="" target="_blank"> FAT </a> không thể nào tìm được một người khác ngoài Kiatisak để dẫn dắt Voi
-                chiến. </div>
-            <div> Nếu thực là thế, rõ ràng giấc mơ World Cup vẫn quá tầm... </div>
-            <div> Còn đối với <a
-                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/phan-ung-rat-bau-duc-khi-thai-lan-muon-moi-kiatisak-nam-doi-tuyen-quoc-gia-137688t.html"
-                    rel="" target="_blank"> bầu Đức </a> , việc truyền thông Thái Lan làm ầm ĩ về tương lai của Kiatisak
-                sẽ
-                chỉ khiến ông vui vẻ về quyết định trước đó của mình. Tương lai <a
-                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/v-league-2021-nen-da-tiep-hay-dung-137828t.html"
-                    rel="" target="_blank"> V-League 2021 </a> vẫn còn để ngỏ khi VPF trình VFF đề xuất kéo dài đến tận
-                tháng 2.2022 và chắc chắn <a
-                    href="https://thanhnien.vn/the-thao/bong-da-viet-nam/hlv-kiatisak-cho-hagl-xa-trai-cau-thu-o-lai-cho-tiem-vac-xin-137988t.html"
-                    rel="" target="_blank"> Kiatisak </a> sẽ còn gắn bó với Hàm Rồng thời gian dài hơn thế. </div>
-        </div>
+        {{{post.content}}}
         {{!-- data from DB End --}}
 
 
         <hr>
 
-
         {{!-- list tags --}}
         <div class="list-tag mb-5">
             <p>Tags</p>
+
+
+            <div>
+                {{#each post.listNameOfTag}}
+                <a href="/tag/{{lookup ../post.listKeyOfTag @index}}" style="overflow-wrap: anywhere;">
+                    <small class="tags">{{.}}</small>
+                </a>
+                {{/each}}
+            </div>
+
+            <!-- 
             {{#each post.listTag}}
             {{#when @index 'lt' '4'}}
             <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
@@ -337,6 +205,8 @@
             </a>
             {{/when}}
             {{/each}}
+            -->
+
         </div>
         <br>
 

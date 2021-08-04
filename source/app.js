@@ -91,11 +91,22 @@ app.get('/', async function (req, res) {
   const topnews = await postModel.getNew();
   // console.log(topnews)
 
+  
+  const d = new Date()
+  const miliSencondPerDay = 24*60*60*1000
+  const limitTime = 3.5
+  var t = d.getTime() - limitTime*miliSencondPerDay 
+  const inWeek = await postModel.getPostInWeek(t)
+  console.log(inWeek)
+
+  // const postPerCat1 = await postModel.getTopOf
+
   // post in week
   res.render('home', {
-    bai_viet_noi_bat_nhat: bai_viet_noi_bat_nhat,
+    bai_viet_noi_bat_nhat: inWeek,
     bai_viet_moi_nhat: topnews,
-    bai_viet_duoc_xem_nhieu_nhat: topview
+    bai_viet_duoc_xem_nhieu_nhat: topview,
+    bai_viet_moi_nhat_theo_tung_chuyen_muc: ''
   })
 })
 

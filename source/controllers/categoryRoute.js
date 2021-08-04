@@ -1,20 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser')
-const cateModel = require('../models/categoryController')
+
+const postModel = require('../models/postController')
 
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.post('/add', async function(req, res){
-    const data = req.body;
-    result = await cateModel.addCategory(data)
-    res.send(result)
-})
+// router.post('/add', async function(req, res){
+//     const data = req.body;
+//     result = await cateModel.addCategory(data)
+//     res.send(result)
+// })
 
-router.get('/getall', async function(req, res){
-    const data = await cateModel.getAllCategory()
-    res.send(data)
-})
+// router.get('/getall', async function(req, res){
+//     const data = await cateModel.getAllCategory()
+//     res.send(data)
+// })
 
 // get 10post/page    (category2)
 router.get('/:cat1/:cat2', async function(req, res){

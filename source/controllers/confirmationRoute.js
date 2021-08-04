@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userController');
-const user = require('../models/userModel');
+
 const express = require('express');
 const bodyParser = require('body-parser')
 const tokenModel = require('../models/tokenController')

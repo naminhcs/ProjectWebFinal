@@ -63,20 +63,6 @@ module.exports = {
         return val;
     },
 
-    async getAllPostWithTag(tag){
-        const data = await db.firestore.collection('Post').where('listTag', 'array-contains', tag).get();
-        if (data.empty){
-            return "Post cann't found"
-        } else {
-            var ans = [];
-            data.forEach(doc =>{
-                ans.push(doc.data());
-                ans[ans.length - 1]["id"] = doc.id; 
-            })
-            return ans;
-        }
-    },
-
     async getHighlighByView(){
         const data = await db.firestore.collection('Post').orderBy("views", "desc").limit(10).get();
         if (data.empty){
@@ -84,8 +70,11 @@ module.exports = {
         } else {
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data());
-                ans[ans.length - 1]["id"] = doc.id; 
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
             return ans;
         }
@@ -98,8 +87,11 @@ module.exports = {
         } else {
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data());
-                ans[ans.length - 1]["id"] = doc.id; 
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
             return ans;
         }
@@ -113,8 +105,11 @@ module.exports = {
         } else {
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data());
-                ans[ans.length - 1]["id"] = doc.id; 
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
             var res = []
             ans.sort(function cmp(obj1, obj2){
@@ -186,16 +181,24 @@ module.exports = {
             const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat2', '==', cat2).startAfter(last.data().dateUpload).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         } else {
             const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat2', '==', cat2).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         }
     },
 
@@ -209,16 +212,24 @@ module.exports = {
             const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat1', '==', cat1).startAfter(last.data().dateUpload).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         } else {
             const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat1', '==', cat1).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         }
     },
 
@@ -232,16 +243,52 @@ module.exports = {
             const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('listKeyOfTag', 'array-contains', key).startAfter(last.data().dateUpload).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         } else {
             const data = await db.firestore.collection('Post').where('listKeyOfTag', 'array-contains', key).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
-                ans.push(doc.data())
+                var val = doc.data()
+                time = new Date(['dateUpload'])
+                time = time.toGMTString();
+                val['dateUpload'] = time
+                ans.push(val);
             })
-            return ans
+            return ans;
         }
-    }
+    },
+
+    async getAPostByCat1(key){
+        const data = await db.firestore.collection('Post').where('keyCat1', '==', key).orderBy('views', 'desc').limit(1).get();
+        var ans = [];
+        data.forEach(doc =>{
+            var val = doc.data()
+            time = new Date(['dateUpload'])
+            time = time.toGMTString();
+            val['dateUpload'] = time
+            ans.push(val);
+        })
+        return ans;
+    },
+
+    async getTopOfPostInEachCat1(body){
+        var Cat1 = []
+        Object.keys(body).forEach(async function(key) {
+            var value = body[key];
+            Cat1.push(value['keyCat1'])
+        });
+        var res = []
+        console.log(Cat1)
+        for (let i = 0 ; i < Cat1.length; i++){
+            var data = await this.getAPostByCat1(Cat1[i])
+            res.push(data)
+        }
+        return res
+    },
 }

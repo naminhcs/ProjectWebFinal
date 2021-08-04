@@ -16,9 +16,8 @@ router.get('/', async function (req, res) {
 })
 
 router.get('/testing', async function (req, res){
-    const d = new Date();
-    const t = d.getTime() - 3.5 * 24 * 60 * 60 * 1000;
-    result = await postModel.getPostInWeek(t)
+    const data = res.locals.lcCategory
+    result = await postModel.getTopOfPostInEachCat1(data);
     res.send(result)
 })
 

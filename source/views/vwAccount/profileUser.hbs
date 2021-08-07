@@ -31,15 +31,6 @@
         text-align: center;
     }
 
-    .change-avatar a {
-        color: rgb(71, 90, 43) !important;
-    }
-
-    .change-avatar a:hover {
-        font-weight: bold;
-        color: green !important;
-    }
-
     .kv-avatar .krajee-default.file-preview-frame,
     .kv-avatar .krajee-default.file-preview-frame:hover {
         margin: 0;
@@ -177,6 +168,7 @@
 
     $(document).ready(function () {
         $("#btnUpdateProfile").click(function () {
+
             $('#nameOfUser').removeAttr('readonly');
             $('#nameOfUser').focus()
 
@@ -189,14 +181,37 @@
             });
             $('#phoneNumber').removeAttr('readonly');
 
+
+            $("#btnModalChangeAva").removeAttr("data-target")
+            $("#btnModalChangeAva").addClass("editingProfile");
+
+            $("#btnUpgradePremium").addClass("editingProfile");
+
             $("#btnChangePassword").hide()
             $("#btnUpdateProfile").hide()
 
             $("#btnCancelUpadte").show()
             $("#btnSaveUpdate").show()
 
+            
+
         });
 
+        $("#btnModalChangeAva").click(function () {
+            if ($("#btnModalChangeAva").hasClass('editingProfile')){
+                alert('You are editing your profile!\nPlease complete editing process.')
+            }
+        })
+
+        $("#btnUpgradePremium").click(function () {
+            if ($("#btnModalChangeAva").hasClass('editingProfile')){
+                alert('You are editing your profile!\nPlease complete editing process.')
+            }
+            else{
+                //submit form
+                alert('Submit to server!')
+            }
+        })
     })
 </script>
 
@@ -275,12 +290,13 @@
                             </div>
                             <div class="change-avatar">
                                 <!-- Button trigger modal -->
-                                <a class="" data-toggle="modal" data-target="#exampleModal">
+                                <button class="genric-btn primary radius" data-toggle="modal"
+                                    data-target="#modalChangeAva" id="btnModalChangeAva">
                                     Change avatar
-                                </a>
+                                </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="modalChangeAva" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 3000;">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -363,8 +379,8 @@
 
                             {{!-- Kiem tra user co premium hay khong --}}
                             {{#when dataUser.isPremium 'noteq' 1}}
-                            <div class="user-profile">
-                                <button class="genric-btn primary radius">Upgrade to Premium</button>
+                            <div class="user-profile btn-upgrade-premium">
+                                <button class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to Premium</button>
                             </div>
                             {{/when}}
                         </div>
@@ -419,7 +435,7 @@
                         </div>
 
                         {{!-- row --}}
-                        <div class="row gutters">
+                        <form id="frmPersonalDetails" class="row gutters" action="/user/update-profile" method="POST">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h3 class="mb-2" style="font-weight: bold;">Personal Details</h3>
                             </div>
@@ -472,7 +488,7 @@
                             </div>
                             {{/when}}
 
-                        </div>
+                        </form>
 
                         {{!-- row button --}}
                         <div class="row gutters">
@@ -528,7 +544,7 @@
                                     </div>
                                     <div>
                                         <button type="button" id="btnSaveUpdate" name=""
-                                            class="genric-btn primary radius" style="display: none;">Save</button>
+                                            class="genric-btn primary radius" style="display: none;" onclick="javascript:$('#frmPersonalDetails').submit()">Save</button>
                                     </div>
                                 </div>
 

@@ -114,6 +114,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     if (user.dayEndPremium < d.getTime()) isPremium = 1;
 
     req.session.data = {
+      // id = user.id,
       userName: user.userName,
       permission: isPremium,
       dayEndPremium: user.dayEndPremium,
@@ -242,10 +243,27 @@ router.get('/profile', auth.isLogin, function (req, res) {
 })
 
 
-//--------------------------Change Password in Profile---------------------------------------------------------
+//--------------------------Change Password in Profile---------------------------------------
 router.get('/change-password', auth.isLogin, function (req, res) {
   // res.send(req.session.data);
   res.render('vwAccount/changeForgetPassword')
+})
+
+
+
+router.post('/change-password', function (req, res) {
+  console.log(req.body)
+
+  //kiem tra trung voi pass cu hay ko?
+  // neu trung -> send('trung')
+  //neu ko trung -> luu -> res.rediret('/user/profile')
+})
+
+router.post('/update-profile', function (req, res) {
+  console.log(req.body)
+  
+  // neu trung -> send('trung')
+  //neu ko trung -> luu -> res.rediret('/user/profile')
 })
 
 

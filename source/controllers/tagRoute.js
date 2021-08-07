@@ -34,7 +34,11 @@ router.get('/:key', async function(req, res){
     const key = req.params.key;
     const page = req.query.page | 1
     var ans;
-    if (req.session.premium){
+    var permission = 0;
+    if (typeof(req.session.data) === 'undefined'){
+        permission = 0
+    } else permission = 1;
+    if (permission){
         ans = await postModel.getPostPremiumByTag(key)
     } else ans = await postModel.getPostByTag(key, page)
     

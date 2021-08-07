@@ -8,7 +8,12 @@ router.use(bodyParser.json());
 
 router.get('/', async function (req, res) {
     id = req.query.id
-    var data = await postModel.getPostByID(id);
+    var permission;
+    if (typeof (req.session.data) === 'undefined'){
+        permission = 0;
+    } else permission = 1;
+    console.log(permission)
+    var data = await postModel.getPostByID(id, permission);
     // var data = require('../assets/json_file/bai_viet_noi_bat.json');
     // res.send(data);
     // console.log(data['1550']['keyTags'])

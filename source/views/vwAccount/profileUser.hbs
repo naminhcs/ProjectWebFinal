@@ -22,16 +22,24 @@
 
 <style>
     /* some CSS styling changes and overrides - Start*/
-    .change-avatar{
+    .file-loading1 input[type=file],
+    input[type=file].file-loading1 {
+        display: none;
+    }
+
+    .change-avatar {
         text-align: center;
     }
-    .change-avatar a{
-        color:rgb(71, 90, 43) !important;
+
+    .change-avatar a {
+        color: rgb(71, 90, 43) !important;
     }
-    .change-avatar a:hover{
+
+    .change-avatar a:hover {
         font-weight: bold;
         color: green !important;
     }
+
     .kv-avatar .krajee-default.file-preview-frame,
     .kv-avatar .krajee-default.file-preview-frame:hover {
         margin: 0;
@@ -194,7 +202,7 @@
 
 {{!-- show avatar --}}
 
-
+<!--
 <script>
 
     $(document).ready(function () {
@@ -211,7 +219,7 @@
             e.preventDefault()
         });
     })
-</script>
+</script> -->
 
 
 
@@ -284,28 +292,31 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="frmUploadAva" class="form form-vertical" action="/abc"
-                                                    method="post" enctype="multipart/form-data">
+                                                <div id="" class="form form-vertical">
                                                     <div class="row">
                                                         <div class="col mx-auto text-center">
                                                             <div class="kv-avatar">
-                                                                <div class="file-loading">
-                                                                    <input id="avatarInput" name="avatarInput"
-                                                                        type="file" required>
-                                                                </div>
+                                                                <form class="file-loading1" id="frmUploadAva"
+                                                                    action="/img/upload" method="POST"
+                                                                    enctype="multipart/form-data">
+                                                                    <input id="avatarInput" name="file" type="file">
+                                                                    <input type="" style="display: none;" id=""
+                                                                        name="type" value="User">
+                                                                </form>
                                                             </div>
                                                             <div class="text-center" style="text-align: center;">
                                                                 <small>Select file your avatar</small>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="mt-5">
                                                         <button type="button" class="genric-btn danger radius"
                                                             data-dismiss="modal">Close</button>
-                                                        <button id="btnSubmitUpload" type="submit"
-                                                            class="genric-btn info radius">Save</button>
+                                                        <button id="" type="" class="genric-btn info radius"
+                                                            onclick="javascirpt:$('#frmUploadAva').submit()">Save</button>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                             {{!-- <div class="modal-footer">
                                                 <button type="button" class="genric-btn danger radius"

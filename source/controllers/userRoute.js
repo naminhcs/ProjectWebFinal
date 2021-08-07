@@ -114,14 +114,18 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     }
     req.session.data = {
       userName: user.userName,
-      permission: user.permission,
+      permission: 1,
       dayEndPremium: user.dayEndPremium,
-      nameOfUser: user.nameOfUser
+      nameOfUser: user.nameOfUser,
+      gmail: user.gmail,
+      dayOfBirth: user.dayOfBirth,
+      nickName: user.nickName,
+      phoneNumber: user.phoneNumber,
     }
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
-    res.locals.data = req.session.data;
+    res.locals.dataUser = req.session.data;
 
     console.log(req.session.urlRedirect)
     url = req.session.urlRedirect || '/'
@@ -142,7 +146,7 @@ router.post('/logout', auth.isLogin, async function (req, res) {
   req.session.auth = false;
   req.session.data = null;
   res.locals.auth = false;
-  res.locals.data = null;
+  res.locals.dataUser = null;
 
   // get previous url
   const url = req.headers.referer || '/';
@@ -235,6 +239,15 @@ router.get('/profile', auth.isLogin, function (req, res) {
   // res.send(req.session.data);
   res.render('vwAccount/profileUser')
 })
+
+
+//--------------------------Change Password in Profile---------------------------------------------------------
+router.get('/change-password', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/changeForgetPassword')
+})
+
+
 
 //--------------------------Resend Token----------------------------------------------------
 router.post('/resend', async function (req, res) {

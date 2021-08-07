@@ -41,7 +41,7 @@ router.get('/:cat1/:cat2', async function (req, res) {
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPage(cat2)
-    const nPages = cnt['amount'] / 10;
+    var nPages = cnt['amount'] / 10 || 1;
     if (cnt['amount'] % 10 !== 0) nPages++;
     // res.send(jsonAns)
     res.render('posts/categories', {
@@ -63,10 +63,11 @@ router.get('/:cat1', async function (req, res) {
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPage(cat1)
-    const nPages = cnt['amount'] / 10;
+    var nPages = cnt['amount'] / 10;
     if (cnt['amount'] % 10 !== 0) nPages++;
+
     // res.send(jsonAns)
-    res.render('posts/categories',  {
+    res.render('posts/categories', {
         data: jsonAns,
         isEmpty: jsonAns.length,
         page_numbers: processingNumberOfPagesToView(nPages, page),

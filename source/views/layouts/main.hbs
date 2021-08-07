@@ -42,8 +42,13 @@
             color: #072366;
         }
 
-        footer .name-column {
-            font-size: large;
+        footer .name-column{
+            font-size: large !important;
+            color: #072366 !important;
+        }
+
+        footer .product a{
+            color: #072366 !important;
         }
 
         footer .product a:hover {
@@ -54,6 +59,7 @@
         footer .product p {
             margin-bottom: 10px;
         }
+        
     </style>
     {{{_sections.css}}}
 </head>
@@ -124,13 +130,13 @@
 
                                 {{#if auth}}
                                 <nav class="navbar navbar-expand-md navbar-light d-none d-lg-block"
-                                    style="background: white; position:relative; z-index: 2000; ">
+                                    style="position:relative; z-index: 2000; ">
                                     <div id="navbarCollapse" class="">
                                         <ul class="nav navbar-nav ml-auto">
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, {{data.userName}}
+                                                    Hi, {{dataUser.nameOfUser}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
@@ -238,13 +244,13 @@
                             <div class="my-auto">
                                 {{#if auth}}
                                 <nav class="navbar navbar-expand-md navbar-light "
-                                    style="background: white; position:relative; z-index: 2000; ">
+                                    style="position:relative; z-index: 2000; ">
                                     <div id="navbarCollapse" class="">
                                         <ul class="nav navbar-nav ml-auto">
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, userName
+                                                    Hi, {{dataUser.nameOfUser}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
@@ -382,7 +388,7 @@
                             <!-- Grid column -->
 
                             <!-- Grid column -->
-                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 product">
                                 <!-- Links -->
                                 <h6 class="text-uppercase name-column">Useful links</h6>
                                 <hr class="mb-4 mt-0 d-inline-block mx-auto"

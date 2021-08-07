@@ -7,7 +7,7 @@ module.exports = function (app) {
         
        const data = await cat.getAllCategory()
         res.locals.auth = req.session.auth;
-        res.locals.data = req.session.data;
+        res.locals.dataUser = req.session.data;
         res.locals.lcCategory = data
         // console.log(data)
         next();

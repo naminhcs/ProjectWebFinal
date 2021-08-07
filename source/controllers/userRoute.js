@@ -55,9 +55,6 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     })
     return;
   }
-
-  const hash = bcrypt.hashSync(data.password, 10);
-  data.password = hash;
   var dataUser = new user(data);
   const dataPush = {};
   for (x in dataUser) {
@@ -76,12 +73,12 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption)
-  // ---- Add user into database
+  // ---- Add user to database
   await userModel.addUser(dataPush);
 
   //res.send(data);
   const successNotification = 'Check your mail and click link to confirm account!';
-  res.redirect(`./login?successNotification=${successNotification}`);
+  res.redirect(`/login?successNotification=${successNotification}`);
 })
 
 //--------------Login-------------------
@@ -112,12 +109,17 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       })
       return;
     }
+    const d = new Date();
+    var isPremium = 0;
+    if (user.dayEndPremium < d.getTime()) isPremium = 1;
+
     req.session.data = {
       userName: user.userName,
       permission: user.permission,
-      dayEndPremium: user.dayEndPremium,
+      premium: isPremium,
       nameOfUser: user.nameOfUser
     }
+
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
@@ -126,7 +128,6 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     console.log(req.session.urlRedirect)
     url = req.session.urlRedirect || '/'
     res.redirect(url)
-    
     return;
   } else {
     // res.send('password incorrect');
@@ -261,11 +262,3 @@ router.post('/resend', async function (req, res) {
 })
 
 module.exports = router;
-
-// test upload file and load file
-// async function getURL(){
-//   var storageRef = firebase.storage().ref();
-//   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
-//   console.log(urlDownloadLink);
-// }
-// getURL()

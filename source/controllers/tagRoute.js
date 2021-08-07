@@ -33,7 +33,11 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
 router.get('/:key', async function(req, res){
     const key = req.params.key;
     const page = req.query.page | 1
-    var ans = await postModel.getPostByTag(key, page)
+    var ans;
+    if (req.session.premium){
+        ans = await postModel.getPostPremiumByTag(key)
+    } else ans = await postModel.getPostByTag(key, page)
+    
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
 

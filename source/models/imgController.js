@@ -1,0 +1,38 @@
+const db = require('../db')
+
+
+module.exports = {
+
+    makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+       return result;
+    },
+
+    async uploadImg(type, file, id){
+        fileName = await this.makeid(20)
+        var storageRef = db.firestorage.ref(type + '/' + fileName);
+        var result = 'err'
+        storageRef.put(file.buffer, {
+            contentType: file.mimetype
+        }).then(() => storageRef.getDownloadURL()).then(async function(url){
+            console.log(type, id, url)
+            await db.firestore.collection(type).doc(id).update({urlPic : url})
+            result = 'done'
+        })
+        return result;
+    }
+}
+
+// test upload file and load file
+// async function getURL(){
+//   var storageRef = firebase.storage().ref();
+//   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
+//   console.log(urlDownloadLink);
+// }
+// getURL()
+

@@ -63,16 +63,6 @@ module.exports = {
         return user;
     },
     async addUser(user){
-        const checkUserName = await this.getUserByUserName(user.userName);
-        const checkGmail = await this.getUserByGmail(user.gmail);
-        if (checkGmail !== null) {
-            console.log('Gmail is used')
-            return 'Gmail is used'
-        }
-        if (checkUserName !== null) {
-            console.log('Username is used')
-            return 'Username is used'
-        }
         await db.firestore.collection('User').doc().set(user);
         return "ok"
     },

@@ -1,31 +1,22 @@
 const d = new Date();
+const bcrypt = require('bcryptjs');
+
 class User {
     constructor (user){
-        this.userName = user.userName; // only one
-        this.password = user.password; // can change
-        this.profilePicture = "default URL"; // can chage
-        this.permission = 0; // only admin can be change
-        this.gmail = user.gmail; // cant change
-        this.phoneNumber = user.phoneNumber; // cant change
-        this.dayOfBirth = user.dayOfBirth; // can't change
-        this.dayInit = d.getTime(); // milisec
-        this.dayInitPremium = d.getTime();  // milisec
-        this.dayEndPremium = d.getTime() + 7 * 24 * 60 * 60 * 1000;    // milisec
-        this.nameOfUser = user.nameOfUser; // can change
-        this.nickName = "default"; // only one can't change
-        this.confirmation = false; // only admin can be change
-    }
-
-    set confirm(x){
-        this.confirmation = x;
-    }
-    
-    set dayEnd(x){
-        this.dayEndPremium = x;
-    }
-
-    set Permission(x){
-        this.permission = x;
+        this.userName = user.userName; 
+        const hash = bcrypt.hashSync(user.password, 10);
+        this.password = hash; 
+        this.profilePicture = "https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e"; // can chage
+        this.permission = 0; 
+        this.gmail = user.gmail; 
+        this.phoneNumber = user.phoneNumber; 
+        this.dayOfBirth = user.dayOfBirth; 
+        this.dayInit = d.getTime(); 
+        this.dayInitPremium = d.getTime();  
+        this.dayEndPremium = d.getTime() + 7 * 24 * 60 * 60 * 1000; 
+        this.nameOfUser = user.nameOfUser; 
+        this.nickName = 'default'; 
+        this.confirmation = false;
     }
 }
 

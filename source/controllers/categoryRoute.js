@@ -6,20 +6,6 @@ const postModel = require('../models/postController');
 const router = express.Router();
 router.use(bodyParser.json());
 
-// router.post('/add', async function(req, res){
-//     const data = req.body;
-//     result = await cateModel.addCategory(data)
-//     res.send(result)
-// })
-
-// router.get('/getall', async function(req, res){
-//     const data = await cateModel.getAllCategory()
-//     res.send(data)
-// })
-
-
-
-
 // util function
 function processingNumberOfPagesToView(nPages, page) { // needing to get total pages of cat
     var page_numbers = [];
@@ -33,24 +19,86 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
 }
 
 // get 10post/page    (category2)
-router.get('/:cat1/:cat2', async function (req, res) {
-    const cat1 = req.params.cat1
-    const cat2 = req.params.cat2
-    const page = req.query.page || 1
-    var ans = await postModel.getPostByCat2(cat2, page);
+
+function getPostPremiumByCat2(cat2, page){
+    var ans = await postModel.getPostPremiumByCat2(cat2, page)
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
-    const cnt = await postModel.getPage(cat2)
-    const nPages = cnt['amount'] / 10;
-    if (cnt['amount'] % 10 !== 0) nPages++;
-    // res.send(jsonAns)
-    res.render('posts/categories', {
+    const cnt = await postModel.getPagePremium(cat2);
+    const nPages = cnt / 10;
+    if (cnt % 10 !== 0) nPages++;
+    const obj = {
         data: jsonAns,
         isEmpty: jsonAns.length,
         page_numbers: processingNumberOfPagesToView(nPages, page),
         nameCat1: jsonAns['0']['nameCat1'],
         nameCat2: jsonAns['0']['nameCat2']
-    })
+    }
+    return obj
+}
+
+function getPostByCat2(cat2, page){
+    var ans = await postModel.getPostByCat2(cat2, page);
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    const cnt = await postModel.getPage(cat2)
+    const nPages = cnt / 10;
+    if (cnt % 10 !== 0) nPages++;
+    const obj = {
+        data: jsonAns,
+        isEmpty: jsonAns.length,
+        page_numbers: processingNumberOfPagesToView(nPages, page),
+        nameCat1: jsonAns['0']['nameCat1'],
+        nameCat2: jsonAns['0']['nameCat2']
+    }
+    return obj
+}
+
+function getPostPremiumByCat1(cat1, page){
+    var ans = await postModel.getPostPremiumByCat1(cat1, page)
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    const cnt = await postModel.getPagePremium(cat1);
+    const nPages = cnt / 10;
+    if (cnt % 10 !== 0) nPages++;
+    const obj = {
+        data: jsonAns,
+        isEmpty: jsonAns.length,
+        page_numbers: processingNumberOfPagesToView(nPages, page),
+        nameCat1: jsonAns['0']['nameCat1']
+    }
+    return obj
+}
+
+function getPostByCat1(cat1, page){
+    var ans = await postModel.getPostByCat1(cat1, page);
+    var stringAns = JSON.stringify(Object.assign({}, ans));
+    var jsonAns = JSON.parse(stringAns)
+    const cnt = await postModel.getPage(cat1)
+    const nPages = cnt / 10;
+    if (cnt % 10 !== 0) nPages++;
+    const obj = {
+        data: jsonAns,
+        isEmpty: jsonAns.length,
+        page_numbers: processingNumberOfPagesToView(nPages, page),
+        nameCat1: jsonAns['0']['nameCat1']
+    }
+    return obj;
+}
+
+
+router.get('/:cat1/:cat2', async function (req, res) {
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    const page = req.query.page || 1
+    var obj = {}
+    if (req.session.premium){
+        obj = getPostPremiumByCat2(cat2, page)
+    } else {
+        obj = getPostByCat2(cat2, page)
+    }
+    // res.send(jsonAns)
+    res.render('posts/categories', obj)
 })
 
 
@@ -59,19 +107,12 @@ router.get('/:cat1/:cat2', async function (req, res) {
 router.get('/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     const page = req.query.page || 1
-    var ans = await postModel.getPostByCat1(cat1, page);
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    const cnt = await postModel.getPage(cat1)
-    const nPages = cnt['amount'] / 10;
-    if (cnt['amount'] % 10 !== 0) nPages++;
+    var obj = {}
+    if (req.session.premium){
+        obj = getPostPremiumByCat1(cat1, page)
+    } else obj = getPostByCat1(cat1, page)
     // res.send(jsonAns)
-    res.render('posts/categories',  {
-        data: jsonAns,
-        isEmpty: jsonAns.length,
-        page_numbers: processingNumberOfPagesToView(nPages, page),
-        nameCat1: jsonAns['0']['nameCat1']
-    })
+    res.render('posts/categories', obj)
 })
 
 module.exports = router;

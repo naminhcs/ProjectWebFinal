@@ -21,7 +21,7 @@ router.get('/', async function (req, res) {
 
 router.get('/testing', async function (req, res){
     const data = res.locals.lcCategory
-    result = await postModel.getTopOfPostInEachCat1(data);
+    result = await postModel.setEditorForCat();
     res.send(result)
 })
 

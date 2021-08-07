@@ -75,6 +75,7 @@ require('./middlewares/postMiddle')(app)
 require('./middlewares/editorMiddle')(app)
 require('./middlewares/writerMiddle')(app)
 require('./middlewares/categoryMiddle')(app)
+require('./middlewares/imgMiddle')(app)
 
 app.get('/', async function (req, res) {
   console.log(res.locals.data)

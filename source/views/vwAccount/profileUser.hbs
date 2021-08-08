@@ -14,11 +14,9 @@
 </script>
 
 <script src="/assets/input-file-plugin-UI/js/fileinput.js" type="text/javascript"></script>
-
-
-
-
 {{!-- plugin input UI - End --}}
+
+<link href="/assets/LightBox/css/lightbox.css" rel="stylesheet" />
 
 <style>
     /* some CSS styling changes and overrides - Start*/
@@ -164,6 +162,11 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
+
+
+
+<script src="/assets/LightBox/js/lightbox.js"></script>
+
 <script>
 
     $(document).ready(function () {
@@ -193,29 +196,27 @@
             $("#btnCancelUpadte").show()
             $("#btnSaveUpdate").show()
 
-            
+
 
         });
 
         $("#btnModalChangeAva").click(function () {
-            if ($("#btnModalChangeAva").hasClass('editingProfile')){
+            if ($("#btnModalChangeAva").hasClass('editingProfile')) {
                 alert('You are editing your profile!\nPlease complete editing process.')
             }
         })
 
         $("#btnUpgradePremium").click(function () {
-            if ($("#btnModalChangeAva").hasClass('editingProfile')){
+            if ($("#btnModalChangeAva").hasClass('editingProfile')) {
                 alert('You are editing your profile!\nPlease complete editing process.')
             }
-            else{
+            else {
                 //submit form
                 alert('Submit to server!')
             }
         })
     })
 </script>
-
-{{!-- show avatar --}}
 
 <!--
 <script>
@@ -236,15 +237,12 @@
     })
 </script> -->
 
-
-
 {{/section}}
 
 
 
 
-
-<main>
+<main class="p-0">
     <!-- breadcrumb Start-->
     <div class="page-notification">
         <div class="container">
@@ -275,10 +273,11 @@
 
                                     {{!-- show avatar in orginal size --}}
                                     {{!-- https://lokeshdhakar.com/projects/lightbox2/ --}}
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+
+                                    {{!-- <img id='imgAva' src="" alt="{{dataUser.userName}}"> --}}
+                                    <a id = "lightBox01" href="" data-lightbox="image-1" data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src="" alt="{{dataUser.userName}}"></a>
+
                                 </div>
-                                {{!-- show avatar in orginal size --}}
-                                {{!-- https://lokeshdhakar.com/projects/lightbox2/ --}}
 
                                 {{!-- các cách upload ava --}}
                                 {{!-- https://codepen.io/kkumdol/pen/WNxyZJZ --}}
@@ -344,8 +343,25 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <p id='tempAva' style="display: none;">{{dataUser.profilePicture}}</p>
                                 <script>
+
+                                    var defaultAva = 'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=612x612&w=0&h=NGxdexflb9EyQchqjQP0m6wYucJBYLfu46KCLNMHZYM='
+                                    var temp = 'https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e'
+
+                                    var urlAva = $('#tempAva').html() || ''
+                                    console.log(urlAva)
+                                    //check default avatar image
+                                    if (urlAva.localeCompare(temp) === 0 || urlAva.localeCompare('default URL') === 0 || urlAva == '') {
+                                        urlAva = defaultAva;
+                                    }
+                                    console.log(urlAva)
+
+                                    $('#imgAva').attr("src", urlAva);
+                                    $('#lightBox01').attr("href", urlAva);
+                                    $("#tempAva").remove();
+
+
                                     $("#avatarInput").fileinput({
                                         overwriteInitial: true,
                                         maxFiledescription: "This is a representative placeholder description for this image.",
@@ -358,7 +374,7 @@
                                         browseIcon: '<i class="bi-folder2-open"></i>',
                                         removeIcon: '<i class="icon-remove"></i>',
                                         removeTitle: 'Cancel or reset changes',
-                                        defaultPreviewContent: '<img src="https://lh3.googleusercontent.com/proxy/yWCDGSiNqvWCNQoi0VLBL0XikiHAudUySdpMtQF-pd8026Z5aOQJZpoF2m9q1RpRvfjQpvHPNIPkD89967VBsGSpte03W7E" style = "width: 200px"  alt="Your Avatar">',
+                                        defaultPreviewContent: '<img src="' + urlAva + '" style = "width: 200px"  alt="Your Avatar">',
                                         layoutTemplates: {
                                             main2: '{preview} ' + ' {remove} '
                                         },
@@ -366,10 +382,8 @@
                                     });
                                 </script>
 
+
                             </div>
-
-
-
 
                             <div class="about">
                                 <h5>About</h5>
@@ -380,9 +394,16 @@
                             {{!-- Kiem tra user co premium hay khong --}}
                             {{#when dataUser.isPremium 'noteq' 1}}
                             <div class="user-profile btn-upgrade-premium">
-                                <button class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to Premium</button>
+                                <button class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to
+                                    Premium</button>
                             </div>
                             {{/when}}
+                            {{#when dataUser.isPremium 'eq' 1}}
+                            <div class="user-profile btn-upgrade-premium">
+                                <button class="genric-btn primary-border circle" id="">Your account is premium</button>
+                            </div>
+                            {{/when}}
+
                         </div>
                     </div>
                 </div>
@@ -544,7 +565,8 @@
                                     </div>
                                     <div>
                                         <button type="button" id="btnSaveUpdate" name=""
-                                            class="genric-btn primary radius" style="display: none;" onclick="javascript:$('#frmPersonalDetails').submit()">Save</button>
+                                            class="genric-btn primary radius" style="display: none;"
+                                            onclick="javascript:$('#frmPersonalDetails').submit()">Save</button>
                                     </div>
                                 </div>
 

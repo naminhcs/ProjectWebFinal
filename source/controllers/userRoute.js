@@ -111,18 +111,20 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     }
     const d = new Date();
     var isPremium = 0;
-    if (user.dayEndPremium < d.getTime()) isPremium = 1;
+    if (user.dayEndPremium > d.getTime()) isPremium = 1;
 
     req.session.data = {
       // id = user.id,
       userName: user.userName,
-      permission: isPremium,
+      permission: user.permission, //phan he user
+      isPremium: isPremium, //co premium hay ko
       dayEndPremium: user.dayEndPremium,
       nameOfUser: user.nameOfUser,
       gmail: user.gmail,
       dayOfBirth: user.dayOfBirth,
       nickName: user.nickName,
       phoneNumber: user.phoneNumber,
+      profilePicture: user.profilePicture,
     }
 
     req.session.auth = true;
@@ -239,6 +241,7 @@ router.post('/forget/:token', async function (req, res) {
 //--------------------------Profile---------------------------------------------------------
 router.get('/profile', auth.isLogin, function (req, res) {
   // res.send(req.session.data);
+  // console.log(res.locals.dataUser)
   res.render('vwAccount/profileUser')
 })
 
@@ -246,7 +249,7 @@ router.get('/profile', auth.isLogin, function (req, res) {
 //--------------------------Change Password in Profile---------------------------------------
 router.get('/change-password', auth.isLogin, function (req, res) {
   // res.send(req.session.data);
-  res.render('vwAccount/changeForgetPassword')
+  res.render('vwAccount/changePassword')
 })
 
 
@@ -259,6 +262,38 @@ router.post('/change-password', function (req, res) {
   //neu ko trung -> luu -> res.rediret('/user/profile')
 })
 
+
+//--------------------------Change Gmail in Profile---------------------------------------
+router.get('/change-gmail', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/changeGmail')
+})
+
+
+
+router.post('/change-gmail', function (req, res) {
+  console.log(req.body)
+
+  //kiem tra trung voi pass cu hay ko?
+  // neu trung -> send('trung')
+  //neu ko trung -> luu -> res.rediret('/user/profile') và thông báo confirm
+})
+
+//-------------------------- Upgrade to premium in Profile---------------------------------------
+router.get('/upgrade-to-premium', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/register-premium')
+})
+
+
+
+router.post('/upgrade-to-premium', function (req, res) {
+  console.log(req.body)
+
+})
+
+
+//--------------------------Update Profile---------------------------------------
 router.post('/update-profile', function (req, res) {
   console.log(req.body)
   

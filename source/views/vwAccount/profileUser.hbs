@@ -208,11 +208,14 @@
 
         $("#btnUpgradePremium").click(function () {
             if ($("#btnModalChangeAva").hasClass('editingProfile')) {
+                $('#upgrade-to-premium').attr('href', 'javascript:void(0)')
                 alert('You are editing your profile!\nPlease complete editing process.')
+
             }
             else {
                 //submit form
-                alert('Submit to server!')
+                //alert('Submit to server!')
+
             }
         })
     })
@@ -240,7 +243,16 @@
 {{/section}}
 
 
-
+{{#when dataUser.permission 'eq' 3}}
+<script>
+    $(document).ready(function () {
+        $("#btnUpdateProfile").click(function () {
+            $('#nickName').attr('name', 'nickName')
+            $('#nickName').removeAttr('readonly');
+        })
+    })
+</script>
+{{/when}}
 
 <main class="p-0">
     <!-- breadcrumb Start-->
@@ -275,7 +287,9 @@
                                     {{!-- https://lokeshdhakar.com/projects/lightbox2/ --}}
 
                                     {{!-- <img id='imgAva' src="" alt="{{dataUser.userName}}"> --}}
-                                    <a id = "lightBox01" href="" data-lightbox="image-1" data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src="" alt="{{dataUser.userName}}"></a>
+                                    <a id="lightBox01" href="" data-lightbox="image-1"
+                                        data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src=""
+                                            alt="{{dataUser.userName}}"></a>
 
                                 </div>
 
@@ -350,12 +364,12 @@
                                     var temp = 'https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e'
 
                                     var urlAva = $('#tempAva').html() || ''
-                                    console.log(urlAva)
+                                    //console.log(urlAva)
                                     //check default avatar image
                                     if (urlAva.localeCompare(temp) === 0 || urlAva.localeCompare('default URL') === 0 || urlAva == '') {
                                         urlAva = defaultAva;
                                     }
-                                    console.log(urlAva)
+                                    //console.log(urlAva)
 
                                     $('#imgAva').attr("src", urlAva);
                                     $('#lightBox01').attr("href", urlAva);
@@ -392,13 +406,14 @@
                             </div>
 
                             {{!-- Kiem tra user co premium hay khong --}}
-                            {{#when dataUser.isPremium 'noteq' 1}}
+                            {{#when dataUser.isPremium 'eq' 1}}
                             <div class="user-profile btn-upgrade-premium">
-                                <button class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to
-                                    Premium</button>
+                                <a id='upgrade-to-premium' href="/user/upgrade-to-premium"><button
+                                        class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to
+                                        Premium</button></a>
                             </div>
                             {{/when}}
-                            {{#when dataUser.isPremium 'eq' 1}}
+                            {{#when dataUser.isPremium 'noteq' 1}}
                             <div class="user-profile btn-upgrade-premium">
                                 <button class="genric-btn primary-border circle" id="">Your account is premium</button>
                             </div>
@@ -414,12 +429,13 @@
                 <div class="card h-100">
                     <div class="card-body">
 
-                        {{!-- row --}}
+                        {{!-- row account --}}
+                        {{!-- username --}}
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h3 class="mb-2" style="font-weight: bold;">Account</h3>
                             </div>
-                            {{!-- username --}}
+
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="userName">Username</label>
@@ -427,7 +443,10 @@
                                         readonly>
                                 </div>
                             </div>
-                            {{!-- password --}}
+                        </div>
+
+                        {{!-- password --}}
+                        <div class="row gutters">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Password</label>
@@ -436,26 +455,72 @@
                                 </div>
                             </div>
 
-
-
-                        </div>
-
-                        {{!-- row button --}}
-                        <div class="row gutters">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="text-right">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-block d-none"
+                                style=" position:relative; ">
+                                <div class="text-right"
+                                    style="position:absolute; bottom:0; right:0; margin-right:15px; margin-bottom:10px;">
                                     <a href="/user/change-password">
+                                        <label for="btnChangePassword">&nbsp;</label>
                                         <button type="button" id="btnChangePassword" name=""
                                             class="genric-btn primary radius" style="text-align: center;">Change
                                             password</button>
                                     </a>
                                 </div>
+                            </div>
 
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-none d-block"
+                                style=" position:relative; ">
+                                <div class="text-right">
+                                    <a href="/user/change-password">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            password</button>
+                                    </a>
+                                </div>
                             </div>
 
                         </div>
 
-                        {{!-- row --}}
+                        {{!-- gmail --}}
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="gmail">Email</label>
+                                    <input type="email" class="form-control" id="gmail" name="gmail"
+                                        value="{{dataUser.gmail}}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-block d-none"
+                                style="position:relative;">
+                                <div class="text-right"
+                                    style="position:absolute; bottom:0; right:0; margin-right:27px; margin-bottom:10px;">
+                                    <a href="/user/change-gmail">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            Email</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-none d-block">
+                                <div class="text-right">
+                                    <a href="/user/change-gmail">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            Email</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        {{!-- row personnal details --}}
                         <form id="frmPersonalDetails" class="row gutters" action="/user/update-profile" method="POST">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h3 class="mb-2" style="font-weight: bold;">Personal Details</h3>
@@ -470,14 +535,7 @@
                                 </div>
                             </div>
 
-                            {{!-- gmail --}}
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="gmail">Email</label>
-                                    <input type="email" class="form-control" id="gmail" name="gmail"
-                                        value="{{dataUser.gmail}}" readonly>
-                                </div>
-                            </div>
+
 
                             {{!-- phone number --}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -498,16 +556,14 @@
                             </div>
 
                             {{!-- nickname --}}
-                            {{!-- only use for writer --}}
-                            {{#when dataUser.permission 'eq' 2}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Nickname</label>
-                                    <input type="text" class="form-control" id="phoneNumber"
-                                        placeholder="Enter Nickname">
+                                    <input type="text" class="form-control" id="nickName" name=''
+                                        value="{{dataUser.nickName}}" readonly>
                                 </div>
                             </div>
-                            {{/when}}
+
 
                         </form>
 

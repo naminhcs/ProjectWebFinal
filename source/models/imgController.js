@@ -19,10 +19,12 @@ module.exports = {
         var result = 'err'
         storageRef.put(file.buffer, {
             contentType: file.mimetype
-        }).then(() => storageRef.getDownloadURL()).then(async function(url){
-            console.log(type, id, url)
-            await db.firestore.collection(type).doc(id).update({urlPic : url})
-            result = 'done'
+        }).then(() => storageRef.getDownloadURL()).then(result = async function(url){
+            if (type === 'User')
+                await db.firestore.collection(type).doc(id).update({profilePicture : url});
+            else
+                await db.firestore.collection(type).doc(id).update({urlPic: url});
+            return 'done'
         })
         return result;
     }

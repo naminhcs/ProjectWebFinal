@@ -81,6 +81,7 @@ require('./middlewares/editorMiddle')(app)
 require('./middlewares/writerMiddle')(app)
 require('./middlewares/categoryMiddle')(app)
 require('./middlewares/imgMiddle')(app)
+require('./middlewares/commentMiddle')(app)
 
 
 

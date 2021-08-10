@@ -1,8 +1,13 @@
 class Comment{
-    constructor (userID, dateComment, postID, cmt){
-        this.userID = userID;
-        this.dateComment = dateComment;
-        this.postID = postID;
-        this.cmt = cmt;
+    constructor (comment){
+        this.userID = comment.userID;
+        this.nameOfUser = comment.nameOfUser
+        const d = new Date();
+        const t = d.getTime()
+        this.dateComment = t
+        this.postID = comment.postID;
+        this.cmt = comment.cmt;
     }
 }
+
+module.exports = Comment;

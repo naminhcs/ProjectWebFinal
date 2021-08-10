@@ -64,7 +64,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
   const token = generateAccessToken({
     userName: data.userName
   });
-  const s = `http://localhost:3000/confirmation/${token}`;
+  const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
   const mailOption = {
     from: 'noreply@webapp.com',
@@ -93,6 +93,7 @@ router.get('/login', auth.isNotLogin, function (req, res) {
 
 router.post('/login', auth.isNotLogin, async function (req, res) {
   const user = await userModel.getUserByUserName(req.body.userName);
+  console.log(req.body)
   if (user === null) {
     res.render('vwAccount/login', {
       error: "Username isn't avaiable"
@@ -115,7 +116,8 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
 
     req.session.data = {
       userName: user.userName,
-      permission: isPremium,
+      permission: user.permission,
+      premium: isPremium,
       dayEndPremium: user.dayEndPremium,
       nameOfUser: user.nameOfUser,
       gmail: user.gmail,
@@ -230,7 +232,7 @@ router.post('/forget/:token', async function (req, res) {
         password: hash
       }
       userModel.updateUserByUserName(userName, dataChange);
-      res.redirect('../login');
+      res.redirect('/user/login');
       return;
   });
 })
@@ -243,8 +245,22 @@ router.get('/profile', auth.isLogin, function (req, res) {
 
 
 //--------------------------Change Password in Profile---------------------------------------------------------
-router.get('/change-password', auth.isLogin, function (req, res) {
+router.get('/change-password', auth.isLogin, async function (req, res) {
   // res.send(req.session.data);
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const data = await userModel.getUserByID(req.body.id);
+  const ret = bcrypt.compareSync(oldPassword, data.password);
+  if (ret === true){
+    const password = bcrypt.hashSync(newPassword, 10);
+    var dataChange = {
+      password: password
+    }
+    await userModel.updateUserByUserName(data['userName'], dataChange);
+    res.send('ok')
+  } else {
+    res.send('wrong password');
+  }
   res.render('vwAccount/changeForgetPassword')
 })
 
@@ -262,7 +278,7 @@ router.post('/resend', async function (req, res) {
     userName: user.userName
   });
 
-  const s = `http://localhost:3000/confirmation/${token}`;
+  const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
   const mailOption = {
     from: 'noreply@webapp.com',
@@ -274,4 +290,46 @@ router.post('/resend', async function (req, res) {
   res.send("OK")
 })
 
+//-------------------------Change Gmail--------------------------------------------------------
+
+router.post('/change-gmail', auth.isLogin, async function(req, res){
+  const data = req.body;
+  const userName = req.session.data.userName
+  const user = await userModel.getUserByUserName(userName);
+  const ret = bcrypt.compareSync(data.password, user.password);
+  if (ret === 'false'){
+    res.send('wrong password');
+    return;
+  }
+  const token = generateAccessToken({
+    userName: user.userName
+  })
+
+  const s = `http://localhost:3000/confirmation/${token}?type=gmail&gmail=${data.newGmail}`;
+  const mailOption = {
+    from: 'noreply@webapp.com',
+    to: data.newGmail,
+    subject: 'Confirm change gmail',
+    text: s
+  }
+  await transporter.sendMail(mailOption)
+  res.send("ok")
+})
+
+//-------------------------Upgrade account to premium---------------------------------------------
+
+router.post('/upgrade', auth.isLogin, async function(req, res){
+  const data = req.body.days * 24 * 3600 * 1000;
+  const d = new Date();
+  const now = d.getTime();
+  dayEndPremium = Math.max(req.session.data.dayEndPremium, now)
+  const newTime = dayEndPremium + data;
+  const updateData = {
+    'dayEndPremium': newTime
+  }
+  result = await userModel.updateUserByUserName(req.session.data.userName, updateData)
+  req.session.data.dayEndPremium = newTime;
+  req.session.data.premium = 1
+  res.send(result)
+})
 module.exports = router;

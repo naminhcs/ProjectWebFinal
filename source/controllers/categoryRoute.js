@@ -92,13 +92,12 @@ router.get('/:cat1/:cat2', async function (req, res) {
     const cat2 = req.params.cat2
     const page = req.query.page || 1
     var obj = {}
-    var permission = 0;
-    if (typeof(req.session.data) === 'undefined'){
-        permission = 0
-    } else permission = 1;
+    var premium = 0;
+    if (typeof(req.session.data) === 'undefined' || typeof(req.session.data === 'null')){
+        premium = 0
+    } else premium = req.session.data.premium;
     
-    console.log(permission)
-    if (permission){
+    if (premium){
         obj = await getPostPremiumByCat2(cat2, page)
     } else {
         obj = await getPostByCat2(cat2, page)
@@ -114,15 +113,20 @@ router.get('/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     const page = req.query.page || 1
     var obj = {}
-    var permission = 0;
-    if (typeof(req.session.data) === 'undefined'){
-        permission = 0
-    } else permission = 1;
-
-    console.log(permission)
-    if (permission){
+    var premium = 0;
+    if (typeof(req.session.data) === 'undefined' || typeof(req.session.data === 'null')){
+        premium = 0
+    } else premium = req.session.data.premium;
+    
+    if (premium){
         obj = await getPostPremiumByCat1(cat1, page)
-    } else obj = await getPostByCat1(cat1, page)
+        console.log('here')
+        console.log(obj.data)
+    } else {
+        obj = await getPostByCat1(cat1, page)
+        console.log('here2')
+        console.log(obj.data)
+    }
     // res.send(jsonAns)
     res.render('posts/categories', obj)
 })

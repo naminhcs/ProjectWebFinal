@@ -442,7 +442,7 @@ module.exports = {
 
     async getPostPremiumByTag(key){
         const dataPre = await db.firestore.collection('Post').where('permission', '==', 1).where('listKeyOfTag', 'array-contains', key).limit(10).get();
-        var countPost = 10 - data.docs.length;
+        var countPost = 10 - dataPre.docs.length;
         const dataPost = await db.firestore.collection('Post').where('permission', '==', 0).where('listKeyOfTag', 'array-contains', key).limit(countPost).get();
         var ans = []
         for (let i = 0; i < dataPre.docs.length; i++){

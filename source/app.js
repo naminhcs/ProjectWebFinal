@@ -86,6 +86,7 @@ require('./middlewares/commentMiddle')(app)
 
 
 app.get('/', async function (req, res) {
+  console.log('abc')
   // console.log(res.locals.dataUser)
   const bai_viet_noi_bat_nhat = require('./assets/json_file/bai_viet_noi_bat.json');
   // const bai_viet_moi_nhat = require('./assets/json_file/bai_viet_moi_nhat.json');
@@ -104,7 +105,8 @@ app.get('/', async function (req, res) {
   const d = new Date()
   const miliSencondPerDay = 24 * 60 * 60 * 1000
   const limitTime = 3.5
-  var t = d.getTime() - limitTime * miliSencondPerDay
+  // var t = d.getTime() - limitTime * miliSencondPerDay
+  var t = 1627794400000
   const inWeek = await postModel.getPostInWeek(t)
   // console.log(inWeek)
 
@@ -120,6 +122,9 @@ app.get('/', async function (req, res) {
   })
 })
 
+app.use(function(req, res, next){
+  res.render('notFound404')
+})
 
 //listening at PORT...
 const PORT = 3000

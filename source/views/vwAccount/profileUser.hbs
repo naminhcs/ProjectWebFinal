@@ -14,11 +14,9 @@
 </script>
 
 <script src="/assets/input-file-plugin-UI/js/fileinput.js" type="text/javascript"></script>
-
-
-
-
 {{!-- plugin input UI - End --}}
+
+<link href="/assets/LightBox/css/lightbox.css" rel="stylesheet" />
 
 <style>
     /* some CSS styling changes and overrides - Start*/
@@ -29,15 +27,6 @@
 
     .change-avatar {
         text-align: center;
-    }
-
-    .change-avatar a {
-        color: rgb(71, 90, 43) !important;
-    }
-
-    .change-avatar a:hover {
-        font-weight: bold;
-        color: green !important;
     }
 
     .kv-avatar .krajee-default.file-preview-frame,
@@ -173,10 +162,16 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
+
+
+
+<script src="/assets/LightBox/js/lightbox.js"></script>
+
 <script>
 
     $(document).ready(function () {
         $("#btnUpdateProfile").click(function () {
+
             $('#nameOfUser').removeAttr('readonly');
             $('#nameOfUser').focus()
 
@@ -189,18 +184,42 @@
             });
             $('#phoneNumber').removeAttr('readonly');
 
+
+            $("#btnModalChangeAva").removeAttr("data-target")
+            $("#btnModalChangeAva").addClass("editingProfile");
+
+            $("#btnUpgradePremium").addClass("editingProfile");
+
             $("#btnChangePassword").hide()
             $("#btnUpdateProfile").hide()
 
             $("#btnCancelUpadte").show()
             $("#btnSaveUpdate").show()
 
+
+
         });
 
+        $("#btnModalChangeAva").click(function () {
+            if ($("#btnModalChangeAva").hasClass('editingProfile')) {
+                alert('You are editing your profile!\nPlease complete editing process.')
+            }
+        })
+
+        $("#btnUpgradePremium").click(function () {
+            if ($("#btnModalChangeAva").hasClass('editingProfile')) {
+                $('#upgrade-to-premium').attr('href', 'javascript:void(0)')
+                alert('You are editing your profile!\nPlease complete editing process.')
+
+            }
+            else {
+                //submit form
+                //alert('Submit to server!')
+
+            }
+        })
     })
 </script>
-
-{{!-- show avatar --}}
 
 <!--
 <script>
@@ -221,15 +240,21 @@
     })
 </script> -->
 
-
-
 {{/section}}
 
 
+{{#when dataUser.permission 'eq' 3}}
+<script>
+    $(document).ready(function () {
+        $("#btnUpdateProfile").click(function () {
+            $('#nickName').attr('name', 'nickName')
+            $('#nickName').removeAttr('readonly');
+        })
+    })
+</script>
+{{/when}}
 
-
-
-<main>
+<main class="p-0">
     <!-- breadcrumb Start-->
     <div class="page-notification">
         <div class="container">
@@ -260,10 +285,13 @@
 
                                     {{!-- show avatar in orginal size --}}
                                     {{!-- https://lokeshdhakar.com/projects/lightbox2/ --}}
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+
+                                    {{!-- <img id='imgAva' src="" alt="{{dataUser.userName}}"> --}}
+                                    <a id="lightBox01" href="" data-lightbox="image-1"
+                                        data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src=""
+                                            alt="{{dataUser.userName}}" style= "object-fit: cover;"></a>
+
                                 </div>
-                                {{!-- show avatar in orginal size --}}
-                                {{!-- https://lokeshdhakar.com/projects/lightbox2/ --}}
 
                                 {{!-- các cách upload ava --}}
                                 {{!-- https://codepen.io/kkumdol/pen/WNxyZJZ --}}
@@ -275,12 +303,13 @@
                             </div>
                             <div class="change-avatar">
                                 <!-- Button trigger modal -->
-                                <a class="" data-toggle="modal" data-target="#exampleModal">
+                                <button class="genric-btn primary radius" data-toggle="modal"
+                                    data-target="#modalChangeAva" id="btnModalChangeAva">
                                     Change avatar
-                                </a>
+                                </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="modalChangeAva" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 3000;">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -328,8 +357,25 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <p id='tempAva' style="display: none;">{{dataUser.profilePicture}}</p>
                                 <script>
+
+                                    var defaultAva = 'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=612x612&w=0&h=NGxdexflb9EyQchqjQP0m6wYucJBYLfu46KCLNMHZYM='
+                                    var temp = 'https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e'
+
+                                    var urlAva = $('#tempAva').html() || ''
+                                    console.log(urlAva)
+                                    //check default avatar image
+                                    if (urlAva.localeCompare(temp) === 0 || urlAva.localeCompare('default URL') === 0 || urlAva == '') {
+                                        urlAva = defaultAva;
+                                    }
+                                    //console.log(urlAva)
+
+                                    $('#imgAva').attr("src", urlAva);
+                                    $('#lightBox01').attr("href", urlAva);
+                                    $("#tempAva").remove();
+
+
                                     $("#avatarInput").fileinput({
                                         overwriteInitial: true,
                                         maxFiledescription: "This is a representative placeholder description for this image.",
@@ -342,7 +388,7 @@
                                         browseIcon: '<i class="bi-folder2-open"></i>',
                                         removeIcon: '<i class="icon-remove"></i>',
                                         removeTitle: 'Cancel or reset changes',
-                                        defaultPreviewContent: '<img src="https://lh3.googleusercontent.com/proxy/yWCDGSiNqvWCNQoi0VLBL0XikiHAudUySdpMtQF-pd8026Z5aOQJZpoF2m9q1RpRvfjQpvHPNIPkD89967VBsGSpte03W7E" style = "width: 200px"  alt="Your Avatar">',
+                                        defaultPreviewContent: '<img src="' + urlAva + '" style = "width: 200px"  alt="Your Avatar">',
                                         layoutTemplates: {
                                             main2: '{preview} ' + ' {remove} '
                                         },
@@ -350,10 +396,8 @@
                                     });
                                 </script>
 
+
                             </div>
-
-
-
 
                             <div class="about">
                                 <h5>About</h5>
@@ -362,11 +406,19 @@
                             </div>
 
                             {{!-- Kiem tra user co premium hay khong --}}
-                            {{#when dataUser.isPremium 'noteq' 1}}
-                            <div class="user-profile">
-                                <button class="genric-btn primary radius">Upgrade to Premium</button>
+                            {{#when dataUser.isPremium 'eq' 1}}
+                            <div class="user-profile btn-upgrade-premium">
+                                <a id='upgrade-to-premium' href="/user/upgrade-to-premium"><button
+                                        class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to
+                                        Premium</button></a>
                             </div>
                             {{/when}}
+                            {{#when dataUser.isPremium 'noteq' 1}}
+                            <div class="user-profile btn-upgrade-premium">
+                                <button class="genric-btn primary-border circle" id="">Your account is premium</button>
+                            </div>
+                            {{/when}}
+
                         </div>
                     </div>
                 </div>
@@ -377,12 +429,13 @@
                 <div class="card h-100">
                     <div class="card-body">
 
-                        {{!-- row --}}
+                        {{!-- row account --}}
+                        {{!-- username --}}
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h3 class="mb-2" style="font-weight: bold;">Account</h3>
                             </div>
-                            {{!-- username --}}
+
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="userName">Username</label>
@@ -390,7 +443,10 @@
                                         readonly>
                                 </div>
                             </div>
-                            {{!-- password --}}
+                        </div>
+
+                        {{!-- password --}}
+                        <div class="row gutters">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Password</label>
@@ -399,27 +455,73 @@
                                 </div>
                             </div>
 
-
-
-                        </div>
-
-                        {{!-- row button --}}
-                        <div class="row gutters">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="text-right">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-block d-none"
+                                style=" position:relative; ">
+                                <div class="text-right"
+                                    style="position:absolute; bottom:0; right:0; margin-right:15px; margin-bottom:10px;">
                                     <a href="/user/change-password">
+                                        <label for="btnChangePassword">&nbsp;</label>
                                         <button type="button" id="btnChangePassword" name=""
                                             class="genric-btn primary radius" style="text-align: center;">Change
                                             password</button>
                                     </a>
                                 </div>
+                            </div>
 
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-none d-block"
+                                style=" position:relative; ">
+                                <div class="text-right">
+                                    <a href="/user/change-password">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            password</button>
+                                    </a>
+                                </div>
                             </div>
 
                         </div>
 
-                        {{!-- row --}}
+                        {{!-- gmail --}}
                         <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="gmail">Email</label>
+                                    <input type="email" class="form-control" id="gmail" name="gmail"
+                                        value="{{dataUser.gmail}}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-block d-none"
+                                style="position:relative;">
+                                <div class="text-right"
+                                    style="position:absolute; bottom:0; right:0; margin-right:27px; margin-bottom:10px;">
+                                    <a href="/user/change-gmail">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            Email</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-sm-none d-block">
+                                <div class="text-right">
+                                    <a href="/user/change-gmail">
+                                        <label for="btnChangePassword">&nbsp;</label>
+                                        <button type="button" id="btnChangePassword" name=""
+                                            class="genric-btn primary radius" style="text-align: center;">Change
+                                            Email</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        {{!-- row personnal details --}}
+                        <form id="frmPersonalDetails" class="row gutters" action="/user/update-profile" method="POST">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h3 class="mb-2" style="font-weight: bold;">Personal Details</h3>
                             </div>
@@ -433,14 +535,7 @@
                                 </div>
                             </div>
 
-                            {{!-- gmail --}}
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="gmail">Email</label>
-                                    <input type="email" class="form-control" id="gmail" name="gmail"
-                                        value="{{dataUser.gmail}}" readonly>
-                                </div>
-                            </div>
+
 
                             {{!-- phone number --}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -461,18 +556,16 @@
                             </div>
 
                             {{!-- nickname --}}
-                            {{!-- only use for writer --}}
-                            {{#when dataUser.permission 'eq' 2}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Nickname</label>
-                                    <input type="text" class="form-control" id="phoneNumber"
-                                        placeholder="Enter Nickname">
+                                    <input type="text" class="form-control" id="nickName" name=''
+                                        value="{{dataUser.nickName}}" readonly>
                                 </div>
                             </div>
-                            {{/when}}
 
-                        </div>
+
+                        </form>
 
                         {{!-- row button --}}
                         <div class="row gutters">
@@ -528,7 +621,8 @@
                                     </div>
                                     <div>
                                         <button type="button" id="btnSaveUpdate" name=""
-                                            class="genric-btn primary radius" style="display: none;">Save</button>
+                                            class="genric-btn primary radius" style="display: none;"
+                                            onclick="javascript:$('#frmPersonalDetails').submit()">Save</button>
                                     </div>
                                 </div>
 

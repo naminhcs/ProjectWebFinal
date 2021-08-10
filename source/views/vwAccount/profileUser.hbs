@@ -289,7 +289,7 @@
                                     {{!-- <img id='imgAva' src="" alt="{{dataUser.userName}}"> --}}
                                     <a id="lightBox01" href="" data-lightbox="image-1"
                                         data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src=""
-                                            alt="{{dataUser.userName}}"></a>
+                                            alt="{{dataUser.userName}}" style= "object-fit: cover;"></a>
 
                                 </div>
 
@@ -364,7 +364,7 @@
                                     var temp = 'https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e'
 
                                     var urlAva = $('#tempAva').html() || ''
-                                    //console.log(urlAva)
+                                    console.log(urlAva)
                                     //check default avatar image
                                     if (urlAva.localeCompare(temp) === 0 || urlAva.localeCompare('default URL') === 0 || urlAva == '') {
                                         urlAva = defaultAva;

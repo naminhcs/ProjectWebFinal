@@ -30,30 +30,8 @@
         $("#password").keyup(function () {
             const noti = $("#txtRequirePassword")
             const pwd = String($("#password").val());
-            console.log(pwd)
-            var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!_.@#\$%\^&\*])(?=.{8,})");
-            var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-            var enoughRegex = new RegExp("(?=.{6,}).*", "g");
-            if (pwd.length == 0) {
-                noti.html('Type Password');
-                noti.css('color', 'red');
-                //console.log("Type Password")
-            } else if (false == enoughRegex.test(pwd)) {
-                noti.html('More Characters');
-                noti.css('color', 'Orangered');
-                //console.log("More Characters")
-            } else if (strongRegex.test(pwd)) {
-                noti.html('Strong!');
-                noti.css('color', 'green');
-                //console.log("Strong")
-            } else if (mediumRegex.test(pwd)) {
-                noti.html('Medium');
-                noti.css('color', 'lightgreen');
-                //console.log("Medium")
-            } else {
-                noti.html('Weak!');
-                noti.css('color', 'LightSalmon');
-                //console.log("Weak")
+            if (password.length !== 0) {
+                noti.html("");   
             }
 
         })
@@ -63,13 +41,21 @@
         $("#gmail").blur(function () {
             const gmail = $('#gmail').val();
             const noti = $('#txtRequireGmail');
-            if (!validateEmail(gmail)) {
+            if (gmail.length === 0) {
                 noti.html("Please fill out your Gmail");
                 noti.css('color', 'red');
             }
+        })
+
+        $("#gmail").keyup(function () {
+            const gmail = $('#gmail').val();
+            const noti = $('#txtRequireGmail');
+            if (!validateEmail(gmail)) {
+                noti.html("Incorrect gmail's format");
+                noti.css('color', 'red');
+            }
             else {
-                noti.html("Ok");
-                noti.css('color', 'blue');
+                noti.html("");
             }
         })
 
@@ -94,7 +80,8 @@
         if (!validateEmail(gmail)) {
             $("#txtRequireGmail").html("Please fill out your Gmail");
             $("#txtRequireGmail").css('color', 'red');
-            alert("Your Gmail is not valid")
+            $('#gmail').focus()
+            {{!-- alert("Your Gmail is not valid") --}}
             e.preventDefault()
             return;
         }
@@ -155,7 +142,8 @@
                                         <label>New gmail</label>
                                         <span class="txtRequire" id="txtRequireGmail"></span>
                                     </div>
-                                    <input type="email" id="gmail" name="newGmail" placeholder="Enter new gmail address">
+                                    <input type="email" id="gmail" name="newGmail"
+                                        placeholder="Enter new gmail address">
                                 </div>
 
 

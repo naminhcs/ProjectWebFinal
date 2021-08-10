@@ -27,8 +27,16 @@
 {{#section 'js'}}
 <script>
     var x = +({{ pageCurrent }} || 2);
+    var nPages = 6;
+    
+    {{#each page_numbers}}
+    {{#if @last}}
+    nPages = {{value}}    
+    {{/if}}
+    {{/each}}  
+    
     var pre = Math.max(x, 2) - 1
-    var next = Math.min(x, 14) + 1
+    var next = Math.min(x,nPages-1) + 1
     $(document).ready(function () {
         $("#btnPrePage").attr("href", "?page=" + String(pre));
         $("#btnNextPage").attr("href", "?page=" + String(next));
@@ -39,6 +47,7 @@
 
 </script>
 {{/section}}
+
 
 <main>
 

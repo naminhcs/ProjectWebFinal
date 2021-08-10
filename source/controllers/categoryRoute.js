@@ -9,9 +9,10 @@ router.use(bodyParser.json());
 // util function
 function processingNumberOfPagesToView(nPages, page) { // needing to get total pages of cat
     var page_numbers = [];
-    nPages = Math.round(nPages)
+    nPages = Math.floor(nPages)
     page = +page
-
+    // console.log(page)
+    // console.log(nPages)
     if (nPages <= 6) {
         for (i = 1; i <= nPages; i++) {
             page_numbers.push({
@@ -59,8 +60,6 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
                     }
                 }
             } else {
-                // console.log(page)
-                // console.log(nPages)
                 for (i = page - 1; i <= page + 1; i++) {
                     page_numbers.push({
                         value: i,
@@ -81,17 +80,18 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
         }
     }
     // console.log(page_numbers)
-    return {page_numbers}
+    return {
+        page_numbers
+    }
 }
 
-// get 10post/page    (category2)
-
+// get 10post/page    (category2
 async function getPostPremiumByCat2(cat2, page) {
     var ans = await postModel.getPostPremiumByCat2(cat2, page)
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPagePremium(cat2);
-    var nPages = cnt / 10;
+    var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
     var paging = processingNumberOfPagesToView(nPages, page);
     const obj = {
@@ -110,8 +110,10 @@ async function getPostByCat2(cat2, page) {
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPage(cat2)
-    var nPages = cnt / 10;
+    var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
+    console.log(+cnt)
+    console.log(nPages)
     var paging = processingNumberOfPagesToView(nPages, page);
     const obj = {
         data: jsonAns,
@@ -129,7 +131,7 @@ async function getPostPremiumByCat1(cat1, page) {
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPagePremium(cat1);
-    var nPages = cnt / 10;
+    var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
     var paging = processingNumberOfPagesToView(nPages, page);
     const obj = {
@@ -147,8 +149,10 @@ async function getPostByCat1(cat1, page) {
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
     const cnt = await postModel.getPage(cat1)
-    var nPages = cnt / 10;
+    var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
+    console.log(+cnt)
+    console.log(nPages)
     var paging = processingNumberOfPagesToView(nPages, page)
     const obj = {
         data: jsonAns,
@@ -171,7 +175,7 @@ router.get('/:cat1/:cat2', async function (req, res) {
         permission = 0
     } else permission = 1;
 
-    console.log(permission)
+    // console.log(permission)
     if (permission) {
         obj = await getPostPremiumByCat2(cat2, page)
     } else {

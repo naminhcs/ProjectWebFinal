@@ -41,7 +41,6 @@ const ALGOLIA_SEARCH_KEY = '322bd2d06b1c4b6cb37e4b1c478260b7'
 //-----------------------------------------------------------------
 router.get('/', async function (req, res) {
     id = req.query.id
-<<<<<<< HEAD
     var premium;
     if (typeof (req.session.data) === 'undefined' || typeof (req.session.data) === 'null'){
         premium = 0;
@@ -58,24 +57,6 @@ router.get('/', async function (req, res) {
     //     post: data,
 
     // })
-=======
-    var permission;
-    if (typeof (req.session.data) === 'undefined' || typeof (req.session.data) === 'null'){
-        permission = 0;
-    } else permission = req.session.data.permission;
-    console.log(permission)
-    var data = await postModel.getPostByID(id, permission);
-
-    var relevenPosts = '' /*postModel.getRandomPost(res.locals.lcCategory)*/
-    // var data = require('../assets/json_file/bai_viet_noi_bat.json');
-    // res.send(data);
-    // console.log(data['1550']['keyTags'])
-    // console.log(data)
-    res.render('posts/post-detail', {
-        post: data,
-        relevenPosts: relevenPosts,
-    })
->>>>>>> 0b71cb353ffe52bf954b1cb5fae93ca4f137dc7e
 })
 
 router.get('/testing', async function (req, res){

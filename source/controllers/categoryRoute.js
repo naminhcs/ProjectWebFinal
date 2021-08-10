@@ -170,22 +170,12 @@ router.get('/:cat1/:cat2', async function (req, res) {
     const cat2 = req.params.cat2
     const page = req.query.page || 1
     var obj = {}
-<<<<<<< HEAD
     var premium = 0;
     if (typeof(req.session.data) === 'undefined' || typeof(req.session.data === 'null')){
         premium = 0
     } else premium = req.session.data.premium;
     
     if (premium){
-=======
-    var permission = 0;
-    if (typeof (req.session.data) === 'undefined') {
-        permission = 0
-    } else permission = 1;
-
-    // console.log(permission)
-    if (permission) {
->>>>>>> 0b71cb353ffe52bf954b1cb5fae93ca4f137dc7e
         obj = await getPostPremiumByCat2(cat2, page)
     } else {
         obj = await getPostByCat2(cat2, page)
@@ -201,22 +191,12 @@ router.get('/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     const page = req.query.page || 1
     var obj = {}
-<<<<<<< HEAD
     var premium = 0;
     if (typeof(req.session.data) === 'undefined' || typeof(req.session.data === 'null')){
         premium = 0
     } else premium = req.session.data.premium;
     
     if (premium){
-=======
-    var permission = 0;
-    if (typeof (req.session.data) === 'undefined') {
-        permission = 0
-    } else permission = 1;
-
-    console.log(permission)
-    if (permission) {
->>>>>>> 0b71cb353ffe52bf954b1cb5fae93ca4f137dc7e
         obj = await getPostPremiumByCat1(cat1, page)
         console.log('here')
         console.log(obj.data)

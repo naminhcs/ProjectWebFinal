@@ -252,7 +252,6 @@ router.get('/profile', auth.isLogin, function (req, res) {
 })
 
 
-<<<<<<< HEAD
 //--------------------------Change Password in Profile---------------------------------------------------------
 router.get('/change-password', auth.isLogin, async function (req, res) {
   // res.send(req.session.data);
@@ -271,61 +270,6 @@ router.get('/change-password', auth.isLogin, async function (req, res) {
     res.send('wrong password');
   }
   res.render('vwAccount/changeForgetPassword')
-=======
-//--------------------------Change Password in Profile---------------------------------------
-router.get('/change-password', auth.isLogin, function (req, res) {
-  // res.send(req.session.data);
-  res.render('vwAccount/changePassword')
-})
-
-
-
-router.post('/change-password', function (req, res) {
-  console.log(req.body)
-
-  //kiem tra trung voi pass cu hay ko?
-  // neu trung -> send('trung')
-  //neu ko trung -> luu -> res.rediret('/user/profile')
-})
-
-
-//--------------------------Change Gmail in Profile---------------------------------------
-router.get('/change-gmail', auth.isLogin, function (req, res) {
-  // res.send(req.session.data);
-  res.render('vwAccount/changeGmail')
-})
-
-
-
-router.post('/change-gmail', function (req, res) {
-  console.log(req.body)
-
-  //kiem tra trung voi pass cu hay ko?
-  // neu trung -> send('trung')
-  //neu ko trung -> luu -> res.rediret('/user/profile') và thông báo confirm
-})
-
-//-------------------------- Upgrade to premium in Profile---------------------------------------
-router.get('/upgrade-to-premium', auth.isLogin, function (req, res) {
-  // res.send(req.session.data);
-  res.render('vwAccount/register-premium')
-})
-
-
-
-router.post('/upgrade-to-premium', function (req, res) {
-  console.log(req.body)
-
-})
-
-
-//--------------------------Update Profile---------------------------------------
-router.post('/update-profile', function (req, res) {
-  console.log(req.body)
-  
-  // neu trung -> send('trung')
-  //neu ko trung -> luu -> res.rediret('/user/profile')
->>>>>>> 0b71cb353ffe52bf954b1cb5fae93ca4f137dc7e
 })
 
 

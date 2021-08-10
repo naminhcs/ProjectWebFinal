@@ -50,13 +50,13 @@ module.exports = {
         await db.firestore.collection('Post').doc(id).update({'views': view})
     },
 
-    async getPostByID(id, permission){
+    async getPostByID(id, premium){
         const data = await db.firestore.collection('Post').doc(id).get();
         if (data.empty){
             return "Post cann't found";
         }
-        if (data.data().permission === 1){
-            if (permission === 0){
+        if (data.data().premium === 1){
+            if (premium === 0){
                 return "you need up your account to premium";
             }
         }
@@ -217,7 +217,7 @@ module.exports = {
             const snapshot = await first.get();
             const last = snapshot.docs[snapshot.docs.length - 1];
 
-            const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat1', '==', cat1).startAfter(last.data().dateUpload).limit(10).get();
+            const data = await db.firestore.collection('Post').orderBy('dateUpload', 'desc').where('keyCat1', '==', cat1).where('permission', '==', 0).startAfter(last.data().dateUpload).limit(10).get();
             var ans = [];
             data.forEach(doc =>{
                 var val = doc.data()
@@ -309,13 +309,20 @@ module.exports = {
     },
 
     async getRandomPostByCat2(key){
-        const data = await db.firestore.collection('Post').where('keyCat2', '==', key).where('permission', '==', 0).orderBy('dateUpload').limit(10).get();
-        var randomIndex = Math.floor(Math.random() * 10);
-        var val = data.docs[randomIndex].data();
-        time = new Date(val['dateUpload'])
-        time = time.toGMTString();
-        val['dateUpload'] = time
-        return val;
+        const data = await db.firestore.collection('Post').where('keyCat2', '==', key).where('permission', '==', 0).get();
+        var arr = []
+        for (let i = 0; i < data.docs.length; i++) arr.push(i);
+        const shuffled = arr.sort(() => 0.5 - Math.random());
+        let selected = shuffled.slice(0, 5);
+        var ans = []
+        for (let i = 0; i < 5; i++){
+            var val = data.docs[selected[i]].data();
+            time = new Date(val['dateUpload'])
+            time = time.toGMTString();
+            val['dateUpload'] = time
+            ans.push(val);
+        }
+        return ans;
     },
 
     async getRandomPost(cat){
@@ -442,7 +449,7 @@ module.exports = {
 
     async getPostPremiumByTag(key){
         const dataPre = await db.firestore.collection('Post').where('permission', '==', 1).where('listKeyOfTag', 'array-contains', key).limit(10).get();
-        var countPost = 10 - dataPre.docs.length;
+        var countPost = 10 - data.docs.length;
         const dataPost = await db.firestore.collection('Post').where('permission', '==', 0).where('listKeyOfTag', 'array-contains', key).limit(countPost).get();
         var ans = []
         for (let i = 0; i < dataPre.docs.length; i++){

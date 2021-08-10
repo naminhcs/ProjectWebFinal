@@ -18,8 +18,14 @@
         object-fit: cover
     }
 
-    .single-job-items {
-        background: rgb(255, 255, 255);
+    .input-group.md-form.form-sm.form-1 input{
+        border: 1px solid #bdbdbd;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+    #textSearch{
+        display: flex;
+        justify-content: center;
     }
 </style>
 {{/section}}
@@ -52,6 +58,13 @@
     </div>
     <!-- breadcrumb End -->
 
+    <!-- Search bar -->
+    <form id = "textSearch" >
+        <input placeholder="Nhập nội dung tìm kiếm" style="width: 50%;" value="">
+        <button class="genric-btn primary-border radius" type="submit" >SEARCH</button>
+    </form>
+
+    <!-- End Search-->
     <!-- Top Posts Start -->
     <div class="top-post-area">
         <div class="container">

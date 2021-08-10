@@ -20,11 +20,14 @@ module.exports = {
 
     async getUserByID(userID){
         var data = await db.firestore.collection('User').doc(userID).get();
+        var val;
         if (data.empty){
             return "User not found"
         } else{
-            return data.data()
+            val = data.data()
+            val['id'] = data.id
         }
+        return val;
     },
 
     async getUserByUserName(userName){
@@ -32,11 +35,12 @@ module.exports = {
         if (data.empty){
             return null;
         }
-        var user;
+        var val;
         data.forEach(doc =>{
-            user = doc.data();
+            val = doc.data()
+            val['id'] = doc.id
         })
-        return user;
+        return val;
     },
 
     async getUserByNickName(nickName){
@@ -56,12 +60,14 @@ module.exports = {
         if (data.empty){
             return null;
         }
-        var user;
+        var val;
         data.forEach(doc =>{
-            user = doc.data();
+            val = doc.data()
+            val['id'] = doc.id
         })
-        return user;
+        return val;
     },
+
     async addUser(user){
         await db.firestore.collection('User').doc().set(user);
         return "ok"

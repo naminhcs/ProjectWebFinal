@@ -100,7 +100,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     })
     return;
   }
-
+  console.log(user)
   const ret = bcrypt.compareSync(req.body.password, user.password);
   if (ret === true) {
     if (user.confirmation === false) {
@@ -113,9 +113,9 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     const d = new Date();
     var isPremium = 0;
     if (user.dayEndPremium > d.getTime()) isPremium = 1;
-
+    console.log('user', user.dayEndPremium, isPremium)
     req.session.data = {
-      // id = user.id,
+      id : user.id,
       userName: user.userName,
       permission: user.permission,
       premium: isPremium,
@@ -128,6 +128,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       profilePicture: user.profilePicture,
     }
 
+    console.log(req.session.data)
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
@@ -152,7 +153,6 @@ router.post('/logout', auth.isLogin, async function (req, res) {
   req.session.data = null;
   res.locals.auth = false;
   res.locals.dataUser = null;
-
   // get previous url
   const url = req.headers.referer || '/';
   res.redirect(url)

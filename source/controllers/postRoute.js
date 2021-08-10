@@ -42,7 +42,7 @@ const ALGOLIA_SEARCH_KEY = '322bd2d06b1c4b6cb37e4b1c478260b7'
 router.get('/', async function (req, res) {
     id = req.query.id
     var premium;
-    if (typeof (req.session.data) === 'undefined' || typeof (req.session.data) === 'null'){
+    if (typeof (req.session.data) === 'undefined' || req.session.data === null){
         premium = 0;
     } else premium = req.session.data.premium;
     var data = await postModel.getPostByID(id, premium);
@@ -51,24 +51,22 @@ router.get('/', async function (req, res) {
         return;
     }
     var postRelevant = await postModel.getRandomPostByCat2(data['keyCat2'])
-    res.send(postRelevant);
-    return;
-    // res.render('posts/post-detail', {
-    //     post: data,
-
-    // })
+    res.render('posts/post-detail', {
+        post: data,
+        relevant: postRelevant
+    })
 })
 
 router.get('/testing', async function (req, res){
-    const textQuery = req.query.text;
-    console.log(textQuery)
-    var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
-    var index = client.initIndex('Post');
+//     const textQuery = req.query.text;
+//     console.log(textQuery)
+//     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
+//     var index = client.initIndex('Post');
 
-  // Perform an Algolia search:
-  // https://www.algolia.com/doc/api-reference/api-methods/search/
-    var ans = await index.search(textQuery);
-    res.send(ans);
+//   // Perform an Algolia search:
+//   // https://www.algolia.com/doc/api-reference/api-methods/search/
+//     var ans = await index.search(textQuery);
+    res.render('search/categories')
 })
 
 module.exports = router;

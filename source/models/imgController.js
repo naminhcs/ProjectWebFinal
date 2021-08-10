@@ -19,7 +19,7 @@ module.exports = {
         var result = 'err'
         storageRef.put(file.buffer, {
             contentType: file.mimetype
-        }).then(() => storageRef.getDownloadURL()).then(result = async function(url){
+        }).then(() => storageRef.getDownloadURL()).then(async function(url){
             if (type === 'User')
                 await db.firestore.collection(type).doc(id).update({profilePicture : url});
             else

@@ -117,13 +117,8 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     req.session.data = {
       // id = user.id,
       userName: user.userName,
-<<<<<<< HEAD
       permission: user.permission,
       premium: isPremium,
-=======
-      permission: user.permission, //phan he user
-      isPremium: isPremium, //co premium hay ko
->>>>>>> 0b71cb353ffe52bf954b1cb5fae93ca4f137dc7e
       dayEndPremium: user.dayEndPremium,
       nameOfUser: user.nameOfUser,
       gmail: user.gmail,

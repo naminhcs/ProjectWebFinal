@@ -178,6 +178,27 @@ module.exports = {
         }
     },
 
+// -------------------------------------------------GET AMOUNT Post ----------------------------------------------------------------------------------------------------------------------------
+    async getAmountPostPremiumByCat(cat){
+        var data = await db.firestore.collection('CountPremium').where('key', '==', cat).get()
+        if (data.empty){
+            return null
+        } else {
+            return data.docs[0].data().amount
+        }
+    },
+
+    async getAmountPostByCat(cat){
+        var data = await db.firestore.collection('Count').where('key', '==', cat).get()
+        if (data.empty){
+            return null
+        } else {
+            return data.docs[0].data().amount
+        }
+    },
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // -------------------------------------------------------GET post with permission = 0 --------------------------------------------------------------------------------------------
     async getPostByCat2(cat2, page){
         page = (page - 1) * 10;

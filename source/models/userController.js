@@ -25,7 +25,7 @@ module.exports = {
             return "User not found"
         } else{
             val = data.data()
-            val['id'] = data.id
+            val['id'] = userID
         }
         return val;
     },

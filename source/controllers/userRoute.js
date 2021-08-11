@@ -127,8 +127,6 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       phoneNumber: user.phoneNumber,
       profilePicture: user.profilePicture,
     }
-
-    console.log(req.session.data)
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
@@ -240,19 +238,52 @@ router.post('/forget/:token', async function (req, res) {
 })
 
 //--------------------------Profile---------------------------------------------------------
-router.get('/profile', auth.isLogin, function (req, res) {
+router.get('/profile', auth.isLogin, async function (req, res) {
+  var user = await userModel.getUserByID(req.session.data.id)
+
+  var isPremium = 0;
+  const d = new Date()
+  if (d.getTime() < user.dayEndPremium) isPremium = 1;
+
+  req.session.data = {
+    id : user.id,
+    userName: user.userName,
+    permission: user.permission,
+    premium: isPremium,
+    dayEndPremium: user.dayEndPremium,
+    nameOfUser: user.nameOfUser,
+    gmail: user.gmail,
+    dayOfBirth: user.dayOfBirth,
+    nickName: user.nickName,
+    phoneNumber: user.phoneNumber,
+    profilePicture: user.profilePicture,
+  }
+
+  res.locals.dataUser = req.session.data
   // res.send(req.session.data);
   // console.log(res.locals.dataUser)
   res.render('vwAccount/profileUser')
 })
 
+//-------------------------------Update Profile----------------------------------------------------------------
+router.post('/update', async function(req, res){
+  const dataUpdate = {
+    nameOfUser: req.body.nameOfUser,
+    phone: req.body.phone,
+    dayOfBirth: req.body.dayOfBirth,
+    nickName: req.body.nickName
+  }
+  const result = await userModel.updateUserByUserName(req.session.data.userName, dataUpdate)
+  res.send(result)
+})
+
+//-------------------------------------------------------------------------------------------------------------
 
 //--------------------------Change Password in Profile---------------------------------------------------------
-router.get('/change-password', auth.isLogin, async function (req, res) {
-  // res.send(req.session.data);
+router.post('/change-password', auth.isLogin, async function (req, res) {
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
-  const data = await userModel.getUserByID(req.body.id);
+  const data = await userModel.getUserByID(req.session.data.id);
   const ret = bcrypt.compareSync(oldPassword, data.password);
   if (ret === true){
     const password = bcrypt.hashSync(newPassword, 10);
@@ -264,9 +295,12 @@ router.get('/change-password', auth.isLogin, async function (req, res) {
   } else {
     res.send('wrong password');
   }
-  res.render('vwAccount/changeForgetPassword')
 })
 
+
+router.get('/change-password', auth.isLogin, async function(req, res){
+  res.render('vwAccount/changeForgetPassword')
+})
 
 
 //--------------------------Resend Token----------------------------------------------------

@@ -9,9 +9,76 @@ const tag = require('../models/tagModel')
 const userModel = require('../models/userController');
 const postModel = require('../models/postController');
 const tagModel = require('../models/tagController');
+const catModel = require('../models/categoryController');
 
 const router = express.Router();
 router.use(bodyParser.json());
+
+
+//--------------------------Category---------------------------------
+router.get('/view/cat', async function (req, res){
+    const listCat = await catModel.getAllCategory();
+    var data = []
+    for (let key in Object.keys(listCat)){
+        var val = {}
+        var doc = listCat[key]
+        val['adminCat'] = doc.adminCat
+        val['keyCat1'] = doc.keyCat1
+        val['nameCat1'] = doc.nameCat1
+        val['amountPre'] = await postModel.getAmountPostPremiumByCat(doc.keyCat1)
+        val['amountNor'] = await postModel.getAmountPostByCat(doc.keyCat1)
+        val['amountCat2'] = Object.keys(doc.listCat).length
+        data.push(val)
+    }
+    res.send(data)
+})
+
+router.get('/view/cat/:cat1', async function(req, res){
+    const cat1 = req.params.cat1;
+    const listCat = await catModel.getAllCat2ByCat1(cat1)
+    console.log(listCat)
+    var data = []
+    for (let key in Object.keys(listCat)){
+        cat2 = listCat[key]
+        var val = {}
+        val['amountPre'] = await postModel.getAmountPostPremiumByCat(cat2.keyCat2)
+        val['amountNor'] = await postModel.getAmountPostByCat(cat2.keyCat2)
+        console.log(val['amountNor'], val['amountPre'])
+        val['keyCat2'] = cat2.keyCat2
+        val['nameCat2'] = cat2.nameCat2
+        data.push(val)
+    }
+    res.send(data)
+})
+
+router.post('/edit/:cat1', async function (req, res){
+
+//    const result = await editCat1()
+})
+
+router.post('/edit/:cat1/:cat2', async function(req, res){
+
+})
+
+router.post('/del/:cat1', async function (req, res){
+
+})
+
+router.post('/del/:cat1/:cat2', async function(req, res){
+
+})
+
+router.post('/add/:cat1', async function (req, res){
+
+})
+
+router.post('/add/', async function(req, res){
+
+})
+  
+
+
+//--------------------------End category-----------------------------
 
 //--------------------------Tag--------------------------------------
 

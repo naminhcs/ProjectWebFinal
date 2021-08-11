@@ -1,91 +1,98 @@
 {{#section 'css'}}
 <title>Tag</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
 {{#section 'js'}}
 <script>
-	const title1 = 'Tag';const title2 = 'Tag';const title3 = 'Tags';
+	const title1 = 'Tag';const title2 = 'Tag';const title3 = 'Tag';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
-{{/section}}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable();
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
 
+<script>
+  $(function(){
+    $("table tbody tr").dblclick(function(){
+      location.href = "./editpost";
+    });
+  });
+</script>
+<script>
+    $('body').on('click', 'button', function(e) {
+   alert(e.target.id); //dynamicid
+    $(this).hide();
+        $('#done').show();
+
+        var requested_to = e.target.id;
+
+      $.ajax({
+    ....
+      });
+});
+</script>
+{{/section}}
 <main>		
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading" id='title3'>Tags</div>
 					<div class="panel-body">
-						<div class="col-md-12">
-							<!-- <h5>Small</h5>
-							<button type="button" class="btn btn-sm btn-primary">Primary</button>
-							<button type="button" class="btn btn-sm btn-default">Default</button>
-							<button type="button" class="btn btn-sm btn-success">Success</button>
-							<button type="button" class="btn btn-sm btn-info">Info</button>
-							<button type="button" class="btn btn-sm btn-warning">Warning</button>
-							<button type="button" class="btn btn-sm btn-danger">Danger</button>
-							<button type="button" class="btn btn-sm btn-link">Link</button>
-							<br />
-							<br /> -->
-							<!-- <h5>Medium</h5> -->
-							<button type="button" class="btn btn-md btn-primary" onclick="updateTagHeading('Primary')" >Primary</button>
-							<button type="button" class="btn btn-md btn-default" onclick="updateTagHeading('Default')">Default</button>
-							<button type="button" class="btn btn-md btn-success" onclick="updateTagHeading('Success')">Success</button>
-							<button type="button" class="btn btn-md btn-info" onclick="updateTagHeading('Info')">Info</button>
-							<button type="button" class="btn btn-md btn-warning" onclick="updateTagHeading('Warning')">Warning</button>
-							<button type="button" class="btn btn-md btn-danger" onclick="updateTagHeading('Danger')">Danger</button>
-							<!-- <button type="button" class="btn btn-md btn-link">Link</button> -->
-							<br />
-							<br />
-							<!-- <h5>Large</h5>
-							<button type="button" class="btn btn-lg btn-primary">Primary</button>
-							<button type="button" class="btn btn-lg btn-default">Default</button>
-							<button type="button" class="btn btn-lg btn-success">Success</button>
-							<button type="button" class="btn btn-lg btn-info">Info</button>
-							<button type="button" class="btn btn-lg btn-warning">Warning</button>
-							<button type="button" class="btn btn-lg btn-danger">Danger</button>
-							<button type="button" class="btn btn-lg btn-link">Link</button>
-							<br />
-							<br /> -->
-						</div>
+						<table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>col1</th>
+                        <th>col2</th>
+                        <th>col3</th>
+                        <th>col4</th>
+                        <th>col5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {{#each this.db}}
+                        <tr>
+                            <td>{{titlePost}}</td>
+                            <td>{{topicID}}</td>
+                            <td>{{dateUpload}}</td>
+                            <td>{{summary}}</td>
+                            <td>{{permission}}</td>
+                            <th><a href="" class="btn btn-info">Edit</th>
+
+                        </tr>
+                        {{/each}}
+                </tbody>
+        </table>
 					</div>
-				</div><!-- /.panel-->
+				{{!-- </div><!-- /.panel-->
 				
 				
-				<div class="panel panel-default">
-					<div class="panel-heading" id="tag-heading">Primary</div>
-					<div class="panel-body">
-						<div class="list-group">
-							<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-							  <div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">List group item heading</h5>
-								<small>3 days ago</small>
-							  </div>
-							  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-							  <small>Donec id elit non mi porta.</small>
-							</a>
-							<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-							  <div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">List group item heading</h5>
-								<small class="text-muted">3 days ago</small>
-							  </div>
-							  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-							  <small class="text-muted">Donec id elit non mi porta.</small>
-							</a>
-							<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-							  <div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">List group item heading</h5>
-								<small class="text-muted">3 days ago</small>
-							  </div>
-							  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-							  <small class="text-muted">Donec id elit non mi porta.</small>
-							</a>
-						  </div>
-					</div>
+				<div class="panel panel-default"> --}}
+					{{!-- <div class="panel-heading" id="tag-heading"></div> --}}
+					
 				</div><!-- /.panel-->
 			</div><!-- /.col-->
-			<div class="col-sm-12">
-				<p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-			</div>
+			
+        
+            
 		</div><!-- /.row -->
+
+
+
+
+        
 </main>

@@ -18,84 +18,118 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 //--------------------------Tag--------------------------------------
-
-router.get('/', auth.isAdmin, async function(req, res){
-    res.render('/')
+//auth.isAdmin,
+router.get('/',  async function(req, res){
+    res.render('vwAdmin/dashboard',{layout:'admin.hbs'});
 })
 
-router.get('/tag/getalltag', auth.isAdmin, async function(req, res){
-    var data = await tagModel.getAllTag()
-    res.send(data);
+router.get('/tag',  async function(req, res){
+    // var data = await tagModel.getAllTag()
+    // res.send(data);
+    // console.log(data);
+    res.render('vwAdmin/tag',{layout:'admin.hbs'});
 })
 
-router.get('/tag/gettagbyid/:id', auth.isAdmin, async function(req, res){
+router.get('/tag/gettagbyid/:id',  async function(req, res){
+
+
+
     id = req.params.id;
     var data = await tagModel.getTagByID(id)
     res.send(data);
 })
 
-router.get('/tag/edit/:id', auth.isAdmin, async function(req, res){
-    var data = await tagModel.getTagByID(id)
-    res.send(data);
+router.get('/tag/edit/:id',  async function(req, res){
+    id = req.params.id;
+    var data = await tagModel.getTagByID(id);
+    console.log(data);
+    // res.send(data);
+    res.render('vwAdmin/edittag',{layout:'admin.hbs',db:data,id:id});
 })
 
-router.post('/tag/edit/:id', auth.isAdmin, async function(req, res){
+router.post('/tag/edit/:id',  async function(req, res){
     const data = req.body;
-    const result = await tagModel.editTag(data)
-    res.send(result)
+    console.log.data();
+    id = req.params.id;
+    // const result = await tagModel.editTag(data)
+    // res.send(result)
+    var newdir="/admin/tag/view/"+String(id);
+    res.redirect(newdir);
 })
 
-router.get('/tag/add', auth.isAdmin, async function(req, res){
-    res.send('/')
+router.get('/tag/view/:id',  async function(req, res){
+    id = req.params.id;
+    var data = await tagModel.getTagByID(id);
+    console.log(data);
+    // res.send(data);
+    res.render('vwAdmin/viewtag',{layout:'admin.hbs',db:data,id:id});
+})
+router.post('/tag/view/:id',  async function(req, res){
+    const data = req.body;
+    id = req.params.id;
+    // const result = await tagModel.editTag(data)
+    // res.send(result)
+    var newdir="/admin/tag/edit/"+String(id);
+    res.redirect(newdir);
 })
 
-router.post('/tag/add', auth.isAdmin, async function(req, res){
+router.get('/tag/add',  async function(req, res){
+    res.render('vwAdmin/addtag',{layout:'admin.hbs'});
+})
+
+router.post('/tag/add',  async function(req, res){
     const data = req.body;
     const result = await tagModel.addTag(data)
     res.send(result)
 })
 
-router.post('/tag/del', auth.isAdmin, async function(req, res){
+router.post('/tag/del',  async function(req, res){
     id = req.body.id
     const result = await tagModel.delTag(id)
     res.send(result)
 })
 
 //-------------------------User------------------------------------------
-router.get('/user/getalluser', auth.isAdmin, async function(req, res){
-    var data = await userModel.getAllUser()
-    res.send(data);
+router.get('/user',  async function(req, res){
+    // var data = await userModel.getAllUser()
+    // res.send(data);
+    res.render('vwAdmin/usermanagement',{layout:'admin.hbs'});
+
 })
 
-router.get('/user/getuserbyid/:id', auth.isAdmin, async function(req, res){
+router.get('/user/view/:id',  async function(req, res){
     id = req.params.id;
     var data = await userModel.getUserByID(id)
-    res.send(data);
+    console.log(data);
+    res.render('vwAdmin/viewuser',{layout:'admin.hbs',db:data});
+
+    // res.send(data);
+
 })
 
-// router.get('/user/edit/:id', auth.isAdmin, async function(req, res){
+// router.get('/user/edit/:id',  async function(req, res){
 //     id = req.params.id;
 //     var data = await userModel.getUserByID(id)
 //     res.send(data);
 // })
 
-router.post('/user/edit', auth.isAdmin, async function(req, res){
+router.post('/user/edit',  async function(req, res){
     const data = req.body;
     result = await userModel.editUser(data)
     res.send(result);
 })
 
-router.get('/user/add', auth.isAdmin, async function(req, res){
+router.get('/user/add',  async function(req, res){
     res.send('direct')
 })
 
-router.post('/user/add', auth.isAdmin, async function(req, res){
+router.post('/user/add',  async function(req, res){
     const data = req.body;
     result = await userModel.addUser(data)
     res.send(result)
 })
 
-router.post('/user/del', auth.isAdmin, async function(req, res){
+router.post('/user/del',  async function(req, res){
     id = req.body.id
     result = await userModel.delUser(id)
     res.send(result)
@@ -103,24 +137,37 @@ router.post('/user/del', auth.isAdmin, async function(req, res){
 
 
 //-------------------------Post-------------------------------------------
-router.get('/post/getallpost', auth.isAdmin, async function(req, res){
-    var data = await postModel.getAllPost()
-    res.send(data);
+router.get('/post',  async function(req, res){
+    // var data = await postModel.getAllPost()
+    // res.send(data);
+    res.render('vwAdmin/post',{layout:'admin.hbs'});
 })
 
-router.get('/post/getpostbyid/:id', auth.isAdmin, async function(req, res){
+router.get('/post/view/:id',  async function(req, res){
+    id = req.params.id;
+    var data = await postModel.getPostByID(id);
+    // res.send(data);
+    console.log(data);
+    res.render('vwAdmin/viewpost',{layout:'admin.hbs',db: data});
+})
+router.post('/post/view/:id',  async function(req, res){
+    const data = req.body;
+    id = req.params.id;
+    // const result = await tagModel.editTag(data)
+    // res.send(result)
+    var newdir="/admin/post/edit/"+String(id);
+    res.redirect(newdir);
+})
+router.get('/post/edit/:id',  async function(req, res){
     id = req.params.id;
     var data = await postModel.getPostByID(id)
-    res.send(data);
+    // res.send(data);
+    console.log(data);
+    res.render('vwAdmin/editpost',{layout:'admin.hbs',db: data});
+    // res.render('vwAdmin/editpost',{layout:'admin.hbs'});
 })
 
-router.get('/post/edit/:id', auth.isAdmin, async function(req, res){
-    id = req.params.id;
-    var data = await postModel.getPostByID(id)
-    res.send(data);
-})
-
-router.post('/post/edit/:id', auth.isAdmin, async function(req, res){
+router.post('/post/edit/:id',  async function(req, res){
     const id = req.body.id
     var data = req.body;
     delete data['id'] 
@@ -128,20 +175,46 @@ router.post('/post/edit/:id', auth.isAdmin, async function(req, res){
     res.send(result)
 })
 
-router.get('/post/add', auth.isAdmin, async function(req, res){
+router.get('/post/add',  async function(req, res){
     res.send('direct')
 })
 
-router.post('/post/add', auth.isAdmin, async function(req, res){
+router.post('/post/add',  async function(req, res){
     const data = req.body;
     result = await postModel.addPost(data)
     return result;
 })
 
-router.post('/post/del', auth.isAdmin, async function(req, res){
+router.post('/post/del',  async function(req, res){
     const id = req.body.id;
     result = await postModel.delPost(id);
     res.send(result)
 })
+
+//--------------------------------Writer----------------------//
+router.get('/writer/getallpost',  async function(req, res){
+    var data = await postModel.getAllPost()
+    res.send(data);
+})
+router.get('/writer',  function(req, res){
+    
+    res.render('vwWriter/dashboard',{layout:'writer.hbs'});
+})
+router.get('/writer/upload',  function(req, res){
+    res.render('vwWriter/createpost',{layout:'writer.hbs'});
+})
+router.get('/writer/view/:id',  async function(req, res){
+    id = req.params.id;
+    var data = await postModel.getPostByID(id)
+    // res.send(data);
+    console.log(data);
+    res.render('vwWriter/viewpost',{layout:'writer.hbs',db:data});
+})
+//--------------------------------Category--------------------//
+router.get('/category',  async function(req, res){
+
+    res.render('vwAdmin/category',{layout:'admin.hbs'});
+})
+
 
 module.exports = router;

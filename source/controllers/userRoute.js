@@ -268,15 +268,24 @@ router.get('/profile', auth.isLogin, async function (req, res) {
 })
 
 //-------------------------------Update Profile----------------------------------------------------------------
-router.post('/update', async function(req, res){
+router.post('/update-profile', async function(req, res){
   const dataUpdate = {
     nameOfUser: req.body.nameOfUser,
-    phone: req.body.phone,
+    phoneNumber: req.body.phoneNumber,
     dayOfBirth: req.body.dayOfBirth,
     nickName: req.body.nickName
   }
+  console.log(req.body)
   const result = await userModel.updateUserByUserName(req.session.data.userName, dataUpdate)
-  res.send(result)
+
+  req.session.data.nameOfUser = req.body.nameOfUser
+  req.session.data.nameOfUser = req.body.nameOfUser
+  req.session.data.phoneNumber = req.body.phoneNumber
+  req.session.data.dayOfBirth = req.body.dayOfBirth
+  req.session.data.nickName = req.body.nickName
+
+  res.locals.dataUser = req.session.data
+  res.redirect('/user/profile')
 })
 
 //-------------------------------------------------------------------------------------------------------------
@@ -301,7 +310,7 @@ router.post('/change-password', auth.isLogin, async function (req, res) {
 
 
 router.get('/change-password', auth.isLogin, async function(req, res){
-  res.render('vwAccount/changeForgetPassword')
+  res.render('vwAccount/changePassword')
 })
 
 
@@ -344,6 +353,12 @@ router.post('/change-gmail', auth.isLogin, async function (req, res) {
   if (ret === 'false') {
     res.send('wrong password');
     return;
+  }
+
+  isGmailAvailable = await userModel.getUserByGmail(data.gmail)
+  if (isGmailAvailable !== null){
+      res.send('Gmail is available')
+      return;
   }
   const token = generateAccessToken({
     userName: user.userName

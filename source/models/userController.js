@@ -85,6 +85,7 @@ module.exports = {
     },
 
     async updateUserByUserName(userName, userDataUpdate){
+        console.log('userDataUpdate:', userDataUpdate)
         const data = await db.firestore.collection('User').where('userName', '==', userName).get();
         console.log(data.empty)
         if (data.empty){

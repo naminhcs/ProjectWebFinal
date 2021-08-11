@@ -115,7 +115,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     if (user.dayEndPremium > d.getTime()) isPremium = 1;
     console.log('user', user.dayEndPremium, isPremium)
     req.session.data = {
-      id : user.id,
+      id: user.id,
       userName: user.userName,
       permission: user.permission,
       premium: isPremium,
@@ -202,40 +202,42 @@ router.post('/forget', auth.isNotLogin, async function (req, res) {
 
 //----------------------------Change password via token-------------------------------------------
 router.get('/forget/:token', function (req, res) {
-    jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function(err){
-      if (err){
-        res.send("token is expired")
-        return;
-      }
-      res.render('vwAccount/changeForgetPassword')
-    })
+  jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err) {
+    if (err) {
+      res.send("token is expired")
+      return;
+    }
+    res.render('vwAccount/changeForgetPassword')
+  })
 })
 
 router.post('/forget/:token', async function (req, res) {
 
   jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err, decode) {
-      if (err){
-        res.send("token is expired")
-      }
-      const dataNewPassword = req.body;
-      token = req.params.token;
-      isAvailable = await tokenModel.checkTokenIsAvailable(token);
-      console.log(isAvailable)
-      if (isAvailable){
-        res.send('token is unavailable')
-        return;
-      } else{
-        obj = {"token": token};
-        await tokenModel.addToken(obj);
-      }
-      const userName = decode.userName;
-      const hash = bcrypt.hashSync(dataNewPassword.password, 10);
-      var dataChange = {
-        password: hash
-      }
-      userModel.updateUserByUserName(userName, dataChange);
-      res.redirect('/user/login');
+    if (err) {
+      res.send("token is expired")
+    }
+    const dataNewPassword = req.body;
+    token = req.params.token;
+    isAvailable = await tokenModel.checkTokenIsAvailable(token);
+    console.log(isAvailable)
+    if (isAvailable) {
+      res.send('token is unavailable')
       return;
+    } else {
+      obj = {
+        "token": token
+      };
+      await tokenModel.addToken(obj);
+    }
+    const userName = decode.userName;
+    const hash = bcrypt.hashSync(dataNewPassword.password, 10);
+    var dataChange = {
+      password: hash
+    }
+    userModel.updateUserByUserName(userName, dataChange);
+    res.redirect('/user/login');
+    return;
   });
 })
 
@@ -254,7 +256,7 @@ router.get('/change-password', auth.isLogin, async function (req, res) {
   const newPassword = req.body.newPassword;
   const data = await userModel.getUserByID(req.body.id);
   const ret = bcrypt.compareSync(oldPassword, data.password);
-  if (ret === true){
+  if (ret === true) {
     const password = bcrypt.hashSync(newPassword, 10);
     var dataChange = {
       password: password
@@ -266,6 +268,8 @@ router.get('/change-password', auth.isLogin, async function (req, res) {
   }
   res.render('vwAccount/changeForgetPassword')
 })
+
+
 
 
 
@@ -294,13 +298,16 @@ router.post('/resend', async function (req, res) {
 })
 
 //-------------------------Change Gmail--------------------------------------------------------
-
-router.post('/change-gmail', auth.isLogin, async function(req, res){
+router.get('/change-gmail', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/changeGmail')
+})
+router.post('/change-gmail', auth.isLogin, async function (req, res) {
   const data = req.body;
   const userName = req.session.data.userName
   const user = await userModel.getUserByUserName(userName);
   const ret = bcrypt.compareSync(data.password, user.password);
-  if (ret === 'false'){
+  if (ret === 'false') {
     res.send('wrong password');
     return;
   }
@@ -320,8 +327,12 @@ router.post('/change-gmail', auth.isLogin, async function(req, res){
 })
 
 //-------------------------Upgrade account to premium---------------------------------------------
+router.get('/upgrade-to-premium', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/register-premium')
+})
 
-router.post('/upgrade', auth.isLogin, async function(req, res){
+router.post('/upgrade', auth.isLogin, async function (req, res) {
   const data = req.body.days * 24 * 3600 * 1000;
   const d = new Date();
   const now = d.getTime();

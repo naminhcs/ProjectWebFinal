@@ -183,6 +183,16 @@
 </style>
 
 {{/section}}
+{{#section 'js'}}
+<script>
+    $(document).ready(function () {
+        $('#btnAddCmt').click(function () {
+            //alert('ajshakd')
+            $('#frmAddCmt').submit()
+        })
+    });
+</script>
+{{/section}}
 
 <main>
     <!-- breadcrumb Start-->
@@ -298,7 +308,7 @@
         <div class="coments-area pb-80">
             <div class="container">
                 <!-- Form -->
-                <form class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <!-- contact-form -->
                         <div class="form-wrapper pt-20">
@@ -309,22 +319,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <form id="contact-form" action="#" method="POST">
+                            <div>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <form class="col-lg-12" id="frmAddCmt" action="/cmt/add" method="POST">
+
                                         <div class="form-box message-icon mb-15">
-                                            <textarea name="message" id="message" placeholder="Nhập bình luận của bạn"
-                                                style="color: black;"></textarea>
+                                            <textarea name="cmt" id="message" placeholder="Nhập bình luận của bạn"
+                                                style="color: black;text-transform:none"></textarea>
                                         </div>
+                                        <input type="" class="d-none" name="nameOfUser" value="{{dataUser.nameOfUser}}">
+                                        <input type="" class="d-none" name="postID" value="{{post.id}}">
+                                        <input type="" class="d-none" name="userID" value="{{dataUser.id}}">
+
+
                                         <div class="submit-info">
-                                            <button class="submit-btn2" type="submit">Gửi</button>
+                                            <button id="btnAddCmt" class="submit-btn2" type="button">Gửi</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
 
                 <hr>
                 {{!-- <div class="row mt-5">
@@ -348,7 +364,47 @@
                     </div>
                 </div> --}}
                 {{!-- https://www.bootdey.com/snippets/view/bs4-beta-comment-list#html --}}
+                {{#each comments}}
                 <div class="row mt-5">
+                    <div class="col-md-11">
+                        <div class="media g-mb-30 media-comment">
+                            <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
+                                src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                <div class="g-mb-15">
+                                    <h2 class="g-color-gray-dark-v1 mb-0 ">{{nameOfUser}}</h2>
+                                    <span class="g-color-gray-dark-v4" style="font-size: 10pt;">{{dateComment}}</span>
+                                </div>
+
+                                <p>{{cmt}}
+                                </p>
+
+                                <ul class="list-inline d-sm-flex my-0">
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover mr-3" href="#!">
+                                            <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                                            178
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                            34
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-auto">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                                            Reply
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{!-- <div class="row mt-5">
                     <div class="col-md-11">
                         <div class="media g-mb-30 media-comment">
                             <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
@@ -391,7 +447,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> --}}
 
             </div>
         </div>
@@ -411,23 +467,7 @@
             <div class="row justify-content-lg-between">
                 <div class="col-lg-8 col-md-8">
                     <!-- single-job-content -->
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="assets/img/gallery/top-psot1.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <span>Trending</span>
-                                <a href="post_details.html">
-                                    <h4>The pomelo case: scope of plant variety rights in China</h4>
-                                </a>
-                                <p>We present things in a way that isn’t sensational, said Ms. Cham mavanijakul, 20,
-                                    whose family has roots...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{#each baiBaoLienQuan}}
+                    {{#each relevantPost}}
                     <div class="single-job-items mb-30">
 
                         <div class="job-items">

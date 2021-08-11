@@ -55,7 +55,7 @@ module.exports = {
         if (data.empty){
             return "Post cann't found";
         }
-        if (data.data().premium === 1){
+        if (data.data()['permission'] === 1){
             if (premium === 0){
                 return "you need up your account to premium";
             }
@@ -449,7 +449,7 @@ module.exports = {
 
     async getPostPremiumByTag(key){
         const dataPre = await db.firestore.collection('Post').where('permission', '==', 1).where('listKeyOfTag', 'array-contains', key).limit(10).get();
-        var countPost = 10 - data.docs.length;
+        var countPost = 10 - dataPre.docs.length;
         const dataPost = await db.firestore.collection('Post').where('permission', '==', 0).where('listKeyOfTag', 'array-contains', key).limit(countPost).get();
         var ans = []
         for (let i = 0; i < dataPre.docs.length; i++){

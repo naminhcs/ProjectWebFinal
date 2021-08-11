@@ -20,12 +20,12 @@ module.exports = {
 
     async getUserByID(userID){
         var data = await db.firestore.collection('User').doc(userID).get();
-        var val;
+        var val ={};
         if (data.empty){
             return "User not found"
         } else{
             val = data.data()
-            val['id'] = data.id
+            val['id'] = userID
         }
         return val;
     },

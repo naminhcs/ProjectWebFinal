@@ -10,7 +10,6 @@ router.use(bodyParser.json());
 
 router.post('/add', auth.isLogin, async function (req, res) {
     var data = req.body
-    console.log(data)
     const cmt = new comment(data)
     var dataPush = {}
     for (x in cmt) {

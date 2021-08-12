@@ -51,30 +51,67 @@ router.get('/view/cat/:cat1', async function(req, res){
     res.send(data)
 })
 
+router.get('/edit/:cat1', async function(req, res){
+    res.render('')
+})
+
 router.post('/edit/:cat1', async function (req, res){
-    // const cat1 = req.params.cat1
+    const cat1 = req.params.cat1
+    const data = req.body;
+    res.send('done')
     // const result = await catModel.updateCat1(cat1, req.body)
     // return result;
 })
 
-router.post('/edit/:cat1/:cat2', async function(req, res){
+router.get('/edit/:cat1/:cat2', async function(req, res){
+    res.render('')
+})
 
+router.post('/edit/:cat1/:cat2', async function(req, res){
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    console.log(cat1, cat2)
+    const data = req.body
+    res.send('done')
+})
+
+router.get('/del/:cat1', async function(req, res){
+    res.render('')
 })
 
 router.post('/del/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    console.log(cat1)
+})
 
+router.get('/del/:cat1/:cat2', async function(req, res){
+    res.render('')
 })
 
 router.post('/del/:cat1/:cat2', async function(req, res){
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    console.log(cat1, cat2)
+})
 
+router.get('/add/:cat1', async function(req, res){
+    res.render('')
 })
 
 router.post('/add/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    const data = req.body
+    console.log(cat1, data)
+})
 
+
+router.get('/add', async function(req, res){
+    res.render('')
 })
 
 router.post('/add/', async function(req, res){
-
+    const data = req.body
+    console.log(data)
 })
   
 

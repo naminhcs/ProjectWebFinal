@@ -100,7 +100,6 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     })
     return;
   }
-  console.log(user)
   const ret = bcrypt.compareSync(req.body.password, user.password);
   if (ret === true) {
     if (user.confirmation === false) {
@@ -127,6 +126,8 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       phoneNumber: user.phoneNumber,
       profilePicture: user.profilePicture,
     }
+
+    console.log('user when login', req.session.data)
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
@@ -267,7 +268,7 @@ router.get('/profile', auth.isLogin, async function (req, res) {
     phoneNumber: user.phoneNumber,
     profilePicture: user.profilePicture,
   }
-
+  console.log('user when go to profile', req.session.data)
   res.locals.dataUser = req.session.data
   // res.send(req.session.data);
   // console.log(res.locals.dataUser)
@@ -365,7 +366,7 @@ router.post('/change-gmail', auth.isLogin, async function (req, res) {
     return;
   }
 
-  isGmailAvailable = await userModel.getUserByGmail(data.gmail)
+  isGmailAvailable = await userModel.getUserByGmail(data.newGmail)
   if (isGmailAvailable !== null) {
     // res.send('Gmail is available')
     res.locals.errorMessage = 'This gmail is used!'
@@ -384,7 +385,7 @@ router.post('/change-gmail', auth.isLogin, async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption)
-  req.session.successMessage = 'Your gmail haved been changed!';
+  req.session.successMessage = 'Check your new gmail and confirm it to change your gmail';
   res.redirect('/user/profile')
 })
 

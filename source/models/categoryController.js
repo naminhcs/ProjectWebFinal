@@ -46,5 +46,9 @@ module.exports = {
             await db.firestore.collection('CountPremium').where('key', '==', cat1).update({key: data.keyCat1})
             return 'done'
         }
+    },
+
+    async updateCat2(cat2, data){
+        
     }
 }

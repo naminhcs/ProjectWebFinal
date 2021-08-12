@@ -255,6 +255,17 @@
 </script>
 {{/when}}
 
+
+<script>
+    $(document).ready(function () {
+        var successMessage = '{{successMessage}}'
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
+    
+</script>
+
 <main class="p-0">
     <!-- breadcrumb Start-->
     <div class="page-notification">
@@ -290,7 +301,7 @@
                                     {{!-- <img id='imgAva' src="" alt="{{dataUser.userName}}"> --}}
                                     <a id="lightBox01" href="" data-lightbox="image-1"
                                         data-title="{{dataUser.nameOfUser}}"><img id='imgAva' src=""
-                                            alt="{{dataUser.userName}}" style= "object-fit: cover;"></a>
+                                            alt="{{dataUser.userName}}" style="object-fit: cover;"></a>
 
                                 </div>
 

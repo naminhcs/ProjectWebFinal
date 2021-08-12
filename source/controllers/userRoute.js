@@ -139,7 +139,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
   } else {
     // res.send('password incorrect');
     res.render('vwAccount/login', {
-      error: "password is not correct"
+      error: "Password is not correct"
     })
     return;
   }
@@ -243,12 +243,19 @@ router.post('/forget/:token', async function (req, res) {
 router.get('/profile', auth.isLogin, async function (req, res) {
   var user = await userModel.getUserByID(req.session.data.id)
 
+  const successMessage = String(req.session.successMessage);
+  req.session.successMessage = ''
+  res.locals.successMessage = successMessage
+  // console.log('success message 1: ', successMessage)
+  // console.log('success message 2: ', res.locals.successMessage)
+
+
   var isPremium = 0;
   const d = new Date()
   if (d.getTime() < user.dayEndPremium) isPremium = 1;
 
   req.session.data = {
-    id : user.id,
+    id: user.id,
     userName: user.userName,
     permission: user.permission,
     premium: isPremium,
@@ -268,7 +275,7 @@ router.get('/profile', auth.isLogin, async function (req, res) {
 })
 
 //-------------------------------Update Profile----------------------------------------------------------------
-router.post('/update-profile', async function(req, res){
+router.post('/update-profile', async function (req, res) {
   const dataUpdate = {
     nameOfUser: req.body.nameOfUser,
     phoneNumber: req.body.phoneNumber,
@@ -285,10 +292,11 @@ router.post('/update-profile', async function(req, res){
   req.session.data.nickName = req.body.nickName
 
   res.locals.dataUser = req.session.data
+
+  req.session.successMessage = 'Your personal detail haved been updated!'
   res.redirect('/user/profile')
 })
 
-//-------------------------------------------------------------------------------------------------------------
 
 //--------------------------Change Password in Profile---------------------------------------------------------
 router.post('/change-password', auth.isLogin, async function (req, res) {
@@ -302,14 +310,16 @@ router.post('/change-password', auth.isLogin, async function (req, res) {
       password: password
     }
     await userModel.updateUserByUserName(data['userName'], dataChange);
-    res.send('ok')
+    req.session.successMessage = 'Your password haved been changed!'
+    res.redirect('/user/profile')
   } else {
-    res.send('wrong password');
+    res.locals.errorMessage = 'Current password is not correct!'
+    res.render('vwAccount/changePassword')
   }
 })
 
 
-router.get('/change-password', auth.isLogin, async function(req, res){
+router.get('/change-password', auth.isLogin, async function (req, res) {
   res.render('vwAccount/changePassword')
 })
 
@@ -356,9 +366,11 @@ router.post('/change-gmail', auth.isLogin, async function (req, res) {
   }
 
   isGmailAvailable = await userModel.getUserByGmail(data.gmail)
-  if (isGmailAvailable !== null){
-      res.send('Gmail is available')
-      return;
+  if (isGmailAvailable !== null) {
+    // res.send('Gmail is available')
+    res.locals.errorMessage = 'This gmail is used!'
+    res.render('vwAccount/changeGmail')
+    return;
   }
   const token = generateAccessToken({
     userName: user.userName
@@ -372,7 +384,8 @@ router.post('/change-gmail', auth.isLogin, async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption)
-  res.send("ok")
+  req.session.successMessage = 'Your gmail haved been changed!';
+  res.redirect('/user/profile')
 })
 
 //-------------------------Upgrade account to premium---------------------------------------------
@@ -393,6 +406,8 @@ router.post('/upgrade', auth.isLogin, async function (req, res) {
   result = await userModel.updateUserByUserName(req.session.data.userName, updateData)
   req.session.data.dayEndPremium = newTime;
   req.session.data.premium = 1
-  res.send(result)
+  // res.send(result)
+  req.session.successMessage = 'Your account have been upgraded!';
+  res.redirect('/user/profile')
 })
 module.exports = router;

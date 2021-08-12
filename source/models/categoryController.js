@@ -31,5 +31,20 @@ module.exports = {
         }
     },
 
-
+    async updateCat1(cat1, data){
+        const cat = await db.firestore.collection('Category').where('keyCat1', '==', cat1).get();
+        if (cat.empty){
+            return null
+        } else {
+            id = cat.docs[0].id
+            await db.firestore.collection('Category').doc(id).update(data)
+            // update post
+            await db.firestore.collection('Post').where('keyCat1', '==', cat1).update(data)
+            // update count 
+            await db.firestore.collection('Count').where('key', '==', cat1).update({key: data.keyCat1})
+            // update CountPremium
+            await db.firestore.collection('CountPremium').where('key', '==', cat1).update({key: data.keyCat1})
+            return 'done'
+        }
+    }
 }

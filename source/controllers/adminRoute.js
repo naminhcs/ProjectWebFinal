@@ -52,8 +52,9 @@ router.get('/view/cat/:cat1', async function(req, res){
 })
 
 router.post('/edit/:cat1', async function (req, res){
-
-//    const result = await editCat1()
+    // const cat1 = req.params.cat1
+    // const result = await catModel.updateCat1(cat1, req.body)
+    // return result;
 })
 
 router.post('/edit/:cat1/:cat2', async function(req, res){

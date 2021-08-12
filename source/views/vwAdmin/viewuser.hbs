@@ -1,21 +1,11 @@
 {{#section 'css'}}
-<title>User management</title>
+<title>View user</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
 {{#section 'js'}}
-{{!-- Taginput --}}
-{{!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-{{!-- Taginput --}}
- <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
-  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
-  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
-  <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-	const title1 = 'user/view';const title2 = 'User';const title3 = 'User';
+	const title1 = 'view/user';const title2 = 'View user';const title3 = 'View user';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -35,78 +25,70 @@
             });
         });
     </script>
+
 <script>
   $( "input" ).prop( "disabled", true ); //Disable
   $( "select" ).prop( "disabled", true ); //Disable
   $( "textarea" ).prop( "disabled", true ); //Disable
 </script>
-<script>
-    function getcontent(){
-    var content = "<%content%>";
-    var myContent = tinymce.get("myclass mceEditable").setContent(content);
-    }
-    
-</script>
 {{/section}}
 <main>
+
+        
     <form class="form-horizontal">
-    <div class="form-group" style="text-align: center;">
+      <div class="form-group" style="text-align: center;">
+      <img src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e" alt="">
+      </div>
+    <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.nameOfUser}}">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Gmail</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Gmail">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Date Init</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Date Init">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Phone">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Dayofbirth</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">nickname</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="nickname">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Permission</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Permission">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Day Of Birth</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.dayOfBirth}}">
-      </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-danger">Cancel</button>
     </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Nick name</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.nickName}}">
-      </div>
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Gmail</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.gmail}}">
-      </div>
-    </div> 
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Phone number</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.phoneNumber}}">
-      </div>
-    </div> 
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Day init Premium</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.dayInitPremium}}">
-      </div>
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Day end premium</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.dayEndPremium}}">
-      </div>
-    </div>
-    <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Permission</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Title" value="{{this.db.permission}}">
-      </div>
-    </div>
-      <div class="form-group" style="text-align: center;">
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-9">
         
-          {{!-- <a href="./edit" class="btn btn-success">Edit</a>
-          <a href="./viewpost" class="btn btn-danger">Return</a> --}}
-        <a href="" class="btn btn-success">Edit</a>
-          <a href="" class="btn btn-danger">Return</a>
       </div>
-      
-      {{!-- <div id="data-container"></div> --}}
-    </form>
-    
+    </div>
+  </form>
 </main>

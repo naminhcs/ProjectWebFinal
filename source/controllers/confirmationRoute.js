@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userController');
-const user = require('../models/userModel');
+
 const express = require('express');
 const bodyParser = require('body-parser')
-const tokenModel = require('../models/tokenController')
+const tokenModel = require('../models/tokenController');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -25,20 +25,25 @@ router.get('/confirmation/:token', async function(req, res){
             await tokenModel.addToken(obj);
         }
         const userName = decode.userName;
-        const userUpdate = userModel.getUserByUserName(userName);
-        if (userUpdate === null){
-            res.send('user cannot found');
-            res.redirect('/login');
-            return;
-        }
-        if (userUpdate.confirmation === true){
-            res.send('token is unavailable');
-            return;
-        }
-        var userUpdateData = {
-            "confirmation" : true,
+        var userUpdateData = {};
+        const type = req.query.type;
+        if (type === 'confirm-account'){
+            userUpdateData = {
+                'confirmation': true
+            }
+        } else{
+            userUpdateData = {
+                'gmail': req.query.gmail
+            }
+            isGmailAvailable = await userModel.getUserByGmail(req.query.gmail)
+            if (isGmailAvailable !== null){
+                res.send('Gmail is available')
+                return;
+            }
         }
         userModel.updateUserByUserName(userName, userUpdateData);
+        req.session.data.gmail = req.query.gmail
+        res
         res.send('success');
     }) 
 })

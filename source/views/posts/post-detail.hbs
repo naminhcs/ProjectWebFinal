@@ -1,3 +1,199 @@
+{{#section 'css'}}
+<style>
+    img {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .source {
+        display: none;
+    }
+
+    a {
+        color: #212529;
+    }
+
+    .content-post .detail div {
+        text-align: justify;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .imgcaption {
+        text-align: center !important;
+        margin-bottom: 5px;
+    }
+
+    .content-post {
+        width: 100%;
+        padding-right: 50px;
+        padding-left: 50px;
+        margin-right: auto;
+        margin-left: auto
+    }
+
+    @media (min-width:576px) {
+        .content-post {
+            max-width: 540px
+        }
+    }
+
+    @media (min-width:768px) {
+        .content-post {
+            max-width: 720px
+        }
+    }
+
+    @media (min-width:992px) {
+        .content-post {
+            max-width: 1000px
+        }
+    }
+
+    .content-post {
+        background: white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .content-post .ava-post {
+        text-align: center;
+    }
+
+    .title {
+        color: #212529;
+        font-size: 3.6rem;
+        line-height: 130%;
+        padding-top: 10px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .details__author img {
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        margin: 10px;
+
+    }
+
+    .details__author {
+        padding-left: 10px;
+    }
+
+    .date-upload {
+        padding-right: 10px;
+    }
+
+    .list-tag {
+        margin-bottom: 50px !important;
+    }
+
+    .tags {
+        background: rgb(216, 216, 216);
+        padding: 2px;
+        margin-left: 3px;
+        color: black;
+        border: 1px solid rgb(207, 207, 207);
+        box-shadow: 1px 2px rgb(224, 224, 224);
+    }
+
+    #back-top i {
+        color: #FFF;
+    }
+</style>
+
+{{!-- comment's CSS Start--}}
+<style>
+    @media (min-width: 0) {
+        .g-mr-15 {
+            margin-right: 1.07143rem !important;
+        }
+    }
+
+    @media (min-width: 0) {
+        .g-mt-3 {
+            margin-top: 0.21429rem !important;
+        }
+    }
+
+    .g-height-50 {
+        height: 50px;
+    }
+
+    .g-width-50 {
+        width: 50px !important;
+    }
+
+    @media (min-width: 0) {
+        .g-pa-30 {
+            padding: 2.14286rem !important;
+        }
+    }
+
+    .g-bg-secondary {
+        background-color: #fafafa !important;
+    }
+
+    .u-shadow-v18 {
+        box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+    }
+
+    .g-color-gray-dark-v4 {
+        color: #777 !important;
+    }
+
+    .g-font-size-12 {
+        font-size: 0.85714rem !important;
+    }
+
+    .media-comment {
+        margin-top: 20px
+    }
+
+    .rounded-circle {
+        border: #6a6b6d solid 1px;
+    }
+</style>
+{{!-- comment's CSS End--}}
+
+{{!-- 5 bai bao lien quan --}}
+<style>
+    .top-post-area {
+        padding-top: 10px;
+    }
+
+    .tags {
+        background: rgb(216, 216, 216);
+        padding: 2px;
+        margin-left: 3px;
+        color: black;
+        border: 1px solid rgb(207, 207, 207);
+        box-shadow: 1px 2px rgb(224, 224, 224);
+    }
+
+    .company-img img {
+        height: 100%;
+        width: 240px;
+        object-fit: cover
+    }
+
+    .single-job-items {
+        background: rgb(255, 255, 255);
+    }
+</style>
+
+{{/section}}
+{{#section 'js'}}
+<script>
+    $(document).ready(function () {
+        $('#btnAddCmt').click(function () {
+            //alert('ajshakd')
+            $('#frmAddCmt').submit()
+        })
+    });
+</script>
+{{/section}}
+
 <main>
     <!-- breadcrumb Start-->
     <div class="page-notification">
@@ -7,8 +203,9 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Category</a></li>
-                            <li class="breadcrumb-item"><a href="#">Post details</a></li>
+                            <li class="breadcrumb-item"><a href="/cat/{{post.keyCat1}}">{{post.nameCat1}}</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="/cat/{{post.keyCat1}}/{{post.keyCat2}}">{{post.nameCat2}}</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -16,199 +213,326 @@
         </div>
     </div>
     <!-- breadcrumb End -->
+
+    <!-- processing 2 arrays (choose 1 on 2 following way) -->
+    <!--
+    <div>
+        {{#each post.keyTags}}
+        {{.}} {{lookup ../post.nameTags @index}}
+        {{/each}}
+    </div>
+    <hr>
+    <div>
+        {{#each post.arr.keyTags}}
+        {{.}} {{lookup ../post.arr.nameTags @index}}
+        {{/each}}
+    </div>
+    -->
+
     <!-- Post Details Stat -->
-    <div class="psot-details pb-80">
-        <div class="container">
-            {{{post.content}}}
+    <div class="content-post">
+        {{!-- category name --}}
+        <div class="mr-auto align-self-center pt-3">
+            <b>{{post.nameCat2}}</b>
         </div>
+
+        {{!-- title post --}}
+        <div class="title text-justify">
+            {{post.title}}
+        </div>
+
+
+        <div class="d-flex" style="background: #F7F7F7;">
+            {{!-- writer's nickname --}}
+            <div class="details__author mr-auto d-flex">
+                <div class="align-self-center">
+                    <img src="//static.thanhnien.vn/v3/App_Themes/img/no-ava.png">
+                </div>
+                <div class="align-self-center">
+                    <h4> {{post.nickName}}</h4>
+                </div>
+            </div>
+            {{!-- public date --}}
+            <div class="date-upload align-self-center">
+                {{post.dateUpload}}
+            </div>
+        </div>
+
+        <div class="ava-post">
+            <img src="{{post.urlPic}}" alt="">
+            <div class="pswp-content__caption">
+                <div class="imgcaption">
+                    <p> Ảnh đại diện bài viêt </p>
+                </div>
+            </div>
+        </div>
+
+        {{!-- data from DB Start --}}
+        {{{post.content}}}
+        {{!-- data from DB End --}}
+
+
+        <hr>
+
+        {{!-- list tags --}}
+        <div class="list-tag mb-5">
+            <p>Tags</p>
+
+
+            <div>
+                {{#each post.listNameOfTag}}
+                <a href="/tag/{{lookup ../post.listKeyOfTag @index}}" style="overflow-wrap: anywhere;">
+                    <small class="tags">{{.}}</small>
+                </a>
+                {{/each}}
+            </div>
+
+            <!-- 
+            {{#each post.listTag}}
+            {{#when @index 'lt' '4'}}
+            <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
+                <small class="tags">{{../this.name}}</small>
+            </a>
+            {{/when}}
+            {{/each}}
+            -->
+
+        </div>
+        <br>
+
     </div>
     <!-- Post Details End -->
+
     <!--comments Area -->
-    <div class="coments-area pb-80">
-        <div class="container">
-            <div class="row ">
-                <div class="col-xl-12">
-                    <div class="small-tittle mb-30">
-                        <h2>Drop your message</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-11">
-                    <div class="single-comments mb-40">
-                        <div class="comments-items">
-                            <div class="comments-img">
-                                <a href="#"><img src="assets/img/gallery/comment-img1.png" alt=""></a>
-                            </div>
-                            <div class="comments-tittle">
-                                <a href="#">
-                                    <h4>Kristiana</h4>
-                                </a>
-                                <span>2 days ago</span>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-11">
-                    <div class="single-comments mb-30 ml-80">
-                        <div class="comments-items">
-                            <div class="comments-img">
-                                <a href="#"><img src="assets/img/gallery/comment-img2.png" alt=""></a>
-                            </div>
-                            <div class="comments-tittle">
-                                <a href="#">
-                                    <h4>Jonson Alex</h4> <span class="author">Author</span>
-                                </a>
-                                <span>2 days ago</span>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Form -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- contact-form -->
-                    <div class="form-wrapper pt-80">
-                        <div class="row ">
-                            <div class="col-xl-12">
-                                <div class="small-tittle mb-30">
-                                    <h2>Drop your message</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <form id="contact-form" action="#" method="POST">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="form-box user-icon mb-15">
-                                        <input type="text" name="name" placeholder="Enter your name">
+    <div class="content-post mt-5">
+        <div class="coments-area pb-80">
+            <div class="container">
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- contact-form -->
+                        <div class="form-wrapper pt-20">
+                            <div class="row ">
+                                <div class="col-xl-12">
+                                    <div class="small-tittle mb-30">
+                                        <h2>Bình luận</h2>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="form-box email-icon mb-15">
-                                        <input type="text" name="email" placeholder="Enter your email">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="form-box email-icon mb-15">
-                                        <input type="text" name="email" placeholder="Website">
-                                    </div>
-                                </div>
-                                <!-- <div class="col-lg-12 col-md-6 mb-15">
-                                        <div class="select-itms">
-                                            <select name="select" id="select2">
-                                                <option value="">Topic</option>
-                                                <option value="">Topic one</option>
-                                                <option value="">Topic Two</option>
-                                                <option value="">Topic Three</option>
-                                            </select>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <form class="col-lg-12" id="frmAddCmt" action="/cmt/add" method="POST">
+
+                                        <div class="form-box message-icon mb-15">
+                                            <textarea name="cmt" id="message" placeholder="Nhập bình luận của bạn"
+                                                style="color: black;text-transform:none"></textarea>
                                         </div>
-                                    </div> -->
-                                <div class="col-lg-12">
-                                    <div class="form-box message-icon mb-15">
-                                        <textarea name="message" id="message" placeholder="Comment"></textarea>
-                                    </div>
-                                    <div class="submit-info">
-                                        <button class="submit-btn2" type="submit">Leave Comment</button>
-                                    </div>
+                                        <input type="" class="d-none" name="nameOfUser" value="{{dataUser.nameOfUser}}">
+                                        <input type="" class="d-none" name="postID" value="{{post.id}}">
+                                        <input type="" class="d-none" name="userID" value="{{dataUser.id}}">
+
+
+                                        <div class="submit-info">
+                                            <button id="btnAddCmt" class="submit-btn2" type="button">Gửi</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+
+                <hr>
+                {{!-- <div class="row mt-5">
+                    <div class="col-lg-11">
+                        <div class="single-comments mb-40">
+                            <div class="comments-items">
+                                <div class="comments-img">
+                                    <a href="#"><img src="assets/img/gallery/comment-img1.png" alt=""></a>
+                                </div>
+                                <div class="comments-tittle">
+                                    <a href="#">
+                                        <h4>Kristiana</h4>
+                                    </a>
+                                    <span>2 days ago</span>
+                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                                        quia
+                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                {{!-- https://www.bootdey.com/snippets/view/bs4-beta-comment-list#html --}}
+                {{#each comments}}
+                <div class="row mt-5">
+                    <div class="col-md-11">
+                        <div class="media g-mb-30 media-comment">
+                            <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
+                                src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                <div class="g-mb-15">
+                                    <h2 class="g-color-gray-dark-v1 mb-0 ">{{nameOfUser}}</h2>
+                                    <span class="g-color-gray-dark-v4" style="font-size: 10pt;">{{dateComment}}</span>
+                                </div>
+
+                                <p>{{cmt}}
+                                </p>
+
+                                <ul class="list-inline d-sm-flex my-0">
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover mr-3" href="#!">
+                                            <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                                            178
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                            34
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-auto">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                                            Reply
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{!-- <div class="row mt-5">
+                    <div class="col-md-11">
+                        <div class="media g-mb-30 media-comment">
+                            <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
+                                src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+                            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                <div class="g-mb-15">
+                                    <h2 class="g-color-gray-dark-v1 mb-0 ">John Doe</h2>
+                                    <span class="g-color-gray-dark-v4" style="font-size: 10pt;">5 days ago</span>
+                                </div>
+
+                                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                    sollicitudin.
+                                    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce
+                                    condimentum nunc
+                                    ac nisi vulputate fringilla. Donec lacinia congue
+                                    felis in faucibus ras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                                </p>
+
+                                <ul class="list-inline d-sm-flex my-0">
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover mr-3" href="#!">
+                                            <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                                            178
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item g-mr-20">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                            34
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-auto">
+                                        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                            <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
+                                            Reply
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> --}}
+
             </div>
         </div>
     </div>
     <!--comments Area End -->
-    <!-- Latest Posts Area -->
-    <div class="latest-posts pt-80 pb-80">
+
+    <!-- Rlevant Posts Start -->
+    <div class="top-post-area mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-tittle mb-35">
-                        <h2>Latest Posts</h2>
+                        <h2>Top Posts</h2>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-baner-nw2 mb-30">
-                        <div class="banner-img-cap2">
-                            <div class="banner-img">
-                                <img src="assets/img/gallery/trend1.png" alt="">
+            <div class="row justify-content-lg-between">
+                <div class="col-lg-8 col-md-8">
+                    <!-- single-job-content -->
+                    {{#each relevantPost}}
+                    <div class="single-job-items mb-30">
+
+                        <div class="job-items">
+                            <div class="company-img">
+                                <a href="/post?id={{id}}"><img src="{{urlPic}}"></a>
                             </div>
-                            <div class="banner-cap2">
-                                <p>Technology</p>
-                                <h3><a href="post-detail">The pomelo case: scope of plant rights in China</a></h3>
-                                <p class="blog-text" style="text-transform: normal !important;">Indie folks start out by
-                                    making something they want to read, that tell stories they want told..</p>
+
+                            <div class="job-tittle">
+
+                                {{#if permission}}
+                                <div class=" d-flex justify-content-start align-items-center mr-5 mb-0 mt-2">
+                                    <i class="fa fa-star" aria-hidden="true" style="color: rgb(210, 175, 38);"></i>
+                                    <span style="color: rgb(210, 175, 38); font-weight:bold; margin:0px">Premium</span>
+                                </div>
+                                {{/if}}
+
+
+                                <div class="d-flex justify-content-between align-items-center mr-5">
+                                    <div class="">
+                                        <a href="/cat/{{keyCat1}}/{{keyCat2}}">
+                                            <p style="text-transform: uppercase;"> {{nameCat2}} </p>
+                                        </a>
+                                    </div>
+                                    <div class="">
+                                        <small>{{dateUpload}}</small>
+                                    </div>
+                                </div>
+
+                                <a href="/post?id={{id}}">
+                                    <h4 style="margin-bottom: 5px; margin-top:5px;">{{title}}</h4>
+                                </a>
+                                <p> {{summary}} </p>
+                                <div class="mb-5 mt-2">
+                                    <!--
+                                    {{#each listTag}}
+                                    {{#when @index 'lt' '4'}}
+                                    <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
+                                        <small class="tags">{{../this.name}}</small>
+                                    </a>
+                                    {{/when}}
+                                    {{/each}}
+                                    -->
+
+                                    {{#each listNameOfTag}}
+                                    <a href="/tag/{{lookup ../this.listKeyOfTag @index}}"
+                                        style="overflow-wrap: anywhere; display: {{#when @index 'gt' '3'}} none{{/when}}">
+                                        <small class="tags">{{.}}</small>
+                                    </a>
+                                    {{/each}}
+                                </div>
+
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    {{/each}}
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-baner-nw2 mb-30">
-                        <div class="banner-img-cap2">
-                            <div class="banner-img">
-                                <img src="assets/img/gallery/trend2.png" alt="">
-                            </div>
-                            <div class="banner-cap2">
-                                <p>Technology</p>
-                                <h3><a href="post-detail">The pomelo case: scope of plant rights in China</a></h3>
-                                <p class="blog-text" style="text-transform: normal !important;">Indie folks start out by
-                                    making something they want to read, that tell stories they want told..</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-baner-nw2 mb-30">
-                        <div class="banner-img-cap2">
-                            <div class="banner-img">
-                                <img src="assets/img/gallery/trend3.png" alt="">
-                            </div>
-                            <div class="banner-cap2">
-                                <p>Technology</p>
-                                <h3><a href="post-detail">The pomelo case: scope of plant rights in China</a></h3>
-                                <p class="blog-text" style="text-transform: normal !;">Indie folks start out by making
-                                    something they want to read, that tell stories they want told..</p>
-                            </div>
-                        </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="google-add mb-40">
+                        <img src="assets/img/gallery/Ad.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Latest Posts End-->
-    <!-- Want To work -->
-    <section class="wantToWork-area gray-bg ">
-        <div class="container">
-            <div class="wants-wrapper w-padding2">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-xl-6 col-lg-7 col-md-10">
-                        <div class="wantToWork-caption wantToWork-caption2">
-                            <h2>Subscribe for latest updates</h2>
-                            <p>Indie folks start out by making something they want to read, that tell stories they want
-                                told..</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-5 col-lg-5 col-md-12">
-                        <form action="#" class="search-box">
-                            <div class="input-form">
-                                <input type="text" placeholder="Enter your email">
-                            </div>
-                            <div class="search-form">
-                                <a href="#">Subscribe</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Want To work End -->
+    <!-- Top Posts End -->
+
 </main>

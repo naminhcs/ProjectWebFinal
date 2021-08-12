@@ -24,7 +24,34 @@
 </style>
 {{/section}}
 
+{{#section 'js'}}
+<script>
+    var x = +({{ pageCurrent }} || 2);
+    var nPages = 6;
+    
+    {{#each page_numbers}}
+    {{#if @last}}
+    nPages = {{value}}    
+    {{/if}}
+    {{/each}}  
+    
+    var pre = Math.max(x, 2) - 1
+    var next = Math.min(x,nPages-1) + 1
+    $(document).ready(function () {
+        $("#btnPrePage").attr("href", "?page=" + String(pre));
+        $("#btnNextPage").attr("href", "?page=" + String(next));
+
+    });
+
+
+
+</script>
+{{/section}}
+
+
 <main>
+
+
     <!-- breadcrumb Start-->
     <div class="page-notification">
         <div class="container">
@@ -32,8 +59,18 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            {{#if nameCat1}}
+                            <li class="breadcrumb-item"><a href="/cat/{{data.0.keyCat1}}">{{nameCat1}}</a></li>
+                            {{/if}}
+
+                            {{#if nameCat2}}
+                            <li class="breadcrumb-item"><a href="/cat/{{data.0.keyCat2}}">{{nameCat2}}</a></li>
+                            {{/if}}
+
+                            {{#if isTag}}
+                            <li class="breadcrumb-item"><a href="#!">Tag</a></li>
+                            {{/if}}
                         </ol>
                     </nav>
                 </div>
@@ -65,9 +102,20 @@
                             </div>
 
                             <div class="job-tittle">
-                                <div class="d-flex d-flex justify-content-between align-items-center mr-5">
+
+                                {{#if permission}}
+                                <div class=" d-flex justify-content-start align-items-center mr-5 mb-0 mt-2">
+                                    <i class="fa fa-star" aria-hidden="true" style="color: rgb(210, 175, 38);"></i>
+                                    <span style="color: rgb(210, 175, 38); font-weight:bold; margin:0px">Premium</span>
+                                </div>
+                                {{/if}}
+
+
+                                <div class="d-flex justify-content-between align-items-center mr-5">
                                     <div class="">
-                                        <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><p style="text-transform: uppercase;"> {{nameCat2}}</p></a>
+                                        <a href="/cat/{{keyCat1}}/{{keyCat2}}">
+                                            <p style="text-transform: uppercase;"> {{nameCat2}} </p>
+                                        </a>
                                     </div>
                                     <div class="">
                                         <small>{{dateUpload}}</small>
@@ -79,12 +127,21 @@
                                 </a>
                                 <p> {{summary}} </p>
                                 <div class="mb-5 mt-2">
+                                    <!--
                                     {{#each listTag}}
                                     {{#when @index 'lt' '4'}}
                                     <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
                                         <small class="tags">{{../this.name}}</small>
                                     </a>
                                     {{/when}}
+                                    {{/each}}
+                                    -->
+
+                                    {{#each listNameOfTag}}
+                                    <a href="/tag/{{lookup ../this.listKeyOfTag @index}}"
+                                        style="overflow-wrap: anywhere; display: {{#when @index 'gt' '3'}} none{{/when}}">
+                                        <small class="tags">{{.}}</small>
+                                    </a>
                                     {{/each}}
                                 </div>
 
@@ -108,14 +165,21 @@
                     <div class="single-wrap d-flex justify-content-center">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-start " id="myDIV">
-                                <li class="page-item"><a class="page-link" href=""><span
+                                <li class="page-item"><a id="btnPrePage" class="page-link" href=""><span
                                             class="ti-angle-left"></span></a></li>
 
+
+
                                 {{#each page_numbers}}
+                                {{#if isThreeDots}}
+                                <li class="d-flex align-items-center">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </li>
+                                {{else}}
                                 <li class="page-item {{#if isCurrent}}active{{/if}}">
                                     <a class="page-link" href="?page={{value}}"> {{value}} </a>
                                 </li>
-
+                                {{/if}}
                                 {{/each}}
 
 
@@ -123,7 +187,7 @@
                                 <li class="page-item"><a class="page-link" href="#">02</a></li>
                                 <li class="page-item"><a class="page-link" href="#">03</a></li> --}}
 
-                                <li class="page-item"><a class="page-link" href="#"><span
+                                <li class="page-item"><a id="btnNextPage" class="page-link" href="#"><span
                                             class="ti-angle-right"></span></a></li>
                             </ul>
                         </nav>

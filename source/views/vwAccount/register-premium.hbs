@@ -6,9 +6,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Register</a></li>
-                            <li class="breadcrumb-item"><a href="#">Premium Register</a></li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Upgrade to premium</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -16,61 +15,104 @@
         </div>
     </div>
     <!-- breadcrumb End -->
+
     <div class="register-form-area">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-xl-9">
                     <div class="register-form text-center">
                         <!-- Heading -->
                         <div class="register-heading mb-5">
-                            <span>Register</span>
+                            <span>Upgrade to premium</span>
                             <p>Choose the best one for you</p>
                         </div>
 
                         <!-- Body -->
-
-                        <div class="container">
+                        <div class="container-fluid">
                             <div class="row">
-                                <div class=" col-xl-6">
+
+                                <div class=" col-12 col-md-4">
                                     <div class="card-deck mb-3 text-center" style="height: 285px;">
                                         <div class="card mb-4 shadow-sm">
                                             <div class="card-header">
-                                                <h4 class="my-0 font-weight-bold">Free</h4>
+                                                <h2 class="my-0 font-weight-bold">Week</h2>
                                             </div>
                                             <div class="card-body">
-                                                <h1 class="card-title pricing-card-title">$0 </h1>
-                                                <ul class="list-unstyled mt-3 mb-4 text-left ml-110">
+                                                <h1 class="card-title pricing-card-title">$1 <small class="text-muted">/
+                                                        7days</small></h1>
+                                                <ul class="list-unstyled mt-3 mb-4 text-center">
                                                     <li class="mb-1">Đọc báo thỏa thích</li>
-                                                    <li>Được phép bình luận</li>
+                                                    <li class="mb-1">Được phép bình luận</li>
+                                                    <li class="mb-1"><b> Xem các bài viết Premium </b></li>
+                                                    <li class=""><b> Download ấn bản (.pdf)</b></li>
                                                 </ul>
                                             </div>
+                                            <form id="frm1" action="/user/upgrade" method="POST">
+                                                <input type="" name="days" id="" value="7" style="display: none;">
+                                            </form>
                                             <div class="mb-3">
-                                                <button type="button"
-                                                    class="genric-btn primary-border circle arrow">Sign up
-                                                    for free</button>
+                                                <button type="button" class="genric-btn primary radius"
+                                                    style="width: fit-content;"
+                                                    onclick="javascirpt:$('#frm1').submit()">Get
+                                                    started </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class=" col-xl-6">
+
+
+                                <div class="col-12 col-md-4">
                                     <div class="card-deck mb-3 text-center" style="height: 285px;">
                                         <div class="card mb-4 shadow-sm">
                                             <div class="card-header">
-                                                <h4 class="my-0 font-weight-bold">Pro</h4>
+                                                <h2 class="my-0 font-weight-bold">Month</h2>
                                             </div>
                                             <div class="card-body">
-                                                <h1 class="card-title pricing-card-title">$2 <small class="text-muted">/
-                                                        7days</small></h1>
-                                                <ul class="list-unstyled mt-3 mb-4 text-left ml-110">
+                                                <h1 class="card-title pricing-card-title">$1 <small class="text-muted">/
+                                                        month</small></h1>
+                                                <ul class="list-unstyled mt-3 mb-4 text-center">
                                                     <li class="mb-1">Đọc báo thỏa thích</li>
                                                     <li class="mb-1">Được phép bình luận</li>
-                                                    <li class="mb-1 text-success"><i> Xem các bài viết Premium </i></li>
-                                                    <li class="text-success"><i> Download ấn bản (.pdf)</i></li>
+                                                    <li class="mb-1"><b> Xem các bài viết Premium </b></li>
+                                                    <li class=""><b> Download ấn bản (.pdf)</b></li>
                                                 </ul>
                                             </div>
+                                            <form id="frm2" action="/user/upgrade" method="POST">
+                                                <input type="" name="days" id="" value="30" style="display: none;">
+                                            </form>
                                             <div class="mb-3">
-                                                <button type="button" class="genric-btn primary-border circle arrow"
-                                                    style="width: fit-content;;">Get
+                                                <button type="button" class="genric-btn primary radius"
+                                                    style="width: fit-content;"
+                                                    onclick="javascirpt:$('#frm2').submit()">Get
+                                                    started</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class=" col-12 col-md-4">
+                                    <div class="card-deck mb-3 text-center" style="height: 285px;">
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-header">
+                                                <h2 class="my-0 font-weight-bold">Year</h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <h1 class="card-title pricing-card-title">$1 <small class="text-muted">/
+                                                        Year</small></h1>
+                                                <ul class="list-unstyled mt-3 mb-4 text-center">
+                                                    <li class="mb-1">Đọc báo thỏa thích</li>
+                                                    <li class="mb-1">Được phép bình luận</li>
+                                                    <li class="mb-1"><b> Xem các bài viết Premium </b></li>
+                                                    <li class=""><b> Download ấn bản (.pdf)</b></li>
+                                                </ul>
+                                            </div>
+                                            <form id="frm3" action="/user/upgrade" method="POST">
+                                                <input type="" name="days" id="" value="365" style="display: none;" >
+                                            </form>
+                                            <div class="mb-3">
+                                                <button type="button" class="genric-btn primary radius"
+                                                    style="width: fit-content;"
+                                                    onclick="javascirpt:$('#frm3').submit()">Get
                                                     started</button>
                                             </div>
                                         </div>
@@ -78,7 +120,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

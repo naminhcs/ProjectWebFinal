@@ -289,20 +289,12 @@
                 "nameCat2": "Hộp thư Tư vấn 24/7"
             },
             "5": {
-                "keyCat2": "tra-cuu-diem-thi-2021",
-                "nameCat2": "Tra cứu điểm thi 2021"
-            },
-            "6": {
                 "keyCat2": "tuyen-sinh-2021",
                 "nameCat2": "Tuyển sinh 2021"
             },
-            "7": {
+            "6": {
                 "keyCat2": "suc-khoe-hoc-duong",
                 "nameCat2": "Sức khỏe học đường"
-            },
-            "8": {
-                "keyCat2": "cam-nang-tuyen-sinh-2021",
-                "nameCat2": "Cẩm nang tuyển sinh 2021"
             }
         }
     },

@@ -21,26 +21,8 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            var table = $('#example').DataTable();
-            $('#example tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-        });
-    </script>
-
+  
 <script>
-    function getcontent(){
-    var content = "<%content%>";
-    var myContent = tinymce.get("myclass mceEditable").setContent(content);
-    }
      $( "input" ).prop( "disabled", true ); //Disable
 </script>
 {{/section}}
@@ -65,10 +47,33 @@
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
         
         <button type="submit" href="" class="btn btn-info">Edit</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button>
         {{!-- <a href="" class="btn btn-info">Return</a> --}}
       </div>
       
       {{!-- <div id="data-container"></div> --}}
     </form>
-    
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you want to remove the tag?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>

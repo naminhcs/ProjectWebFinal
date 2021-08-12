@@ -1,119 +1,78 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const moment = require('moment');
 const bodyParser = require('body-parser')
-const nodemailer = require('nodemailer')
-const jwt = require('jsonwebtoken');
-const post = require('../models/postModel')
-const auth = require('../middlewares/authMethod')
+const commentModel = require('../models/commentController')
 
 const postModel = require('../models/postController');
+const {
+    post
+} = require('./userRoute');
 const router = express.Router();
 router.use(bodyParser.json());
 
+//--------------------------------------------------------
+const algoliasearch = require("algoliasearch")
+// const admin = require("firebase-admin");
+const db = require('../db');
+
+const ALGOLIA_APP_ID = 'TO3MDPY1CJ';
+// const ALGOLIA_ADMIN_KEY = '842e8a716cad95953cb173c66c0481a4';
+// const ALGOLIA_INDEX_NAME = 'Post';
+const ALGOLIA_SEARCH_KEY = '322bd2d06b1c4b6cb37e4b1c478260b7'
+
+
+// router.get('/testing', async function (req, res){
+//     var arr = [];
+//     console.log('ok')
+//     db.firestore.collection('Post').get().then((docs) =>{
+//         console.log('done get post')
+//         docs.forEach((doc) => {
+//             let post = doc.data();
+//             post.objectID = doc.id;
+//             arr.push(post)
+//         })
+//         console.log('done here')
+//         var client = algoliasearch.default(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
+//         var index = client.initIndex(ALGOLIA_INDEX_NAME);
+//         index.saveObject(arr, function (err, content){
+//             console.log('come here')
+//             res.status(200).send(content)
+//         })
+//     })
+// })
+
+//-----------------------------------------------------------------
 router.get('/', async function (req, res) {
     id = req.query.id
-    var data = await postModel.getPostByID(id);
-    // res.send(data);
+    var premium;
+    if (typeof (req.session.data) === 'undefined' || req.session.data === null) {
+        premium = 0;
+    } else premium = req.session.data.premium;
+    var data = await postModel.getPostByID(id, premium);
+    if (data === "Post cann't found" || data === "you need up your account to premium") {
+        res.redirect('/notFound')
+        return;
+    }
+
+    var relevantPost = await postModel.getRandomPostByCat2(data['keyCat2'])
+    const comments = await commentModel.getAllComment(id)
+    console.log(comments)
     res.render('posts/post-detail', {
-        post: data
+        post: data,
+        relevantPost: relevantPost,
+        comments: comments,
     })
 })
 
-router.post('/upload', async function (req, res) {
-    const data = req.body;
-    await postModel.addPost(data);
-    res.send('OK')
-})
+router.get('/testing', async function (req, res) {
+    //     const textQuery = req.query.text;
+    //     console.log(textQuery)
+    //     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
+    //     var index = client.initIndex('Post');
 
-// 10 posts
-router.get('/get/topview', async function (req, res) {
-    const data = await postModel.getHighlighByView();
-    res.send(data)
-})
-
-//10 post
-router.get('/get/topnews', async function (req, res) {
-    const data = await postModel.getNew();
-    res.send(data)
-})
-
-//3 post
-router.get('/get/topinweek', async function (req, res) {
-    const d = new Date();
-    const time = d.getTime();
-    console.log(time)
-    const data = await postModel.getPostInWeek(time);
-    res.send(data);
-})
-
-// get 10post/page    (category2)
-router.get('/cat/:cat1/:cat2', async function (req, res) {
-    const cat1 = req.params.cat1
-    const cat2 = req.params.cat2
-    const page = req.query.page || 1
-    console.log(page)
-    var ans = await postModel.getPostByCat2(cat2, page);
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    // res.send(jsonAns)
-    var nPages = 5; // needing to get total pages of cat
-    const page_numbers = [];
-    for (i = 1; i <= nPages; i++) {
-        page_numbers.push({
-            value: i,
-            isCurrent: i === +page
-        });
-    }
-    console.log(page)
-    res.render('posts/categories', {
-        data: jsonAns,
-        empty: jsonAns.length === 0,
-        page_numbers,
-    });
-})
-
-// get 10 posts/page (category1)
-router.get('/cat/:cat1', async function (req, res) {
-    // console.log(res.locals.data)
-    // console.log(req.session.data)
-    
-    const cat1 = req.params.cat1
-    const page = req.query.page || 1
-    var ans = await postModel.getPostByCat1(cat1, page);
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-
-
-    var nPages = 5; // needing to get total pages of cat
-    const page_numbers = [];
-    for (i = 1; i <= nPages; i++) {
-        page_numbers.push({
-            value: i,
-            isCurrent: i === +page
-        });
-    }
-    res.render('posts/categories', {
-        data: jsonAns,
-        empty: jsonAns.length === 0,
-        page_numbers
-    });
-})
-
-// get 10 posts/page for Tag
-router.get('/tag/:key', async function (req, res) {
-    const key = req.params.key;
-    const page = req.query.page || 1
-    var ans = await postModel.getPostByTag(key, page)
-    var stringAns = JSON.stringify(Object.assign({}, ans));
-    var jsonAns = JSON.parse(stringAns)
-    res.send(jsonAns)
-})
-
-router.get('/updatedata', async function (req, res) {
-    console.log('hihihi')
-    result = await postModel.updateData();
-    res.send(result)
+    //   // Perform an Algolia search:
+    //   // https://www.algolia.com/doc/api-reference/api-methods/search/
+    //     var ans = await index.search(textQuery);
+    res.render('search/categories')
 })
 
 module.exports = router;

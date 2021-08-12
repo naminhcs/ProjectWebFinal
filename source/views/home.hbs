@@ -41,7 +41,7 @@
         color: rgb(76, 62, 201) !important
     }
 
-    .card-text{
+    .card-text {
         color: black;
     }
 </style>
@@ -78,7 +78,7 @@
                                     <div class="carousel-caption ">
                                         <a href="/post?id={{id}}">
                                             <h3 class="section-tittle2" style="color: black;"> {{title}} </h3>
-                                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><span>{{nameCat2}} </span></a>
+                                            <a href="/cat/{{keyCat1}}/{{keyCat2}}"><span>{{nameCat2}} </span></a>
                                             <br>
                                             <p class="text-right">{{dateUpload}}</p>
                                         </a>
@@ -104,7 +104,7 @@
 
                 <!-- Bai viet duoc xem nhieu nhat Start -->
                 <hr>
-                <div class="row mb-20" >
+                <div class="row mb-20">
                     <div class="section-tittle section-tittle2 ">
                         <h1> <b style="margin-left: 15px;"> Bài viết xem nhiều nhất </b></h1>
                     </div>
@@ -122,7 +122,8 @@
                                             <b>{{title}}</b>
                                         </p>
                                     </a>
-                                    <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><small class="card-text">{{nameCat2}}</small></a>
+                                    <a href="/cat/{{keyCat1}}/{{keyCat2}}"><small
+                                            class="card-text">{{nameCat2}}</small></a>
                                 </div>
                                 <div class="card-footer text-right">
                                     <small class="text-muted ">{{dateUpload}}</small>
@@ -132,7 +133,7 @@
                     </div>
                     {{/each}}
                 </div>
-               
+
 
             </div>
 
@@ -165,7 +166,8 @@
                                         </div>
 
                                         <div>
-                                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><small class="card-text">{{nameCat2}}</small></a>
+                                            <a href="/cat/{{keyCat1}}/{{keyCat2}}"><small
+                                                    class="card-text">{{nameCat2}}</small></a>
                                         </div>
                                     </div>
                                 </div>
@@ -182,44 +184,49 @@
             <!-- Bai viet moi nhat (tat ca cac chuyen muc) Start-->
         </div>
 
-         <!-- Bai viet duoc xem nhieu nhat End -->
+        <!-- Bai viet duoc xem nhieu nhat End -->
 
 
-                <!-- Bai viet moi nhat theo tung chuyen muc Start -->
-                <hr>
-                <div class="row">
-                    <div class="section-tittle section-tittle2 mb-20">
-                        <h1> <b > Bài viết mới theo từng chuyên mục </b></h1>
-                    </div>
+        <!-- Bai viet moi nhat theo tung chuyen muc Start -->
+        <hr>
+        <div class="row">
+            <div class="section-tittle section-tittle2 mb-20">
+                <h1> <b> Bài viết mới theo từng chuyên mục </b></h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {{#each bai_viet_moi_nhat_theo_tung_chuyen_muc}}
+            {{#each this}}
+
+            <div class="col-12 col-md-4 col-lg-3 mb-20">
+                <div>
+                    <a href="/cat/{{keyCat1}}/{{keyCat2}}">
+                        <h3> <b>{{nameCat2}}</b></h3>
+                    </a>
                 </div>
 
-                <div class="row">
-
-                    {{#each bai_viet_duoc_xem_nhieu_nhat}}
-                    <div class="col-12 col-md-4 col-lg-3 mb-20">
-                        <div>
-                            <a href="/post/cat/{{keyCat1}}/{{keyCat2}}"><h3> <b>{{nameCat2}}</b></h3></a>
+                <div class="card-deck" style="height: 250px;">
+                    <div class="card">
+                        <img src="{{urlPic}}" class="card-img" alt="..." style="height: 120px; object-fit:cover">
+                        <div class="card-body">
+                            <a href="/post?id={{id}}">
+                                <p class="card-text text-justify" style="line-height: 1.2; font-size:11pt">
+                                    <b>{{title}}</b>
+                                </p>
+                            </a>
                         </div>
-
-                        <div class="card-deck" style="height: 250px;">
-                            <div class="card">
-                                <img src="{{urlPic}}" class="card-img" alt="..." style="height: 120px; object-fit:cover">
-                                <div class="card-body">
-                                    <a href="/post?id={{id}}">
-                                        <p class="card-text text-justify" style="line-height: 1.2; font-size:11pt">
-                                            <b>{{title}}</b>
-                                        </p>
-                                    </a>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">{{dateUpload}}</small>
-                                </div>
-                            </div>
+                        <div class="card-footer">
+                            <small class="text-muted">{{dateUpload}}</small>
                         </div>
                     </div>
-                    {{/each}}
                 </div>
-                <!-- Bai viet moi nhat theo tung chuyen muc End -->
+            </div>
+            {{/each}}
+            {{/each}}
+        </div>
+        <!-- Bai viet moi nhat theo tung chuyen muc End -->
 
     </div>
 

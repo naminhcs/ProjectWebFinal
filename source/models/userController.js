@@ -20,11 +20,14 @@ module.exports = {
 
     async getUserByID(userID){
         var data = await db.firestore.collection('User').doc(userID).get();
+        var val ={};
         if (data.empty){
             return "User not found"
         } else{
-            return data.data()
+            val = data.data()
+            val['id'] = userID
         }
+        return val;
     },
 
     async getUserByUserName(userName){
@@ -32,11 +35,12 @@ module.exports = {
         if (data.empty){
             return null;
         }
-        var user;
+        var val;
         data.forEach(doc =>{
-            user = doc.data();
+            val = doc.data()
+            val['id'] = doc.id
         })
-        return user;
+        return val;
     },
 
     async getUserByNickName(nickName){
@@ -56,23 +60,15 @@ module.exports = {
         if (data.empty){
             return null;
         }
-        var user;
+        var val;
         data.forEach(doc =>{
-            user = doc.data();
+            val = doc.data()
+            val['id'] = doc.id
         })
-        return user;
+        return val;
     },
+
     async addUser(user){
-        const checkUserName = await this.getUserByUserName(user.userName);
-        const checkGmail = await this.getUserByGmail(user.gmail);
-        if (checkGmail !== null) {
-            console.log('Gmail is used')
-            return 'Gmail is used'
-        }
-        if (checkUserName !== null) {
-            console.log('Username is used')
-            return 'Username is used'
-        }
         await db.firestore.collection('User').doc().set(user);
         return "ok"
     },
@@ -89,6 +85,7 @@ module.exports = {
     },
 
     async updateUserByUserName(userName, userDataUpdate){
+        console.log('userDataUpdate:', userDataUpdate)
         const data = await db.firestore.collection('User').where('userName', '==', userName).get();
         console.log(data.empty)
         if (data.empty){

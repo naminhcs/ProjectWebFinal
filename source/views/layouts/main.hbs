@@ -33,6 +33,32 @@
         body {
             background: #F7F7F7;
         }
+
+        .icon-contact a:hover {
+            color: #4d67a3;
+        }
+
+        .icon-contact a {
+            color: #072366;
+        }
+
+        footer .name-column {
+            font-size: large !important;
+            color: #072366 !important;
+        }
+
+        footer .product a {
+            color: #072366 !important;
+        }
+
+        footer .product a:hover {
+            color: #072366 !important;
+            font-weight: bold;
+        }
+
+        footer .product p {
+            margin-bottom: 10px;
+        }
     </style>
     {{{_sections.css}}}
 </head>
@@ -103,13 +129,13 @@
 
                                 {{#if auth}}
                                 <nav class="navbar navbar-expand-md navbar-light d-none d-lg-block"
-                                    style="background: white; position:relative; z-index: 2000; ">
+                                    style="position:relative; z-index: 2000; ">
                                     <div id="navbarCollapse" class="">
                                         <ul class="nav navbar-nav ml-auto">
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, {{data.userName}}
+                                                    Hi, {{dataUser.nameOfUser}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
@@ -176,11 +202,11 @@
 
                                         {{#each lcCategory}}
                                         <li class="has-children">
-                                            <a href="/post/cat/{{keyCat1}}" class="nav-link"
+                                            <a href="/cat/{{keyCat1}}" class="nav-link"
                                                 style="text-transform: uppercase;">{{nameCat1}}</a>
                                             <ul class="dropdown">
                                                 {{#each listCat}}
-                                                <li><a href="/post/cat/{{../keyCat1}}/{{keyCat2}}">{{nameCat2}}</a>
+                                                <li><a href="/cat/{{../keyCat1}}/{{keyCat2}}">{{nameCat2}}</a>
                                                 </li>
                                                 {{/each}}
                                             </ul>
@@ -217,13 +243,13 @@
                             <div class="my-auto">
                                 {{#if auth}}
                                 <nav class="navbar navbar-expand-md navbar-light "
-                                    style="background: white; position:relative; z-index: 2000; ">
+                                    style="position:relative; z-index: 2000; ">
                                     <div id="navbarCollapse" class="">
                                         <ul class="nav navbar-nav ml-auto">
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, userName
+                                                    Hi, {{dataUser.nameOfUser}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
@@ -255,7 +281,8 @@
                                 </nav>
                                 {{else}}
                                 <ul>
-                                    <li><a href="/user/login" style="color: rgb(20, 12, 64);">Login</a></li>
+                                    <li><a href="/user/login" style="color: rgb(20, 12, 64);"><button
+                                                class="genric-btn primary-border radius"> Login</button></a></li>
                                 </ul>
                                 {{/if}}
                             </div>
@@ -280,72 +307,134 @@
 
     {{{body}}}
 
+    <div class="container">
+        <hr style=" border-top:black solid 2px; ">
+    </div>
     <footer>
         <!-- Footer Start-->
-        <div class="footer-area footer-padding">
-            <div class="header-area">
-                <div class="main-header ">
-                    <div class="header-top d-lg-block d-none">
-                        <div class="container">
-                            <div class="col-xl-12">
-                                <div class="row d-flex justify-content-between align-items-center">
-                                    <div class="header-info-left d-flex justify-content-center">
-                                        <!-- Social -->
-                                        <div class="header-social">
-                                            <a href="#"><i class="fab fa-twitter"></i></a>
-                                            <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="header-info-mid">
-                                        <!-- logo -->
-                                        <div class="logo">
-                                            <a href="/">
-                                                <h1 style="
-                                            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                                            font-size: 32pt;">
-                                                    Báo DKM</h1>
-                                            </a>
-                                            <!-- <a href="index.html"><img src="/assets/img/logo/logo.png" alt=""></a> -->
-                                        </div>
-                                    </div>
-                                    <div class="header-info-right d-flex align-items-center">
-                                        <ul>
-                                            <li><a href="/about">About</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        {{!-- https://mdbootstrap.com/snippets/standard/mdbootstrap/2885008?view=side --}}
+        <!-- Remove the container if you want to extend the Footer to full width. -->
+        <div class="container my-5">
+
+            <!-- Footer -->
+            <div class="text-center text-lg-start text-white" style="background-color: ">
+                <!-- Section: Social media -->
+                <section class="d-flex justify-content-center p-4" style="background-color:">
+                    <!-- Left -->
+
+                    <div class="icon-contact">
+                        <a href="" class=" me-4 px-3" style="">
+                            <i class="fab fa-facebook-f fa-2x" style=""></i>
+                        </a>
+
+                        <a href="" class=" me-4 px-3">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                        <a href="" class=" me-4 px-3 ">
+                            <i class="fab fa-google fa-2x"></i>
+                        </a>
+                        <a href="" class=" me-4 px-3">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
+                        <a href="" class=" me-4 px-3">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                        <a href="" class=" me-4 px-3">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
                     </div>
-                    <div class="header-bottom header-bottom2 ">
-                        <div class="container-fluid">
-                            <div class="row align-items-center">
-                                <div class="col-12">
-                                    <!-- Main-menu -->
-                                    <div class="main-menu text-center">
-                                        <nav>
-                                            <ul>
-                                                <li><a href="/category">Lifestyle</a></li>
-                                                <li><a href="/category">Business</a></li>
-                                                <li><a href="/category">Fashion</a></li>
-                                                <li><a href="/category">Design</a></li>
-                                                <li><a href="/category">Health</a></li>
-                                                <li><a href="/category">Harmful</a></li>
-                                                <li><a href="/category">Technology</a></li>
-                                                <li><a href="/category">Travel</a></li>
-                                                <li><a href="/category">Food</a></li>
-                                                <li><a href="/category">Creative</a></li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
+                    <!-- Right -->
+                </section>
+                <!-- Section: Social media -->
+
+                <!-- Section: Links  -->
+                <section class="">
+                    <div class="container text-center text-md-start mt-5">
+                        <!-- Grid row -->
+                        <div class="row mt-3">
+                            <!-- Grid column -->
+                            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                                <!-- Content -->
+                                <h6 class="text-uppercase name-column">Company name</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                    style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p style="text-align: justify;">
+                                    Here you can use rows and columns to organize your footer
+                                    content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                                    elit.
+                                </p>
                             </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto  mb-4 product">
+                                <!-- Links -->
+                                <h6 class="text-uppercase name-column">Products</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                    style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p>
+                                    <a href="#!">MDBootstrap</a>
+                                </p>
+                                <p>
+                                    <a href="#!">MDWordPress</a>
+                                </p>
+                                <p>
+                                    <a href="#!">BrandFlow</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Bootstrap Angular</a>
+                                </p>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 product">
+                                <!-- Links -->
+                                <h6 class="text-uppercase name-column">Useful links</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                    style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p>
+                                    <a href="#!">Your Account</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Become an Affiliate</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Shipping Rates</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Help</a>
+                                </p>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                                <!-- Links -->
+                                <h6 class="text-uppercase name-column">Contact</h6>
+                                <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                    style="width: 60px; background-color: #7c4dff; height: 2px" />
+                                <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+                                <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+                                <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                                <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+                            </div>
+                            <!-- Grid column -->
                         </div>
+                        <!-- Grid row -->
                     </div>
-                </div>
+                </section>
+                <!-- Section: Links  -->
+
+                <!-- Copyright -->
+
+                <!-- Copyright -->
             </div>
+            <!-- Footer -->
+
         </div>
+        <!-- End of .container -->
+
         <!-- footer-bottom area -->
         <div class="footer-bottom-area">
             <div class="container">

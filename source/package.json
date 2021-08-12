@@ -20,6 +20,7 @@
   "dependencies": {
     "@firebase/app": "^0.6.28",
     "@google-cloud/storage": "^5.8.5",
+    "algoliasearch": "^4.10.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chai": "^4.3.4",
@@ -33,6 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "nodemailer": "^6.6.2",
     "package-lock.json": "^1.0.0",
     "request": "^2.88.2",

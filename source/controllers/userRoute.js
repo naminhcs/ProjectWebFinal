@@ -55,9 +55,6 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     })
     return;
   }
-
-  const hash = bcrypt.hashSync(data.password, 10);
-  data.password = hash;
   var dataUser = new user(data);
   const dataPush = {};
   for (x in dataUser) {
@@ -67,7 +64,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
   const token = generateAccessToken({
     userName: data.userName
   });
-  const s = `http://localhost:3000/confirmation/${token}`;
+  const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
   const mailOption = {
     from: 'noreply@webapp.com',
@@ -76,12 +73,12 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption)
-  // ---- Add user into database
+  // ---- Add user to database
   await userModel.addUser(dataPush);
 
   //res.send(data);
   const successNotification = 'Check your mail and click link to confirm account!';
-  res.redirect(`./login?successNotification=${successNotification}`);
+  res.redirect(`/login?successNotification=${successNotification}`);
 })
 
 //--------------Login-------------------
@@ -96,13 +93,14 @@ router.get('/login', auth.isNotLogin, function (req, res) {
 
 router.post('/login', auth.isNotLogin, async function (req, res) {
   const user = await userModel.getUserByUserName(req.body.userName);
+  console.log(req.body)
   if (user === null) {
     res.render('vwAccount/login', {
       error: "Username isn't avaiable"
     })
     return;
   }
-
+  console.log(user)
   const ret = bcrypt.compareSync(req.body.password, user.password);
   if (ret === true) {
     if (user.confirmation === false) {
@@ -112,21 +110,31 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       })
       return;
     }
+    const d = new Date();
+    var isPremium = 0;
+    if (user.dayEndPremium > d.getTime()) isPremium = 1;
+    console.log('user', user.dayEndPremium, isPremium)
     req.session.data = {
+      id: user.id,
       userName: user.userName,
       permission: user.permission,
+      premium: isPremium,
       dayEndPremium: user.dayEndPremium,
-      nameOfUser: user.nameOfUser
+      nameOfUser: user.nameOfUser,
+      gmail: user.gmail,
+      dayOfBirth: user.dayOfBirth,
+      nickName: user.nickName,
+      phoneNumber: user.phoneNumber,
+      profilePicture: user.profilePicture,
     }
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
-    res.locals.data = req.session.data;
+    res.locals.dataUser = req.session.data;
 
     console.log(req.session.urlRedirect)
     url = req.session.urlRedirect || '/'
     res.redirect(url)
-    
     return;
   } else {
     // res.send('password incorrect');
@@ -142,8 +150,7 @@ router.post('/logout', auth.isLogin, async function (req, res) {
   req.session.auth = false;
   req.session.data = null;
   res.locals.auth = false;
-  res.locals.data = null;
-
+  res.locals.dataUser = null;
   // get previous url
   const url = req.headers.referer || '/';
   res.redirect(url)
@@ -193,48 +200,121 @@ router.post('/forget', auth.isNotLogin, async function (req, res) {
 
 //----------------------------Change password via token-------------------------------------------
 router.get('/forget/:token', function (req, res) {
-    jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function(err){
-      if (err){
-        res.send("token is expired")
-        return;
-      }
-      res.render('vwAccount/changeForgetPassword')
-    })
+  jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err) {
+    if (err) {
+      res.send("token is expired")
+      return;
+    }
+    res.render('vwAccount/changeForgetPassword')
+  })
 })
 
 router.post('/forget/:token', async function (req, res) {
 
   jwt.verify(req.params.token, process.env.TOKEN_SECRET, async function (err, decode) {
-      if (err){
-        res.send("token is expired")
-      }
-      const dataNewPassword = req.body;
-      token = req.params.token;
-      isAvailable = await tokenModel.checkTokenIsAvailable(token);
-      console.log(isAvailable)
-      if (isAvailable){
-        res.send('token is unavailable')
-        return;
-      } else{
-        obj = {"token": token};
-        await tokenModel.addToken(obj);
-      }
-      const userName = decode.userName;
-      const hash = bcrypt.hashSync(dataNewPassword.password, 10);
-      var dataChange = {
-        password: hash
-      }
-      userModel.updateUserByUserName(userName, dataChange);
-      res.redirect('../login');
+    if (err) {
+      res.send("token is expired")
+    }
+    const dataNewPassword = req.body;
+    token = req.params.token;
+    isAvailable = await tokenModel.checkTokenIsAvailable(token);
+    console.log(isAvailable)
+    if (isAvailable) {
+      res.send('token is unavailable')
       return;
+    } else {
+      obj = {
+        "token": token
+      };
+      await tokenModel.addToken(obj);
+    }
+    const userName = decode.userName;
+    const hash = bcrypt.hashSync(dataNewPassword.password, 10);
+    var dataChange = {
+      password: hash
+    }
+    userModel.updateUserByUserName(userName, dataChange);
+    res.redirect('/user/login');
+    return;
   });
 })
 
 //--------------------------Profile---------------------------------------------------------
-router.get('/profile', auth.isLogin, function (req, res) {
+router.get('/profile', auth.isLogin, async function (req, res) {
+  var user = await userModel.getUserByID(req.session.data.id)
+
+  var isPremium = 0;
+  const d = new Date()
+  if (d.getTime() < user.dayEndPremium) isPremium = 1;
+
+  req.session.data = {
+    id : user.id,
+    userName: user.userName,
+    permission: user.permission,
+    premium: isPremium,
+    dayEndPremium: user.dayEndPremium,
+    nameOfUser: user.nameOfUser,
+    gmail: user.gmail,
+    dayOfBirth: user.dayOfBirth,
+    nickName: user.nickName,
+    phoneNumber: user.phoneNumber,
+    profilePicture: user.profilePicture,
+  }
+
+  res.locals.dataUser = req.session.data
   // res.send(req.session.data);
+  // console.log(res.locals.dataUser)
   res.render('vwAccount/profileUser')
 })
+
+//-------------------------------Update Profile----------------------------------------------------------------
+router.post('/update-profile', async function(req, res){
+  const dataUpdate = {
+    nameOfUser: req.body.nameOfUser,
+    phoneNumber: req.body.phoneNumber,
+    dayOfBirth: req.body.dayOfBirth,
+    nickName: req.body.nickName
+  }
+  console.log(req.body)
+  const result = await userModel.updateUserByUserName(req.session.data.userName, dataUpdate)
+
+  req.session.data.nameOfUser = req.body.nameOfUser
+  req.session.data.nameOfUser = req.body.nameOfUser
+  req.session.data.phoneNumber = req.body.phoneNumber
+  req.session.data.dayOfBirth = req.body.dayOfBirth
+  req.session.data.nickName = req.body.nickName
+
+  res.locals.dataUser = req.session.data
+  res.redirect('/user/profile')
+})
+
+//-------------------------------------------------------------------------------------------------------------
+
+//--------------------------Change Password in Profile---------------------------------------------------------
+router.post('/change-password', auth.isLogin, async function (req, res) {
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const data = await userModel.getUserByID(req.session.data.id);
+  const ret = bcrypt.compareSync(oldPassword, data.password);
+  if (ret === true) {
+    const password = bcrypt.hashSync(newPassword, 10);
+    var dataChange = {
+      password: password
+    }
+    await userModel.updateUserByUserName(data['userName'], dataChange);
+    res.send('ok')
+  } else {
+    res.send('wrong password');
+  }
+})
+
+
+router.get('/change-password', auth.isLogin, async function(req, res){
+  res.render('vwAccount/changePassword')
+})
+
+
+
 
 //--------------------------Resend Token----------------------------------------------------
 router.post('/resend', async function (req, res) {
@@ -248,7 +328,7 @@ router.post('/resend', async function (req, res) {
     userName: user.userName
   });
 
-  const s = `http://localhost:3000/confirmation/${token}`;
+  const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
   const mailOption = {
     from: 'noreply@webapp.com',
@@ -260,12 +340,59 @@ router.post('/resend', async function (req, res) {
   res.send("OK")
 })
 
-module.exports = router;
+//-------------------------Change Gmail--------------------------------------------------------
+router.get('/change-gmail', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/changeGmail')
+})
+router.post('/change-gmail', auth.isLogin, async function (req, res) {
+  const data = req.body;
+  const userName = req.session.data.userName
+  const user = await userModel.getUserByUserName(userName);
+  const ret = bcrypt.compareSync(data.password, user.password);
+  if (ret === 'false') {
+    res.send('wrong password');
+    return;
+  }
 
-// test upload file and load file
-// async function getURL(){
-//   var storageRef = firebase.storage().ref();
-//   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
-//   console.log(urlDownloadLink);
-// }
-// getURL()
+  isGmailAvailable = await userModel.getUserByGmail(data.gmail)
+  if (isGmailAvailable !== null){
+      res.send('Gmail is available')
+      return;
+  }
+  const token = generateAccessToken({
+    userName: user.userName
+  })
+
+  const s = `http://localhost:3000/confirmation/${token}?type=gmail&gmail=${data.newGmail}`;
+  const mailOption = {
+    from: 'noreply@webapp.com',
+    to: data.newGmail,
+    subject: 'Confirm change gmail',
+    text: s
+  }
+  await transporter.sendMail(mailOption)
+  res.send("ok")
+})
+
+//-------------------------Upgrade account to premium---------------------------------------------
+router.get('/upgrade-to-premium', auth.isLogin, function (req, res) {
+  // res.send(req.session.data);
+  res.render('vwAccount/register-premium')
+})
+
+router.post('/upgrade', auth.isLogin, async function (req, res) {
+  const data = req.body.days * 24 * 3600 * 1000;
+  const d = new Date();
+  const now = d.getTime();
+  dayEndPremium = Math.max(req.session.data.dayEndPremium, now)
+  const newTime = dayEndPremium + data;
+  const updateData = {
+    'dayEndPremium': newTime
+  }
+  result = await userModel.updateUserByUserName(req.session.data.userName, updateData)
+  req.session.data.dayEndPremium = newTime;
+  req.session.data.premium = 1
+  res.send(result)
+})
+module.exports = router;

@@ -109,6 +109,7 @@ async function getPostByCat2(cat2, page) {
     var ans = await postModel.getPostByCat2(cat2, page);
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
+    //chưa check null
     const cnt = await postModel.getPage(cat2)
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;

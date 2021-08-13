@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Edit category 1</title>
+<title>View category 1</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
@@ -15,63 +15,13 @@
   <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
   <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-	const title1 = 'edit/cat1';const title2 = 'Edit category 1';const title3 = 'Edit category 1';
+	const title1 = 'view/cat1';const title2 = 'View category 1';const title3 = 'View category 1';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   
-<script>
-     //$( "input" ).prop( "disabled", true ); //Disable
-
-     
-     function addlist() {
-      var mydiv = document.createElement("div");
-      mydiv.className = "form-group";
-      mydiv.style = "";
-      //mydiv.innerText = "12312455";
-
-      var label1 = document.createElement("div");
-      label1.className = "col-sm-2 control-label";
-      label1.innerText = "keycat2";
-      label1.style = "font-weight: bold;";
-
-      var div1 = document.createElement("div");
-      div1.className = "col-sm-3"
-
-      var input1 = document.createElement("input");
-      input1.type = "text";
-      input1.className = "form-control"; 
-      input1.value ="";
-
-      mydiv.appendChild(label1); 
-      div1.appendChild(input1)
-      mydiv.appendChild(div1); 
-          
-    
-
-      var label2 = document.createElement("div");
-      label2.className = "col-sm-2 control-label";
-      label2.innerText = "namecat2";
-      label2.style = "font-weight: bold;";
-
-      var div2 = document.createElement("div");
-      div2.className = "col-sm-3"
-
-      var input2 = document.createElement("input");
-      input2.type = "text";
-      input2.className = "form-control"; 
-      input2.value ="";
-
-      mydiv.appendChild(label2); 
-      div2.appendChild(input2);
-      mydiv.appendChild(div2); 
-      
-
-      document.getElementById("myList").appendChild(mydiv);
-    }
-</script>
 {{/section}}
 <main>
     <form class="form-horizontal" action="" method="POST">
@@ -79,13 +29,13 @@
   <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label" >Key Cat 1</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Key" value="{{this.db.key}}">
+        <input type="text" class="form-control" id="" placeholder="Key" value="{{this.db.key}}" name="">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Nam Cat 1</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Tag name" value="{{this.db.name}}">
+        <input type="text" class="form-control" id="" placeholder="Tag name" value="{{this.db.name}}" name="">
       </div>
     </div>
       </div>
@@ -106,15 +56,27 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-primary" onclick="addlist()">Add new category2</button>
+      
+      {{#each this.db.listCat}}
+          <div class="form-group" style="text-align: center;">
+            <label for="inputPassword3" class="col-sm-2 control-label" >Key cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value={{keyCat2}} >
+            </div>
+            <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listName2[]"value="{{nameCat2}}">
+            </div>
+          </div>
+        {{/each}}
     </div>
       <div class="form-group" style="text-align: center;">
         
           {{!-- <a href="./edit" class="btn btn-success">Edit</a>
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
 
-        <button type="reset" class="btn btn-info" >Reset</button>
-        <button type="button" class="btn btn-success" style="margin-inline: 1%;">Save</button>
+        {{!-- <button type="reset" class="btn btn-info" >Reset</button> --}}
+        <button type="button" class="btn btn-info">Edit</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button>
         
         

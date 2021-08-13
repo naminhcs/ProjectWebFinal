@@ -35,48 +35,94 @@ router.use(bodyParser.json());
 
 // })
 
-// router.get('/view/cat/:cat1', async function(req, res){
-//     const cat1 = req.params.cat1;
-//     const listCat = await catModel.getAllCat2ByCat1(cat1)
-//     console.log(listCat)
-//     var data = []
-//     for (let key in Object.keys(listCat)){
-//         cat2 = listCat[key]
-//         var val = {}
-//         val['amountPre'] = await postModel.getAmountPostPremiumByCat(cat2.keyCat2)
-//         val['amountNor'] = await postModel.getAmountPostByCat(cat2.keyCat2)
-//         console.log(val['amountNor'], val['amountPre'])
-//         val['keyCat2'] = cat2.keyCat2
-//         val['nameCat2'] = cat2.nameCat2
-//         data.push(val)
-//     }
-//     res.send(data)
-// })
+router.get('/edit/:cat1', async function(req, res){
+    const data={
+        "keyCat1": "thoi-su",
+        "nameCat1": "Thời sự",
+        "adminCat": "Anh Minh",
+        "listCat": {
+            "0": {
+                "keyCat2": "phap-luat",
+                "nameCat2": "Pháp luật"
+            },
+            "1": {
+                "keyCat2": "phong-su-dieu-tra",
+                "nameCat2": "Phóng sự / Điều tra"
+            },
+            "2": {
+                "keyCat2": "quoc-phong",
+                "nameCat2": "Quốc phòng"
+            }
+        }
+    };
+    res.render('vwAdmin/editcat1',{layout:'admin.hbs',db:data});
+})
 
-// router.post('/edit/:cat1', async function (req, res){
+router.post('/edit/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    const data = req.body;
+    console.log(data)
+    res.send('done')
+    // const result = await catModel.updateCat1(cat1, req.body)
+    // return result;
+})
 
-// //    const result = await editCat1()
-// })
+router.get('/edit/:cat1/:cat2', async function(req, res){
+    var category=res.locals.lcCategory;
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    const namecat1="123"
+    const namecat2="456"
+    res.render('vwAdmin/editcat2',{layout:'admin.hbs',keycat1:cat1,keycat2:cat2,namecat1:namecat1,namecat2:namecat2});
+})
 
-// router.post('/edit/:cat1/:cat2', async function(req, res){
+router.post('/edit/:cat1/:cat2', async function(req, res){
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    console.log(cat1, cat2)
+    const data = req.body
+    console.log(data);
+    res.send('done')
+})
 
-// })
+router.get('/del/:cat1', async function(req, res){
+    res.render('')
+})
 
-// router.post('/del/:cat1', async function (req, res){
+router.post('/del/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    console.log(cat1)
+})
 
-// })
+router.get('/del/:cat1/:cat2', async function(req, res){
+    res.render('')
+})
 
-// router.post('/del/:cat1/:cat2', async function(req, res){
+router.post('/del/:cat1/:cat2', async function(req, res){
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
+    console.log(cat1, cat2)
+})
 
-// })
+router.get('/add/:cat1', async function(req, res){
+    res.render('')
+})
 
-// router.post('/add/:cat1', async function (req, res){
+router.post('/add/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    const data = req.body
+    console.log(cat1, data)
+})
 
-// })
 
-// router.post('/add/', async function(req, res){
+router.get('/add', async function(req, res){
+    res.render('')
+})
 
-// })
+router.post('/add/', async function(req, res){
+    const data = req.body
+    console.log(data)
+})
   
 
 
@@ -276,7 +322,7 @@ router.use(bodyParser.json());
 // // })
 
 // //--------------------------------muc luc--------------------//
-router.get('/category/select',  async function(req, res){
+router.get('/category',  async function(req, res){
     res.render('vwAdmin/category_select',{layout:'admin.hbs'});
 })
 router.get('/tag',  async function(req, res){
@@ -305,19 +351,19 @@ router.get('/view/user/',  async function(req, res){
     res.render('vwAdmin/viewuser',{layout:'admin.hbs'});
 })
 // //--------------------------------add--------------------//
-router.get('/add/tag',  async function(req, res){
+router.get('/addd/tag',  async function(req, res){
     res.render('vwAdmin/addtag',{layout:'admin.hbs'});
 })
-router.get('/add/cat1',  async function(req, res){
+router.get('/addd/cat1',  async function(req, res){
     res.render('vwAdmin/addcat1',{layout:'admin.hbs'});
 })
-router.get('/add/cat2/',  async function(req, res){
+router.get('/addd/cat2/',  async function(req, res){
     res.render('vwAdmin/addcat2',{layout:'admin.hbs'});
 })
-router.get('/add/post/',  async function(req, res){
+router.get('/addd/post/',  async function(req, res){
     res.render('vwAdmin/addpost',{layout:'admin.hbs'});
 })
-router.get('/add/user/',  async function(req, res){
+router.get('/addd/user/',  async function(req, res){
     res.render('vwAdmin/adduser',{layout:'admin.hbs'});
 })
 
@@ -339,7 +385,9 @@ router.get('/edit/user/',  async function(req, res){
 })
 
 // //--------------------------------del--------------------//
-
+router.get('/table',  async function(req, res){
+    res.render('vwAdmin/table_test',{layout:'admin.hbs'});
+})
 
 
 module.exports = router;

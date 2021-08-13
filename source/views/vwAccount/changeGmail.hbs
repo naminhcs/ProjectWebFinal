@@ -31,7 +31,7 @@
             const noti = $("#txtRequirePassword")
             const pwd = String($("#password").val());
             if (password.length !== 0) {
-                noti.html("");   
+                noti.html("");
             }
 
         })
@@ -81,7 +81,7 @@
             $("#txtRequireGmail").html("Please fill out your Gmail");
             $("#txtRequireGmail").css('color', 'red');
             $('#gmail').focus()
-            {{!-- alert("Your Gmail is not valid") --}}
+            { { !--alert("Your Gmail is not valid") --} }
             e.preventDefault()
             return;
         }
@@ -125,11 +125,18 @@
                                 <span>Change Gmail</span>
                                 <p>Please confirm new gmail after submiting to active it!</p>
                             </div>
+
+                            {{#if errorMessage}}
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{errorMessage}}
+                            </div>
+                            {{/if}}
                             <!-- Single Input Fields -->
                             <div class="input-box">
                                 <div class="single-input-fields">
                                     <div class="d-flex justify-content-between">
-                                        <label>Old password</label>
+                                        <label>Password</label>
                                         <span class="txtRequire" id="txtRequirePassword"></span>
                                     </div>
                                     <input type="password" id="password" name="password" placeholder="*******">

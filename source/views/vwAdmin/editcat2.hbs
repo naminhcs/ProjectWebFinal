@@ -24,20 +24,37 @@
   
 <script>
      //$( "input" ).prop( "disabled", true ); //Disable
+     $( "#keycat1" ).prop( "disabled", true ); //Disable
+     $( "#namecat1" ).prop( "disabled", true ); //Disable
+     
 </script>
 {{/section}}
 <main>
-    <form class="form-horizontal" action="" method="POST">
+  <form action="" method="POST" id="FormEditCat2">
+    <div class="form-horizontal"  style="text-align: center;">
+      <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Key Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="keycat1" placeholder="Key" value="{{this.keycat1}}">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Name Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="namecat1" placeholder="Tag name" value="{{this.namecat1}}">
+      </div>
+    </div>
+    <input type="text" name="oldKeyCat2" value="{{this.keycat2}}" id="" style="display: none;">
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Key Cat 2</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Key" value="{{this.db.key}}">
+        <input type="text" class="form-control" name="keyCat2" id="keycat2" placeholder="Key" value="{{this.keycat2}}">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Name Cat 2</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Tag name" value="{{this.db.name}}">
+        <input type="text" class="form-control" name="nameCat2" id="namecat2" placeholder="Tag name" value="{{this.namecat2}}">
       </div>
     </div>
     
@@ -46,18 +63,13 @@
           {{!-- <a href="./edit" class="btn btn-success">Edit</a>
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
 
-        <button type="reset" class="btn btn-info" >Reset</button>
-        <button type="button" class="btn btn-success" style="margin-inline: 1%;">Save</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button>
-        
-        
-        {{!-- <a href="" class="btn btn-info">Return</a> --}}
+        {{!-- <button type="reset" class="btn btn-info" >Reset</button> --}}
+        <button type="submit" class="btn btn-success">Save</button>
+        {{!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button> --}}
       </div>
-      
-      {{!-- <div id="data-container"></div> --}}
-    </form>
+    </div>
     <!-- Button trigger modal -->
-
+</form>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

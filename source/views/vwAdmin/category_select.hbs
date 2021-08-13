@@ -5,7 +5,7 @@
 
 {{#section 'js'}}
 <script>
-	const title1 = 'Category';const title2 = 'Category';const title3 = 'Category';
+	const title1 = 'Category';const title2 = 'Category';const title3 = 'Lọc';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -46,9 +46,24 @@
       });
 });
 </script>
+<script src="/assets/admin/js/getlistcat2.js"></script>
 <script>
     function myfunction(){
-        
+        var keyCat1=document.getElementById('cat1').value;
+        var keyCat2=document.getElementById('cat2').value;
+       // alert(keyCat1+keyCat2);
+        if(keyCat1=='all'){
+            window.location.href = "/admin/view/cat";
+            return;
+        }
+        else if(keyCat2=='all'){
+            window.location.href ="/admin/view/cat/"+keyCat1;
+            return;
+        }
+        else{
+            window.location.href ="/admin/view/cat/"+keyCat1+"/"+keyCat2;
+            return;
+        }
     }
 </script>
 {{/section}}
@@ -64,7 +79,7 @@
                     
 					<div class="panel-body">
                         <div class="col-lg-2">
-                            <select class="form-control" aria-label="Default select example">
+                            <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
                                 <option value="all" selected>Tất cả</option>
                                 {{#each lcCategory}}
                                     <option value="{{keyCat1}}">{{nameCat1}}</option>
@@ -75,7 +90,6 @@
                         <div class="col-lg-2">
                             <select class="form-control" aria-label="Default select example" id="cat2">
                                 <option value="all" selected>Tất cả</option>
-                                
                             </select>
                         </div>
                         <div class="col-lg-2">

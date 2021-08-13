@@ -34,7 +34,7 @@
 
       var label1 = document.createElement("div");
       label1.className = "col-sm-2 control-label";
-      label1.innerText = "keycat2";
+      label1.innerText = "Key cat 2";
       label1.style = "font-weight: bold;";
 
       var div1 = document.createElement("div");
@@ -44,6 +44,7 @@
       input1.type = "text";
       input1.className = "form-control"; 
       input1.value ="";
+      input1.name="listKey2[]"
 
       mydiv.appendChild(label1); 
       div1.appendChild(input1)
@@ -53,7 +54,7 @@
 
       var label2 = document.createElement("div");
       label2.className = "col-sm-2 control-label";
-      label2.innerText = "namecat2";
+      label2.innerText = "Name cat 2";
       label2.style = "font-weight: bold;";
 
       var div2 = document.createElement("div");
@@ -63,6 +64,7 @@
       input2.type = "text";
       input2.className = "form-control"; 
       input2.value ="";
+      input2.name="listName2[]"
 
       mydiv.appendChild(label2); 
       div2.appendChild(input2);
@@ -75,47 +77,83 @@
 {{/section}}
 <main>
     <form class="form-horizontal" action="" method="POST">
+      
       <div class="form-group" style="text-align: center;">
   <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label" >Key Cat 1</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Key" value="{{this.db.key}}">
+        <input type="text" class="form-control" id=""  value="{{this.db.keyCat1}}" name="keyCat1">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Nam Cat 1</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" placeholder="Tag name" value="{{this.db.name}}">
+        <input type="text" class="form-control" id=""  value="{{this.db.nameCat1}}" name="nameCat1">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Admin</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id=""  value="{{this.db.adminCat}}" name="adminCat1">
       </div>
     </div>
       </div>
   
     
     <div class="form-group" style="text-align: center;">
+        <table class="table table-hover col-sm-10" style="m">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td colspan="2">Larry the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
       <div id='myList' class='list-group' style="text-align: center;">
-        <div class="form-group" style="text-align: center;">
-          <label for="inputPassword3" class="col-sm-2 control-label">keycat2</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3"
-              placeholder="Summary">{{this.db.summary}}</textarea>
+        {{#each this.db.listCat}}
+          <div class="form-group" style="text-align: center;">
+            <label for="inputPassword3" class="col-sm-2 control-label" >Key cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value={{keyCat2}} >
+            </div>
+            <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listName2[]"value="{{nameCat2}}">
+            </div>
           </div>
-          <label for="inputPassword3" class="col-sm-2 control-label">namecat2</label>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3"
-              placeholder="Summary">{{this.db.summary}}</textarea>
-          </div>
-        </div>
+        {{/each}}
       </div>
       <button type="button" class="btn btn-primary" onclick="addlist()">Add new category2</button>
     </div>
-      <div class="form-group" style="text-align: center;">
+      <div class="form-group col-sm-2" style="text-align: center;">
         
           {{!-- <a href="./edit" class="btn btn-success">Edit</a>
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
 
-        <button type="reset" class="btn btn-info" >Reset</button>
-        <button type="button" class="btn btn-success" style="margin-inline: 1%;">Save</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button>
+        {{!-- <button type="reset" class="btn btn-info" >Reset</button> --}}
+        <button type="submit" class="btn btn-success">Save</button>
+        {{!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button> --}}
         
         
         {{!-- <a href="" class="btn btn-info">Return</a> --}}

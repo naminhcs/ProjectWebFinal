@@ -4,11 +4,17 @@ module.exports = function (app) {
         if (typeof (req.session.auth) === 'undefined') {
             req.session.auth = false;
         }
-        
-       const data = await cat.getAllCategory()
+
+        const data = await cat.getAllCategory()
+
         res.locals.auth = req.session.auth;
         res.locals.dataUser = req.session.data;
         res.locals.lcCategory = data
+
+        if (typeof (req.session.successMessage) === 'undefined') {
+            req.session.successMessage = '';
+        }
+        // res.locals.successMessage = ''
         // console.log(data)
         next();
     })

@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Add user</title>
+<title>Edit user</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -13,7 +13,7 @@
 
 {{#section 'js'}}
 <script>
-	const title1 = 'add/user';const title2 = 'Add user';const title3 = 'Add user';
+	const title1 = 'edit/user';const title2 = 'Edit user';const title3 = 'Edit user';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -47,27 +47,27 @@
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">userName</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName">
+        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">password</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="" name="password">
+        <input type="password" class="form-control" id="" name="password" value="this.db.password">
       </div>
     </div>
     
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="nameOfUser">
+        <input type="text" class="form-control" id="" name="nameOfUser" value={{this.db.nameOfUser}}>
       </div>
     </div>
 
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-2 control-label">Gmail</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Gmail">
+        <input type="text" class="form-control" id="inputPassword3" name="gmail" value={{this.db.gmail}}>
       </div>
     </div>
     {{!-- <div class="form-group">
@@ -82,14 +82,14 @@
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" name="phoneNumber">
+        <input type="text" class="form-control" id="inputPassword3" name="phoneNumber" value={{this.db.phoneNumber}}>
       </div>
     </div>
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-2 control-label">Dayofbirth</label>
       <div class="col-sm-9">
          <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" />
+            <input type='text' class="form-control" name="dayOfBirth" value="{{this.db.dayOfBirth}}"/>
             <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -100,14 +100,14 @@
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-2 control-label">nickname</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="inputPassword3" name="nickName">
+        <input type="text" class="form-control" id="inputPassword3" name="nickName" value={{this.db.nickName}}>
       </div>
     </div>
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-2 control-label">permission</label>
       <div class="col-sm-9">
         {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
-        <select class="form-control" aria-label="Default select example" name="permission">
+        <select class="form-control" aria-label="Default select example" name="permission" value={{this.db.permission}}>
             <option value="0" selected>0</option>
             <option value="1" >1</option>
             <option value="2" >2</option>

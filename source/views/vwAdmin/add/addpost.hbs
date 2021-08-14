@@ -174,8 +174,8 @@
       <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
       <div class="col-sm-2">
         <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);" name="permission">
-          <option value="0" selected>Không</option>
-          <option value="1" >Có</option>
+          <option value=0 selected>Không</option>
+          <option value=1 >Có</option>
           
         </select>
       </div>
@@ -251,8 +251,8 @@
     </div>
     <textarea class="tinymce" id="texteditor" name="content"></textarea>
     <div class="form-group" style="text-align: center;">
-      <button type="button" class="btn btn-success" id="btnsubmit" onclick="_submit()"> Save </button>
-      <a href="./viewpost" class="btn btn-danger">Cancel</a>
+      <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit()"> Add </button>
+      {{!-- <a href="./viewpost" class="btn btn-danger">Cancel</a> --}}
     </div>
     {{!-- <div id="data-container"></div> --}}
   </form>

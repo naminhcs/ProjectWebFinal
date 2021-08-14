@@ -18,16 +18,34 @@
         object-fit: cover
     }
 
-    .input-group.md-form.form-sm.form-1 input{
+    .input-group.md-form.form-sm.form-1 input {
         border: 1px solid #bdbdbd;
         border-top-right-radius: 0.25rem;
         border-bottom-right-radius: 0.25rem;
     }
-    #textSearch{
+
+    #textSearch {
         display: flex;
         justify-content: center;
     }
+
+    #inputSearch1 {
+        color: black !important;
+    }
 </style>
+{{/section}}
+
+{{#section 'js'}}
+<script>
+    $(document).ready(function () {
+        $('#btnSearch').click(function () {
+            var inputSearch = $('#inputSearch1').val();
+            var url = '/post/search?key=' + inputSearch;
+            alert(url)
+            window.location = url;
+        })
+    })
+</script>
 {{/section}}
 
 <main>
@@ -59,10 +77,26 @@
     <!-- breadcrumb End -->
 
     <!-- Search bar -->
-    <form id = "textSearch" >
-        <input placeholder="Nhập nội dung tìm kiếm" style="width: 50%;" value="">
-        <button class="genric-btn primary-border radius" type="submit" >SEARCH</button>
-    </form>
+    <div id="textSearch">
+        <input {{#if key}}{{else}} placeholder="Nhập nội dung tìm kiếm" {{/if}} style="width: 50%;"
+            value="{{#if key}}{{key}}{{/if}}" id='inputSearch1'>
+        <button class="genric-btn primary-border radius" type="button" id='btnSearch'>SEARCH</button>
+    </div>
+
+
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-3 col-xl-5 my-auto" >
+                <hr style=" border-top:black solid 2px; ">
+            </div>
+            <div class="col-6 col-xl-2  my-auto">
+                <h2>Kết quả tìm kiếm</h2>
+            </div>
+            <div class="col-3 col-xl-5 my-auto">
+                <hr style=" border-top:black solid 2px; ">
+            </div>
+        </div>
+    </div>
 
     <!-- End Search-->
     <!-- Top Posts Start -->

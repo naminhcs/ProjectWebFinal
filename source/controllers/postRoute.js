@@ -15,30 +15,7 @@ const algoliasearch = require("algoliasearch")
 const db = require('../db');
 
 const ALGOLIA_APP_ID = 'TO3MDPY1CJ';
-// const ALGOLIA_ADMIN_KEY = '842e8a716cad95953cb173c66c0481a4';
-// const ALGOLIA_INDEX_NAME = 'Post';
 const ALGOLIA_SEARCH_KEY = '322bd2d06b1c4b6cb37e4b1c478260b7'
-
-
-// router.get('/testing', async function (req, res){
-//     var arr = [];
-//     console.log('ok')
-//     db.firestore.collection('Post').get().then((docs) =>{
-//         console.log('done get post')
-//         docs.forEach((doc) => {
-//             let post = doc.data();
-//             post.objectID = doc.id;
-//             arr.push(post)
-//         })
-//         console.log('done here')
-//         var client = algoliasearch.default(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-//         var index = client.initIndex(ALGOLIA_INDEX_NAME);
-//         index.saveObject(arr, function (err, content){
-//             console.log('come here')
-//             res.status(200).send(content)
-//         })
-//     })
-// })
 
 //-----------------------------------------------------------------
 router.get('/', async function (req, res) {
@@ -63,16 +40,40 @@ router.get('/', async function (req, res) {
     })
 })
 
-router.get('/testing', async function (req, res) {
-    //     const textQuery = req.query.text;
-    //     console.log(textQuery)
-    //     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
-    //     var index = client.initIndex('Post');
+// router.get('/testing', async function (req, res) {
+//     const textQuery = req.query.text;
+//     console.log(textQuery)
+//     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
+//     var index = client.initIndex('Post');
 
-    //   // Perform an Algolia search:
-    //   // https://www.algolia.com/doc/api-reference/api-methods/search/
-    //     var ans = await index.search(textQuery);
-    res.render('search/categories')
+//     // Perform an Algolia search:
+//     // https://www.algolia.com/doc/api-reference/api-methods/search/
+//     var ans = await index.search(textQuery);
+//     res.render('search/categories')
+// })
+
+
+router.get('/search', async function (req, res) {
+    console.log('Come here')
+    const textQuery = req.query.key;
+    var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
+    var index = client.initIndex('Post');
+    // console.log(textQuery),
+    var ans = await index.search(textQuery);
+    var returnData = ans['hits']
+    for (let i = 0 ; i < returnData.length; i++){
+        delete returnData[i]['_highlightResult']
+        delete returnData[i]['objectID']
+    }
+    // var result = {}
+    // res.render('search/search',{
+    //     key: textQuery,
+    //     data: result,
+    //     isEmpty: result.lenght
+    // })
+    res.send(returnData)
 })
+
+
 
 module.exports = router;

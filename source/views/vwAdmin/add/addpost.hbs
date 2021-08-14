@@ -39,51 +39,151 @@
 
 <script>
   $(document).ready(function () {
-        $("#btnsubmit").click(function () {
-            
+    $("#btnsubmit").click(function () {
 
-  })
+
+    })
   })
 </script>
+
+<script>
+  function xoa_dau(str) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");    
+    str = str.replace(/\s\s+/g, ' ');
+    str = str.replace(/  +/g, ' ');
+
+    return str;
+  }
+  function get_key(str) {
+    newstr = xoa_dau(str);
+    var array = newstr.split(' ');
+    newstr = array.join('-');
+    return newstr;
+  }
+
+
+
+  function splitString(stringToSplit, separator) {
+    const arrayOfStrings = stringToSplit.split(separator)
+
+    console.log('The original string is: ', stringToSplit)
+    console.log('The separator is: ', separator)
+    console.log(arrayOfStrings)
+    arrayOfStrings.forEach(element => {
+      var input1 = document.createElement("input");
+      input1.type = "text";
+      input1.style = "display: none;";
+      element=xoa_dau(element);
+      input1.value = "#"+element;
+      input1.name = "listNameOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input1);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+      var input2 = document.createElement("input");
+      var key=get_key(element);
+      input2.type = "text";
+      input2.style = "display: none;";
+      input2.value = key;
+      input2.name = "listKeyOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input2);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+    });
+
+  }
+
+
+  function _submit() {
+    //alert("123");
+    splitString($("#tags").val(), ',');
+
+    var keyCat1=$( "#cat1" ).val();
+    var nameCat1=$( "#cat1 option:selected" ).text();
+    var keyCat2=$( "#cat2" ).val();
+    var nameCat2=$( "#cat2 option:selected" ).text();
+
+    $("#keyCat1").val(keyCat1);
+    $("#keyCat2").val(keyCat2);
+    $("#nameCat1").val(nameCat1);
+    $("#nameCat2").val(nameCat2);
+
+
+    console.log($("#keyCat1").val(),$("#nameCat1").val(),$("#keyCat2").val(),$("#nameCat2").val());
+
+    $("#addPostForm").submit();
+    //console.log(("#tags").tagsinput('items'));
+  }
+
+  
+</script>
+<script>
+  $(document).ready(function(){
+      $("#tagSubmit").find('input').remove();
+  });
+</script>
+<script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
 {{/section}}
 <main>
-  <form class="form-horizontal" action="" method="POST">
+  <form class="form-horizontal" action="" method="POST" id="addPostForm">
+    <input type="text" name="views" id="" value="0" style="display: none;">
+    {{!-- <input type="text" name="rejectingReason" id="" value="" style="display: none;">
+    <input type="text" name="status" id="" value="" style="display: none;">
+    <input type="text" name="dateUpload"  value="" style="display: none;"> --}}
+
+
+    <input type="text" name="urlPic" id="" value="https://image.thanhnien.vn/2048/uploaded/phanthuong/2021_08_13/titiemoquan12_afpz.jpg" style="display: none;">
+    
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputEmail3" placeholder="Title" value="{{this.db.title}}">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="">
       </div>
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-1 control-label">Topic</label>
-      <div class="col-sm-10">
-        <select class="form-control" aria-label="Default select example">
-          <option selected>{{this.db.nameCat1}}</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-          {{!-- <optgroup label="client1">
-            <option value="">project2.xml</option> --}}
+      <input type="text" name="keyCat1" id="keyCat1" value="" style="display: none;">
+      <input type="text" name="nameCat1" id="nameCat1" value="" style="display: none;">
+      <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
+      <input type="text" name="nameCat2" id="nameCat2" value="" style="display: none;">
+      
+      <label for="inputPassword3" class="col-sm-1 control-label">Topic 1</label>
+      <div class="col-lg-2">
+        
+        <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
+          <option value="all" selected></option>
+          {{#each lcCategory}}
+          <option value="{{keyCat1}}">{{nameCat1}}</option>
+          {{/each}}
         </select>
       </div>
+      <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
+      <div class="col-lg-2">
+        <select class="form-control" aria-label="Default select example" id="cat2">
+        </select>
+      </div>
+
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
-      <div class="col-sm-10">
-        <select class="form-control" aria-label="Default select example">
-          <option selected>{{this.db.nameCat2}}</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-          {{!-- <optgroup label="client1">
-            <option value="">project2.xml</option> --}}
+      <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
+      <div class="col-sm-2">
+        <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);" name="permission">
+          <option value="0" selected>Không</option>
+          <option value="1" >Có</option>
+          
         </select>
       </div>
     </div>
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
       <div class="col-sm-10">
-        <textarea type="text" class="form-control" id="inputPassword3"
+        <textarea name="summary"type="text" class="form-control" id="inputPassword3"
           placeholder="Summary">{{this.db.summary}}</textarea>
       </div>
     </div>
@@ -92,35 +192,12 @@
       <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
       <div class="col-sm-10">
         <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
-        <input type="" name="listNameOfTag[]" id="listOfTag" style="display: none;">
+        <div id='tagSubmit'>
 
-        {{#each this.db.listNameOfTag}}
-        <!--<textarea id="tagName">{{this}}</textarea> -->
-        
+        </div>
 
-        <script>
-          var tags = document.getElementById("tags");
-          var tagName = document.getElementById("tagName");
-          tags.value = tags.value + tagName.value + ", ";
-          tagName.remove();
-        </script>
-
-        <script>
-          var tags = document.getElementById("listOfTag");
-          var tagName = document.getElementById("tagName");
-          tags.value = tags.value + tagName.value + ", ";
-          tagName.remove();
-        </script>
-
-        {{/each}}
-
-        {{!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Tag"> --}}
-        {{!-- <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" /> --}}
       </div>
-      {{!-- <div class="col-sm-0">
-        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">add tag</button>
-      </div>
-      --}}
+
     </div>
 
 
@@ -172,40 +249,11 @@
         </div>
       </div>
     </div>
-
-    {{!-- <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Content">
-    </div> --}}
-    <textarea class="tinymce" id="texteditor">{{this.db.content}}</textarea>
-    {{!--
-    <script>tinymce.get("myTextarea").setContent({{ this.db.content }}"");</script> --}}
-    {{!-- <input type="submit" value="Get Data"> --}}
-    {{!-- <form id="get-data-form" method="post">
-      <textarea class="tinymce" id="texteditor"></textarea>
-      <input type="submit" value="Get Data">
-    </form> --}}
-
-    {{!-- <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">Status</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Status">
-      </div>
-    </div> --}}
-
-
+    <textarea class="tinymce" id="texteditor" name="content"></textarea>
     <div class="form-group" style="text-align: center;">
-      {{!-- <div class="col-sm-offset-2 col-sm-10"> --}}
-        {{!-- <a  href="./viewpost" class="btn btn-success">Save</a>
-         --}}
-         <button type="" class="btn btn-success" id="btnsubmit"> save </button>
-           
-
-
-        <a href="./viewpost" class="btn btn-danger">Cancel</a>
-        {{!--
-      </div> --}}
+      <button type="button" class="btn btn-success" id="btnsubmit" onclick="_submit()"> Save </button>
+      <a href="./viewpost" class="btn btn-danger">Cancel</a>
     </div>
-
     {{!-- <div id="data-container"></div> --}}
   </form>
 

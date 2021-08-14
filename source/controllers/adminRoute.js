@@ -12,6 +12,7 @@ const tagModel = require('../models/tagController');
 const catModel = require('../models/categoryController');
 const { addCat2, delCat2 } = require('../models/categoryController');
 const db = require('../db');
+const { getAmountTag } = require('../models/tagController');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -171,131 +172,226 @@ router.post('/add/cat', async function(req, res){
 
 //--------------------------Tag--------------------------------------
 
-// router.get('/', auth.isAdmin, async function(req, res){
-//     res.render('/')
-// })
 
-// router.get('/tag/getalltag', auth.isAdmin, async function(req, res){
-//     page = req.query.page | 1
-//     var data = await tagModel.getAllTag(page)
-//     res.send(data);
-// })
+router.get('/view/tag', async function(req, res){
+    page = req.query.page || 1
+    var data = await tagModel.getAllTag(page)
+    var cnt = await tagModel.getAmountTag()
+    var nPage = Math.floor(cnt / 15)
+    if (cnt % 15 !== 0) nPage++
+    res.send({
+        data: data,
+        totalPage: nPage
+    });
+})
 
-// router.get('/tag/gettagbyid/:id', auth.isAdmin, async function(req, res){
-//     id = req.params.id;
-//     var data = await tagModel.getTagByID(id)
-//     res.send(data);
-// })
+router.get('/edit/tag/:id', async function(req, res){
+    id = req.params.id;
+    result = await tagModel.getTagByID(id)
+    res.send(result)
+})
+router.post('/edit/tag/:id', async function(req, res){
+    id = req.params.id;
+    result = await tagModel.editTag(id, req.body)
+    res.send(result);
+})
 
-// router.get('/tag/edit/:id', auth.isAdmin, async function(req, res){
-//     var data = await tagModel.getTagByID(id)
-//     res.send(data);
-// })
+router.post('/del/tag/:id', async function(req, res){
+    id = req.params.id;
+    result = await tagModel.delTag(id)
+    res.send(result)
+})
 
-// router.post('/tag/edit/:id', auth.isAdmin, async function(req, res){
-//     const data = req.body;
-//     const result = await tagModel.editTag(data)
-//     res.send(result)
-// })
 
-// router.get('/tag/add', auth.isAdmin, async function(req, res){
-//     res.send('/')
-// })
+router.get('/add/tag', async function(req, res){
+    res.send('/')
+})
 
-// router.post('/tag/add', auth.isAdmin, async function(req, res){
-//     const data = req.body;
-//     const result = await tagModel.addTag(data)
-//     res.send(result)
-// })
+router.post('/add/tag', async function(req, res){
+    result = await tagModel.addTag(req.body)
+    res.send(result)
+})
 
-// router.post('/tag/del', auth.isAdmin, async function(req, res){
-//     id = req.body.id
-//     const result = await tagModel.delTag(id)
-//     res.send(result)
-// })
+//-------------------------User------------------------------------------
+router.get('/view/user/:type', async function(req, res){
+    const type = req.params.type
+    const page = req.query.page || 1
+    var data;
+    if (type === 'all'){
+        data = await userModel.getAllUser(page)
+    } else {
+        data = await userModel.getUserByPermission(type, page)
+    }
+    var cnt = await userModel.countUserByPermission(type)
+    var nPage = Math.floor(cnt / 15)
+    if (cnt % 15 !== 0) nPage++
+    res.send({
+        data: data,
+        totalPage: nPage
+    });
+})
 
-// //-------------------------User------------------------------------------
-// router.get('/user/getalluser', auth.isAdmin, async function(req, res){
-//     var data = await userModel.getAllUser()
-//     res.send(data);
-// })
+router.get('/view/user/:id', async function(req, res){
+    id = req.params.id;
+    var data = await userModel.getUserByID(id)
+    delete data['password']
+    res.send(data);
+})
 
-// router.get('/user/getuserbyid/:id', auth.isAdmin, async function(req, res){
-//     id = req.params.id;
-//     var data = await userModel.getUserByID(id)
-//     res.send(data);
-// })
+router.get('/edit/user/:id', async function(req, res){
+    id = req.params.id;
+    var data = await userModel.getUserByID(id)
+    delete data['password']
+    res.send(data);
+})
 
-// // router.get('/user/edit/:id', auth.isAdmin, async function(req, res){
-// //     id = req.params.id;
-// //     var data = await userModel.getUserByID(id)
-// //     res.send(data);
-// // })
+router.post('/edit/user/:id', async function(req, res){
+    const data = req.body;
+    if (req.body.permission === ''){
+        delete req.body.permission
+    }
+    if (req.body.dayEndPremium === ''){
+        delete req.body.dayEndPremium
+    }
+    console.log(req.body)
+    var user = await userModel.getUserByID(req.params.id)
+    result = await userModel.updateUserByUserName(user.userName, data)
+    res.send(result);
+})
 
-// router.post('/user/edit', auth.isAdmin, async function(req, res){
-//     const data = req.body;
-//     result = await userModel.editUser(data)
-//     res.send(result);
-// })
+router.post('/add/user', auth.isAdmin, async function(req, res){
+    const data = req.body;
+    const checkUserName = await userModel.getUserByUserName(data.userName);
+    const checkGmail = await userModel.getUserByGmail(data.gmail);
 
-// router.get('/user/add', auth.isAdmin, async function(req, res){
-//     res.send('direct')
-// })
+    if (checkGmail !== null) {
+        return 'Gmail is used';
+    }
 
-// router.post('/user/add', auth.isAdmin, async function(req, res){
-//     const data = req.body;
-//     result = await userModel.addUser(data)
-//     res.send(result)
-// })
+    if (checkUserName !== null) {
+        return 'UserName is used';
+    }
+    var dataUser = new user(data);
+    const dataPush = {};
+    for (x in dataUser) {
+        dataPush[x] = dataUser[x];
+    }
+    // Sending Email
+    const token = generateAccessToken({
+        userName: data.userName
+    });
+    const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
-// router.post('/user/del', auth.isAdmin, async function(req, res){
-//     id = req.body.id
-//     result = await userModel.delUser(id)
-//     res.send(result)
-// })
+    const mailOption = {
+        from: 'noreply@webapp.com',
+        to: data.gmail,
+        subject: 'Confirm email',
+        text: s
+    }
+    await transporter.sendMail(mailOption)
+    // ---- Add user to database
+    await userModel.addUser(dataPush);
+    res.send('Check gmail to confirm')
+})
+
+router.post('/del/user/:id', async function(req, res){
+    id = req.body.id
+    result = await userModel.delUser(id)
+    res.send(result)
+})
 
 
 // //-------------------------Post-------------------------------------------
-// router.get('/post/getallpost', auth.isAdmin, async function(req, res){
-//     var data = await postModel.getAllPost()
-//     res.send(data);
-// })
+router.get('/view/post/:cat1', async function(req, res){
+    cat1 = req.params.cat1
+    page = req.query.page | 1
+    const data = await postModel.getPostPremiumByCat1(cat1, page)
+    var obj = []
+    for (let i = 0; i < data.length; i++){
+        var val = data[i]
+        const t = new Date(val.dateUpload)
+        const s = t.toGMTString()
+        var dataPush = {
+            id: val.id,
+            nameCat1: val.nameCat1, 
+            nameCat2: val.nameCat2,
+            title: val.title, 
+            nickName: val.nickName, 
+            dateUpload: s, 
+            view: val.view, 
+            permission: val.permission
+        }
+        obj.push(dataPush)
+    }
+    const cnt = await postModel.getPagePremium(cat1);
+    var nPages = Math.floor(cnt / 10);
+    if (cnt % 10 !== 0) nPages++;
+    res.send({
+        data: obj,
+        totalPage: nPages
+    })
+})
 
-// router.get('/post/getpostbyid/:id', auth.isAdmin, async function(req, res){
-//     id = req.params.id;
-//     var data = await postModel.getPostByID(id)
-//     res.send(data);
-// })
+router.get('/view/post/:cat1/:cat2', async function(req, res){
+    cat1 = req.params.cat1;
+    cat2 = req.params.cat2;
+    page = req.query.page | 1
+    const data = await postModel.getPostPremiumByCat2(cat2, page)
+    var obj = []
+    for (let i = 0; i < data.length; i++){
+        var val = data[i]
+        const t = new Date(val.dateUpload)
+        const s = t.toGMTString()
+        var dataPush = {
+            id: val.id,
+            nameCat1: val.nameCat1, 
+            nameCat2: val.nameCat2,
+            title: val.title, 
+            nickName: val.nickName, 
+            dateUpload: s, 
+            view: val.view, 
+            permission: val.permission
+        }
+        obj.push(dataPush)
+    }
+    const cnt = await postModel.getPagePremium(cat2);
+    var nPages = Math.floor(cnt / 10);
+    if (cnt % 10 !== 0) nPages++;
+    res.send({
+        data: obj,
+        totalPage: nPages
+    })
+})
 
-// router.get('/post/edit/:id', auth.isAdmin, async function(req, res){
-//     id = req.params.id;
-//     var data = await postModel.getPostByID(id)
-//     res.send(data);
-// })
+router.get('/edit/post/:id', async function(req, res){
+    id = req.params.id;
+    var data = await postModel.getPostByID(id)
+    res.send(data);
+})
 
-// router.post('/post/edit/:id', auth.isAdmin, async function(req, res){
-//     const id = req.body.id
-//     var data = req.body;
-//     delete data['id'] 
-//     result = await postModel.editPost(data, id)
-//     res.send(result)
-// })
+router.post('/edit/post/:id', async function(req, res){
+    const id = req.params.id
+    var data = req.body;
+    
+    result = await postModel.editPostForAdmin(id, data)
+    res.send(result)
+})
 
-// router.get('/post/add', auth.isAdmin, async function(req, res){
-//     res.send('direct')
-// })
+router.get('/post/add', async function(req, res){
+    res.send('direct')
+})
 
-// router.post('/post/add', auth.isAdmin, async function(req, res){
-//     const data = req.body;
-//     result = await postModel.addPost(data)
-//     return result;
-// })
+router.post('/add/post', async function(req, res){
+    const data = req.body;
+    result = await postModel.addPost(data)
+    return result;
+})
 
-// router.post('/post/del', auth.isAdmin, async function(req, res){
-//     const id = req.body.id;
-//     result = await postModel.delPost(id);
-//     res.send(result)
-// })
+router.post('/post/del/:id', async function(req, res){
+    const id = req.params.id
+    result = await postModel.delPost(id);
+    res.send(result)
+})
 
 module.exports = router;
 

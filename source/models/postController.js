@@ -608,5 +608,34 @@ module.exports = {
             const id = data.docs[i].id
             await db.firestore.collection('Category').doc(id).update({'adminCat': nickName})
         }
+    },
+
+// --------------------------------------------------------------ADMIN------------------------------------------------------------------------------
+
+    async editPostForAdmin(id, data){
+        const post = await db.firestore.collection('Post').doc(id).get()
+        if (typeof(post.data()) === 'undefined'){
+            return 'post is unavailable'
+        } else {
+            // update count
+            var isPremium = post.data().permission;
+            var keyCat1 = post.data().keyCat1;
+            var keyCat2 = post.data().keyCat2;
+            if (isPremium){
+                await this.updateAmountPost('CountPremium', keyCat1, keyCat2, -1)
+            } else{
+                await this.updateAmountPost('Count', keyCat1, keyCat2, -1)
+            }
+            isPremium = data.permission
+            keyCat1 = data.keyCat1;
+            keyCat2 = data.keyCat2;
+            if (isPremium){
+                await this.updateAmountPost('CountPremium', keyCat1, keyCat2, 1)
+            } else{
+                await this.updateAmountPost('Count', keyCat1, keyCat2, 1)
+            }
+            await db.firestore.collection('Post').doc(id).update(data)
+        }
+        return 'done'
     }
 }

@@ -1,0 +1,94 @@
+{{#section 'css'}}
+<title>View user</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+<script>
+	const title1 = 'view/user';const title2 = 'View user';const title3 = 'View user';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable();
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
+
+<script>
+  $( "input" ).prop( "disabled", true ); //Disable
+  $( "select" ).prop( "disabled", true ); //Disable
+  $( "textarea" ).prop( "disabled", true ); //Disable
+</script>
+{{/section}}
+<main>
+
+        
+    <form class="form-horizontal">
+      <div class="form-group" style="text-align: center;">
+      <img src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e" alt="">
+      </div>
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Gmail</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Gmail">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Date Init</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Date Init">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Phone">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Dayofbirth</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">nickname</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="nickname">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Permission</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Permission">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-danger">Cancel</button>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-9">
+        
+      </div>
+    </div>
+  </form>
+</main>

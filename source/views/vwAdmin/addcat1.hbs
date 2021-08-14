@@ -1,0 +1,159 @@
+{{#section 'css'}}
+<title>Edit category 1</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+{{!-- Taginput --}}
+{{!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+ <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+<script>
+	const title1 = 'edit/cat1';const title2 = 'Edit category 1';const title3 = 'Edit category 1';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  
+<script>
+     //$( "input" ).prop( "disabled", true ); //Disable
+
+     
+     function addlist() {
+      var mydiv = document.createElement("div");
+      mydiv.className = "form-group";
+      mydiv.style = "";
+      //mydiv.innerText = "12312455";
+
+      var label1 = document.createElement("div");
+      label1.className = "col-sm-2 control-label";
+      label1.innerText = "Key cat 2";
+      label1.style = "font-weight: bold;";
+
+      var div1 = document.createElement("div");
+      div1.className = "col-sm-3"
+
+      var input1 = document.createElement("input");
+      input1.type = "text";
+      input1.className = "form-control"; 
+      input1.value ="";
+      input1.name="listKey2[]"
+
+      mydiv.appendChild(label1); 
+      div1.appendChild(input1)
+      mydiv.appendChild(div1); 
+          
+    
+
+      var label2 = document.createElement("div");
+      label2.className = "col-sm-2 control-label";
+      label2.innerText = "Name cat 2";
+      label2.style = "font-weight: bold;";
+
+      var div2 = document.createElement("div");
+      div2.className = "col-sm-3"
+
+      var input2 = document.createElement("input");
+      input2.type = "text";
+      input2.className = "form-control"; 
+      input2.value ="";
+      input2.name="listName2[]"
+
+      mydiv.appendChild(label2); 
+      div2.appendChild(input2);
+      mydiv.appendChild(div2); 
+      
+
+      document.getElementById("myList").appendChild(mydiv);
+    }
+</script>
+{{/section}}
+<main>
+    <form class="form-horizontal" action="" method="POST">
+      
+      <div class="form-group" style="text-align: center;">
+  <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label" >Key Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id=""  value="{{this.db.keyCat1}}" name="keyCat1">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Nam Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id=""  value="{{this.db.nameCat1}}" name="nameCat1">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Admin</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id=""  value="{{this.db.adminCat}}" name="adminCat1">
+      </div>
+    </div>
+      </div>
+  
+    
+    <div class="form-group" style="text-align: center;">
+      <div id='myList' class='list-group' style="text-align: center;">
+        
+        {{#each this.db.listCat}}
+          <div class="form-group" style="text-align: center;">
+            <label for="inputPassword3" class="col-sm-2 control-label" >Key cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value={{keyCat2}} >
+            </div>
+            <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="inputPassword3" name="listName2[]"value="{{nameCat2}}">
+            </div>
+          </div>
+        {{/each}}
+      </div>
+      <button type="button" class="btn btn-primary" onclick="addlist()">Add new category2</button>
+    </div>
+      <div class="form-group" style="text-align: center;">
+        
+          {{!-- <a href="./edit" class="btn btn-success">Edit</a>
+          <a href="./viewpost" class="btn btn-danger">Return</a> --}}
+
+        {{!-- <button type="reset" class="btn btn-info" >Reset</button> --}}
+        <button type="submit" class="btn btn-success">Save</button>
+        {{!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button> --}}
+        
+        
+        {{!-- <a href="" class="btn btn-info">Return</a> --}}
+      </div>
+      
+      {{!-- <div id="data-container"></div> --}}
+    </form>
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This operation changes the data. Do you want to continue? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>

@@ -111,7 +111,7 @@
             <li><a href="/admin/tag"><em class="fa fa-tag">&nbsp;</em> Tag</a></li>
 			{{!-- <li><a href="/admin/post"><em class="fa fa-newspaper-o">&nbsp;</em> Post</a></li> --}}
 			<li><a href="/admin/post"><em class="fa fa-newspaper-o">&nbsp;</em> Posts</a></li>
-            <li><a href="/admin/usermanagement"><em class="fa fa-users">&nbsp;</em> User management</a></li>
+            <li><a href="/admin/user"><em class="fa fa-users">&nbsp;</em> User management</a></li>
 
 			<li><a href="/user/login"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
@@ -162,6 +162,7 @@
 	<script>
 		function updateTagHeading(name) {
 		document.getElementById("tag-heading").innerHTML = name;
+		console.log($('#listcat1').val());
 	}
 	</script>
     {{{_sections.js}}}

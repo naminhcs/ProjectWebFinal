@@ -59,6 +59,10 @@
         footer .product p {
             margin-bottom: 10px;
         }
+
+        #inputSearch {
+            text-transform: none;
+        }
     </style>
     {{{_sections.css}}}
 </head>
@@ -104,7 +108,7 @@
                                             </div>
 
                                             <div class="align-self-center form-box f-right mb-0">
-                                                <input class="mb-0" type="text" name="Search"
+                                                <input class="mb-0" type="text" name="Search" id='inputSearch'
                                                     placeholder="Search your interest...">
                                                 <div class="search-icon mb-0">
                                                     <i class="ti-search"></i>
@@ -290,7 +294,8 @@
 
                         <div class="d-flex justify-content-end">
                             <div class="form-box mb-0 d-flex" style="width: 250px; padding: 0px">
-                                <input class="mb-0" type="text" name="Search" placeholder="Search your interest...">
+                                <input class="mb-0" type="text" name="Search" id='inputSearch'
+                                    placeholder="Search your interest...">
                                 <div class="search-icon mb-0 align-items-center"
                                     style="height: 50px; width:50px; padding-top:15px; padding-left:15px; border: 1px solid #eaeaea">
                                     <i class="ti-search my-auto"></i>
@@ -511,6 +516,19 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/assets/js/plugins.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.search-icon').click(function () {
+                var inputSearch = $('#inputSearch').val();
+                //alert(inputSearch)
+                var url = '/post/search?key=' + inputSearch;
+                //alert(url)
+                window.location = url;
+            })
+
+
+        })
+    </script>
     {{{_sections.js}}}
 
 

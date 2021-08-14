@@ -88,17 +88,17 @@ require('./middlewares/commentMiddle')(app)
 app.get('/', async function (req, res) {
   console.log('abc')
   // console.log(res.locals.dataUser)
-  const bai_viet_noi_bat_nhat = require('./assets/json_file/bai_viet_noi_bat.json');
+  // const bai_viet_noi_bat_nhat = require('./assets/json_file/bai_viet_noi_bat.json');
   // const bai_viet_moi_nhat = require('./assets/json_file/bai_viet_moi_nhat.json');
 
 
   // topview
-  const topview = await postModel.getHighlighByView();
+  // const topview = await postModel.getHighlighByView();
   // console.log(topview)
   console.log('----------------------------')
 
   // topnews
-  const topnews = await postModel.getNew();
+  // const topnews = await postModel.getNew();
   // console.log(topnews)
 
 
@@ -107,24 +107,26 @@ app.get('/', async function (req, res) {
   const limitTime = 3.5
   // var t = d.getTime() - limitTime * miliSencondPerDay
   var t = 1627794400000
-  const inWeek = await postModel.getPostInWeek(t)
+  // const inWeek = await postModel.getPostInWeek(t)
   // console.log(inWeek)
 
-  const postPerCat1 = await postModel.getTopOfPostInEachCat1(res.locals.lcCategory);
+  // const postPerCat1 = await postModel.getTopOfPostInEachCat1(res.locals.lcCategory);
   // console.log(postPerCat1)
 
   // post in week
   res.render('home', {
-    bai_viet_noi_bat_nhat: inWeek,
-    bai_viet_moi_nhat: topnews,
-    bai_viet_duoc_xem_nhieu_nhat: topview,
-    bai_viet_moi_nhat_theo_tung_chuyen_muc: postPerCat1
+    // bai_viet_noi_bat_nhat: inWeek,
+    // bai_viet_moi_nhat: topnews,
+    // bai_viet_duoc_xem_nhieu_nhat: topview,
+    // bai_viet_moi_nhat_theo_tung_chuyen_muc: postPerCat1
   })
 })
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.render('notFound404')
 })
+
+
 
 //listening at PORT...
 const PORT = 3000

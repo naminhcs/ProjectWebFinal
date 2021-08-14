@@ -1,0 +1,114 @@
+{{#section 'css'}}
+<title>Category</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+<script>
+	const title1 = 'Category';const title2 = 'Category';const title3 = 'Lọc';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable();
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
+
+<script>
+  $(function(){
+    $("table tbody tr").dblclick(function(){
+      location.href = "./editpost";
+    });
+  });
+</script>
+<script>
+    $('body').on('click', 'button', function(e) {
+   alert(e.target.id); //dynamicid
+    $(this).hide();
+        $('#done').show();
+
+        var requested_to = e.target.id;
+
+      $.ajax({
+    ....
+      });
+});
+</script>
+<script src="/assets/admin/js/getlistcat2.js"></script>
+<script>
+    function myfunction(){
+        var keyCat1=document.getElementById('cat1').value;
+        var keyCat2=document.getElementById('cat2').value;
+       // alert(keyCat1+keyCat2);
+        if(keyCat1=='all'){
+            window.location.href = "/admin/view/cat";
+            return;
+        }
+        else if(keyCat2=='all'){
+            window.location.href ="/admin/view/cat/"+keyCat1;
+            return;
+        }
+        else{
+            window.location.href ="/admin/view/cat/"+keyCat1+"/"+keyCat2;
+            return;
+        }
+    }
+</script>
+{{/section}}
+<main>		
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading" style="display: flex;">
+                        
+                        <p id='title3'></p>
+
+                    </div> 
+                    
+					<div class="panel-body">
+                        <div class="col-lg-2">
+                            <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
+                                <option value="all" selected>Tất cả</option>
+                                {{#each lcCategory}}
+                                    <option value="{{keyCat1}}">{{nameCat1}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <select class="form-control" aria-label="Default select example" id="cat2">
+                                <option value="all" selected>Tất cả</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                                <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        </div>
+					</div>
+
+                    
+					
+					
+				</div><!-- /.panel-->
+			</div><!-- /.col-->
+			
+        
+            
+		</div><!-- /.row -->
+
+
+
+
+        
+</main>

@@ -1,0 +1,94 @@
+{{#section 'css'}}
+<title>Edit category2</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+{{!-- Taginput --}}
+{{!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+ <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+<script>
+	const title1 = 'edit/cat2';const title2 = 'Edit category 2';const title3 = 'Edit category 2';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  
+<script>
+     //$( "input" ).prop( "disabled", true ); //Disable
+     $( "#keycat1" ).prop( "disabled", true ); //Disable
+     $( "#namecat1" ).prop( "disabled", true ); //Disable
+     
+</script>
+{{/section}}
+<main>
+  <form action="" method="POST" id="FormEditCat2">
+    <div class="form-horizontal"  style="text-align: center;">
+      <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Key Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="keycat1" placeholder="Key" value="{{this.keycat1}}">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Name Cat 1</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="namecat1" placeholder="Tag name" value="{{this.namecat1}}">
+      </div>
+    </div>
+    <input type="text" name="oldKeyCat2" value="{{this.keycat2}}" id="" style="display: none;">
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Key Cat 2</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="keyCat2" id="keycat2" placeholder="Key" value="{{this.keycat2}}">
+      </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-2 control-label">Name Cat 2</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="nameCat2" id="namecat2" placeholder="Tag name" value="{{this.namecat2}}">
+      </div>
+    </div>
+    
+      <div class="form-group" style="text-align: center;">
+        
+          {{!-- <a href="./edit" class="btn btn-success">Edit</a>
+          <a href="./viewpost" class="btn btn-danger">Return</a> --}}
+
+        {{!-- <button type="reset" class="btn btn-info" >Reset</button> --}}
+        <button type="submit" class="btn btn-success">Save</button>
+        {{!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button> --}}
+      </div>
+    </div>
+    <!-- Button trigger modal -->
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This operation changes the data. Do you want to continue? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>

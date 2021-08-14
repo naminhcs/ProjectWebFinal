@@ -168,9 +168,13 @@ router.post('/add/cat', async function(req, res){
     res.send(result)
 })
 
-//--------------------------End category-----------------------------
+// //--------------------------End category-----------------------------
 
-//--------------------------Tag--------------------------------------
+// //--------------------------Tag--------------------------------------
+// //auth.isAdmin,
+// router.get('/',  async function(req, res){
+//     res.render('vwAdmin/dashboard',{layout:'admin.hbs'});
+// })
 
 
 router.get('/view/tag', async function(req, res){
@@ -331,6 +335,159 @@ router.get('/view/post/:cat1', async function(req, res){
         totalPage: nPages
     })
 })
+// router.get('/post',  async function(req, res){
+//     // var data = await postModel.getAllPost()
+//     // res.send(data);
+//     res.render('vwAdmin/post',{layout:'admin.hbs'});
+// })
+
+// router.get('/post/view/:id',  async function(req, res){
+//     id = req.params.id;
+//     var data = await postModel.getPostByID(id);
+//     // res.send(data);
+//     console.log(data);
+//     res.render('vwAdmin/viewpost',{layout:'admin.hbs',db: data});
+// })
+// router.post('/post/view/:id',  async function(req, res){
+//     const data = req.body;
+//     id = req.params.id;
+//     // const result = await tagModel.editTag(data)
+//     // res.send(result)
+//     var newdir="/admin/post/edit/"+String(id);
+//     res.redirect(newdir);
+// })
+// router.get('/post/edit/:id',  async function(req, res){
+//     id = req.params.id;
+//     var data = await postModel.getPostByID(id)
+//     // res.send(data);
+//     console.log(data);
+//     res.render('vwAdmin/editpost',{layout:'admin.hbs',db: data});
+//     // res.render('vwAdmin/editpost',{layout:'admin.hbs'});
+// })
+
+// router.post('/post/edit/:id',  async function(req, res){
+//     const id = req.body.id
+//     var data = req.body;
+//     delete data['id'] 
+//     result = await postModel.editPost(data, id)
+//     res.send(result)
+// })
+
+// router.get('/post/add',  async function(req, res){
+//     res.send('direct')
+// })
+
+// router.post('/post/add',  async function(req, res){
+//     const data = req.body;
+//     result = await postModel.addPost(data)
+//     return result;
+// })
+
+// router.post('/post/del',  async function(req, res){
+//     const id = req.body.id;
+//     result = await postModel.delPost(id);
+//     res.send(result)
+// })
+
+// //--------------------------------Writer----------------------//
+// router.get('/writer/getallpost',  async function(req, res){
+//     var data = await postModel.getAllPost()
+//     res.send(data);
+// })
+// router.get('/writer',  function(req, res){
+    
+//     res.render('vwWriter/dashboard',{layout:'writer.hbs'});
+// })
+// router.get('/writer/upload',  function(req, res){
+//     res.render('vwWriter/createpost',{layout:'writer.hbs'});
+// })
+// router.get('/writer/view/:id',  async function(req, res){
+//     id = req.params.id;
+//     var data = await postModel.getPostByID(id)
+//     // res.send(data);
+//     console.log(data);
+//     res.render('vwWriter/viewpost',{layout:'writer.hbs',db:data});
+// })
+// //--------------------------------Category--------------------//
+// // router.get('/category',  async function(req, res){
+
+   
+// // })
+
+// //--------------------------------muc luc--------------------//
+// router.get('/category',  async function(req, res){
+//     res.render('vwAdmin/category_select',{layout:'admin.hbs'});
+// })
+// router.get('/tag',  async function(req, res){
+//     res.render('vwAdmin/tag',{layout:'admin.hbs'});
+// })
+// router.get('/post',  async function(req, res){
+//     res.render('vwAdmin/post',{layout:'admin.hbs'});
+// })
+// router.get('/user',  async function(req, res){
+//     res.render('vwAdmin/user',{layout:'admin.hbs'});
+// })
+// // //--------------------------------view--------------------//
+// router.get('/view/tag',  async function(req, res){
+//     res.render('vwAdmin/viewtag',{layout:'admin.hbs'});
+// })
+// router.get('/view/cat1',  async function(req, res){
+//     res.render('vwAdmin/viewcat1',{layout:'admin.hbs'});
+// })
+// router.get('/view/cat2/',  async function(req, res){
+//     res.render('vwAdmin/viewcat2',{layout:'admin.hbs'});
+// })
+// router.get('/view/post/',  async function(req, res){
+//     res.render('vwAdmin/viewpost',{layout:'admin.hbs'});
+// })
+// router.get('/view/user/',  async function(req, res){
+//     res.render('vwAdmin/viewuser',{layout:'admin.hbs'});
+// })
+// // //--------------------------------add--------------------//
+// router.get('/addd/tag',  async function(req, res){
+//     res.render('vwAdmin/addtag',{layout:'admin.hbs'});
+// })
+// router.get('/addd/cat1',  async function(req, res){
+//     res.render('vwAdmin/addcat1',{layout:'admin.hbs'});
+// })
+// router.get('/addd/cat2/',  async function(req, res){
+//     res.render('vwAdmin/addcat2',{layout:'admin.hbs'});
+// })
+// router.get('/addd/post/',  async function(req, res){
+//     res.render('vwAdmin/addpost',{layout:'admin.hbs'});
+// })
+// router.get('/addd/user/',  async function(req, res){
+//     res.render('vwAdmin/adduser',{layout:'admin.hbs'});
+// })
+
+// // //--------------------------------edit--------------------//
+// router.get('/edit/tag',  async function(req, res){
+//     res.render('vwAdmin/edittag',{layout:'admin.hbs'});
+// })
+// router.get('/edit/cat1',  async function(req, res){
+//     res.render('vwAdmin/editcat1',{layout:'admin.hbs'});
+// })
+// router.get('/edit/cat2/',  async function(req, res){
+//     res.render('vwAdmin/editcat2',{layout:'admin.hbs'});
+// })
+// router.get('/edit/post/',  async function(req, res){
+//     res.render('vwAdmin/editpost',{layout:'admin.hbs'});
+// })
+// router.get('/edit/user/',  async function(req, res){
+//     res.render('vwAdmin/edituser',{layout:'admin.hbs'});
+// })
+
+// // //--------------------------------del--------------------//
+// router.get('/table',  async function(req, res){
+//     res.render('vwAdmin/table_test',{layout:'admin.hbs'});
+// })
+
+
+// module.exports = router;
+// router.get('/post/getallpost', auth.isAdmin, async function(req, res){
+//     var data = await postModel.getAllPost()
+//     res.send(data);
+// })
 
 router.get('/view/post/:cat1/:cat2', async function(req, res){
     cat1 = req.params.cat1;

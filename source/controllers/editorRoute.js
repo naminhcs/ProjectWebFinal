@@ -7,6 +7,7 @@ const waittingPost = require('../models/waittingPostController')
 
 const router = express.Router();
 router.use(bodyParser.json())
+//auth.isEditor,
 
 router.get('/view', async function(req, res){
     page = req.query.page

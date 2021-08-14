@@ -63,17 +63,14 @@ router.get('/search', async function (req, res) {
     var returnData = ans['hits']
     for (let i = 0 ; i < returnData.length; i++){
         delete returnData[i]['_highlightResult']
-        delete returnData[i]['objectID']
+        const t = new Date(returnData[i]['dateUpload'])
+        returnData[i]['dateUpload'] = t.toGMTString()
     }
-    // var result = {}
-    // res.render('search/search',{
-    //     key: textQuery,
-    //     data: result,
-    //     isEmpty: result.lenght
-    // })
-    res.send(returnData)
+    res.render('search/search',{
+        key: textQuery,
+        data: returnData,
+        isEmpty: returnData.length
+    })
 })
-
-
 
 module.exports = router;

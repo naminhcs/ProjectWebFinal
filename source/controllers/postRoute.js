@@ -75,4 +75,18 @@ router.get('/testing', async function (req, res) {
     res.render('search/categories')
 })
 
+
+router.get('/search', async function (req, res) {
+    const textQuery = req.query.key;
+    // console.log(textQuery),
+    var result = {}
+    res.render('search/search',{
+        key: textQuery,
+        data: result,
+        isEmpty: result.lenght
+    })
+})
+
+
+
 module.exports = router;

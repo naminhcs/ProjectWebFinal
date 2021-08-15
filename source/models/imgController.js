@@ -30,11 +30,3 @@ module.exports = {
     }
 }
 
-// test upload file and load file
-// async function getURL(){
-//   var storageRef = firebase.storage().ref();
-//   var urlDownloadLink = await storageRef.child('/avatar.png').getDownloadURL();
-//   console.log(urlDownloadLink);
-// }
-// getURL()
-

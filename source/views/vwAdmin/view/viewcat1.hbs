@@ -1,0 +1,190 @@
+{{#section 'css'}}
+<title>Category 1</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+<script>
+	const title1 = 'view/cat/cat1';const title2 = 'Category 1';const title3 = 'Category 1';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable();
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
+    
+
+
+<script>
+ 
+    function setid(newId){
+        document.getElementById('postid').value=newId;
+        alert("post id:");
+        alert( document.getElementById('postid').value);
+    }
+    function prev(pageNum){
+        alert(pageNum-1);
+    }
+    function next(pageNum){
+        alert(pageNum+1);
+    }
+</script>
+<script src="/assets/admin/js/getlistcat2.js"></script>
+<script>
+    function myfunction(){
+        var keyCat1=document.getElementById('cat1').value;
+        var keyCat2=document.getElementById('cat2').value;
+       // alert(keyCat1+keyCat2);
+        if(keyCat1=='all'){
+            window.location.href = "/admin/view/cat";
+            return;
+        }
+        else if(keyCat2=='all'){
+            window.location.href ="/admin/view/cat/"+keyCat1;
+            return;
+        }
+        else{
+            window.location.href ="/admin/view/cat/"+keyCat1+"/"+keyCat2;
+            return;
+        }
+    }
+</script>
+{{/section}}
+
+<main>
+
+    <div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading" style="display: flex;">
+                        
+                        <p id='title3'></p>
+
+                    </div> 
+                    
+					<div class="panel-body">
+                        <div class="col-lg-2">
+                            <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
+                                <option value="all" selected>Tất cả</option>
+                                {{#each lcCategory}}
+                                    <option value="{{keyCat1}}">{{nameCat1}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <select class="form-control" aria-label="Default select example" id="cat2">
+                                <option value="all" selected>Tất cả</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                                <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        </div>
+					</div>
+
+                    
+					
+					
+				</div><!-- /.panel-->
+			</div><!-- /.col-->
+		<input type="text" id="postid" style="display: none;" value="">
+        <div class="col-lg-12">
+            <h4>Bootstrap Snipp for Datatable</h4>
+            <div class="table-responsive">  
+                <table id="mytable" class="table table-bordred table-striped">   
+                    <thead> 
+                        <th>Title</th>
+                        <th>Người viết</th>
+                        <th>Người đăng</th>
+                        <th>cat1</th>
+                        <th>cat2</th>
+                        <th>Premeium</th>  
+                        <th>Người quản lý</th>
+                        <th>Chỉnh sửa</th>
+                        <th>Xóa</th>
+                        
+                    </thead>
+                    <tbody>
+        
+                        <tr>
+                            <td>Mohsin</td>
+                            <td>Irshad</td>
+                            <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                            <td>isometric.mohsin@gmail.com</td>
+                            <td>+923335586757</td>
+                            <td>+923335586757</td>
+                            <td>+923335586757</td>
+                            <td>
+                                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                    <button class="btn btn-primary btn-xs" data-title="Edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </p>
+                            </td>
+                            <td>
+                                    <button type="button" class="btn btn-danger btn-xs" data-title="Delete" onclick="setid('abs')" id="btndelete"
+                                    data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+                <ul class="pagination pull-right">
+                <li class="disabled"><button type="button"><span class="glyphicon glyphicon-chevron-left" onclick="prev(2)"></span></button></li>
+                {{!-- <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li> --}}
+                <li><button type="button"><span class="glyphicon glyphicon-chevron-right" onclick="next(2)"></span></button></li>
+                </ul>
+                <div class="col-lg-12" style="text-align: center;">
+                    <a href="/admin/add/post" class="btn btn-success" >Add Post</a>
+                </div>
+                </div>
+                
+                
+          
+            </div>
+        </div>  
+	</div><!-- /.row -->
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+      </div>
+          <div class="modal-body">
+       
+       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+       
+      </div>
+        <div class="modal-footer ">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
+        <button type="button" class="btn btn-danger" >Delete</button>
+        
+      </div>
+    </div>
+
+    
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+    </div>
+</main>

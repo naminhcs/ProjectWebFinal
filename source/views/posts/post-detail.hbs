@@ -85,7 +85,7 @@
     }
 
     .list-tag {
-        margin-bottom: 50px !important;
+        margin-bottom: 20px !important;
     }
 
     .tags {
@@ -190,6 +190,11 @@
             //alert('ajshakd')
             $('#frmAddCmt').submit()
         })
+
+        $('#btnDownload').click(function () {
+            //alert('button was clicked');
+            window.location = "./download";
+        })
     });
 </script>
 {{/section}}
@@ -275,7 +280,7 @@
         <hr>
 
         {{!-- list tags --}}
-        <div class="list-tag mb-5">
+        <div class="list-tag">
             <p>Tags</p>
 
 
@@ -299,6 +304,16 @@
 
         </div>
         <br>
+
+        {{#if post.permission}}
+        <div id='download'>
+            <a href="/post/download?id={{post.id}}">
+                <button class="genric-btn danger-border radius" style="margin-bottom: 50px;" id='btnDownload'>Tải bài
+                    báo
+                </button>
+            </a>
+        </div>
+        {{/if}}
 
     </div>
     <!-- Post Details End -->

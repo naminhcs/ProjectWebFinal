@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const commentModel = require('../models/commentController')
-
 const postModel = require('../models/postController');
 const {
     post
@@ -70,6 +69,68 @@ router.get('/search', async function (req, res) {
         data: data,
         isEmpty: data.length
     })
+})
+
+
+// --------------------- Download----------------------------
+async function getFileDowload(data) {
+    var Handlebars = require('handlebars');
+    var fs = require('fs');
+    const path = require("path");
+    const pdfCreatorNode = require('pdf-creator-node');
+
+
+    var pathTemplate = path.resolve(__dirname, "../views/posts/templateDownloadPost.hbs")
+    var html = fs.readFileSync(pathTemplate, "utf8");
+    var template = Handlebars.compile(html);
+    var post = {}
+    post['post'] = data;
+    var result = template(post);
+
+    // var pathSave = path.resolve(__dirname, "../assets/json_file/test.html")
+    // fs.writeFile(pathSave, result, function (err) {
+    //     if (err) {
+    //         return console.log(err);
+    //     }
+    // });
+
+    var options = {
+        format: "A4",
+        orientation: "portrait",
+        border: "10mm",
+
+    };
+    var pathSavePDF = path.resolve(__dirname, "../assets/json_file/file.pdf")
+    var document = {
+        html: result,
+        data: {
+            data,
+        },
+        path: pathSavePDF,
+        type: "",
+    };
+
+    let res = await pdfCreatorNode
+        .create(document, options)
+        .then((res) => {
+            // console.log(res);
+            console.log('PDF is created');
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    // console.log('ok')
+    return pathSavePDF
+}
+
+router.get('/download', async function (req, res) {
+    var id = req.query.id;
+
+    var premium = 1;
+    var data = await postModel.getPostByID(id, premium);
+    var pathSavePDF = await getFileDowload(data)
+    res.download(pathSavePDF);
 })
 
 module.exports = router;

@@ -15,7 +15,7 @@
   <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
   <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-	const title1 = 'user/tag/edit';const title2 = 'Edit tag';const title3 = 'Edit tag';
+	const title1 = 'tag/edit';const title2 = 'Edit tag';const title3 = 'Edit tag';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -48,20 +48,20 @@
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Key</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="key" placeholder="Key" >
+        <input type="text" class="form-control" id="key"  value={{this.db.key}} name="key">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-2 control-label">Tag name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="name" placeholder="Tag name" >
+        <input type="text" class="form-control" id="name"  value={{this.db.name}} name="name">
       </div>
     </div>
       <div class="form-group" style="text-align: center;">
           {{!-- <a href="./edit" class="btn btn-success">Edit</a>
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
         <button type="submit" href="" class="btn btn-success">Save</button>
-        <button type="reset" class="btn btn-info">Reset</a>
+        {{!-- <button type="reset" class="btn btn-info">Reset</a> --}}
       </div>
       {{!-- <div id="data-container"></div> --}}
     </form>

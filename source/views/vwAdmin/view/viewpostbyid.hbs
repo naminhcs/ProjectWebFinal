@@ -1,0 +1,191 @@
+{{#section 'css'}}
+<title>View post</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+{{!-- Taginput --}}
+{{!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+ <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+<script>
+	const title1 = 'view/post';const title2 = 'View post';const title3 = 'View post';
+	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
+	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable();
+            $('#example tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+        });
+    </script>
+<script>
+  $( "input" ).prop( "disabled", true ); //Disable
+  $( "select" ).prop( "disabled", true ); //Disable
+  $( "textarea" ).prop( "disabled", true ); //Disable
+</script>
+<script>
+    function getcontent(){
+    var content = "<%content%>";
+    var myContent = tinymce.get("myclass mceEditable").setContent(content);
+    }
+    
+</script>
+{{/section}}
+<main>
+    <form class="form-horizontal">
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputEmail3" placeholder="Title" value="{{this.db.title}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-1 control-label">Topic</label>
+      <div class="col-sm-10">
+        <select class="form-control" aria-label="Default select example">
+          <option selected>{{this.db.nameCat1}}</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+          {{!-- <optgroup label="client1">
+            <option value="">project2.xml</option> --}}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
+      <div class="col-sm-10">
+        <select class="form-control" aria-label="Default select example">
+          <option selected>{{this.db.nameCat2}}</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+          {{!-- <optgroup label="client1">
+            <option value="">project2.xml</option> --}}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
+      <div class="col-sm-10">
+        <textarea type="text" class="form-control" id="inputPassword3" placeholder="Summary">{{this.db.summary}}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      
+      <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
+      <div class="col-sm-10">
+        
+        
+        <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags"/>
+        
+        {{#each this.db.listNameOfTag}}
+            <textarea id="tagName">{{this}}</textarea>
+            <script>
+              var tags=document.getElementById("tags");
+              var tagName=document.getElementById("tagName");
+              tags.value = tags.value  + tagName.value + ", ";
+              tagName.remove();
+            </script>
+        {{/each}}
+        {{!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Tag"> --}}
+        {{!-- <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" /> --}}
+      </div>
+      {{!-- <div class="col-sm-0">
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">add tag</button>
+      </div>
+     --}}
+    </div>
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" style="align-items: center; justify-content: center;">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
+              <div class="col-sm-10">
+                <select class="form-control" aria-label="Default select example">
+                  <option selected>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  {{!-- <optgroup label="client1">
+                    <option value="">project2.xml</option> --}}
+                </select>
+              </div>
+              {{!-- <div class="col-sm-0">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">add</button>
+              </div> --}}
+            </div>
+            <button type="button" class="btn btn-success" data-dismiss="modal" style="margin-left: 90%;">Add</button>
+        </div>
+        <div class="modal-footer">
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Key</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputPassword3" placeholder="Key of tag">
+            </div>            
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputPassword3" placeholder="Name of tag">
+            </div>            
+          </div>
+          {{!-- <button type="button" class="btn btn-success" data-dismiss="modal">Add</button> --}}
+          <button type="button" class="btn btn-success" data-dismiss="modal">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div style="text-align: center;">
+        <h1>Content</h1>
+        <br>
+        <div style="background-color: darkgrey;">
+            {{!-- <div class="myclass mceEditable">Content</div> --}}
+            <textarea class="tinymce" id="texteditor">{{this.db.content}}</textarea>
+                
+            
+        </div>
+        <button type="button" style="visibility: hidden;"></button>
+    </div>
+    
+      
+      <div class="form-group" style="text-align: center;">
+        {{!-- <div class="col-sm-offset-2 col-sm-10"> --}}
+          {{!-- <a href="./viewpost" class="btn btn-success">Edit</a>
+          <a href="./viewpost" class="btn btn-danger">Return</a> --}}
+          <a href="" class="btn btn-success">Edit</a>
+          <a href="" class="btn btn-danger">Return</a>
+        {{!-- </div> --}}
+      </div>
+      
+      {{!-- <div id="data-container"></div> --}}
+    </form>
+    
+</main>

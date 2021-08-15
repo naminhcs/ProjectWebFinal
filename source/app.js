@@ -122,6 +122,7 @@ app.get('/', async function (req, res) {
   })
 })
 
+
 app.use(function (req, res, next) {
   res.render('notFound404')
 })

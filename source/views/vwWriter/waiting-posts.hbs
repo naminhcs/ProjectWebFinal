@@ -1,0 +1,150 @@
+{{#section 'css'}}
+<title>Table</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<style>
+    td {
+        text-align: center;
+    }
+
+    th {
+        text-align: center;
+    }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+<script>
+    const title1 = 'Post'; const title2 = 'Posts'; const title3 = 'Posts';
+    const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+    id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example').DataTable();
+        $('#example tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        var premium = $('#premium').val()
+
+    });
+</script>
+
+<script>
+
+    function setid(newId) {
+        document.getElementById('postid').value = newId;
+        alert("post id:");
+        alert(document.getElementById('postid').value);
+    }
+    function prev(pageNum) {
+        alert(pageNum - 1);
+    }
+    function next(pageNum) {
+        alert(pageNum + 1);
+    }
+</script>
+
+<script src="/assets/admin/js/getlistcat2.js"></script>
+
+<script>
+    function myfunction() {
+        var keyCat1 = document.getElementById('cat1').value;
+        var keyCat2 = document.getElementById('cat2').value;
+        // alert(keyCat1+keyCat2);
+        if (keyCat1 == 'all') {
+            window.location.href = "/admin/view/post";
+            return;
+        }
+        else if (keyCat2 == 'all') {
+            window.location.href = "/admin/view/post/" + keyCat1;
+            return;
+        }
+        else {
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
+            return;
+        }
+    }
+</script>
+{{/section}}
+
+<main>
+
+    <div class="row">
+
+        <input type="text" id="postid" style="display: none;" value="">
+        <div class="col-lg-12">
+
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                        <th>Title</th>
+                        <th>Người viết</th>
+                        <th>namecat1</th>
+                        <th>namecat2</th>
+                        <th>Permission</th>
+                        <th class="text-center">Preview</th>
+
+                    </thead>
+                    <tbody>
+                        {{#each this.db}}
+                        <tr>
+
+                            <td style="text-align: left;">{{title}}</td>
+                            <td>{{nickName}}</td>
+                            <td>{{nameCat1}}</td>
+                            <td>{{nameCat2}}</td>
+                            <td id='premium'>{{permission}}</td>
+
+
+                            <td class="text-center">
+                                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                    <a href="/writer/edit/writing-post/{{id}}" class="btn btn-info btn-xs"
+                                        data-title="Edit">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                </p>
+                            </td>
+
+
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+
+                <ul class="pagination pull-right">
+                    <li class="disabled">
+                        <button type="button" style="text-align:center;"
+                            onclick="prev(2);Bootstrap Snipp for Datatable">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            Previous
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" style="text-align:right;" onclick="next(2)">
+                            Next
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>
+                    </li>
+                </ul>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    </div><!-- /.row -->
+
+</main>

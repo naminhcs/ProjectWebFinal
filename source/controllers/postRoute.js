@@ -40,36 +40,35 @@ router.get('/', async function (req, res) {
     })
 })
 
-// router.get('/testing', async function (req, res) {
-//     const textQuery = req.query.text;
-//     console.log(textQuery)
-//     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
-//     var index = client.initIndex('Post');
-
-//     // Perform an Algolia search:
-//     // https://www.algolia.com/doc/api-reference/api-methods/search/
-//     var ans = await index.search(textQuery);
-//     res.render('search/categories')
-// })
-
-
 router.get('/search', async function (req, res) {
-    console.log('Come here')
+    var premium = 0
+    if (typeof(req.session.data) === 'undefined' || req.session.data === null){
+        premium = 0
+    } else premium = req.session.data.premium;
     const textQuery = req.query.key;
     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
     var index = client.initIndex('Post');
     // console.log(textQuery),
     var ans = await index.search(textQuery);
     var returnData = ans['hits']
+    var data = []
     for (let i = 0 ; i < returnData.length; i++){
         delete returnData[i]['_highlightResult']
         const t = new Date(returnData[i]['dateUpload'])
         returnData[i]['dateUpload'] = t.toGMTString()
+        if (returnData[i]['permission'] == 1){
+            if (premium === 1){
+                data.push(returnData[i])
+            }
+        } else data.push(returnData[i])
     }
+    data.sort(function (a, b){
+        return b.permission - a.permission 
+    })
     res.render('search/search',{
         key: textQuery,
-        data: returnData,
-        isEmpty: returnData.length
+        data: data,
+        isEmpty: data.length
     })
 })
 

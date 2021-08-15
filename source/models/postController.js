@@ -1,6 +1,7 @@
 const db = require('../db');
 const tagModel = require('./tagController')
-const catModel = require('./categoryController')
+const catModel = require('./categoryController');
+const { post } = require('../controllers/userRoute');
 
 module.exports = {
     async updateAmountPost(val, keyCat1, keyCat2, value){
@@ -610,6 +611,31 @@ module.exports = {
         }
     },
 
+    async updateDatabaseAddUserWriterAndUserEditor(allCat){
+        var listCat1 = []
+        var adminCat = []
+        Object.keys(allCat).forEach(key =>{
+            var cat1 = allCat[key]
+            adminCat.push(cat1.adminCat)
+            listCat1.push(cat1.keyCat1)
+        })
+        console.log(adminCat, listCat1)
+        for (let i = 0; i < adminCat.length; i++){
+            const posts = await db.firestore.collection('Post').where('keyCat1', '==', listCat1[i]).get()
+            posts.forEach(async function(doc){
+                var id = doc.id
+                var post = doc.data()
+                dataUpdate = {
+                    userEditor: adminCat[i],
+                    userWriter: post.nickName
+                }
+                await db.firestore.collection('Post').doc(id).update(dataUpdate)
+            })
+            console.log(listCat1[i])
+        }
+        return 'done'
+    },
+
 // --------------------------------------------------------------ADMIN------------------------------------------------------------------------------
 
     async editPostForAdmin(id, data){
@@ -637,5 +663,23 @@ module.exports = {
             await db.firestore.collection('Post').doc(id).update(data)
         }
         return 'done'
+    },
+
+    // ----------------------------------------------------------EDITOR----------------------------------------------------------------------------------
+
+    async getPostByEditor(userName, page){
+        var left = (page - 1) * 15
+        var right = left + 15;
+        var ans = []
+        const posts = await db.firestore.collection('Post').where('userEditor', '==', userName).limit(right).get()
+        right = Math.min(posts.docs.length, right)
+        for (let i = left; i < right; i++){
+            const post = posts.docs[i].data()
+            ans.push(post)
+        }
+        return {
+            posts: ans,
+            topPost: right
+        }
     }
 }

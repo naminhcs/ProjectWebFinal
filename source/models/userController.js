@@ -168,5 +168,28 @@ module.exports = {
             await db.firestore.collection('User').doc(id).update(user);
             return 'ok'
         }
+    },
+
+// ------------------------------------------UPDATE-DATABSE--------------------------------------
+
+    async updateDatabase(allCat){
+        var listCat1 = []
+        var adminCat = []
+        Object.keys(allCat).forEach(key =>{
+            var cat1 = allCat[key]
+            adminCat.push(cat1.adminCat)
+            listCat1.push(cat1.keyCat1)
+        })
+        for (let i = 0; i < adminCat.length; i++){
+            var userName = adminCat[i]
+            console.log(userName)
+            // const user = await db.firestore.collection('User').where('userName', '==', userName).get()
+            // user.forEach(async function(doc){
+            //     var id = doc.id
+            //     await db.firestore.collection('User').doc(id).update({adminCat: listCat1[i]})
+            //     console.log(userName)
+            // })
+        }
+        return 'done'
     }
 }

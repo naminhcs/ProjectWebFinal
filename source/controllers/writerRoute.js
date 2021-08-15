@@ -22,22 +22,37 @@ router.get('/', async function (req, res) {
     });
 })
 
-// ===================== add post ===========================
+// ======================== add post ===========================
 router.get('/add', function (req, res) {
     res.render('vwWriter/createpost', {
         layout: 'writer.hbs'
     })
 })
 
-router.post('/add', function (req, res) {
-    res.send(req.body)
+router.post('/add/save', upload.single('file'), async function (req, res) {
+    const data = req.body
+    const id = req.query.id || -1;
+    var file;
+    if (!req.file) file = null;
+    const result = await saveModel.savePostByID(id, data, file)
+    res.send(result)
 })
 
+router.post('/add/submit', upload.single('urlPic'), async function (req, res) {
+    const data = req.body;
+    console.log(data)
+    const id = req.query.id || -1
+    var file;
+    if (!req.file) file = null
+    console.log(req.file)
+    // const result = await saveModel.submitPost(id, data, file)
+    // res.send(result)
+    res.send('ok')
+})
 
 
 // ===================== edit post ==========================
 router.get('/edit', async function (req, res) {
-    // res.render('....')
     res.render('vwWriter/editpost', {
         layout: 'writer.hbs'
     });
@@ -240,8 +255,8 @@ router.get('/edit/writing-post', async function (req, res) {
         "nickName": "admin",
         "rejectingReason": ""
     }
-
-
+    // var page = req.query.page || 1;
+    // const posts = await saveModel.getSavePostByWriter(req.session.data.userName, page)
     var nPages = 1
     res.render('vwWriter/writing/editpost', {
         layout: 'writer.hbs',
@@ -397,55 +412,6 @@ router.post('/view/writing-post', async function (req, res) {
 
 
 
-// =========================don't know ==============================
-router.get('/upload', async function (req, res) {
-    // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
-    // res.send(data)
-    res.render('vwWriter/createpost', {
-        layout: 'writer.hbs'
-    });
-})
 
-router.post('/upload', async function (req, res) {
-    const data = req.body;
-    // result = await postModel.addPost(data)
-// router.get('/',  async function(req, res){
-//     // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
-//     // res.send(data)
-//     res.render('vwWriter/dashboard',{layout:'writer.hbs'});
-// })
-// router.get('/upload',  async function(req, res){
-//     // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
-//     // res.send(data)
-//     res.render('vwWriter/createpost',{layout:'writer.hbs'});
-// })
-// router.get('/edit',  async function(req, res){
-//     // res.render('....')
-//     res.render('vwWriter/editpost',{layout:'writer.hbs'});
-// })
-
-router.post('/add/save', upload.single('file'), async function(req, res){
-    const data = req.body
-    const id = req.query.id || -1
-    var file;
-    if (!req.file) file = null;
-    const result = await saveModel.savePostByID(id, data, file)
-    res.send(result)
-})
-
-router.post('/add/submit', upload.single('file'), async function(req, res){
-    const data = req.body
-    const id = req.query.id || -1
-    var file;
-    if (!req.file) file = null
-    const result = await saveModel.submitPost(id, data, file)
-    res.send(result)
-})
-
-router.get('/view/writing-post', async function(req, res){
-    const page = req.query.page
-    const posts = await saveModel.getSavePostByWriter(req.session.data.userName, page)
-    res.send(posts)
-})
 
 module.exports = router;

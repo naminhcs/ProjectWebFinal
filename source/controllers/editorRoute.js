@@ -9,10 +9,20 @@ const router = express.Router();
 router.use(bodyParser.json())
 //auth.isEditor,
 
-router.get('/view', async function(req, res){
-    page = req.query.page
-    const posts = await getWaittingPostByUserName(req.session.data.userName, page)
-    res.send(posts)
+router.get('/', function(req, res){
+    res.render('vwEditor/dashboard',{layout:'editor.hbs'});
+})
+router.get('/view/post', function(req, res){
+    res.render('vwEditor/vieweditor',{layout:'editor.hbs'});
+})
+router.get('/view/draft', function(req, res){
+    res.render('vwEditor/vieweditordraft',{layout:'editor.hbs'});
+})
+router.get('/view/post', function(req, res){
+    res.render('vwEditor/viewpost',{layout:'editor.hbs'});
+})
+router.get('/confirm', function(req, res){
+    res.render('vwEditor/confirmpost',{layout:'editor.hbs'});
 })
 
 module.exports = router;

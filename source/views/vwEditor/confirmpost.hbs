@@ -4,6 +4,14 @@
 {{/section}}
 
 {{#section 'js'}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+
 {{!-- Taginput --}}
 {{!--
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
@@ -13,7 +21,7 @@
 {{!-- Taginput --}}
 <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
 <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
   const title1 = 'add/post'; const title2 = 'Add post'; const title3 = 'Add post';
@@ -56,7 +64,7 @@
     str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
     str = str.replace(/đ/g, "d");
     str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
-    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");    
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
     str = str.replace(/\s\s+/g, ' ');
     str = str.replace(/  +/g, ' ');
 
@@ -81,14 +89,14 @@
       var input1 = document.createElement("input");
       input1.type = "text";
       input1.style = "display: none;";
-      element=xoa_dau(element);
-      input1.value = "#"+element;
+      element = xoa_dau(element);
+      input1.value = "#" + element;
       input1.name = "listNameOfTag[]";
       document.getElementById("tagSubmit").appendChild(input1);
       //<input type="text" name="listNameOfTag[]" style="display: none;">
 
       var input2 = document.createElement("input");
-      var key=get_key(element);
+      var key = get_key(element);
       input2.type = "text";
       input2.style = "display: none;";
       input2.value = key;
@@ -105,10 +113,10 @@
     //alert("123");
     splitString($("#tags").val(), ',');
 
-    var keyCat1=$( "#cat1" ).val();
-    var nameCat1=$( "#cat1 option:selected" ).text();
-    var keyCat2=$( "#cat2" ).val();
-    var nameCat2=$( "#cat2 option:selected" ).text();
+    var keyCat1 = $("#cat1").val();
+    var nameCat1 = $("#cat1 option:selected").text();
+    var keyCat2 = $("#cat2").val();
+    var nameCat2 = $("#cat2 option:selected").text();
 
     $("#keyCat1").val(keyCat1);
     $("#keyCat2").val(keyCat2);
@@ -116,18 +124,31 @@
     $("#nameCat2").val(nameCat2);
 
 
-    console.log($("#keyCat1").val(),$("#nameCat1").val(),$("#keyCat2").val(),$("#nameCat2").val());
+    console.log($("#keyCat1").val(), $("#nameCat1").val(), $("#keyCat2").val(), $("#nameCat2").val());
 
     $("#addPostForm").submit();
     //console.log(("#tags").tagsinput('items'));
   }
 
-  
+
 </script>
 <script>
-  $(document).ready(function(){
-      $("#tagSubmit").find('input').remove();
+  $(document).ready(function () {
+    $("#tagSubmit").find('input').remove();
   });
+
+</script>
+<script>
+  $(function () {
+    $('#datetimepicker1').datetimepicker();
+  });
+</script>
+<script>
+  $("input").prop('disabled', true);
+  $("select").prop('disabled', true);
+  $("textarea").prop('disabled', true);
+  $("select").prop('disabled', true);
+
 </script>
 <script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
 {{/section}}
@@ -136,11 +157,13 @@
     <input type="text" name="views" id="" value="0" style="display: none;">
     {{!-- <input type="text" name="rejectingReason" id="" value="" style="display: none;">
     <input type="text" name="status" id="" value="" style="display: none;">
-    <input type="text" name="dateUpload"  value="" style="display: none;"> --}}
+    <input type="text" name="dateUpload" value="" style="display: none;"> --}}
 
 
-    <input type="text" name="urlPic" id="" value="https://image.thanhnien.vn/2048/uploaded/phanthuong/2021_08_13/titiemoquan12_afpz.jpg" style="display: none;">
-    
+    <input type="text" name="urlPic" id=""
+      value="https://image.thanhnien.vn/2048/uploaded/phanthuong/2021_08_13/titiemoquan12_afpz.jpg"
+      style="display: none;">
+
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
       <div class="col-sm-10">
@@ -152,10 +175,10 @@
       <input type="text" name="nameCat1" id="nameCat1" value="" style="display: none;">
       <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
       <input type="text" name="nameCat2" id="nameCat2" value="" style="display: none;">
-      
+
       <label for="inputPassword3" class="col-sm-1 control-label">Topic 1</label>
       <div class="col-lg-2">
-        
+
         <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
           <option value="all" selected></option>
           {{#each lcCategory}}
@@ -173,31 +196,33 @@
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
       <div class="col-sm-2">
-        <select class="form-control" aria-label="Default select example" id="premium" onchange="getval(this);" name="permission">
+        <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);"
+          name="permission">
           <option value="0" selected>Không</option>
-          <option value="1" >Có</option>
-          
+          <option value="1">Có</option>
+
         </select>
       </div>
     </div>
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
       <div class="col-sm-10">
-        <textarea name="summary"type="text" class="form-control" id="inputPassword3"
+        <textarea name="summary" type="text" class="form-control" id="inputPassword3"
           placeholder="Summary">{{this.db.summary}}</textarea>
       </div>
     </div>
     <div class="form-group">
-
       <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
       <div class="col-sm-10">
-        <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
+        <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" disabled readonly />
         <div id='tagSubmit'>
-
         </div>
-
       </div>
-
+    </div>
+    <textarea class="tinymce" id="texteditor" name="content"></textarea>
+    <div class="form-group " style="text-align: center; margin-top:2%;">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"> Duyệt bài </button>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_reject" id="btnsubmit">Từ chối</a>
     </div>
 
 
@@ -208,53 +233,90 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
+            <h4 class="modal-title">Hiệu chỉnh bài viết</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
-              <div class="col-sm-10">
-                <select class="form-control" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                  {{!-- <optgroup label="client1">
-                    <option value="">project2.xml</option> --}}
+              <label for="inputPassword3" class="col-sm-2 control-label">Topic 1</label>
+              <div class="col-sm-4">
+                <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
+                  <option value="all" selected></option>
+                  {{#each lcCategory}}
+                  <option value="{{keyCat1}}">{{nameCat1}}</option>
+                  {{/each}}
                 </select>
               </div>
-              {{!-- <div class="col-sm-0">
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                  data-target="#myModal">add</button>
-              </div> --}}
+              <label for="inputPassword3" class="col-sm-2 control-label">Topic 2</label>
+              <div class="col-sm-4">
+                <select class="form-control" aria-label="Default select example" id="cat2">
+                </select>
+              </div>
             </div>
-            <button type="button" class="btn btn-success" data-dismiss="modal" style="margin-left: 90%;">Add</button>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Tag</label>
+              <div class="col-sm-9">
+                <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
+                <div id='tagSubmit'>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Date Upload</label>
+              <div class="col-sm-9">
+                <div class='input-group date' id='datetimepicker1'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">Key</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" placeholder="Key of tag">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">Name</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" placeholder="Name of tag">
-              </div>
-            </div>
-            {{!-- <button type="button" class="btn btn-success" data-dismiss="modal">Add</button> --}}
-            <button type="button" class="btn btn-success" data-dismiss="modal">Add</button>
           </div>
         </div>
       </div>
     </div>
-    <textarea class="tinymce" id="texteditor" name="content"></textarea>
-    <div class="form-group" style="text-align: center;">
-      <button type="button" class="btn btn-success" id="btnsubmit" onclick="_submit()"> Save </button>
-      <a href="./viewpost" class="btn btn-danger">Cancel</a>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal_reject" role="dialog" style="align-items: center; justify-content: center;">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Lý do</h4>
+          </div>
+          {{!-- <div class="modal-body"> --}}
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Lý do</label>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-9">
+                <textarea name="summary" type="text" class="form-control" id="" placeholder="Summary"></textarea>
+              </div>
+            </div>
+          {{!-- </div> --}}
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
     </div>
-    {{!-- <div id="data-container"></div> --}}
+    </div>
   </form>
+
+
+
+
+
+
+
+
+
+
+
 
 </main>

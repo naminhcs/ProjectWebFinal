@@ -17,25 +17,28 @@ router.use(bodyParser.json())
 router.get('/', async function (req, res) {
     // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
     // res.send(data)
-    res.render('vwWriter/dashboard', {
+    res.render('vwWriter/writing/writing-posts', {
         layout: 'writer.hbs'
     });
 })
 
 // ======================== add post ===========================
 router.get('/add', function (req, res) {
-    res.render('vwWriter/createpost', {
-        layout: 'writer.hbs'
+    var obj = ''
+    res.render('vwWriter/CreatePOst/createPost', {
+        layout: 'writer.hbs',
+        db: obj,
     })
 })
 
 router.post('/add/save', upload.single('file'), async function (req, res) {
     const data = req.body
+    console.log(data)
     const id = req.query.id || -1;
     var file;
     if (!req.file) file = null;
-    const result = await saveModel.savePostByID(id, data, file)
-    res.send(result)
+    // const result = await saveModel.savePostByID(id, data, file)
+     res.send('Ok')
 })
 
 router.post('/add/submit', upload.single('urlPic'), async function (req, res) {
@@ -49,24 +52,6 @@ router.post('/add/submit', upload.single('urlPic'), async function (req, res) {
     // res.send(result)
     res.send('ok')
 })
-
-
-// ===================== edit post ==========================
-router.get('/edit', async function (req, res) {
-    res.render('vwWriter/editpost', {
-        layout: 'writer.hbs'
-    });
-})
-
-
-router.post('/edit', async function (req, res) {
-    var data = req.body
-    id = data.id
-    delete data['id']
-    result = await postModel.editPost(data, id)
-    res.send(result)
-})
-
 
 
 // ===================== writing-post ======================
@@ -196,7 +181,7 @@ router.get('/view/writing-post', async function (req, res) {
         },
     }
     var nPages = 1
-    res.render('vwWriter/writing-posts', {
+    res.render('vwWriter/writing/writing-posts', {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages
@@ -255,13 +240,10 @@ router.get('/edit/writing-post', async function (req, res) {
         "nickName": "admin",
         "rejectingReason": ""
     }
-    // var page = req.query.page || 1;
-    // const posts = await saveModel.getSavePostByWriter(req.session.data.userName, page)
-    var nPages = 1
-    res.render('vwWriter/writing/editpost', {
+
+    res.render('vwWriter/createPost/createPost', {
         layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
     });
 })
 

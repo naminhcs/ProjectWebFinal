@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Table</title>
+<title>Danh sách bài báo chờ xuất bản</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <style>
     td {
@@ -14,8 +14,12 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Post'; const title2 = 'Posts'; const title3 = 'Posts';
-    const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+    const title1 = 'Danh sách các bài báo / Chờ xuất bản';
+    const title2 = 'Danh sách bài báo chờ xuất bản';
+
+    const id1 = document.getElementById('title1');
+    const id2 = document.getElementById('title2');
+
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -55,26 +59,6 @@
 </script>
 
 <script src="/assets/admin/js/getlistcat2.js"></script>
-
-<script>
-    function myfunction() {
-        var keyCat1 = document.getElementById('cat1').value;
-        var keyCat2 = document.getElementById('cat2').value;
-        // alert(keyCat1+keyCat2);
-        if (keyCat1 == 'all') {
-            window.location.href = "/admin/view/post";
-            return;
-        }
-        else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1;
-            return;
-        }
-        else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
-            return;
-        }
-    }
-</script>
 {{/section}}
 
 <main>
@@ -108,7 +92,7 @@
 
                             <td class="text-center">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/writer/edit/writing-post/{{id}}" class="btn btn-info btn-xs"
+                                    <a href="/writer/preview/public-post/{{id}}" class="btn btn-info btn-xs"
                                         data-title="Edit">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>

@@ -11,7 +11,7 @@ module.exports = {
             req.session.urlRedirect = req.originalUrl;
             return res.redirect('/user/login');
         }
-        if (req.session.data.permission !== -1){
+        if (req.session.data.permission !== 1){
             return res.redirect('/');
         }
         next();
@@ -27,7 +27,7 @@ module.exports = {
             req.session.urlRedirect = req.originalUrl;
             return res.redirect('/user/login');
         }
-        if (req.session.data.permission !== -2){
+        if (req.session.data.permission !== 2){
             return res.redirect('/');
         }
         next();
@@ -37,7 +37,7 @@ module.exports = {
             req.session.urlRedirect = req.originalUrl;
             return res.redirect('/user/login');
         }
-        if (req.session.data.permission !== -3){
+        if (req.session.data.permission !== 3){
             return res.redirect('/');
         }
         next();

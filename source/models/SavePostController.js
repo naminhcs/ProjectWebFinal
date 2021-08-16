@@ -4,17 +4,17 @@ const { getPostByID } = require('./postController')
 
 module.exports = {
 
-    async savePostByID(id, post, file){
+    async savePostByID(id, data, file){
         if (id === -1){
-            const post = await db.firestore.collection('SavePost').doc().set(post)
-            console.log(post.id)
+            const post = await db.firestore.collection('SavePost').doc()
             id = post.id
+            await post.set(data)
             if (file !== null){
                 await imgUploadModel.uploadImg('SavePost', file, id)
             }
             return 'done'
         } else {
-            await db.firestore.collection('SavePost').doc(id).update(post)
+            await db.firestore.collection('SavePost').doc(id).update(data)
             if (file !== null){
                 await imgUploadModel.uploadImg('SavePost', file, id)
             }
@@ -22,10 +22,11 @@ module.exports = {
         }
     },
 
-    async submitPost(id, post){
+    async submitPost(id, post, file){
         if (id === -1){
-            const data = await db.firestore.collection('DrafPost').doc().set(post)
+            const data = await db.firestore.collection('DrafPost').doc()
             id = data.id
+            await data.set(post)
             await imgUploadModel.uploadImg('DrafPost', file, id)
             return 'done'
         } else {
@@ -33,8 +34,9 @@ module.exports = {
             await db.firestore.collection('SavePost').doc(id).delete()
             if (file !== null){
                 //savepost -> drafPost
-                const data = await db.firestore.collection('DrafPost').doc().set(post)
+                const data = await db.firestore.collection('DrafPost').doc()
                 id = data.id
+                await data.set(post)
                 // add img nếu img thay đổi
                 await imgUploadModel.uploadImg('DrafPost', file, id)
                 return 'done'
@@ -52,7 +54,8 @@ module.exports = {
         const posts = await db.firestore.collection(type).where('userWriter', '==', writer).limit(right).get()
         right = Math.min(right, posts.docs.length)
         for (let i = left; i < right; i++){
-            const post = posts.docs[i].data()
+            var post = posts.docs[i].data()
+            post['id'] = posts.docs[i].id
             ans.push(post)
         }
         return ans;
@@ -72,4 +75,11 @@ module.exports = {
         }
     },
 
+    async getTotalPage(type, writer){
+        const posts = await db.firestore.collection(type).where('userWriter', '==', writer).get()
+        var cnt = posts.docs.length
+        var nPages = Math.floor(cnt / 15)
+        if (cnt % 15 !== 0) nPages++;
+        return nPages
+    },
 }

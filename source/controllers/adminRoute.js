@@ -204,7 +204,8 @@ router.get('/edit/tag/:id', async function(req, res){
 })
 router.post('/edit/tag/:id', async function(req, res){
     id = req.params.id;
-    result = await tagModel.editTag(id, req.body)
+    // result = await tagModel.editTag(id, req.body)
+    result="test ok"
     res.send(result);
 })
 
@@ -220,7 +221,8 @@ router.get('/add/tag', async function(req, res){
 })
 
 router.post('/add/tag', async function(req, res){
-    result = await tagModel.addTag(req.body)
+    // result = await tagModel.addTag(req.body)
+    const result = "testok";
     res.send(result)
 })
 
@@ -268,9 +270,9 @@ router.post('/edit/user/:id', async function(req, res){
         delete req.body.dayEndPremium
     }
     console.log(req.body)
-    var user = await userModel.getUserByID(req.params.id)
-    result = await userModel.updateUserByUserName(user.userName, data)
-    res.send(result);
+    // var user = await userModel.getUserByID(req.params.id)
+    // result = await userModel.updateUserByUserName(user.userName, data)
+    // res.send(result);
 })
 
 router.post('/add/user', auth.isAdmin, async function(req, res){
@@ -418,8 +420,6 @@ router.get('/add/user',  async function(req, res){
     res.render('vwAdmin/add/adduser',{layout:'admin.hbs'});
 })
 
-
-
 // ------------------------------------------------------dat
 
 router.get('/view/post/:cat1/:cat2', async function(req, res){
@@ -448,11 +448,6 @@ router.get('/view/post/:cat1/:cat2', async function(req, res){
     const cnt = await postModel.getPagePremium(cat2);
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
-    // res.send({
-    //     data: obj,
-    //     totalPage: nPages
-    // })
-
     res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages});
 })
 
@@ -460,14 +455,15 @@ router.get('/edit/post/:id', async function(req, res){
     id = req.params.id;
     var data = await postModel.getPostByID(id)
     // res.send(data);
-    res.render('vwAdmin/view/viewpost',{layout:'admin.hbs',db: data});
+    res.render('vwAdmin/edit/editpost',{layout:'admin.hbs',db: data});
 })
 
 router.post('/edit/post/:id', async function(req, res){
     const id = req.params.id
     var data = req.body;
     
-    result = await postModel.editPostForAdmin(id, data)
+    // result = await postModel.editPostForAdmin(id, data)
+    result="test ok"
     res.send(result)
 })
 

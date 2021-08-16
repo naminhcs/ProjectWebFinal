@@ -6,6 +6,8 @@ const imgModel = require('../models/imgController')
 const postModel = require('../models/postController');
 const auth = require('../middlewares/authMethod');
 const saveModel = require('../models/SavePostController')
+const rejectModel = require('../models/RejectPostController')
+
 
 const upload = multer({
     sotrage: multer.memoryStorage()
@@ -15,8 +17,6 @@ const router = express.Router();
 router.use(bodyParser.json())
 //
 router.get('/', async function (req, res) {
-    // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
-    // res.send(data)
     res.render('vwWriter/dashboard', {
         layout: 'writer.hbs'
     });
@@ -33,7 +33,7 @@ router.post('/add/save', upload.single('file'), async function (req, res) {
     const data = req.body
     const id = req.query.id || -1;
     var file;
-    if (!req.file) file = null;
+    if (!req.file) file = null; else file = req.file
     const result = await saveModel.savePostByID(id, data, file)
     res.send(result)
 })
@@ -43,7 +43,7 @@ router.post('/add/submit', upload.single('urlPic'), async function (req, res) {
     console.log(data)
     const id = req.query.id || -1
     var file;
-    if (!req.file) file = null
+    if (!req.file) file = null; else file = req.file
     console.log(req.file)
     // const result = await saveModel.submitPost(id, data, file)
     // res.send(result)
@@ -51,150 +51,10 @@ router.post('/add/submit', upload.single('urlPic'), async function (req, res) {
 })
 
 
-// ===================== edit post ==========================
-router.get('/edit', async function (req, res) {
-    res.render('vwWriter/editpost', {
-        layout: 'writer.hbs'
-    });
-})
-
-
-router.post('/edit', async function (req, res) {
-    var data = req.body
-    id = data.id
-    delete data['id']
-    result = await postModel.editPost(data, id)
-    res.send(result)
-})
-
-
-
-// ===================== writing-post ======================
+// ===================== writing-post(SAVE) ======================
 router.get('/view/writing-post', async function (req, res) {
-
-    var obj = {
-        "0": {
-            "id": 0,
-            "title": "Thiếu úy công an bắt quả tang nghi can định vứt bỏ ma túy đá",
-            "summary": " Sau khi mua ma túy đá, trên đường quay về nhà, Đoàn bị lực lượng tuần tra kiểm soát xử lý vi phạm phòng chống Covid-19 Công an TP.Bà Rịa bắt giữ cùng tang vật.\n  ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/longnt/2021_08_01/14384d6be44713194a56_ezwo.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <p>  Ngày 1.8, Tổ công tác tuần tra kiểm soát và xử lý vi phạm phòng chống dịch Covid-19 Công an TP.Bà Rịa (Bà Rịa – Vũng Tàu) đã bàn giao Đinh Viết Đoàn (26 tuổi, ngụ xã Châu Pha, TX.Phú Mỹ, Bà Rịa-Vũng Tàu) cho Công an P.Kinh Dinh xử lý về hành vi tàng trữ trái phép chất  <a href=\"https://thanhnien.vn/thoi-su/bo-doi-bien-phong-ba-ria-vung-tau-lien-tiep-triet-pha-2-vu-tang-tru-trai-phep-ma-tuy-1400299.html\" rel=\"\" target=\"_blank\">   ma túy  </a>  . </p> <p>  Khoảng 9 giờ 45 cùng ngày, Tổ công tác tuần tra kiểm soát và xử lý vi phạm  <a href=\"https://thanhnien.vn/thoi-su/bat-giu-2-nghi-can-van-chuyen-ma-tuy-bang-taxi-xuong-ba-ria-vung-tau-ban-1352118.html\" rel=\"\" target=\"_blank\">   phòng chống dịch Covid-19  </a>  Công an TP.Bà Rịa đang làm nhiệm vụ tại ngã tư Lê Đại Hành – Trịnh Đình Thảo (P.Kim Dinh) thì phát hiện Đoàn điều khiển xe máy biển kiểm soát 38P1 – 646.08 có biểu hiện nghi vấn nên ra hiệu lệnh dừng phương tiện để kiểm tra. </p> <p>  Trong quá trình làm việc với lực lượng, Đoàn đã móc trong túi quần ra 2 gói bột màu trắng để vứt bỏ thì bị thiếu úy Nguyễn Quốc Cường, công tác tại Đội CSGT-TT Công an TP.Bà Rịa làm Tổ trưởng tổ tuần tra nhanh chóng chụp tay Đoàn lại. </p> <p>  Đoàn khai nhận 2 gói bột trên là  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bi-cao-van-chuyen-ma-tuy-biet-danh-vo-anh-cuoc-lanh-an-1402235.html\" rel=\"\" style=\"color: #00739f;\" target=\"_blank\">   ma túy đá  </a>  mới đi mua từ TP.Vũng Tàu để đưa về nhà sử dụng. </p> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sun, 01 Aug 2021 08:14:58 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "ma-tuy",
-                    "name": "#Ma túy"
-                },
-                "1": {
-                    "key": "ma-tuy-da",
-                    "name": "#ma túy đá"
-                },
-                "2": {
-                    "key": "gian-cach",
-                    "name": "#giãn cách"
-                },
-                "3": {
-                    "key": "covid-19",
-                    "name": "#Covid-19"
-                },
-                "4": {
-                    "key": "to-tuan-tra",
-                    "name": "#tổ tuần tra"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 1,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-        "1": {
-            "id": 1,
-            "title": "Đà Nẵng: Tạm giữ 'thiếu gia' đi ô tô Peugeot tiền tỉ bán khí cười",
-            "summary": " Sáng 31.7, Công an P.An Hải Tây (Q.Sơn Trà, TP.Đà Nẵng) bàn giao 'thiếu gia' bán khí cười, phóng ô tô bỏ chạy khi bị lực lượng truy bắt. ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/nguyentu/2021_07_31/213078200_376520663824849_3157207895833773750_n_jjsc.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <div>  Theo Công an P.An Hải Tây, vào lúc 19 giờ 45 ngày 30.7, Tổ tuần tra đêm Công an P.An Hải Tây tuần tra ở khu vực cầu Rồng thuộc địa bàn thì phát hiện một người đang  <a href=\"https://thanhnien.vn/thoi-su/quyen-duoc-biet/dung-bong-cuoi-bi-xu-phat-muc-nao-1008063.html\" rel=\"\" target=\"_blank\">   bán khí cười  </a>  . </div> <div>  Lực lượng tuần tra yêu cầu kiểm tra hành chính thì nam thanh niên lên ô tô hiệu Peugeot 3008 trị giá tiền tỉ phóng chạy với tốc độ cao về hướng đường Nguyễn Thế Lộc (P.An Hải Bắc, Q.Sơn Trà), gây nguy hiểm cho người đi đường. </div> <div>  Tổ tuần tra đêm  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bat-bi-can-tron-truy-na-o-khu-dan-cu-phong-toa-covid-19-1422552.html\" rel=\"\" target=\"_blank\">   truy đuổi  </a>  đến ngã tư Ngô Quyền - Nguyễn Thế Lộc thì bắt được nghi phạm. Tại trụ sở Công an P.An Hải Tây, nghi phạm khai tên T.T.T. (27 tuổi, ngụ tiểu khu Đông Hoà, TT.Nông Cống, Thanh Hoá, hiện đang tạm trú P.An Hải Bắc). </div> <div>  Theo điều tra, tại cầu Rồng, T. đã bán khí cười cho người tên Nam (chưa xác định lai lịch) để mở  <a href=\"https://thanhnien.vn/thoi-su/nhom-7-nam-thanh-nu-tu-o-da-nang-thue-can-ho-tu-tap-hit-khi-cuoi-1272244.html\" rel=\"\" target=\"_blank\">   tiệc tại gia  </a>  . T. khai nhận mua khí cười vừa sử dụng và chỉ bán “vì đam mê” vì gia đình T rất khá giả, bản thân T sở hữu ô tô 4 chỗ hiệu Peugeot 3008 trị giá tiền tỉ. </div> <div>  Kiểm tra trên ô tô của T. còn có 10 bình  <a href=\"https://thanhnien.vn/thoi-su/da-nang-triet-xoa-o-kinh-doanh-chuyen-cung-cap-khi-cuoi-cho-tu-diem-an-choi-1371614.html\" rel=\"\" target=\"_blank\">   khí cười  </a>  cỡ lớn. Hiện vụ việc đang được tiếp tục điều tra làm rõ. </div> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sat, 31 Jul 2021 04:36:26 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "khi-cuoi",
-                    "name": "#khí cười"
-                },
-                "1": {
-                    "key": "thieu-gia",
-                    "name": "#thiếu gia"
-                },
-                "2": {
-                    "key": "o-to-tien-ti",
-                    "name": "#ô tô tiền tỉ"
-                },
-                "3": {
-                    "key": "da-nang",
-                    "name": "#Đà Nẵng"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 11,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-        "2": {
-            "id": 2,
-            "title": "Truy tố 10 bị can 'đổi tiền lấy bằng cấp' tại ĐH Đông Đô",
-            "summary": " Viện KSND tối cao vừa ban hành cáo trạng truy tố 10 bị can trong vụ án 'giả mạo trong công tác' xảy ra tại Trường ĐH Đông Đô. ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/minhnguyet/2021_07_31/dh-dong-do_xvwv.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <div>  <div>   Viện KSND tối cao vừa ban hành cáo trạng truy tố 10 bị can trong vụ án “   <a href=\"https://thanhnien.vn/thoi-su/tra-ho-so-vu-truong-dh-dong-do-de-dieu-tra-cac-truong-hop-dung-bang-gia-1318320.html\" rel=\"\" target=\"_blank\">    giả mạo trong công tác   </a>   ” xảy ra tại   <a href=\"https://thanhnien.vn/thoi-su/nguoi-su-dung-bang-gia-cua-truong-dai-hoc-dong-do-se-bi-xu-ly-ra-sao-1319295.html\" rel=\"\" target=\"_blank\">    Trường ĐH Đông Đô   </a>   , gồm: Dương Văn Hòa, nguyên Hiệu trưởng; Trần Kim Oanh, nguyên Phó hiệu trưởng; Lê Ngọc Hà, Phó hiệu trưởng; Trần Ngọc Quang, Phó trưởng phòng Quản lý đào tạo và quản lý sinh viên; Nguyễn Thị Huệ, nguyên Trưởng phòng   <a href=\"https://thanhnien.vn/tai-chinh-kinh-doanh/\" rel=\"\">    Tài chính   </a>   , kế toán; cùng các cán bộ của trường là Phạm Vân Thùy, Lê Thị Thanh Tâm, Nguyễn Thị Ngọc Thái, Ngô Quang Hiển và Lê Thị Lương.  </div>  <div>   Trong vụ án này, Trần Khắc Hùng,   <a href=\"https://thanhnien.vn/thoi-su/tra-ho-so-vu-truong-dh-dong-do-de-dieu-tra-cac-truong-hop-dung-bang-gia-1318320.html\" rel=\"\" target=\"_blank\">    Chủ tịch HĐQT ĐH Đông Đô   </a>   , được xác định là đối tượng cầm đầu nhưng do bị can này đã bỏ trốn, đang bị truy nã nên Cơ quan An ninh điều tra Bộ Công an đã tạm đình chỉ điều tra vụ án, tạm đình chỉ điều tra bị can, khi bắt được sẽ xử lý sau.  </div>  <div>   Theo cáo trạng, trong quá trình   <a href=\"https://thanhnien.vn/giao-duc/tuyen-sinh/2021/\" rel=\"\">    tuyển sinh   </a>   , đào tạo của Trường ĐH Đông Đô, vì động cơ vụ lợi, Trần Khắc Hùng và đồng phạm đã lợi dụng chức vụ quyền hạn để làm, cấp văn bằng 2 giả của hệ chính quy ngành ngôn ngữ Anh cho những người có nhu cầu. Từ tháng 4.2018 - 3.2019, Trần Khắc Hùng và đồng phạm đã làm, cấp bằng, giấy chứng nhận giả cho 431 trường hợp, thu lợi bất chính số tiền hơn 7,1 tỉ đồng. Những người được cấp bằng giả của   <a href=\"https://thanhnien.vn/thoi-su/vu-dh-dong-do-cap-bang-gia-lam-ro-trach-nhiem-don-vi-thuoc-bo-gd-dt-co-lien-quan-1309239.html\" rel=\"\" target=\"_blank\">    Trường ĐH Đông Đô   </a>   hầu hết đều sử dụng để thi tuyển công chức, nâng ngạch, làm nghiên cứu sinh, học thạc sĩ...  </div>  <div>   Các cơ quan tố tụng đã làm rõ trong số 431 trường hợp được cấp bằng giả, có 210 trường hợp được xác định rõ danh tính và kiến nghị xử lý theo quy định. Còn lại 221 trường hợp được cấp văn bằng giả đã xác định được họ tên, tuổi người được cấp bằng nhưng không xác định được nơi cư trú, đơn vị công tác.  </div>  <div>   Cùng với việc xử lý hình sự các bị can trong vụ án, các cơ quan tố tụng đã có văn bản kiến nghị Bộ trưởng Bộ GD-ĐT xử lý trách nhiệm của tập thể, cá nhân thuộc bộ này trong việc quản lý, kiểm tra, giám sát hoạt động của Trường ĐH Đông Đô. Theo đó, Vụ Kế hoạch - Tài chính đã thông báo   <a href=\"https://thanhnien.vn/thoi-su/vu-doi-tien-lay-bang-tai-dh-dong-do-phat-hien-them-10-truong-hop-dung-bang-gia-1342991.html\" rel=\"\" target=\"_blank\">    chỉ tiêu tuyển sinh   </a>   văn bằng 2 hệ chính quy cho Trường ĐH Đông Đô, khi trường này chưa được Bộ GD-ĐT cho phép tuyển sinh, đào tạo bằng ĐH thứ hai; tương tự, Vụ Giáo dục ĐH xét duyệt đăng tải trên   <a href=\"https://thanhnien.vn/giao-duc/tuyen-sinh/2021/\" rel=\"\">    cổng thông tin tuyển sinh   </a>   của Bộ GD-ĐT về thông tin tuyển sinh văn bằng 2 của Trường ĐH Đông Đô khi trường này chưa được cấp phép. Ngoài ra, từ năm 2018, Bộ GD-ĐT đã thành lập đoàn kiểm tra nhưng không phát hiện ra việc Trường ĐH Đông Đô chưa được phép đào tạo văn bằng 2 ngành ngôn ngữ Anh.  </div> </div> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sat, 31 Jul 2021 01:34:52 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "dh-dong-do",
-                    "name": "#ĐH Đông Đô"
-                },
-                "1": {
-                    "key": "truong-dh-dong-do",
-                    "name": "#Trường ĐH Đông Đô"
-                },
-                "2": {
-                    "key": "bang-gia",
-                    "name": "#bằng giả"
-                },
-                "3": {
-                    "key": "gia-mao-cong-tac",
-                    "name": "#giả mạo công tác"
-                },
-                "4": {
-                    "key": "chi-tieu-tuyen-sinh",
-                    "name": "#chỉ tiêu tuyển sinh"
-                },
-                "5": {
-                    "key": "duong-van-hoa",
-                    "name": "#Dương Văn Hòa"
-                },
-                "6": {
-                    "key": "tran-ngoc-quang",
-                    "name": "#Trần Ngọc Quang"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 17,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-    }
+    page = req.query.page || 1
+    obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'SavePost')
     var nPages = 1
     res.render('vwWriter/writing-posts', {
         layout: 'writer.hbs',
@@ -205,199 +65,56 @@ router.get('/view/writing-post', async function (req, res) {
 
 
 router.get('/edit/writing-post', async function (req, res) {
-
     var id = req.query.id;
-    var obj = {
-        "id": 0,
-        "title": "Thiếu úy công an bắt quả tang nghi can định vứt bỏ ma túy đá",
-        "summary": " Sau khi mua ma túy đá, trên đường quay về nhà, Đoàn bị lực lượng tuần tra kiểm soát xử lý vi phạm phòng chống Covid-19 Công an TP.Bà Rịa bắt giữ cùng tang vật.",
-        "urlPic": "https://image.thanhnien.vn/uploaded/longnt/2021_08_01/14384d6be44713194a56_ezwo.jpg",
-        "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <p>  Ngày 1.8, Tổ công tác tuần tra kiểm soát và xử lý vi phạm phòng chống dịch Covid-19 Công an TP.Bà Rịa (Bà Rịa – Vũng Tàu) đã bàn giao Đinh Viết Đoàn (26 tuổi, ngụ xã Châu Pha, TX.Phú Mỹ, Bà Rịa-Vũng Tàu) cho Công an P.Kinh Dinh xử lý về hành vi tàng trữ trái phép chất  <a href=\"https://thanhnien.vn/thoi-su/bo-doi-bien-phong-ba-ria-vung-tau-lien-tiep-triet-pha-2-vu-tang-tru-trai-phep-ma-tuy-1400299.html\" rel=\"\" target=\"_blank\">   ma túy  </a>  . </p> <p>  Khoảng 9 giờ 45 cùng ngày, Tổ công tác tuần tra kiểm soát và xử lý vi phạm  <a href=\"https://thanhnien.vn/thoi-su/bat-giu-2-nghi-can-van-chuyen-ma-tuy-bang-taxi-xuong-ba-ria-vung-tau-ban-1352118.html\" rel=\"\" target=\"_blank\">   phòng chống dịch Covid-19  </a>  Công an TP.Bà Rịa đang làm nhiệm vụ tại ngã tư Lê Đại Hành – Trịnh Đình Thảo (P.Kim Dinh) thì phát hiện Đoàn điều khiển xe máy biển kiểm soát 38P1 – 646.08 có biểu hiện nghi vấn nên ra hiệu lệnh dừng phương tiện để kiểm tra. </p> <p>  Trong quá trình làm việc với lực lượng, Đoàn đã móc trong túi quần ra 2 gói bột màu trắng để vứt bỏ thì bị thiếu úy Nguyễn Quốc Cường, công tác tại Đội CSGT-TT Công an TP.Bà Rịa làm Tổ trưởng tổ tuần tra nhanh chóng chụp tay Đoàn lại. </p> <p>  Đoàn khai nhận 2 gói bột trên là  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bi-cao-van-chuyen-ma-tuy-biet-danh-vo-anh-cuoc-lanh-an-1402235.html\" rel=\"\" style=\"color: #00739f;\" target=\"_blank\">   ma túy đá  </a>  mới đi mua từ TP.Vũng Tàu để đưa về nhà sử dụng. </p> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-        "dateUpload": "Sun, 01 Aug 2021 08:14:58 GMT",
-        "nameCat1": "Thời sự",
-        "keyCat1": "thoi-su",
-        "nameCat2": "Pháp luật",
-        "keyCat2": "phap-luat",
-        "listNameOfTag": {
-            '0': '#Ma túy',
-            '1': "#ma túy đá"
-
-        },
-        "listKeyOfTag": {
-            '0': "ma-tuy",
-            '1': "ma-tuy-da",
-        },
-        "listTag": {
-            "0": {
-                "key": "ma-tuy",
-                "name": "#Ma túy"
-            },
-            "1": {
-                "key": "ma-tuy-da",
-                "name": "#ma túy đá"
-            },
-            "2": {
-                "key": "gian-cach",
-                "name": "#giãn cách"
-            },
-            "3": {
-                "key": "covid-19",
-                "name": "#Covid-19"
-            },
-            "4": {
-                "key": "to-tuan-tra",
-                "name": "#tổ tuần tra"
-            }
-        },
-        "permission": 0,
-        "status": 1,
-        "views": 1,
-        "nickName": "admin",
-        "rejectingReason": ""
-    }
-    // var page = req.query.page || 1;
-    // const posts = await saveModel.getSavePostByWriter(req.session.data.userName, page)
-    var nPages = 1
+    obj = await saveModel.getPostByID(id, 'SavePost')
     res.render('vwWriter/writing/editpost', {
         layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
     });
 })
 
-router.post('/edit/writing-post', async function (req, res) {
-    res.send(req.body)
+//=====================Reject-post ===========================
+router.get('/view/reject-post', async function(req, res){
+    page = req.query.page || 1
+    const obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'RejectPost')
+    res.send(obj)
 })
 
+router.get('/edit/reject-post/:id', async function(req, res){
+    id = req.params.id
+    const obj = await saveModel.getPostByID(id, 'RejectPost')
+    res.send(obj)
+})
 
+// after edit, save post in rejectPost
+router.post('/edit/reject-post/save/:id', upload.single('urlPic'), async function(req, res){
+    const body = req.body
+    var file;
+    if (!req.file) file = null; else file = req.file
+    const result = await rejectModel.editRejectPost(id, body, file)
+    res.send(result)
+})
 
+// after edit, submit post to drafPost
+router.post('/edit/reject-post/submit/:id', upload.single('urlPic'), async function(req, res){
+    const body = req.body
+    var file;
+    if (!req.file) file = null; else file = req.file
+    const result = await rejectModel.submitRejectPost(id, body, file)
+    res.send(result)
+})
+
+router.post('/del/reject-post/:id', async function(req, res){
+    const id = req.params.id
+    const result = await saveModel.delelteSavePost(id, 'RejectReason')
+    res.send(result)
+})
 
 // ===================== waiting-post ======================
 router.get('/view/waiting-post', async function (req, res) {
-
-    var obj = {
-        "0": {
-            "id": 0,
-            "title": "Thiếu úy công an bắt quả tang nghi can định vứt bỏ ma túy đá",
-            "summary": " Sau khi mua ma túy đá, trên đường quay về nhà, Đoàn bị lực lượng tuần tra kiểm soát xử lý vi phạm phòng chống Covid-19 Công an TP.Bà Rịa bắt giữ cùng tang vật.\n  ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/longnt/2021_08_01/14384d6be44713194a56_ezwo.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <p>  Ngày 1.8, Tổ công tác tuần tra kiểm soát và xử lý vi phạm phòng chống dịch Covid-19 Công an TP.Bà Rịa (Bà Rịa – Vũng Tàu) đã bàn giao Đinh Viết Đoàn (26 tuổi, ngụ xã Châu Pha, TX.Phú Mỹ, Bà Rịa-Vũng Tàu) cho Công an P.Kinh Dinh xử lý về hành vi tàng trữ trái phép chất  <a href=\"https://thanhnien.vn/thoi-su/bo-doi-bien-phong-ba-ria-vung-tau-lien-tiep-triet-pha-2-vu-tang-tru-trai-phep-ma-tuy-1400299.html\" rel=\"\" target=\"_blank\">   ma túy  </a>  . </p> <p>  Khoảng 9 giờ 45 cùng ngày, Tổ công tác tuần tra kiểm soát và xử lý vi phạm  <a href=\"https://thanhnien.vn/thoi-su/bat-giu-2-nghi-can-van-chuyen-ma-tuy-bang-taxi-xuong-ba-ria-vung-tau-ban-1352118.html\" rel=\"\" target=\"_blank\">   phòng chống dịch Covid-19  </a>  Công an TP.Bà Rịa đang làm nhiệm vụ tại ngã tư Lê Đại Hành – Trịnh Đình Thảo (P.Kim Dinh) thì phát hiện Đoàn điều khiển xe máy biển kiểm soát 38P1 – 646.08 có biểu hiện nghi vấn nên ra hiệu lệnh dừng phương tiện để kiểm tra. </p> <p>  Trong quá trình làm việc với lực lượng, Đoàn đã móc trong túi quần ra 2 gói bột màu trắng để vứt bỏ thì bị thiếu úy Nguyễn Quốc Cường, công tác tại Đội CSGT-TT Công an TP.Bà Rịa làm Tổ trưởng tổ tuần tra nhanh chóng chụp tay Đoàn lại. </p> <p>  Đoàn khai nhận 2 gói bột trên là  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bi-cao-van-chuyen-ma-tuy-biet-danh-vo-anh-cuoc-lanh-an-1402235.html\" rel=\"\" style=\"color: #00739f;\" target=\"_blank\">   ma túy đá  </a>  mới đi mua từ TP.Vũng Tàu để đưa về nhà sử dụng. </p> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sun, 01 Aug 2021 08:14:58 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "ma-tuy",
-                    "name": "#Ma túy"
-                },
-                "1": {
-                    "key": "ma-tuy-da",
-                    "name": "#ma túy đá"
-                },
-                "2": {
-                    "key": "gian-cach",
-                    "name": "#giãn cách"
-                },
-                "3": {
-                    "key": "covid-19",
-                    "name": "#Covid-19"
-                },
-                "4": {
-                    "key": "to-tuan-tra",
-                    "name": "#tổ tuần tra"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 1,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-        "1": {
-            "id": 1,
-            "title": "Đà Nẵng: Tạm giữ 'thiếu gia' đi ô tô Peugeot tiền tỉ bán khí cười",
-            "summary": " Sáng 31.7, Công an P.An Hải Tây (Q.Sơn Trà, TP.Đà Nẵng) bàn giao 'thiếu gia' bán khí cười, phóng ô tô bỏ chạy khi bị lực lượng truy bắt. ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/nguyentu/2021_07_31/213078200_376520663824849_3157207895833773750_n_jjsc.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <div>  Theo Công an P.An Hải Tây, vào lúc 19 giờ 45 ngày 30.7, Tổ tuần tra đêm Công an P.An Hải Tây tuần tra ở khu vực cầu Rồng thuộc địa bàn thì phát hiện một người đang  <a href=\"https://thanhnien.vn/thoi-su/quyen-duoc-biet/dung-bong-cuoi-bi-xu-phat-muc-nao-1008063.html\" rel=\"\" target=\"_blank\">   bán khí cười  </a>  . </div> <div>  Lực lượng tuần tra yêu cầu kiểm tra hành chính thì nam thanh niên lên ô tô hiệu Peugeot 3008 trị giá tiền tỉ phóng chạy với tốc độ cao về hướng đường Nguyễn Thế Lộc (P.An Hải Bắc, Q.Sơn Trà), gây nguy hiểm cho người đi đường. </div> <div>  Tổ tuần tra đêm  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bat-bi-can-tron-truy-na-o-khu-dan-cu-phong-toa-covid-19-1422552.html\" rel=\"\" target=\"_blank\">   truy đuổi  </a>  đến ngã tư Ngô Quyền - Nguyễn Thế Lộc thì bắt được nghi phạm. Tại trụ sở Công an P.An Hải Tây, nghi phạm khai tên T.T.T. (27 tuổi, ngụ tiểu khu Đông Hoà, TT.Nông Cống, Thanh Hoá, hiện đang tạm trú P.An Hải Bắc). </div> <div>  Theo điều tra, tại cầu Rồng, T. đã bán khí cười cho người tên Nam (chưa xác định lai lịch) để mở  <a href=\"https://thanhnien.vn/thoi-su/nhom-7-nam-thanh-nu-tu-o-da-nang-thue-can-ho-tu-tap-hit-khi-cuoi-1272244.html\" rel=\"\" target=\"_blank\">   tiệc tại gia  </a>  . T. khai nhận mua khí cười vừa sử dụng và chỉ bán “vì đam mê” vì gia đình T rất khá giả, bản thân T sở hữu ô tô 4 chỗ hiệu Peugeot 3008 trị giá tiền tỉ. </div> <div>  Kiểm tra trên ô tô của T. còn có 10 bình  <a href=\"https://thanhnien.vn/thoi-su/da-nang-triet-xoa-o-kinh-doanh-chuyen-cung-cap-khi-cuoi-cho-tu-diem-an-choi-1371614.html\" rel=\"\" target=\"_blank\">   khí cười  </a>  cỡ lớn. Hiện vụ việc đang được tiếp tục điều tra làm rõ. </div> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sat, 31 Jul 2021 04:36:26 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "khi-cuoi",
-                    "name": "#khí cười"
-                },
-                "1": {
-                    "key": "thieu-gia",
-                    "name": "#thiếu gia"
-                },
-                "2": {
-                    "key": "o-to-tien-ti",
-                    "name": "#ô tô tiền tỉ"
-                },
-                "3": {
-                    "key": "da-nang",
-                    "name": "#Đà Nẵng"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 11,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-        "2": {
-            "id": 2,
-            "title": "Truy tố 10 bị can 'đổi tiền lấy bằng cấp' tại ĐH Đông Đô",
-            "summary": " Viện KSND tối cao vừa ban hành cáo trạng truy tố 10 bị can trong vụ án 'giả mạo trong công tác' xảy ra tại Trường ĐH Đông Đô. ",
-            "urlPic": "https://image.thanhnien.vn/uploaded/minhnguyet/2021_07_31/dh-dong-do_xvwv.jpg",
-            "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <div>  <div>   Viện KSND tối cao vừa ban hành cáo trạng truy tố 10 bị can trong vụ án “   <a href=\"https://thanhnien.vn/thoi-su/tra-ho-so-vu-truong-dh-dong-do-de-dieu-tra-cac-truong-hop-dung-bang-gia-1318320.html\" rel=\"\" target=\"_blank\">    giả mạo trong công tác   </a>   ” xảy ra tại   <a href=\"https://thanhnien.vn/thoi-su/nguoi-su-dung-bang-gia-cua-truong-dai-hoc-dong-do-se-bi-xu-ly-ra-sao-1319295.html\" rel=\"\" target=\"_blank\">    Trường ĐH Đông Đô   </a>   , gồm: Dương Văn Hòa, nguyên Hiệu trưởng; Trần Kim Oanh, nguyên Phó hiệu trưởng; Lê Ngọc Hà, Phó hiệu trưởng; Trần Ngọc Quang, Phó trưởng phòng Quản lý đào tạo và quản lý sinh viên; Nguyễn Thị Huệ, nguyên Trưởng phòng   <a href=\"https://thanhnien.vn/tai-chinh-kinh-doanh/\" rel=\"\">    Tài chính   </a>   , kế toán; cùng các cán bộ của trường là Phạm Vân Thùy, Lê Thị Thanh Tâm, Nguyễn Thị Ngọc Thái, Ngô Quang Hiển và Lê Thị Lương.  </div>  <div>   Trong vụ án này, Trần Khắc Hùng,   <a href=\"https://thanhnien.vn/thoi-su/tra-ho-so-vu-truong-dh-dong-do-de-dieu-tra-cac-truong-hop-dung-bang-gia-1318320.html\" rel=\"\" target=\"_blank\">    Chủ tịch HĐQT ĐH Đông Đô   </a>   , được xác định là đối tượng cầm đầu nhưng do bị can này đã bỏ trốn, đang bị truy nã nên Cơ quan An ninh điều tra Bộ Công an đã tạm đình chỉ điều tra vụ án, tạm đình chỉ điều tra bị can, khi bắt được sẽ xử lý sau.  </div>  <div>   Theo cáo trạng, trong quá trình   <a href=\"https://thanhnien.vn/giao-duc/tuyen-sinh/2021/\" rel=\"\">    tuyển sinh   </a>   , đào tạo của Trường ĐH Đông Đô, vì động cơ vụ lợi, Trần Khắc Hùng và đồng phạm đã lợi dụng chức vụ quyền hạn để làm, cấp văn bằng 2 giả của hệ chính quy ngành ngôn ngữ Anh cho những người có nhu cầu. Từ tháng 4.2018 - 3.2019, Trần Khắc Hùng và đồng phạm đã làm, cấp bằng, giấy chứng nhận giả cho 431 trường hợp, thu lợi bất chính số tiền hơn 7,1 tỉ đồng. Những người được cấp bằng giả của   <a href=\"https://thanhnien.vn/thoi-su/vu-dh-dong-do-cap-bang-gia-lam-ro-trach-nhiem-don-vi-thuoc-bo-gd-dt-co-lien-quan-1309239.html\" rel=\"\" target=\"_blank\">    Trường ĐH Đông Đô   </a>   hầu hết đều sử dụng để thi tuyển công chức, nâng ngạch, làm nghiên cứu sinh, học thạc sĩ...  </div>  <div>   Các cơ quan tố tụng đã làm rõ trong số 431 trường hợp được cấp bằng giả, có 210 trường hợp được xác định rõ danh tính và kiến nghị xử lý theo quy định. Còn lại 221 trường hợp được cấp văn bằng giả đã xác định được họ tên, tuổi người được cấp bằng nhưng không xác định được nơi cư trú, đơn vị công tác.  </div>  <div>   Cùng với việc xử lý hình sự các bị can trong vụ án, các cơ quan tố tụng đã có văn bản kiến nghị Bộ trưởng Bộ GD-ĐT xử lý trách nhiệm của tập thể, cá nhân thuộc bộ này trong việc quản lý, kiểm tra, giám sát hoạt động của Trường ĐH Đông Đô. Theo đó, Vụ Kế hoạch - Tài chính đã thông báo   <a href=\"https://thanhnien.vn/thoi-su/vu-doi-tien-lay-bang-tai-dh-dong-do-phat-hien-them-10-truong-hop-dung-bang-gia-1342991.html\" rel=\"\" target=\"_blank\">    chỉ tiêu tuyển sinh   </a>   văn bằng 2 hệ chính quy cho Trường ĐH Đông Đô, khi trường này chưa được Bộ GD-ĐT cho phép tuyển sinh, đào tạo bằng ĐH thứ hai; tương tự, Vụ Giáo dục ĐH xét duyệt đăng tải trên   <a href=\"https://thanhnien.vn/giao-duc/tuyen-sinh/2021/\" rel=\"\">    cổng thông tin tuyển sinh   </a>   của Bộ GD-ĐT về thông tin tuyển sinh văn bằng 2 của Trường ĐH Đông Đô khi trường này chưa được cấp phép. Ngoài ra, từ năm 2018, Bộ GD-ĐT đã thành lập đoàn kiểm tra nhưng không phát hiện ra việc Trường ĐH Đông Đô chưa được phép đào tạo văn bằng 2 ngành ngôn ngữ Anh.  </div> </div> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
-            "dateUpload": "Sat, 31 Jul 2021 01:34:52 GMT",
-            "nameCat1": "Thời sự",
-            "keyCat1": "thoi-su",
-            "nameCat2": "Pháp luật",
-            "keyCat2": "phap-luat",
-            "listTag": {
-                "0": {
-                    "key": "dh-dong-do",
-                    "name": "#ĐH Đông Đô"
-                },
-                "1": {
-                    "key": "truong-dh-dong-do",
-                    "name": "#Trường ĐH Đông Đô"
-                },
-                "2": {
-                    "key": "bang-gia",
-                    "name": "#bằng giả"
-                },
-                "3": {
-                    "key": "gia-mao-cong-tac",
-                    "name": "#giả mạo công tác"
-                },
-                "4": {
-                    "key": "chi-tieu-tuyen-sinh",
-                    "name": "#chỉ tiêu tuyển sinh"
-                },
-                "5": {
-                    "key": "duong-van-hoa",
-                    "name": "#Dương Văn Hòa"
-                },
-                "6": {
-                    "key": "tran-ngoc-quang",
-                    "name": "#Trần Ngọc Quang"
-                }
-            },
-            "permission": 0,
-            "status": 1,
-            "views": 17,
-            "nickName": "admin",
-            "rejectingReason": ""
-        },
-    }
+    page = req.query.page || 1
+    var obj;
+    obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'WaitingPost')
     var nPages = 1
     res.render('vwWriter/waiting-posts', {
         layout: 'writer.hbs',
@@ -406,11 +123,30 @@ router.get('/view/waiting-post', async function (req, res) {
     });
 })
 
-router.post('/view/writing-post', async function (req, res) {
-    res.send(req.body)
+router.get('/view/waiting-post/:id', async function(req, res){
+    id = req.params.id
+    var obj = await saveModel.getPostByID(id, 'WaitingPost')
+    res.send(obj)
 })
 
+// ======================post================================
 
+router.get('/view/public', async function (req, res) {
+    page = req.query.page || 1
+    var obj;
+    obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'Post')
+    var nPages = 1
+    res.send({
+        db: obj,
+        totalPage: nPages
+    })
+})
+
+router.get('/view/public/:id', async function(req, res){
+    id = req.params.id
+    var obj = await saveModel.getPostByID(id, 'Post')
+    res.send(obj)
+})
 
 
 

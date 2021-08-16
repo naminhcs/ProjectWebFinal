@@ -98,15 +98,17 @@ router.get('/view/draf-post', async function(req, res){
     // var user = await userModel.getUserByUserName(req.session.data.userName)
     // const posts = await drafModel.getDrafPostByCat1(user.adminCat, page)
     // res.send(posts)
-    
-    res.render('vwEditor/vieweditordraft',{layout:'editor.hbs',db:list_post,page:page});
+    var totalPage = 20;
+    res.render('vwEditor/vieweditordraft',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 })
 
 router.get('/view/reject-post', async function(req, res){
     page = req.query.page || 1
     // const posts = await rejectModel.getRejectPostByEditor(req.session.data.userName, page)
     // res.send(posts)
-    res.render('vwEditor/vieweditorreject',{layout:'editor.hbs',db:list_post});
+    var totalPage = 20;
+
+    res.render('vwEditor/vieweditorreject',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 
 })
 
@@ -114,18 +116,25 @@ router.get('/view/post', async function(req, res){
     page = req.query.page || 1
     // const posts = await waitingModel.getPostByEditor(page, req.session.data.userName)
     // res.send(posts)
-
-    res.render('vwEditor/vieweditoraccepted',{layout:'editor.hbs',db:list_post});
+    var totalPage = 20;
+    res.render('vwEditor/vieweditoraccepted',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 })
 
 router.get('/view/post/:id', async function(req, res){
     status = req.query.status
     id = req.params.id
-    var post
-    if (status === 1){
-        post = await postModel.getPostByID(id, 1)
-    } else post = await waitingModel.getPostByID(id)
-    res.send(post)
+    // var post
+    // if (status === 1){
+    //     post = await postModel.getPostByID(id, 1)
+    // } else post = await waitingModel.getPostByID(id)
+    // res.send(post)
+    if (status==1){
+        res.render('vwEditor/viewacceptpost',{layout:'editor.hbs',db:_post});
+    }
+    else{
+        res.render('vwEditor/viewrejectpost',{layout:'editor.hbs',db:_post});    
+    }
+    
 })
 
 router.get('/confirm/:id', async function(req, res){

@@ -1,0 +1,264 @@
+{{#section 'css'}}
+<title>Confirm Post</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+
+
+<style>
+  #datepicker>span:hover {
+    cursor: pointer;
+  }
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="/assets/admin/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css">
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+
+{{/section}}
+
+{{#section 'js'}}
+
+
+<script type="text/javascript" src="/assets/admin/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js"></script>
+<script type="text/javascript">
+  $('.clockpicker').clockpicker();
+</script>
+
+
+{{!-- Taginput --}}
+{{!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+<script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+<script>
+  const title1 = 'Post'; const title2 = 'Rejected post'; const title3 = 'Rejected post';
+  const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+  id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var table = $('#example').DataTable();
+    $('#example tbody').on('click', 'tr', function () {
+      if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+      }
+      else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+      }
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $("#btnsubmit").click(function () {
+
+
+    })
+  })
+</script>
+
+<script>
+  function xoa_dau(str) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/\s\s+/g, ' ');
+    str = str.replace(/  +/g, ' ');
+
+    return str;
+  }
+  function get_key(str) {
+    newstr = xoa_dau(str);
+    var array = newstr.split(' ');
+    newstr = array.join('-');
+    return newstr;
+  }
+
+
+
+  function splitString(stringToSplit, separator) {
+    const arrayOfStrings = stringToSplit.split(separator)
+
+    //console.log('The original string is: ', stringToSplit)
+  //  console.log('The separator is: ', separator)
+ //   console.log(arrayOfStrings)
+    var node= document.getElementById("tagSubmit");
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+    arrayOfStrings.forEach(element => {
+      var input1 = document.createElement("input");
+      input1.type = "text";
+      input1.style = "display: none;";
+      element = xoa_dau(element);
+      input1.value = "#" + element;
+      input1.name = "listNameOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input1);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+      var input2 = document.createElement("input");
+      var key = get_key(element);
+      input2.type = "text";
+      input2.style = "display: none;";
+      input2.value = key;
+      input2.name = "listKeyOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input2);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+    });
+
+  }
+
+
+  function accept_submit() {
+    //alert("123");
+    splitString($("#tags2").val(), ',');
+    var keyCat1 = $("#modal_Cat1").val();
+    var nameCat1 = $("#modal_Cat1 option:selected").text();
+    var keyCat2 = $("#modal_Cat2").val();
+    var nameCat2 = $("#modal_Cat2 option:selected").text();
+    $("#keyCat1").val(keyCat1);
+    $("#keyCat2").val(keyCat2);
+    $("#nameCat1").val(nameCat1);
+    $("#nameCat2").val(nameCat2);
+    //console.log($("#keyCat1").val(), $("#nameCat1").val(), $("#keyCat2").val(), $("#nameCat2").val());
+    $("#acceptPostForm").submit();
+    //console.log(("#tags").tagsinput('items'));
+  }
+  function reject_submit() {
+    $("#rejectPostForm").submit();
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    $("#tagSubmit").find('input').remove();
+  });
+</script>
+<script>
+  $("input").prop('disabled', true);
+  $("select").prop('disabled', true);
+  $("textarea").prop('disabled', true);
+  $("select").prop('disabled', true);
+  $("#lydotuchoi").prop('disabled', false);
+  $("#datepicker").prop('disabled', false);
+  $("#time").prop('disabled', false);
+  $("#modal_Cat2").prop('disabled', false);
+  $("#tags2").prop('disabled', false);
+  
+  
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+{{/section}}
+<main>
+  {{!-- <p>Date: <input type="text" id="datepicker"></p> --}}
+    
+  <div class="form-horizontal">
+    <input type="text" name="urlPic" id=""
+      value="https://image.thanhnien.vn/2048/uploaded/phanthuong/2021_08_13/titiemoquan12_afpz.jpg"
+      style="display: none;">
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="text-warning">Bài báo đã bị từ chối</label>
+    </div>
+    <div class="form-group" style="text-align: center;" >
+      
+        <textarea type="text" class="form-control" id="" name="reason" style="text-align: center; width:50%; margin-left:25%;"   
+        value="{{this.db.reason}}"></textarea>
+      
+    </div>
+    <div class="form-group" style="text-align: center;">
+      <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{this.db.title}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label">Topic 1</label>
+      <div class="col-lg-2">
+
+        <select class="form-control" aria-label="Default select example" onchange="getval(this);">
+          <option value="all" selected>{{this.db.nameCat1}}</option>
+        </select>
+      </div>
+      <label class="col-sm-1 control-label">Topic 2</label>
+      <div class="col-lg-2">
+        <select class="form-control" aria-label="Default select example">
+          <option value="{{this.db.keyCat2}}" selected>{{this.db.nameCat2}}</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label">Premium</label>
+
+
+      <div class="col-sm-1">
+        <input type="text" class="form-control" name="permission" id="permission" value="{{this.db.permission}}">
+        <script>
+          var permission = document.getElementById('permission').value;
+          if (permission == "1") {
+            document.getElementById('permission').value = "Có";
+          }
+          else {
+            document.getElementById('permission').value = "Không";
+          }
+        </script>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label">Summary</label>
+      <div class="col-sm-10">
+        <textarea name="summary" type="text" class="form-control" id="inputPassword3"
+          placeholder="Summary">{{this.db.summary}}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label">Tag</label>
+      <div class="col-sm-10">
+        <input type="text" value="" data-role="tagsinput" id="tags" disabled readonly />
+
+        {{#each this.db.listNameOfTag}}
+        <textarea id="tagName">{{this}}</textarea>
+        <script>
+          var tags = document.getElementById("tags");
+          var tagName = document.getElementById("tagName");
+          tags.value = tags.value + tagName.value + ", ";
+          tagName.remove();
+        </script>
+        {{/each}}
+      </div>
+    </div>
+    <textarea class="tinymce" id="texteditor" name="content">{{this.db.content}}</textarea>
+    <div class="form-group" style="text-align: center;">
+        <button type="button" style="display: none;"></button>
+    </div>
+   
+    <div class="form-group" style="text-align: center;">
+          <a href="/editor/view/reject-post?page=1" class="btn btn-success"> Quay lại </a>      
+    </div>
+  </div>
+</main>

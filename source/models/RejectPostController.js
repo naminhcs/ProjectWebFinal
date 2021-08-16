@@ -1,4 +1,5 @@
 const db = require('../db')
+const imgModel = require('./imgController')
 
 module.exports = {
 
@@ -19,5 +20,27 @@ module.exports = {
         const post = await db.firestore.collection('RejectPost').doc(id).get()
         const ans = post.data()
         return ans;
+    },
+
+    async editRejectPost(id, body, file){
+        await db.firestore.collection('RejectPost').doc(id).update(body)
+        if (file !== null){
+            await imgModel.uploadImg('RejectPost', file, id)
+        }
+        return 'done'
+    },
+
+    async submitRejectPost(id, body, file){
+        await db.firestore.collection('RejectPost').doc(id).update(body)
+        if (file !== null){
+            await imgModel.uploadImg('RejectPost', file, id)
+        }
+        const post = await db.firestore.collection('RejectPost').doc(id).get()
+        var data = post.data()
+        data['rejectReason'] = ''
+        delete data['userEditor']
+        await db.firestore.collection('RejectPost').doc(id).delete()
+        await db.firestore.collection('DrafPost').doc().set(data)
+        return 'done'
     }
 }

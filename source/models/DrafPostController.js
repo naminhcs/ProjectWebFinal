@@ -55,5 +55,6 @@ module.exports = {
         await db.firestore.collection('DrafPost').doc(id).delete()
         await db.firestore.collection('WaitingPost').doc().set(post)
         return 'done'
-    }
+    },
+    
 }

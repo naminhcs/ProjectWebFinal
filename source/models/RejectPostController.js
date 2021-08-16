@@ -37,7 +37,7 @@ module.exports = {
         }
         const post = await db.firestore.collection('RejectPost').doc(id).get()
         var data = post.data()
-        data['rejectReason'] = ''
+        delete data['rejectReason']
         delete data['userEditor']
         await db.firestore.collection('RejectPost').doc(id).delete()
         await db.firestore.collection('DrafPost').doc().set(data)

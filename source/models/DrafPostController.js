@@ -1,5 +1,5 @@
 const db = require('../db')
-
+const imgModel = require('./imgController')
 module.exports = {
 
     async getDrafPostFromTo(left, right, keyCat1){
@@ -57,4 +57,11 @@ module.exports = {
         return 'done'
     },
     
+    async editDraftPost(id, data, file){
+        await db.firestore.collection('DrafPost').doc(id).update(data)
+        if (file !== null){
+            await imgModel.uploadImg('DrafPost', file, id)
+        }
+        return 'done'
+    }
 }

@@ -1,0 +1,383 @@
+{{#section 'css'}}
+<title>Edit post</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+{{!-- plug in File input krajee start--}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
+    crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/css/fileinput.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+{{!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous"> --}}
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/themes/fas/theme.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/js/fileinput.min.js"></script>
+{{!-- plug in File input krajee end--}}
+
+
+{{/section}}
+
+{{#section 'js'}}
+{{!-- Taginput --}}
+{{!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+<script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+
+<script>
+    const title1 = 'writer / Danh sách bài báo / Chưa được duyệt / Chỉnh sửa';
+    const title2 = 'Edit post';
+
+    const id1 = document.getElementById('title1');
+    const id2 = document.getElementById('title2');
+
+    id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example').DataTable();
+        $('#example tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+    });
+</script>
+
+<script>
+    function xoa_dau(str) {
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+        str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+        str = str.replace(/\s\s+/g, ' ');
+        str = str.replace(/[^a-zA-Z 0-9]/g, '');
+        str = str.trim()
+        return str;
+    }
+
+    function get_key(str) {
+        newstr = xoa_dau(str);
+        var array = newstr.split(' ');
+        newstr = array.join('-');
+        return newstr;
+    }
+
+    function getTagInput(stringToSplit, separator) {
+        const arrayOfStrings = stringToSplit.split(separator)
+
+        //console.log('The original string is: ', stringToSplit)
+        //console.log('The separator is: ', separator)
+        //console.log(arrayOfStrings)
+        $("#tagSubmit").find('input').remove();
+
+        for (i = 0; i < arrayOfStrings.length; i++) {
+            var element = arrayOfStrings[i];
+            if (element === '') {
+                continue;
+            }
+            console.log(i, xoa_dau(element))
+            var input1 = document.createElement("input");
+            input1.type = "text";
+            input1.style = "display: none;";
+            element = xoa_dau(element);
+            input1.value = "#" + element;
+            input1.name = "listNameOfTag[]";
+            document.getElementById("tagSubmit").appendChild(input1);
+            //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+            var input2 = document.createElement("input");
+            var key = get_key(element);
+            input2.type = "text";
+            input2.style = "display: none;";
+            input2.value = key;
+            input2.name = "listKeyOfTag[]";
+            document.getElementById("tagSubmit").appendChild(input2);
+            //<input type="text" name="listKeyOfTag[]" style="display: none;">
+        }
+
+    }
+
+    function getcontent() {
+        var myContent = tinymce.get("texteditor").getContent();
+        return myContent;
+    }
+
+    function check_before_submit() {
+        //title
+        var title = $('#title').val();
+        console.log('title: ', title)
+        if (title === '' || title === null) {
+            alert('Nhập tiêu đề cho bài báo trước khi submit')
+            $('#title').focus()
+            return false;
+        }
+
+        //cat level 1
+        var keyCat1 = $("#cat1").val()
+        if (keyCat1 === '' || keyCat1 === null) {
+            alert('Chọn chuyên đề cấp một cho bài báo trước khi submit')
+            $("#cat1").focus()
+            return false;
+        }
+
+        //cat level 2
+        var keyCat2 = $("#cat2").val()
+        if (keyCat2 === '' || keyCat2 === null) {
+            alert('Chọn chuyên đề cấp hai cho bài báo trước khi submit')
+            $('#cat2').focus()
+            return false;
+        }
+
+        console.log('keyCat1: ', keyCat1, ', keyCat2: ', keyCat2)
+
+        //summary
+        var summary = $('#summary').val();
+        console.log('summary: ', summary)
+        if (summary === '' || summary === null) {
+            alert('Nhập tóm tắt nội dung cho bài báo trước khi submit')
+            $('#summary').focus()
+            return false;
+        }
+
+        //content
+        var content = getcontent();
+        console.log('content: ', content)
+        if (content.length === 0) {
+            alert('Nhập nội dung cho bài báo trước khi submit')
+            $('#texteditor').focus()
+            return false;
+        }
+
+        // post's avatar
+        var number_of_img = $("#input-id")[0].files.length;
+        console.log('So luong anh: ' + String(number_of_img))
+        if (number_of_img === 0) {
+            var previewImg = String($('#previewImgAva').attr('src'));
+            //alert(previewImg)
+            if (previewImg.length === 0 || previewImg === "undefined") {
+                alert('Chọn ảnh đại diện cho bài báo trước khi submit')
+                $('#input-id').focus()
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function _submit(type) {
+        getTagInput($("#tags").val(), ',');
+
+        var keyCat1 = $("#cat1").val()
+        var nameCat1 = $("#cat1 option:selected").text();
+        if (keyCat1 === '' || keyCat1 === null) {
+            nameCat1 = ''
+        }
+
+        var keyCat2 = $("#cat2").val();
+        var nameCat2 = $("#cat2 option:selected").text();
+        if (keyCat2 === '' || keyCat2 === null) {
+            nameCat2 = ''
+        }
+
+        $("#keyCat1").val(keyCat1);
+        $("#keyCat2").val(keyCat2);
+        $("#nameCat1").val(nameCat1);
+        $("#nameCat2").val(nameCat2);
+
+        var url = '/writer/add/submit';
+        if (type === 1) {
+            console.log('Submit')
+            //check empty input
+            if (!check_before_submit()) {
+                return;
+            }
+        }
+        else if (type === 0) {
+            var url = '/writer/add/save';
+            //change action
+            console.log('Save')
+
+
+        }
+        $("#addPostForm").attr('action', url)
+        $("#addPostForm").submit();
+    }
+
+</script>
+
+<script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
+
+
+
+{{/section}}
+<main>
+    <form class="form-horizontal" action="/writer/add/submit" method="POST" id="addPostForm"
+        enctype="multipart/form-data">
+
+        {{!-- custom input to submit --}}
+        <div>
+            <input type="number" name="views" id="" value="0" style="display: none;">
+            {{!-- <input type="text" name="rejectingReason" id="" value="" style="display: none;">
+            <input type="text" name="status" id="" value="" style="display: none;">
+            <input type="text" name="dateUpload" value="" style="display: none;"> --}}
+            <input type="text" name="keyCat1" id="keyCat1" value="" style="display: none;">
+            <input type="text" name="nameCat1" id="nameCat1" value="" style="display: none;">
+            <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
+            <input type="text" name="nameCat2" id="nameCat2" value="" style="display: none;">
+        </div>
+
+
+        {{!-- Title --}}
+        <div class="form-group" style="text-align: center;">
+            <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Title"
+                    value="{{this.db.title}}">
+            </div>
+        </div>
+
+
+        {{!-- Category --}}
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Topic 1</label>
+            <div class="col-lg-2">
+                <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
+                    <option disabled selected>-Chọn-</option>
+                    {{#if db.keyCat1}}
+                    <option value="{{db.keyCat1}}" selected>{{db.nameCat1}}</option>
+                    {{/if}}
+
+                    {{#each lcCategory}}
+                    <option value="{{keyCat1}}">{{nameCat1}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
+            <div class="col-lg-2">
+                <select class="form-control" aria-label="Default select example" id="cat2">
+                    {{#if db.keyCat2}}
+                    <option value="{{db.keyCat2}}" selected>{{db.nameCat2}}</option>
+                    {{else}}
+                    <option disabled selected>-Chọn-</option>
+                    {{/if}}
+                </select>
+            </div>
+        </div>
+
+
+        {{!-- Premium --}}
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
+            <div class="col-sm-2">
+                <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);"
+                    name="permission">
+                    {{#when this.db.permission 'eq' 1}}
+                    <option value='1'>Có</option>
+                    {{/when}}
+                    <option value='0'>Không</option>
+                    <option value='1'>Có</option>
+
+                </select>
+            </div>
+        </div>
+
+        {{!-- Summary --}}
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
+            <div class="col-sm-10">
+                <textarea name="summary" type="text" class="form-control" id="summary"
+                    placeholder="Summary">{{this.db.summary}}</textarea>
+            </div>
+        </div>
+
+        {{!-- Tag --}}
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
+            <div class="col-sm-10">
+                <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
+                <div id='tagSubmit'></div>
+                {{#each this.db.listNameOfTag}}
+                <textarea id="tagName">{{this}}</textarea>
+                <script>
+                    var tags = document.getElementById("tags");
+                    var tagName = document.getElementById("tagName");
+                    tags.value = tags.value + tagName.value + ", ";
+                    tagName.remove();
+                </script>
+                {{/each}}
+            </div>
+        </div>
+
+        {{!-- Avatar post --}}
+        <div class="form-group" style="text-align: center;">
+            <label for="inputEmail3" class="col-sm-1 control-label">Avatar</label>
+            <div class="col-sm-10">
+                <input id="input-id" name="urlPic" type="file" data-msg-placeholder="Select image for upload..."
+                    style="text-align: center;">
+                <button type="button" class="btn btn-success" id="previewAvaPost"
+                    style="margin-top: 5px ;">Preview</button>
+
+                <script>
+                    var urlAva = '{{db.urlPic}}' || '';
+                    var defaultPreviewContent = '<img src="' + urlAva + '" style = "height:400px;"  alt="Your Avatar" id = "previewImgAva">'
+                    if (urlAva.length === 0) {
+                        defaultPreviewContent = ''
+                    }
+                    $("#input-id").fileinput({
+                        showUpload: false,
+                        showZoom: false,
+                        browseOnZoneClick: true,
+                        browseLabel: 'Browse',
+                        showBrowse: true,
+                        browseClass: 'btn btn-info',
+                        previewClass: 'text-center',
+                        defaultPreviewContent: defaultPreviewContent,
+                        showCaption: false,
+                    });
+                </script>
+
+            </div>
+        </div>
+
+        <hr>
+
+        {{!-- content --}}
+        <div style="margin-bottom: 20px;">
+            <h4><b>
+                    Content</b></h4>
+            <textarea class="tinymce" id="texteditor" name="content">{{db.content}}</textarea>
+        </div>
+
+
+        {{!-- buttons SAVE/SUBMIT/CANCEL --}}
+        <div class="" style="text-align: center; ">
+            {{!-- <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button> --}}
+            <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit(1)"> Submit </button>
+            <button type="button" class="btn btn-danger" id="btncancel"> Cancel </button>
+        </div>
+    </form>
+
+</main>

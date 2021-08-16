@@ -87,7 +87,7 @@
                         <th>Người viết</th>
                         <th>namecat1</th>
                         <th>namecat2</th>
-                        <th>Permission</th>
+                        <th style="text-align: center;">Permission</th>
                         <th style="text-align: center;">Duyệt bài</th>
                     </thead>
                     <tbody>
@@ -98,50 +98,42 @@
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-                            <td id='premium'>{{permission}}</td>
+                            <td id='premium' style="text-align: center;">{{permission}}</td>
                             <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/editor/edit/post/{{id}}" class="btn btn-primary btn-xs"
+                                    <a href="/editor/confirm/{{id}}" class="btn btn-primary btn-xs"
                                         data-title="Duyệt bài">Duyệt bài
                                     </a>
                                 </p>
                             </td>
                         </tr>
                         {{/each}}
-                        <tr>
-
-                            <td>{{title}}</td>
-                            <td>{{nickName}}</td>
-                            <td>{{nameCat1}}</td>
-                            <td>{{nameCat2}}</td>
-                            <td id='premium'>{{permission}}</td>
-
-
-                            <td style="text-align: center;">
-                                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/editor/confirm/{{id}}" class="btn btn-primary btn-xs"
-                                        data-title="Duyệt bài">Duyệt
-                                    </a>
-                                </p>
-                            </td>
-
-                        </tr>
                     </tbody>
                 </table>
 
-
-                <ul class="pagination pull-right">
-                    <li class="disabled"><button type="button"><span class="glyphicon glyphicon-chevron-left"
-                                onclick="prev(2)"></span></button></li>
-                    {{!-- <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li> --}}
-                    <li><button type="button"><span class="glyphicon glyphicon-chevron-right"
-                                onclick="next(2)"></span></button></li>
-                </ul>
                 
+                <div class="form-group" style="text-align: right;">
+                    <div class="col-lg-12">
+                        <button type="button"><span class="glyphicon glyphicon-chevron-left"
+                                onclick="prev({{this.page}})"></span></button>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <select aria-label="Default select example" style="display: flex;">
+                            <option selected>{{this.page}}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            {{!-- <optgroup label="client1">
+                                <option value="">project2.xml</option> --}}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <button type="button"><span class="glyphicon glyphicon-chevron-right"
+                                onclick="next(2)"></span></button>
+                    </div>
+                </div>
             </div>
 
 

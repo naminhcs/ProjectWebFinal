@@ -87,8 +87,9 @@
                         <th>Người viết</th>
                         <th>namecat1</th>
                         <th>namecat2</th>
-                        <th>Permission</th>
+                        <th style="text-align: center;">Permission</th>
                         <th style="text-align: center;">Duyệt bài</th>
+                        <th style="text-align: center;">Xem chi tiết</th>
                     </thead>
                     <tbody>
                         {{#each this.db}}
@@ -98,36 +99,18 @@
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-                            <td id='premium'>{{permission}}</td>
+                            <td id='premium' style="text-align: center;">{{permission}}</td>
                             <td style="text-align: center;">
-                                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/admin/edit/post/{{id}}" class="btn btn-primary btn-xs"
-                                        data-title="Duyệt bài">Duyệt bài
-                                    </a>
-                                </p>
+                                <i class="glyphicon glyphicon-ok" style="text-align: center; color:green; " title="Đã duyệt"></i>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="" title="Xem chi tiết" style="color: black ;">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
                             </td>
                         </tr>
                         {{/each}}
-                        <tr>
-
-                            <td>{{title}}</td>
-                            <td>{{nickName}}</td>
-                            <td>{{nameCat1}}</td>
-                            <td>{{nameCat2}}</td>
-                            <td id='premium'>{{permission}}</td>
-
-
-                            <td style="text-align: center;">
-                                <i class="glyphicon glyphicon-ok" style="text-align: center; color:green; "></i>
-
-                                {{!-- <p data-placement="top" data-toggle="tooltip" title="Đã duyệt">
-                                    <a href="#" class="btn btn-success-sm" data-title="" disabled>
-                                        <span class="glyphicon glyphicon-ok"></span>
-                                    </a>
-                                </p> --}}
-                            </td>
-
-                        </tr>
+                       
                     </tbody>
                 </table>
 

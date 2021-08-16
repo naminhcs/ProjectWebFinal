@@ -32,7 +32,7 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
 
 router.get('/:key', async function(req, res){
     const key = req.params.key;
-    const page = req.query.page | 1
+    const page = req.query.page || 1
     var ans;
     var premium = 0;
     if (typeof(req.session.data) === 'undefined' || req.session.data === null){

@@ -411,4 +411,5 @@ router.post('/upgrade', auth.isLogin, async function (req, res) {
   req.session.successMessage = 'Your account have been upgraded!';
   res.redirect('/user/profile')
 })
+
 module.exports = router;

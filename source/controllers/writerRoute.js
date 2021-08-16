@@ -22,7 +22,8 @@ router.get('/', async function (req, res) {
     // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
     // res.send(data)
     res.render('vwWriter/writing/writing-posts', {
-        layout: 'writer.hbs'
+        layout: 'writer.hbs',
+        isWritingPosts: true,
     });
 })
 
@@ -32,6 +33,7 @@ router.get('/add', function (req, res) {
     res.render('vwWriter/CreatePOst/createPost', {
         layout: 'writer.hbs',
         db: obj,
+        isCreatePost: true,
     })
 })
 
@@ -74,22 +76,18 @@ router.post('/add/submit', auth.isWriter, upload.single('urlPic'), async functio
     res.send(result)
 })
 
-
 // ======================================== writing-post(SAVE) ============================================
 router.get('/view/writing-post', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     var obj = ''
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'SavePost')
     var nPages = await saveModel.getTotalPage('SavePost', req.session.data.userName)
-    // res.render('vwWriter/writing/writing-posts', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    //     totalPage: nPages
-    // });
-    res.send({
+    res.render('vwWriter/writing/writing-posts', {
+        layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
-    })
+        totalPage: nPages,
+        isWritingPosts: true,
+    });
 })
 
 
@@ -100,27 +98,32 @@ router.get('/edit/writing-post', auth.isWriter, async function (req, res) {
         res.send('you dont have permisson to edit this post')
         return;
     }
-    // res.render('vwWriter/createPost/createPost', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    // });
-    res.send(post)
+
+    res.render('vwWriter/writing/edit-writing-post', {
+        layout: 'writer.hbs',
+        db: post,
+        isWritingPosts: true,
+    });
 })
+
+router.post('/del/writing-post/:id', function (req, res) {
+    var id = req.params.id;
+    console.log(id)
+})
+
+
 
 // ======================================== draft-post================================================
 router.get('/view/draft-post', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     var obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'DrafPost')
     var nPages = await saveModel.getTotalPage('DrafPost', req.session.data.userName)
-    // res.render('vwWriter/draft/draft-posts', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    //     totalPage: nPages
-    // });
-    res.send({
+    res.render('vwWriter/draft/draft-posts', {
+        layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
-    })
+        totalPage: nPages,
+        isDraftPosts: true,
+    });
 })
 
 
@@ -132,9 +135,10 @@ router.get('/edit/draft-post', auth.isWriter, async function (req, res) {
         res.send('you dont have permisson to edit this post')
         return;
     }
-    res.render('vwWriter/createPost/createPost', {
+    res.render('vwWriter/draft/edit-draft-post', {
         layout: 'writer.hbs',
         db: obj,
+        isDraftPosts: true,
     });
 })
 
@@ -153,21 +157,26 @@ router.post('/edit/draft-post', auth.isWriter, upload.single('urlPic'), async fu
     res.send(result)
 })
 
+router.post('/del/draft-post/:id', auth.isWriter, function (req, res) {
+    const obj = await saveModel.getPostByID(id, 'DrafPost')
+    if (obj.userWriter !== req.session.data.userName){
+        res.send('you dont have permisson to edit this post')
+        return;
+    }
+    const result = await saveModel.delelteSavePost(id, 'DrafPost')
+    res.send(result)
+})
 
 //===============================================Reject-post ==============================================
 router.get('/view/reject-post', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     const obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'RejectPost')
     const nPages = await saveModel.getTotalPage('RejectPost', req.session.data.userName)
-    // res.render('vwWriter/reject/reject-posts', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    //     totalPage: nPages
-    // });
-    res.send({
+    res.render('vwWriter/reject/reject-posts', {
+        layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
-    })
+        isRejectPosts: true,
+    });
 })
 
 router.get('/edit/reject-post/:id',auth.isWriter , async function (req, res) {
@@ -177,11 +186,11 @@ router.get('/edit/reject-post/:id',auth.isWriter , async function (req, res) {
         res.send('you dont have permisson to edit this post')
         return;
     }
-    // res.render('vwWriter/reject/', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    // });
-    res.send(obj)
+    res.render('vwWriter/reject/edit-reject-post', {
+        layout: 'writer.hbs',
+        db: obj,
+        isRejectPosts: true,
+    });
 })
 
 // after edit, save post in rejectPost
@@ -231,15 +240,12 @@ router.get('/view/waiting-post', auth.isWriter , async function (req, res) {
     page = req.query.page || 1
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'WaitingPost')
     var nPages = await saveModel.getTotalPage('WaitingPost', req.session.data.userName)
-    // res.render('vwWriter/waiting/waiting-posts', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    //     totalPage: nPages
-    // });
-    res.send({
+    res.render('vwWriter/waiting/waiting-posts', {
+        layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
-    })
+        totalPage: nPages,
+        isWaitingPosts: true,
+    });
 })
 
 router.get('/view/waiting-post/:id', auth.isWriter, async function (req, res) {
@@ -258,14 +264,11 @@ router.get('/view/public', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'Post')
     var nPages = await saveModel.getTotalPage('Post', req.session.data.userName)
-    // res.render('vwWriter/waiting/waiting-posts', {
-    //     layout: 'writer.hbs',
-    //     db: obj,
-    //     totalPage: nPages
-    // });
-    res.send({
+    res.render('vwWriter/public/public-posts', {
+        layout: 'writer.hbs',
         db: obj,
-        totalPage: nPages
+        totalPage: nPages,
+        isPublicPosts: true,
     })
 })
 

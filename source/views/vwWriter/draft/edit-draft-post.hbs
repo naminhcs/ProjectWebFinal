@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Create a Post</title>
+<title>Edit post</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 {{!-- plug in File input krajee start--}}
@@ -34,8 +34,12 @@
 <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 
 <script>
-    const title1 = 'writer / add'; const title2 = 'Create a post'; const title3 = 'Create a post';
-    const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+    const title1 = 'writer / Danh sách bài báo / Chưa được duyệt / Chỉnh sửa';
+    const title2 = 'Edit post';
+
+    const id1 = document.getElementById('title1');
+    const id2 = document.getElementById('title2');
+
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -370,7 +374,7 @@
 
         {{!-- buttons SAVE/SUBMIT/CANCEL --}}
         <div class="" style="text-align: center; ">
-            <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button>
+            {{!-- <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button> --}}
             <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit(1)"> Submit </button>
             <button type="button" class="btn btn-danger" id="btncancel"> Cancel </button>
         </div>

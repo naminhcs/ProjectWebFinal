@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>View post</title>
+<title>User management</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
@@ -12,10 +12,10 @@
 {{!-- Taginput --}}
  <script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
   <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
-  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+  <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce.js"></script>
   <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-	const title1 = 'viewpost';const title2 = 'View post';const title3 = 'View post';
+	const title1 = 'editpost';const title2 = 'Edit post';const title3 = 'Edit post';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -35,32 +35,20 @@
             });
         });
     </script>
-<script>
-  $( "input" ).prop( "disabled", true ); //Disable
-  $( "select" ).prop( "disabled", true ); //Disable
-  $( "textarea" ).prop( "disabled", true ); //Disable
-</script>
-<script>
-    function getcontent(){
-    var content = "<%content%>";
-    var myContent = tinymce.get("myclass mceEditable").setContent(content);
-    }
-    
-</script>
 {{/section}}
 <main>
     <form class="form-horizontal">
     <div class="form-group" style="text-align: center;">
       <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputEmail3" placeholder="Title" value="{{this.db.title}}">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="Title">
       </div>
     </div>
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-1 control-label">Topic</label>
       <div class="col-sm-10">
         <select class="form-control" aria-label="Default select example">
-          <option selected>{{this.db.nameCat1}}</option>
+          <option selected>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
@@ -73,7 +61,7 @@
       <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
       <div class="col-sm-10">
         <select class="form-control" aria-label="Default select example">
-          <option selected>{{this.db.nameCat2}}</option>
+          <option selected>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
@@ -85,26 +73,14 @@
     <div class="form-group">
       <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
       <div class="col-sm-10">
-        <textarea type="text" class="form-control" id="inputPassword3" placeholder="Summary">{{this.db.summary}}</textarea>
+        <textarea type="text" class="form-control" id="inputPassword3" placeholder="Summary"></textarea>
       </div>
     </div>
     <div class="form-group">
       
       <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
       <div class="col-sm-10">
-        
-        
-        <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags"/>
-        
-        {{#each this.db.listNameOfTag}}
-            <textarea id="tagName">{{this}}</textarea>
-            <script>
-              var tags=document.getElementById("tags");
-              var tagName=document.getElementById("tagName");
-              tags.value = tags.value  + tagName.value + ", ";
-              tagName.remove();
-            </script>
-        {{/each}}
+        <input type="text" value="" data-role="tagsinput" placeholder="Add tags"/>
         {{!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Tag"> --}}
         {{!-- <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" /> --}}
       </div>
@@ -163,25 +139,28 @@
     </div>
   </div>
 
-    <div style="text-align: center;">
-        <h1>Content</h1>
-        <br>
-        <div style="background-color: darkgrey;">
-            {{!-- <div class="myclass mceEditable">Content</div> --}}
-            <textarea class="tinymce" id="texteditor">{{this.db.content}}</textarea>
-                
-            
-        </div>
-        <button type="button" style="visibility: hidden;"></button>
-    </div>
+    {{!-- <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Content">
+      </div> --}}
+      <textarea class="tinymce" id="texteditor"></textarea>
+      {{!-- <input type="submit" value="Get Data"> --}}
+      {{!-- <form id="get-data-form" method="post">
+        <textarea class="tinymce" id="texteditor"></textarea>
+        <input type="submit" value="Get Data">
+      </form> --}}
+    
+    {{!-- <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">Status</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="Status">
+      </div>
+    </div> --}}
     
       
       <div class="form-group" style="text-align: center;">
         {{!-- <div class="col-sm-offset-2 col-sm-10"> --}}
-          {{!-- <a href="./viewpost" class="btn btn-success">Edit</a>
-          <a href="./viewpost" class="btn btn-danger">Return</a> --}}
-          <a href="" class="btn btn-success">Edit</a>
-          <a href="" class="btn btn-danger">Return</a>
+          <a href="./viewpost" class="btn btn-success">Save</a>
+          <a href="./viewpost" class="btn btn-danger">Cancel</a>
         {{!-- </div> --}}
       </div>
       

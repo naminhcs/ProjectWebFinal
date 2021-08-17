@@ -113,7 +113,7 @@ router.get('/edit/writing-post', auth.isWriter, async function (req, res) {
 router.post('/del/writing-post/:id', auth.isWriter, async function (req, res) {
     var id = req.params.id;
     const post = await saveModel.getPostByID(id, 'SavePost')
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -193,10 +193,10 @@ router.get('/view/reject-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.get('/edit/reject-post',auth.isWriter , async function (req, res) {
+router.get('/edit/reject-post', auth.isWriter, async function (req, res) {
     id = req.query.id
     const obj = await saveModel.getPostByID(id, 'RejectPost')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -214,7 +214,7 @@ router.post('/edit/reject-post/save/:id', auth.isWriter, upload.single('urlPic')
     console.log(id)
     var post = await rejectModel.getRejectPostByID(id)
     console.log(post)
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -266,14 +266,18 @@ router.get('/view/waiting-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.get('/view/waiting-post/:id', auth.isWriter, async function (req, res) {
+router.get('/preview/waiting-post/:id', auth.isWriter, async function (req, res) {
     id = req.params.id
     var obj = await saveModel.getPostByID(id, 'WaitingPost')
     if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permission to read this post')
         return;
     }
-    res.send(obj)
+    res.render('vwWriter/waiting/view-wating-post.hbs', {
+        layout: 'writer.hbs',
+        db: obj,
+        isWaitingPosts: true,
+    })
 })
 
 
@@ -286,6 +290,7 @@ router.get('/view/public', auth.isWriter, async function (req, res) {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages,
+        page: page,
         isPublicPosts: true,
     })
 })

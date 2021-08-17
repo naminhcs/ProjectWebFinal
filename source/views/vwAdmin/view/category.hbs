@@ -11,41 +11,6 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var table = $('#example').DataTable();
-        $('#example tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-    });
-</script>
-
-<script>
-    $(function () {
-        $("table tbody tr").dblclick(function () {
-            location.href = "./editpost";
-        });
-    });
-</script>
-<script>
-    $('body').on('click', 'button', function (e) {
-        alert(e.target.id); //dynamicid
-        $(this).hide();
-        $('#done').show();
-
-        var requested_to = e.target.id;
-
-        $.ajax({
-            ....
-      });
-    });
-</script>
 <script src="/assets/admin/js/getlistcat2.js"></script>
 
 <script>
@@ -56,20 +21,20 @@
     }
 </script>
 <script>
-    function myfunction(){
-        var keyCat1=document.getElementById('cat1').value;
-        var keyCat2=document.getElementById('cat2').value;
-       // alert(keyCat1+keyCat2);
-        if(keyCat1=='all'){
+    function myfunction() {
+        var keyCat1 = document.getElementById('cat1').value;
+        var keyCat2 = document.getElementById('cat2').value;
+        // alert(keyCat1+keyCat2);
+        if (keyCat1 == 'all') {
             window.location.href = "/admin/view/cat";
             return;
         }
-        else if(keyCat2=='all'){
-            window.location.href ="/admin/view/cat/"+keyCat1;
+        else if (keyCat2 == 'all') {
+            window.location.href = "/admin/view/cat/" + keyCat1;
             return;
         }
-        else{
-            window.location.href ="/admin/view/cat/"+keyCat1+"/"+keyCat2;
+        else {
+            window.location.href = "/admin/view/cat/" + keyCat1 + "/" + keyCat2;
             return;
         }
     }
@@ -114,57 +79,61 @@
 
             <div class="panel-heading" style="display: flex;">
                 <p id='title3'></p>
-                {{!-- <button type="button" class="btn btn-info btn-sm">Edit</button> --}}
-
-
-
             </div>
-
-
-            <div class="panel-body">
-                <table id="example" class="display" style="width:100%">
+        </div><!-- /.panel-->
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <tr>
-                            <th>Chuyên Mục cấp 1</th>
-                            <th>Key</th>
-                            <th>Số lượng chuyên mục cấp 2</th>
-                            <th>Quản Lý</th>
-                            <th>Số lượng bài viết Premium</th>
-                            <th>Số lượng bài viết bình thường</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
+                        <th>Key</th>
+                        <th>Chuyên Mục cấp 1</th>
+                        <th>Quản Lý</th>
+                        <th style="text-align: center;">Số lượng chuyên mục cấp 2</th>
+                        <th style="text-align: center;">Số lượng bài viết Premium</th>
+                        <th style="text-align: center;">Số lượng bài viết bình thường</th>
+                        <th style="text-align: center;">Chỉnh sửa</th>
+                        <th style="text-align: center;">Xóa</th>
                     </thead>
                     <tbody>
                         {{#each this.db}}
                         <tr>
-                            <td>{{nameCat1}}</td>
                             <td>{{keyCat1}}</td>
-                            <td>{{amountCat2}}</td>
+                            <td>{{nameCat1}}</td>
                             <td>{{adminCat}}</td>
-                            <td>{{amountPre}}</td>
-                            <td>{{amountNor}}</td>
-                            <th><a href="" class="btn btn-info">Edit</th>
-                            <th><a href="javascript: $('#formDelete').submit();" class="btn btn-danger">Delete</th>
-                            <form action="/admin/del/cat/{{keyCat1}}" method="POST" id="formDelete">
-
-                            </form>
+                            <td style="text-align: center;">{{amountCat2}}</td>
+                            <td style="text-align: center;">{{amountPre}}</td>
+                            <td style="text-align: center;">{{amountNor}}</td>
+                            <td style="text-align: center;">
+                                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                    <a href="/admin/edit/cat/{{keyCat1}}" class="btn btn-primary btn-xs" data-title="Edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                </p>
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
+                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
+                                    data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
+
+
+                <ul class="pagination pull-right">
+                    <li class="disabled"><button type="button"><span class="glyphicon glyphicon-chevron-left"
+                                onclick="prev(2)"></span></button></li>
+              
+                    <li><button type="button"><span class="glyphicon glyphicon-chevron-right"
+                                onclick="next(2)"></span></button></li>
+                </ul>
+                <div class="col-lg-12" style="text-align: center;">
+                    <a href="/admin/add/post" class="btn btn-success">Add Post</a>
+                </div>
             </div>
-            {{!--
-        </div><!-- /.panel-->
-
-
-        <div class="panel panel-default"> --}}
-            {{!-- <div class="panel-heading" id="tag-heading"></div> --}}
-
-        </div><!-- /.panel-->
+        </div>
     </div><!-- /.col-->
     </div><!-- /.row -->
     {{!-- page=8 --}}
-    <a class="btn btn-info" onclick="myfn({{page}})" id="nextpage">next {{page}}</a>
-
 </main>

@@ -55,6 +55,6 @@ tinymce.init({
 			{title: "Justify", icon: "alignjustify", format: "alignjustify"}
 		]}
 	],
-	height:"200"
+	height:"500"
 
 });

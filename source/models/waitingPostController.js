@@ -18,9 +18,11 @@ module.exports = {
         var amountPostWaiting = 15 - ans.posts.length
         var right = page * 15 - topPost
         var left = Math.max(0, right - amountPostWaiting)
-        var waitingPost = await db.firestore.collection('WaitingPost').where('userEditor', '==', userEditor).limit(right).get()
+        var waitingPost
+        if (right > 0) waitingPost = await db.firestore.collection('WaitingPost').where('userEditor', '==', userEditor).limit(right).get()
         for (let i = left; i < right; i++){
-            const post = waitingPost.docs[i].data()
+            var post = waitingPost.docs[i].data()
+            post['id'] = waitingPost.docs[i].id
             ans.posts.push(post)
         }
         return ans.posts
@@ -36,6 +38,7 @@ module.exports = {
         time = new Date(val['dateUpload'])
         time = time.toGMTString();
         val['dateUpload'] = time
+        val['id'] = id;
         return val;
     },
 }

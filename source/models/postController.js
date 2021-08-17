@@ -37,10 +37,8 @@ module.exports = {
         const data = await db.firestore.collection('Post').doc();
         var id;
         id = data.id
-        const d = new Date(post['dateUpload'])
-        const t = d.getTime()
         post['id'] = id
-        post['dateUpload'] = t;
+        console.log(id)
         await data.set(post);
         var value = 'Count'; 
         if (post['permission'] === 1){value = 'CountPremium'}

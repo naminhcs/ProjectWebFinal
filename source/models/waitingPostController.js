@@ -1,5 +1,6 @@
 const db = require('../db')
 const postModel = require('./postController')
+const tagModel = require('./tagController')
 module.exports = {
     async getWaitingPostFromTo(left, right, userEditor){
         const posts = await db.firestore.collection('WaitingPost').where('userEditor', '==', userEditor).limit(right).get()
@@ -44,4 +45,28 @@ module.exports = {
         val['id'] = id;
         return val;
     },
+
+    async updateWaitingPost(){
+        const t = new Date()
+        const time = t.getTime()
+        console.log(time)
+        const posts = await db.firestore.collection('WaitingPost').where('dateUpload', '<=', time).get()
+        posts.forEach(async function(doc){
+            var dataPublic = doc.data()
+            for (let i = 0; i < dataPublic.listKeyOfTag; i++){
+                var key = dataPublic.listKeyOfTag[i]
+                var name = dataPublic.listNameOfTag[i]
+                var tag = {
+                    key: key,
+                    name: name
+                }
+                await tagModel.addTag(tag)
+            }
+            dataPublic['status'] = 1;
+            dataPublic['view'] = 0;
+            if (dataPublic['permission'] === '1') dataPublic['permission'] = 1; else dataPublic['permission'] = 0;
+            await postModel.addPost(dataPublic)
+            await db.firestore.collection('WaitingPost').doc(doc.id).delete()
+        })
+    }
 }

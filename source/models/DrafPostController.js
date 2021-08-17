@@ -52,6 +52,7 @@ module.exports = {
         delete post['id']
         delete post['rejectReason']
         post['userEditor'] = editor
+        post['status'] = 0
         await db.firestore.collection('DrafPost').doc(id).delete()
         await db.firestore.collection('WaitingPost').doc().set(post)
         return 'done'

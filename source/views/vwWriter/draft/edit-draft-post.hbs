@@ -206,7 +206,7 @@
         $("#nameCat1").val(nameCat1);
         $("#nameCat2").val(nameCat2);
 
-        var url = '/writer/add/submit';
+        var url = '/writer/edit/draft-post?id={{db.id}}';
         if (type === 1) {
             console.log('Submit')
             //check empty input
@@ -215,7 +215,7 @@
             }
         }
         else if (type === 0) {
-            var url = '/writer/add/save';
+            //var url = '/writer/add/save?id={{db.id}}';
             //change action
             console.log('Save')
 
@@ -233,7 +233,7 @@
 
 {{/section}}
 <main>
-    <form class="form-horizontal" action="/writer/add/submit" method="POST" id="addPostForm"
+    <form class="form-horizontal" action="" method="POST" id="addPostForm"
         enctype="multipart/form-data">
 
         {{!-- custom input to submit --}}

@@ -30,18 +30,23 @@ module.exports = {
             await imgUploadModel.uploadImg('DrafPost', file, id)
             return 'done'
         } else {
-            // xóa post trong savepost
+            // update post in savePost
+            await db.firestore.collection('SavePost').doc(id).update(post)
+            // get data from savePost
+            const data = await db.firestore.collection('SavePost').doc(id).get()
+            const dataSubmit = data.data()
+            // delete post in savePost
             await db.firestore.collection('SavePost').doc(id).delete()
             if (file !== null){
                 //savepost -> drafPost
                 const data = await db.firestore.collection('DrafPost').doc()
                 id = data.id
-                await data.set(post)
+                await data.set(dataSubmit)
                 // add img nếu img thay đổi
                 await imgUploadModel.uploadImg('DrafPost', file, id)
                 return 'done'
             } else {
-                await db.firestore.collection('DrafPost').doc().set(post)
+                await db.firestore.collection('DrafPost').doc().set(dataSubmit)
                 return 'done'
             }
         }
@@ -71,7 +76,9 @@ module.exports = {
         if (typeof(post.data()) === 'undefined'){
             return 'cant found'
         } else {
-            return post.data()
+            var dataReturn = post.data()
+            dataReturn['id'] = id
+            return dataReturn
         }
     },
 

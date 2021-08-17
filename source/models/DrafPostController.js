@@ -8,6 +8,7 @@ module.exports = {
         var ans = []
         for (let i = left; i < right; i++){
             var post = posts.docs[i].data()
+            post['id'] = posts.docs[i].id;
             ans.push(post)
         }
         return ans
@@ -25,7 +26,9 @@ module.exports = {
         if (typeof(post.data()) === 'undefined'){
             return 'cant found'
         } else {
-            return post.data()
+            var dataReturn = post.data();
+            dataReturn['id'] = id
+            return dataReturn
         }
     },
     
@@ -34,8 +37,10 @@ module.exports = {
         if (post === 'cant found') return post
         post['rejectReason'] = data.rejectReason
         post['userEditor'] = editor
-        await db.firestore.collection('DrafPost').doc(id).delete()
-        await db.firestore.collection('RejectPost').doc().set(post)
+        delete post['id']
+        console.log(post)
+        // await db.firestore.collection('DrafPost').doc(id).delete()
+        // await db.firestore.collection('RejectPost').doc().set(post)
         return 'done'
     },
 

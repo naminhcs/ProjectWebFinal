@@ -40,12 +40,12 @@ router.get('/add', function (req, res) {
 router.post('/add/save', auth.isWriter, upload.single('urlPic'), async function (req, res) {
     const data = req.body
     const id = req.query.id || -1;
-    if (id === -1){
+    if (id === -1) {
         data['userWriter'] = req.session.data.userName
         data['nickName'] = req.session.data.nickName
     } else {
         var post = await saveModel.getPostByID(id, 'SavePost')
-        if (post.userWriter !== req.session.data.userName){
+        if (post.userWriter !== req.session.data.userName) {
             res.send('You dont have permission for edit this post')
             return;
         }
@@ -60,18 +60,19 @@ router.post('/add/save', auth.isWriter, upload.single('urlPic'), async function 
 router.post('/add/submit', auth.isWriter, upload.single('urlPic'), async function (req, res) {
     const data = req.body;
     const id = req.query.id || -1
-    if (id === -1){
+    if (id === -1) {
         data['userWriter'] = req.session.data.userName
         data['nickName'] = req.session.data.nickName
     } else {
         var post = await saveModel.getPostByID(id, 'SavePost')
-        if (post.userWriter !== req.session.data.userName){
+        if (post.userWriter !== req.session.data.userName) {
             res.send('You dont have permission for edit this post')
             return;
         }
     }
     var file;
-    if (!req.file) file = null; else file = req.file
+    if (!req.file) file = null;
+    else file = req.file
     const result = await saveModel.submitPost(id, data, file)
     res.send(result)
 })
@@ -82,6 +83,7 @@ router.get('/view/writing-post', auth.isWriter, async function (req, res) {
     var obj = ''
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'SavePost')
     var nPages = await saveModel.getTotalPage('SavePost', req.session.data.userName)
+
     res.render('vwWriter/writing/writing-posts', {
         layout: 'writer.hbs',
         db: obj,
@@ -94,11 +96,13 @@ router.get('/view/writing-post', auth.isWriter, async function (req, res) {
 router.get('/edit/writing-post', auth.isWriter, async function (req, res) {
     var id = req.query.id;
     const post = await saveModel.getPostByID(id, 'SavePost')
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
 
+    post['id'] = id;
+    // console.log(post)
     res.render('vwWriter/writing/edit-writing-post', {
         layout: 'writer.hbs',
         db: post,
@@ -124,6 +128,7 @@ router.get('/view/draft-post', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     var obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'DrafPost')
     var nPages = await saveModel.getTotalPage('DrafPost', req.session.data.userName)
+    //console.log('list post: ', obj)
     res.render('vwWriter/draft/draft-posts', {
         layout: 'writer.hbs',
         db: obj,
@@ -137,10 +142,12 @@ router.get('/edit/draft-post', auth.isWriter, async function (req, res) {
     var id = req.query.id;
     var obj;
     obj = await saveModel.getPostByID(id, 'DrafPost')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
+
+    obj['id'] = id;
     res.render('vwWriter/draft/edit-draft-post', {
         layout: 'writer.hbs',
         db: obj,
@@ -148,24 +155,25 @@ router.get('/edit/draft-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.post('/edit/draft-post', auth.isWriter, upload.single('urlPic'), async function(req, res){
+router.post('/edit/draft-post', auth.isWriter, upload.single('urlPic'), async function (req, res) {
     var id = req.query.id;
     const data = req.body
     var obj;
     obj = await saveModel.getPostByID(id, 'DrafPost')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
     var file = null;
-    if (!req.file) file = null; else file = req.file
+    if (!req.file) file = null;
+    else file = req.file
     const result = await draftModel.editDraftPost(id, data, file);
     res.send(result)
 })
 
 router.post('/del/draft-post/:id', auth.isWriter, async function (req, res) {
     const obj = await saveModel.getPostByID(id, 'DrafPost')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -211,7 +219,8 @@ router.post('/edit/reject-post/save/:id', auth.isWriter, upload.single('urlPic')
         return;
     }
     var file = null;
-    if (!req.file) file = null; else file = req.file
+    if (!req.file) file = null;
+    else file = req.file
     const result = await rejectModel.editRejectPost(id, body, file)
     res.send(result)
 })
@@ -221,12 +230,13 @@ router.post('/edit/reject-post/submit/:id', auth.isWriter, upload.single('urlPic
     const body = req.body
     const id = req.params.id
     var post = await rejectModel.getRejectPostByID(id)
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
     var file;
-    if (!req.file) file = null; else file = req.file
+    if (!req.file) file = null;
+    else file = req.file
     const result = await rejectModel.submitRejectPost(id, body, file)
     res.send(result)
 })
@@ -234,7 +244,7 @@ router.post('/edit/reject-post/submit/:id', auth.isWriter, upload.single('urlPic
 router.post('/del/reject-post/:id', auth.isWriter, async function (req, res) {
     const id = req.params.id
     var post = await rejectModel.getRejectPostByID(id)
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -244,7 +254,7 @@ router.post('/del/reject-post/:id', auth.isWriter, async function (req, res) {
 
 
 // ================================================ waiting-post =============================================
-router.get('/view/waiting-post', auth.isWriter , async function (req, res) {
+router.get('/view/waiting-post', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'WaitingPost')
     var nPages = await saveModel.getTotalPage('WaitingPost', req.session.data.userName)
@@ -259,7 +269,7 @@ router.get('/view/waiting-post', auth.isWriter , async function (req, res) {
 router.get('/view/waiting-post/:id', auth.isWriter, async function (req, res) {
     id = req.params.id
     var obj = await saveModel.getPostByID(id, 'WaitingPost')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permission to read this post')
         return;
     }
@@ -283,11 +293,16 @@ router.get('/view/public', auth.isWriter, async function (req, res) {
 router.get('/view/public/:id', auth.isWriter, async function (req, res) {
     id = req.params.id
     var obj = await saveModel.getPostByID(id, 'Post')
-    if (obj.userWriter !== req.session.data.userName){
+    if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permission to read this post')
         return;
     }
-    res.send(obj)
+    res.render('vwWriter/public/view-public-post', {
+        layout: 'writer.hbs',
+        db: obj,
+        isPublicPosts: true,
+    })
+    //res.send(obj)
 })
 
 module.exports = router;

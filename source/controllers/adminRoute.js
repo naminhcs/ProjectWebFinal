@@ -177,9 +177,9 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
 
 // //--------------------------Tag--------------------------------------
 // //auth.isAdmin,
-// router.get('/',  async function(req, res){
-//     res.render('vwAdmin/dashboard',{layout:'admin.hbs'});
-// })
+router.get('/',  async function(req, res){
+    res.render('vwAdmin/dashboard',{layout:'admin.hbs'});
+})
 
 
 router.get('/view/tag', async function(req, res){
@@ -192,7 +192,8 @@ router.get('/view/tag', async function(req, res){
     //     data: data,
     //     totalPage: nPage
     // });
-    res.render('vwAdmin/view/tag',{layout:'admin.hbs',db: data,totalPage: nPage});
+    console.log(page);
+    res.render('vwAdmin/view/tag',{layout:'admin.hbs',db: data,totalPage: nPage,page:page});
 })
 
 router.get('/edit/tag/:id', async function(req, res){

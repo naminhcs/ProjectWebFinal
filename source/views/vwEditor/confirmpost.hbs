@@ -70,7 +70,6 @@
     })
   })
 </script>
-
 <script>
   function xoa_dau(str) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -100,11 +99,11 @@
     const arrayOfStrings = stringToSplit.split(separator)
 
     //console.log('The original string is: ', stringToSplit)
-  //  console.log('The separator is: ', separator)
- //   console.log(arrayOfStrings)
-    var node= document.getElementById("tagSubmit");
+    //  console.log('The separator is: ', separator)
+    //   console.log(arrayOfStrings)
+    var node = document.getElementById("tagSubmit");
     while (node.firstChild) {
-        node.removeChild(node.firstChild);
+      node.removeChild(node.firstChild);
     }
     arrayOfStrings.forEach(element => {
       var input1 = document.createElement("input");
@@ -164,13 +163,15 @@
   $("#time").prop('disabled', false);
   $("#modal_Cat2").prop('disabled', false);
   $("#tags2").prop('disabled', false);
-  
-  
+
+
 
 </script>
-<script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
-
-
+<script src="/assets/admin/js/getlistcat2_byKeycat1.js"></script>
+<script>
+  console.log($("#tmp1").val());
+  getlistcat2($("#tmp1").val(), $("#tmp2").val());
+</script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -257,6 +258,9 @@
       </div>
     </div>
     <textarea class="tinymce" id="texteditor" name="content">{{this.db.content}}</textarea>
+    <input type="text" name="" id="tmp1" value="{{this.db.keyCat1}}" style="display: none;">
+    <input type="text" name="" id="tmp2" value="{{this.db.keyCat2}}" style="display: none;">
+
     <div class="form-group " style="text-align: center; margin-top:2%;">
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"> Duyệt bài </button>
       <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_reject" id="btnsubmit">Từ
@@ -284,7 +288,8 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">Topic 1</label>
                 <div class="col-sm-4">
-                  <select class="form-control" aria-label="Default select example" onchange="getval(this);" id="modal_Cat1">
+                  <select class="form-control" aria-label="Default select example" onchange="getval(this);"
+                    id="modal_Cat1">
                     <option value="{{this.db.keyCat1}}" selected>{{this.db.nameCat1}}</option>
                   </select>
                 </div>

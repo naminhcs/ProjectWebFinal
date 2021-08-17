@@ -158,12 +158,12 @@ router.post('/edit/draft-post', auth.isWriter, upload.single('urlPic'), async fu
 })
 
 router.post('/del/draft-post/:id', auth.isWriter, function (req, res) {
-    const obj = await saveModel.getPostByID(id, 'DrafPost')
-    if (obj.userWriter !== req.session.data.userName){
-        res.send('you dont have permisson to edit this post')
-        return;
-    }
-    const result = await saveModel.delelteSavePost(id, 'DrafPost')
+    // const obj = await saveModel.getPostByID(id, 'DrafPost')
+    // if (obj.userWriter !== req.session.data.userName){
+    //     res.send('you dont have permisson to edit this post')
+    //     return;
+    // }
+    // const result = await saveModel.delelteSavePost(id, 'DrafPost')
     res.send(result)
 })
 

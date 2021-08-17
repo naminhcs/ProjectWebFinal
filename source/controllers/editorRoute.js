@@ -14,7 +14,9 @@ router.use(bodyParser.json())
 //auth.isEditor,
 
 router.get('/', function(req, res){
-    res.render('vwEditor/vieweditor',{layout:'editor.hbs'});
+    page=1;
+    totalPage=20;
+    res.render('vwEditor/vieweditordraft',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 })
 // router.get('/view/post', function(req, res){
 //     res.render('vwEditor/vieweditor',{layout:'editor.hbs'});

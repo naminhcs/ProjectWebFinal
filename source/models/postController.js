@@ -2,6 +2,7 @@ const db = require('../db');
 const tagModel = require('./tagController')
 const catModel = require('./categoryController');
 const { post } = require('../controllers/userRoute');
+const { getTotalPageByEditor } = require('./RejectPostController');
 
 module.exports = {
     async updateAmountPost(val, keyCat1, keyCat2, value){
@@ -619,7 +620,7 @@ module.exports = {
             adminCat.push(cat1.adminCat)
             listCat1.push(cat1.keyCat1)
         })
-        console.log(adminCat, listCat1)
+        var count = 0;
         for (let i = 0; i < adminCat.length; i++){
             const posts = await db.firestore.collection('Post').where('keyCat1', '==', listCat1[i]).get()
             posts.forEach(async function(doc){
@@ -630,8 +631,14 @@ module.exports = {
                     userWriter: post.nickName
                 }
                 await db.firestore.collection('Post').doc(id).update(dataUpdate)
+                userEditor = adminCat[i]
+                count++;
+                console.log(count)
             })
-            console.log(listCat1[i])
+            amount = posts.docs.length
+            userEditor = adminCat[i]
+            console.log(userEditor, amount)
+            await db.firestore.collection('AmountPostEditor').doc().set({userEditor: userEditor,amount: amount})
         }
         return 'done'
     },
@@ -674,12 +681,37 @@ module.exports = {
         const posts = await db.firestore.collection('Post').where('userEditor', '==', userName).limit(right).get()
         right = Math.min(posts.docs.length, right)
         for (let i = left; i < right; i++){
-            const post = posts.docs[i].data()
+            var post = posts.docs[i].data()
+            post['id'] = posts.docs[i].id
             ans.push(post)
         }
         return {
             posts: ans,
             topPost: right
         }
+    },
+
+    async getTotalPageByEditor(userName){
+        const cntPosts = await db.firestore.collection('AmountPostEditor').where('userEditor', '==', userName).get()
+        const wait = await db.firestore.collection('WaitingPost').where('userEditor', '==', userName).get()
+        const cnt = cntPosts.docs[0].data().amount + wait.docs.length
+        var nPage = Math.floor(cnt / 15)
+        if (cnt % 15 !== 0) nPage++;
+        return nPage
+    },
+
+    async createAmountPostEachEditor(){
+        const editor = 'editor'
+        for (let i = 1; i < 13; i++){
+            const userEditor = editor + i.toString()
+            console.log(userEditor)
+            const posts = await db.firestore.collection('Post').where('userEditor', '==', userEditor).get()
+            const amount = posts.docs.length;
+            if (amount > 0){
+                await db.firestore.collection('AmountPostEditor').doc().set({userEditor: userEditor,amount: amount})
+                console.log(userEditor, amount)
+            }
+        }
+        return 'done'
     }
 }

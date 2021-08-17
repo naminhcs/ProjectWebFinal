@@ -1,4 +1,6 @@
 const cat = require('../models/categoryController')
+const wait = require('../models/waitingPostController')
+
 module.exports = function (app) {
     app.use(async function (req, res, next) {
         if (typeof (req.session.auth) === 'undefined') {
@@ -7,6 +9,7 @@ module.exports = function (app) {
 
         const data = await cat.getAllCategory()
 
+    //    await wait.updateWaitingPost();
         res.locals.auth = req.session.auth;
         res.locals.dataUser = req.session.data;
         res.locals.lcCategory = data
@@ -14,8 +17,7 @@ module.exports = function (app) {
         if (typeof (req.session.successMessage) === 'undefined') {
             req.session.successMessage = '';
         }
-        // res.locals.successMessage = ''
-        // console.log(data)
+
         next();
     })
 }

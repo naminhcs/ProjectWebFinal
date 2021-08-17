@@ -258,6 +258,9 @@
       </div>
     </div>
     <textarea class="tinymce" id="texteditor" name="content">{{this.db.content}}</textarea>
+    <script>
+      console()
+    </script>
     <input type="text" name="" id="tmp1" value="{{this.db.keyCat1}}" style="display: none;">
     <input type="text" name="" id="tmp2" value="{{this.db.keyCat2}}" style="display: none;">
 
@@ -270,7 +273,7 @@
 
 
 
-    <form class="form-horizontal" action="/editor/confirm/accept/123" method="POST" id="acceptPostForm">
+    <form class="form-horizontal" action="/editor/confirm/accept/{{db.id}}" method="POST" id="acceptPostForm">
       <input type="text" name="keyCat1" id="keyCat1" value="" style="display: none;">
       <input type="text" name="nameCat1" id="nameCat1" value="" style="display: none;">
       <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
@@ -343,7 +346,7 @@
 
 
 
-    <form class="form-horizontal" action="/editor/confirm/reject/123" method="POST" id="rejectPostForm">
+    <form class="form-horizontal" action="/editor/confirm/reject/{{db.id}}" method="POST" id="rejectPostForm">
       <!-- Modal -->
       <div class="modal fade" id="myModal_reject" role="dialog" style="align-items: center; justify-content: center;">
         <div class="modal-dialog">

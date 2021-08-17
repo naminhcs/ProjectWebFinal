@@ -372,8 +372,36 @@
         <div class="" style="text-align: center; ">
             <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button>
             <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit(1)"> Submit </button>
-            <button type="button" class="btn btn-danger" id="btncancel"> Cancel </button>
+            <button type="button" class="btn btn-danger" id="btncancel" data-toggle="modal" data-target="#modalCancel">
+                Cancel </button>
         </div>
     </form>
+
+    <!-- Modal -->
+    <div id="modalCancel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <b>
+                        <h3 class="modal-title">Thoát</h3>
+                    </b>
+                </div>
+                <div class="modal-body">
+
+                    <p><b>Mọi thay đổi của bạn sẽ không được lưu!</b></p>
+                    <p>Bạn có chắc chắc muốn thoát hay không?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                    <a href="/writer/view/writing-post"><button type="button" class="btn btn-danger">Yes</button></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 </main>

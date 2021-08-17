@@ -10,15 +10,25 @@ module.exports = {
         var ans = []
         right = Math.min(right, posts.docs.length)
         for (let i = left; i < right; i++){
-            const post = posts.docs[i].data()
+            var post = posts.docs[i].data()
+            post['id'] = posts.docs[i].id
             ans.push(post)
         }
         return ans;
     },
 
+    async getTotalPageByEditor(type, userEditor){
+        const posts = await db.firestore.collection(type).where('userEditor', '==', userEditor).get()
+        const cnt = posts.docs.length
+        var nPage = Math.floor(cnt / 15)
+        if (cnt % 15 !== 0) nPage++;
+        return nPage
+    },
+
     async getRejectPostByID(id){
         const post = await db.firestore.collection('RejectPost').doc(id).get()
-        const ans = post.data()
+        var ans = post.data()
+        ans['id'] = id;
         return ans;
     },
 

@@ -23,7 +23,7 @@ router.get('/view/draf-post', auth.isEditor, async function(req, res){
     page = req.query.page || 1
     var user = await userModel.getUserByUserName(req.session.data.userName)
     const list_post = await drafModel.getDrafPostByCat1(user.adminCat, page)
-    var totalPage = 1;
+    var totalPage = drafModel.getTotalPageDraftPost(user.adminCat)
     res.render('vwEditor/vieweditordraft',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 })
 
@@ -31,10 +31,9 @@ router.get('/view/draf-post', auth.isEditor, async function(req, res){
 
 router.get('/view/reject-post', auth.isEditor, async function(req, res){
     page = req.query.page || 1
-    const list_post = await rejectModel.getRejectPostByEditor(req.session.data.userName, page)
+    const list_post = await rejectModel.getRejectPostByEditor(page, req.session.data.userName)
     var totalPage = await rejectModel.getTotalPageByEditor('RejectPost', req.session.data.userName)
     res.render('vwEditor/vieweditorreject',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
-
 })
 
 // Load các bài đã duyệt từ editor đó

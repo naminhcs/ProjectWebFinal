@@ -49,7 +49,6 @@ module.exports = {
     async updateWaitingPost(){
         const t = new Date()
         const time = t.getTime()
-        console.log(time)
         const posts = await db.firestore.collection('WaitingPost').where('dateUpload', '<=', time).get()
         posts.forEach(async function(doc){
             var dataPublic = doc.data()

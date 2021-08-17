@@ -21,6 +21,14 @@ module.exports = {
         return posts
     },
 
+    async getTotalPageDraftPost(keyCat1){
+        const posts = await db.firestore.collection('DrafPost').where('keyCat1', '==', keyCat1).get()
+        const cnt = posts.docs.length
+        var nPage = Math.floor(cnt / 15)
+        if (cnt % 15 !== 0) nPage++
+        return nPage
+    },
+
     async getDrafPostByID(id){
         const post = await db.firestore.collection('DrafPost').doc(id).get()
         if (typeof(post.data()) === 'undefined'){

@@ -71,14 +71,20 @@
         alert("post id:");
         alert(document.getElementById('postid').value);
     }
-    function selectPage() {
-        var selectBox = document.getElementById("currentPage");
-        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        location.replace("/editor/view/draf-post?page=" + selectedValue)
-
-    }
+    
     var totalPage = parseInt($("#totalPage").val());
     var curPage = parseInt($('#Page').val());
+    var urlType = parseInt($('#urlType').val());
+    function selectPage() {
+        console.log("selectPage");
+        var selectBox = document.getElementById("currentPage");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var urlType = parseInt($('#urlType').val());
+        console.log("/admin/view/user/"+urlType+"?page=" + selectedValue);
+        window.href("/admin/view/user/"+urlType+"?page=" + selectedValue);
+        
+    }
+    
     $('#currentPage').find('option').remove();
     for (let i = 1; i <= totalPage; i++) {
         var newoption = "<option value=\"" + i.toString() + "\"" + ">" + i + '</option>';
@@ -90,8 +96,9 @@
     $('.disabled').click(function (e) {
         e.preventDefault();
     })
-    $('#prevpage').attr("href", "/editor/view/draf-post?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/editor/view/draf-post?page=" + nextpage.toString());
+    var urlType = parseInt($('#urlType').val());
+    $('#prevpage').attr("href", "/admin/view/user/"+urlType+"?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/user/"+urlType+"?page=" + nextpage.toString());
     if (curPage == 1) {
         $('#prevpage').attr("href", "");
     }
@@ -124,6 +131,7 @@
 <main>
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
+    <input type="number" name="" id="urlType" value="{{urlType}}" style="display: none;">
 
     <div class="row">
         <div class="col-lg-12">
@@ -167,13 +175,8 @@
                 </table>
                 <div class="pagination" style="display: flex; justify-content: flex-end;">
                     <a href="#" id="prevpage">&laquo; Previous</a>
-
-                    <select name="" id="currentPage" class="active" style="	appearance: none;"
-                        onchange="selectPage({{totalPage}})">
-                        <option value="{{page}}" selected>{{page}}</option>
-
+                    <select name="" id="currentPage" class="active" style="	appearance: none;" onchange="selectPage()">
                     </select>
-
                     <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
                 </div>
             </div>

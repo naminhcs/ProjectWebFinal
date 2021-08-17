@@ -230,6 +230,7 @@ router.post('/add/tag', async function(req, res){
 //-------------------------User------------------------------------------
 router.get('/view/user/:type', async function(req, res){
     const type = req.params.type
+    console.log("/view/user/"+type);
     const page = req.query.page || 1
     var data;
     if (type === 'all'){
@@ -240,11 +241,8 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    // res.send({
-    //     data: data,
-    //     totalPage: nPage
-    // });
-    res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage});
+   
+    res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
 })
 
 router.get('/view/user/:id', async function(req, res){

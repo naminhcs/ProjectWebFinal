@@ -9,7 +9,7 @@ module.exports = function (app) {
 
         const data = await cat.getAllCategory()
 
-        await wait.updateWaitingPost();
+    //    await wait.updateWaitingPost();
         res.locals.auth = req.session.auth;
         res.locals.dataUser = req.session.data;
         res.locals.lcCategory = data

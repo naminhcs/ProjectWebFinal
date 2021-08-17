@@ -27,7 +27,8 @@ module.exports = {
 
     async getRejectPostByID(id){
         const post = await db.firestore.collection('RejectPost').doc(id).get()
-        const ans = post.data()
+        var ans = post.data()
+        ans['id'] = id;
         return ans;
     },
 

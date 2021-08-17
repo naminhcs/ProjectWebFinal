@@ -185,8 +185,8 @@ router.get('/view/reject-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.get('/edit/reject-post/:id',auth.isWriter , async function (req, res) {
-    id = req.params.id
+router.get('/edit/reject-post',auth.isWriter , async function (req, res) {
+    id = req.query.id
     const obj = await saveModel.getPostByID(id, 'RejectPost')
     if (obj.userWriter !== req.session.data.userName){
         res.send('you dont have permisson to edit this post')
@@ -203,7 +203,9 @@ router.get('/edit/reject-post/:id',auth.isWriter , async function (req, res) {
 router.post('/edit/reject-post/save/:id', auth.isWriter, upload.single('urlPic'), async function (req, res) {
     const body = req.body
     const id = req.params.id
+    console.log(id)
     var post = await rejectModel.getRejectPostByID(id)
+    console.log(post)
     if (post.userWriter !== req.session.data.userName){
         res.send('you dont have permisson to edit this post')
         return;

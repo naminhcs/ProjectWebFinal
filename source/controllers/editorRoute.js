@@ -88,10 +88,8 @@ router.post('/confirm/reject/:id', auth.isEditor, async function(req, res){
 router.post('/confirm/accept/:id', async function(req, res){
     const data = req.body
     // const result = await drafModel.acceptPost(id, data, req.session.data.userName)
-    // res.send(result)
     console.log(data);
-    res.send(done)
-    // res.redirect('/successful');
+    res.redirect('/successful');
 })
 
 module.exports = router;

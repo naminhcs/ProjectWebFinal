@@ -206,7 +206,7 @@
         $("#nameCat1").val(nameCat1);
         $("#nameCat2").val(nameCat2);
 
-        var id = '1';
+        var id = '{{db.id}}';
         var url = '/writer/edit/reject-post/submit/' + id;
         if (type === 1) {
             console.log('Submit')
@@ -234,7 +234,7 @@
 
 {{/section}}
 <main>
-    <form class="form-horizontal" action="/writer/add/submit" method="POST" id="addPostForm"
+    <form class="form-horizontal" action="" method="POST" id="addPostForm"
         enctype="multipart/form-data">
 
         {{!-- custom input to submit --}}
@@ -256,7 +256,7 @@
             </div>
             <div class="row text-center">
                 <div class="alert alert-danger" role="alert">
-                    {{db.rejectingReason}}
+                    {{db.rejectReason}}
                 </div>
             </div>
         </div>

@@ -39,8 +39,8 @@ module.exports = {
         post['userEditor'] = editor
         delete post['id']
         console.log(post)
-        // await db.firestore.collection('DrafPost').doc(id).delete()
-        // await db.firestore.collection('RejectPost').doc().set(post)
+        await db.firestore.collection('DrafPost').doc(id).delete()
+        await db.firestore.collection('RejectPost').doc().set(post)
         return 'done'
     },
 

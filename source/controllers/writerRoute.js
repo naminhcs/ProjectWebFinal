@@ -113,7 +113,7 @@ router.get('/edit/writing-post', auth.isWriter, async function (req, res) {
 router.post('/del/writing-post/:id', auth.isWriter, async function (req, res) {
     var id = req.params.id;
     const post = await saveModel.getPostByID(id, 'SavePost')
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -193,12 +193,60 @@ router.get('/view/reject-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.get('/edit/reject-post',auth.isWriter , async function (req, res) {
+router.get('/edit/reject-post', auth.isWriter, async function (req, res) {
     id = req.query.id
-    const obj = await saveModel.getPostByID(id, 'RejectPost')
-    if (obj.userWriter !== req.session.data.userName){
-        res.send('you dont have permisson to edit this post')
-        return;
+    // const obj = await saveModel.getPostByID(id, 'RejectPost')
+    // if (obj.userWriter !== req.session.data.userName) {
+    //     res.send('you dont have permisson to edit this post')
+    //     return;
+    // }
+    var obj = {
+        "id": 0,
+        "title": "Thiếu úy công an bắt quả tang nghi can định vứt bỏ ma túy đá",
+        "summary": " Sau khi mua ma túy đá, trên đường quay về nhà, Đoàn bị lực lượng tuần tra kiểm soát xử lý vi phạm phòng chống Covid-19 Công an TP.Bà Rịa bắt giữ cùng tang vật.",
+        "urlPic": "https://image.thanhnien.vn/uploaded/longnt/2021_08_01/14384d6be44713194a56_ezwo.jpg",
+        "content": "<div class=\"cms-body detail\" id=\"abody\" itemprop=\"articleBody\"> <p>  Ngày 1.8, Tổ công tác tuần tra kiểm soát và xử lý vi phạm phòng chống dịch Covid-19 Công an TP.Bà Rịa (Bà Rịa – Vũng Tàu) đã bàn giao Đinh Viết Đoàn (26 tuổi, ngụ xã Châu Pha, TX.Phú Mỹ, Bà Rịa-Vũng Tàu) cho Công an P.Kinh Dinh xử lý về hành vi tàng trữ trái phép chất  <a href=\"https://thanhnien.vn/thoi-su/bo-doi-bien-phong-ba-ria-vung-tau-lien-tiep-triet-pha-2-vu-tang-tru-trai-phep-ma-tuy-1400299.html\" rel=\"\" target=\"_blank\">   ma túy  </a>  . </p> <p>  Khoảng 9 giờ 45 cùng ngày, Tổ công tác tuần tra kiểm soát và xử lý vi phạm  <a href=\"https://thanhnien.vn/thoi-su/bat-giu-2-nghi-can-van-chuyen-ma-tuy-bang-taxi-xuong-ba-ria-vung-tau-ban-1352118.html\" rel=\"\" target=\"_blank\">   phòng chống dịch Covid-19  </a>  Công an TP.Bà Rịa đang làm nhiệm vụ tại ngã tư Lê Đại Hành – Trịnh Đình Thảo (P.Kim Dinh) thì phát hiện Đoàn điều khiển xe máy biển kiểm soát 38P1 – 646.08 có biểu hiện nghi vấn nên ra hiệu lệnh dừng phương tiện để kiểm tra. </p> <p>  Trong quá trình làm việc với lực lượng, Đoàn đã móc trong túi quần ra 2 gói bột màu trắng để vứt bỏ thì bị thiếu úy Nguyễn Quốc Cường, công tác tại Đội CSGT-TT Công an TP.Bà Rịa làm Tổ trưởng tổ tuần tra nhanh chóng chụp tay Đoàn lại. </p> <p>  Đoàn khai nhận 2 gói bột trên là  <a href=\"https://thanhnien.vn/thoi-su/da-nang-bi-cao-van-chuyen-ma-tuy-biet-danh-vo-anh-cuoc-lanh-an-1402235.html\" rel=\"\" style=\"color: #00739f;\" target=\"_blank\">   ma túy đá  </a>  mới đi mua từ TP.Vũng Tàu để đưa về nhà sử dụng. </p> <!-- Bắt đầu Dable / Để được giải đáp, hãy truy cập http://dable.io --> <div data-widget_id=\"goPj6JlQ\" id=\"dablewidget_goPj6JlQ\"> </div> <!-- Kết thúc / Để được giải đáp, hãy truy cập http://dable.io --></div>",
+        "dateUpload": "Sun, 01 Aug 2021 08:14:58 GMT",
+        "nameCat1": "Thời sự",
+        "keyCat1": "thoi-su",
+        "nameCat2": "Pháp luật",
+        "keyCat2": "phap-luat",
+        "listNameOfTag": {
+            '0': '#Ma túy',
+            '1': "#ma túy đá"
+
+        },
+        "listKeyOfTag": {
+            '0': "ma-tuy",
+            '1': "ma-tuy-da",
+        },
+        "listTag": {
+            "0": {
+                "key": "ma-tuy",
+                "name": "#Ma túy"
+            },
+            "1": {
+                "key": "ma-tuy-da",
+                "name": "#ma túy đá"
+            },
+            "2": {
+                "key": "gian-cach",
+                "name": "#giãn cách"
+            },
+            "3": {
+                "key": "covid-19",
+                "name": "#Covid-19"
+            },
+            "4": {
+                "key": "to-tuan-tra",
+                "name": "#tổ tuần tra"
+            }
+        },
+        "permission": 0,
+        "status": 1,
+        "views": 1,
+        "nickName": "admin",
+        "rejectReason": "anbc xxj kahd alsdjlad kahd adlka ahdlajd lajd adlasjd askjla;sdj lasdjlad asd aksdkhad akhdak dhk kahsdka kahdkasd",
     }
     res.render('vwWriter/reject/edit-reject-post', {
         layout: 'writer.hbs',
@@ -214,7 +262,7 @@ router.post('/edit/reject-post/save/:id', auth.isWriter, upload.single('urlPic')
     console.log(id)
     var post = await rejectModel.getRejectPostByID(id)
     console.log(post)
-    if (post.userWriter !== req.session.data.userName){
+    if (post.userWriter !== req.session.data.userName) {
         res.send('you dont have permisson to edit this post')
         return;
     }
@@ -266,14 +314,18 @@ router.get('/view/waiting-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.get('/view/waiting-post/:id', auth.isWriter, async function (req, res) {
+router.get('/preview/waiting-post/:id', auth.isWriter, async function (req, res) {
     id = req.params.id
     var obj = await saveModel.getPostByID(id, 'WaitingPost')
     if (obj.userWriter !== req.session.data.userName) {
         res.send('you dont have permission to read this post')
         return;
     }
-    res.send(obj)
+    res.render('vwWriter/waiting/view-wating-post.hbs', {
+        layout: 'writer.hbs',
+        db: obj,
+        isWaitingPosts: true,
+    })
 })
 
 
@@ -286,6 +338,7 @@ router.get('/view/public', auth.isWriter, async function (req, res) {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages,
+        page: page,
         isPublicPosts: true,
     })
 })

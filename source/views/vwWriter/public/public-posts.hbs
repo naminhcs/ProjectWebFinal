@@ -10,6 +10,52 @@
         text-align: center;
     }
 </style>
+
+{{!-- pagination's style --}}
+<style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        /* Gray */
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+
+    .pagination select {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        transition: background-color .3s;
+    }
+
+    .pagination select:hover {
+        background-color: #ddd;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+
+    .pagination option {
+        color: black;
+        text-decoration: none;
+        
+    }
+</style>
+
 {{/section}}
 
 {{#section 'js'}}
@@ -59,6 +105,37 @@
 </script>
 
 <script src="/assets/admin/js/getlistcat2.js"></script>
+
+{{!-- Pagination's script --}}
+<script>
+    function selectPage() {
+        var selectBox = document.getElementById("currentPage");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        location.replace("/editor/view/draf-post?page=" + selectedValue)
+
+    }
+    var totalPage = parseInt($("#totalPage").val());
+    var curPage = parseInt($('#Page').val());
+    $('#currentPage').find('option').remove();
+    for (let i = 1; i <= totalPage; i++) {
+        var newoption = "<option value=\"" + i.toString() + "\"" + ">" + i + '</option>';
+        $('#currentPage').append(newoption);
+    }
+    $('#currentPage').val($('#Page').val());
+    var nextpage = curPage + 1;
+    var prevpage = curPage - 1;
+    $('.disabled').click(function (e) {
+        e.preventDefault();
+    })
+    $('#prevpage').attr("href", "/editor/view/draf-post?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/editor/view/draf-post?page=" + nextpage.toString());
+    if (curPage == 1) {
+        $('#prevpage').attr("href", "");
+    }
+    if (curPage == totalPage) {
+        $('#nextpage').attr("href", "");
+    }
+</script>
 {{/section}}
 
 <main>
@@ -92,8 +169,7 @@
 
                             <td class="text-center">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/writer/view/public/{{id}}" class="btn btn-info btn-xs"
-                                        data-title="Edit">
+                                    <a href="/writer/view/public/{{id}}" class="btn btn-info btn-xs" data-title="Edit">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </p>
@@ -105,27 +181,21 @@
                     </tbody>
                 </table>
 
-
-                <ul class="pagination pull-right">
-                    <li class="disabled">
-                        <button type="button" style="text-align:center;"
-                            onclick="prev(2);Bootstrap Snipp for Datatable">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            Previous
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" style="text-align:right;" onclick="next(2)">
-                            Next
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </button>
-                    </li>
-                </ul>
-
-
             </div>
 
+            <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
+            <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
+            <div class="pagination" style="display: flex; justify-content: flex-end;">
+                <a href="#" id="prevpage">&laquo; Previous</a>
 
+                <select name="" id="currentPage" class="active" style="	appearance: none;"
+                    onchange="selectPage({{totalPage}})">
+                    <option value="{{page}}" selected>{{page}}</option>
+
+                </select>
+
+                <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
+            </div>
 
         </div>
     </div>

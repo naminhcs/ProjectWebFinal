@@ -678,9 +678,7 @@ module.exports = {
         var left = (page - 1) * 15
         var right = left + 15;
         var ans = []
-        console.log('get post by editor', left, right)
         const posts = await db.firestore.collection('Post').where('userEditor', '==', userName).limit(right).get()
-        console.log(posts.docs.length)
         right = Math.min(posts.docs.length, right)
         for (let i = left; i < right; i++){
             var post = posts.docs[i].data()

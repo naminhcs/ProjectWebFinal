@@ -47,16 +47,11 @@ module.exports = {
     async acceptPost(id, data, editor){
         var post = await this.getDrafPostByID(id)
         if (post === 'cant found') return post
-        post['rejectReason'] = ''
+        await db.firestore.collection('DrafPost').doc(id).update(data)
+        post = await this.getDrafPostByID(id)
+        delete post['id']
+        delete post['rejectReason']
         post['userEditor'] = editor
-        const t = new Date(data.dateUpload)
-        post['dateUpload'] = t.getTime()
-        post['status'] = 0
-        post['view'] = 0
-        post['keyCat2'] = data.keyCat2
-        post['nameCat2'] = data.nameCat2
-        post['listNameOfTag'] = data.listNameOfTag
-        post['listKeyOfTag'] = data.listKeyOfTag
         await db.firestore.collection('DrafPost').doc(id).delete()
         await db.firestore.collection('WaitingPost').doc().set(post)
         return 'done'

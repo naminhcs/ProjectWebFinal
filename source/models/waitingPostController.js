@@ -19,7 +19,10 @@ module.exports = {
         var right = page * 15 - topPost
         var left = Math.max(0, right - amountPostWaiting)
         var waitingPost
-        if (right > 0) waitingPost = await db.firestore.collection('WaitingPost').where('userEditor', '==', userEditor).limit(right).get()
+        if (right > 0) {
+            waitingPost = await db.firestore.collection('WaitingPost').where('userEditor', '==', userEditor).limit(right).get()
+            right = Math.min(right, waitingPost.docs.length)
+        }
         for (let i = left; i < right; i++){
             var post = waitingPost.docs[i].data()
             post['id'] = waitingPost.docs[i].id

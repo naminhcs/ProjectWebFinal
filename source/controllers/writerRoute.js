@@ -106,9 +106,15 @@ router.get('/edit/writing-post', auth.isWriter, async function (req, res) {
     });
 })
 
-router.post('/del/writing-post/:id', function (req, res) {
+router.post('/del/writing-post/:id', auth.isWriter, async function (req, res) {
     var id = req.params.id;
-    console.log(id)
+    const post = await saveModel.getPostByID(id, 'SavePost')
+    if (post.userWriter !== req.session.data.userName){
+        res.send('you dont have permisson to edit this post')
+        return;
+    }
+    const result = await saveModel.delelteSavePost(id, 'SavePost')
+    res.send(result)
 })
 
 
@@ -157,7 +163,7 @@ router.post('/edit/draft-post', auth.isWriter, upload.single('urlPic'), async fu
     res.send(result)
 })
 
-router.post('/del/draft-post/:id', auth.isWriter, function (req, res) {
+router.post('/del/draft-post/:id', auth.isWriter, async function (req, res) {
     const obj = await saveModel.getPostByID(id, 'DrafPost')
     if (obj.userWriter !== req.session.data.userName){
         res.send('you dont have permisson to edit this post')

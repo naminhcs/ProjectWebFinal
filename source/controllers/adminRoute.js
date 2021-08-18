@@ -122,15 +122,12 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
 })
 
 //-------------------Delete Cat1-----------------------------------------------
-router.get('/del/cat/:cat1', async function(req, res){
-    res.render('')
-})
-
 router.post('/del/cat/:cat1', async function (req, res){
     const cat1 = req.params.cat1
-    result = await catModel.delCat1(cat1)
-    res.send(result)
-    // console.log("ok")
+    //result = await catModel.delCat1(cat1)
+    res.send(cat1);
+    //res.send(result)
+    
 })
 
 //-------------------Delete cat2------------------------------------------------
@@ -156,8 +153,7 @@ router.post('/add/cat/:cat1', async function (req, res){
         keyCat2: req.body.keyCat2,
         nameCat2: req.body.nameCat2
     }
-    // const result = await addCat2(cat1, data)
-    const result = "asdaskljfh"
+    const result = await addCat2(cat1, data)
     res.send(result)
 })
 
@@ -182,9 +178,7 @@ router.post('/add/cat', async function(req, res){
         adminCat: data.adminCat1,
         listCat: listCat2
     }
-    console.log(objCat1)
     const result = await catModel.addCat1(objCat1)
-    // const result="123"
     res.send(result)
 })
 // //--------------------------End category-----------------------------
@@ -217,15 +211,15 @@ router.get('/edit/tag/:id', async function(req, res){
 })
 router.post('/edit/tag/:id', async function(req, res){
     id = req.params.id;
-    // result = await tagModel.editTag(id, req.body)
-    result="test ok"
+    result = await tagModel.editTag(id, req.body)
     res.send(result);
 })
 
 router.post('/del/tag/:id', async function(req, res){
     id = req.params.id;
-    result = await tagModel.delTag(id)
-    res.send(result)
+    //result = await tagModel.delTag(id)
+    res.send(id);
+    //res.send(result)
 })
 
 
@@ -253,7 +247,7 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    console.log("/view/user/"+type);
+    console.log(data);
     res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
 })
 
@@ -323,9 +317,10 @@ router.post('/add/user', auth.isAdmin, async function(req, res){
 })
 
 router.post('/del/user/:id', async function(req, res){
-    id = req.body.id
-    result = await userModel.delUser(id)
-    res.send(result)
+    id = req.params.id
+    // result = await userModel.delUser(id)
+    res.send(id);
+    // res.send(result)
 })
 
 
@@ -443,10 +438,11 @@ router.post('/add/post', async function(req, res){
     // return result;
 })
 
-router.post('/post/del/:id', async function(req, res){
+router.post('/del/post/:id', async function(req, res){
     const id = req.params.id
-    result = await postModel.delPost(id);
-    res.send(result)
+    // result = await postModel.delPost(id);
+    res.send(id);
+    // res.send(result)
 })
 
 module.exports = router;

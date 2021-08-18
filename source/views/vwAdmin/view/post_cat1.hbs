@@ -81,9 +81,9 @@
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
         var urlType = $("#cat1").val();
-        
-        console.log("/admin/view/post/"+urlType+"?page=" + selectedValue);
-        location.replace("/admin/view/post/"+urlType+"?page=" + selectedValue);
+
+        console.log("/admin/view/post/" + urlType + "?page=" + selectedValue);
+        location.replace("/admin/view/post/" + urlType + "?page=" + selectedValue);
     }
     var totalPage = parseInt($("#totalPage").val());
     var curPage = parseInt($('#Page').val());
@@ -99,8 +99,8 @@
         e.preventDefault();
     })
     var urlType = $("#cat1").val();
-    $('#prevpage').attr("href", "/admin/view/post/"+urlType+"?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/admin/view/post/"+urlType+"?page=" + nextpage.toString());
+    $('#prevpage').attr("href", "/admin/view/post/" + urlType + "?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/post/" + urlType + "?page=" + nextpage.toString());
     if (curPage == 1) {
         $('#prevpage').attr("href", "#");
     }
@@ -119,29 +119,78 @@
             return;
         }
         else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1 +"?page=1";
+            window.location.href = "/admin/view/post/" + keyCat1 + "?page=1";
             return;
         }
         else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 +"?page=1";
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 + "?page=1";
             return;
         }
     }
 </script>
 <script>
-    var value = $("#keyCat1").val();
+    var value = $("#dbkeyCat1").val();
     //alert(value);
     $("#cat1").val(value).change();
     //alert(value);
 </script>
+
+<script>
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function Delete_post() {
+        var id = document.getElementById('postid').value;
+        var url = "/admin/del/post/"+id;
+        var report = "delete-post-id-"+id;
+        post(url, {name: 'delete-post-id-'});
+    }
+</script>
 {{/section}}
 
 <main>
-    <input type="text" name="" id="keyCat1" value="{{cat1}}" style="display: none;">
+    <input type="text" name="" id="dbkeyCat1" value="{{cat1}}" style="display: none;">
 
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
-    
+
+    <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
 
     <div class="row">
         <div class="col-lg-12">
@@ -212,9 +261,8 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
+                                    onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
-
                             </td>
 
                         </tr>
@@ -257,7 +305,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
 
                 </div>
             </div>

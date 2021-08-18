@@ -223,12 +223,31 @@
 
 </script>
 
+
+
 <script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
 
+<script>
+    
+
+
+</script>
 
 
 {{/section}}
 <main>
+    <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
+
     <form class="form-horizontal" action="/writer/add/submit" method="POST" id="addPostForm"
         enctype="multipart/form-data">
 
@@ -288,8 +307,7 @@
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
             <div class="col-sm-2">
-                <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);"
-                    name="permission">
+                <select class="form-control" aria-label="Default select example" name="permission">
                     {{#when this.db.permission 'eq' 1}}
                     <option value='1'>Có</option>
                     {{/when}}

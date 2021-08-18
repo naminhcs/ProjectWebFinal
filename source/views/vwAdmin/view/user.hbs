@@ -51,11 +51,6 @@
 
 
 <script>
-    function setid(newId) {
-        document.getElementById('postid').value = newId;
-        alert("post id:");
-        alert(document.getElementById('postid').value);
-    }
     function selectPage() {
         console.log("click select page##########################################");
         console.log($("#urlType").val());
@@ -98,9 +93,56 @@
     }
     $("#userSelect").val($("#urlType").val());
 </script>
+
+<script>
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function Delete_post() {
+        var id = document.getElementById('postid').value;
+        var url = "/admin/del/user/"+id;
+        var report = "delete-user-id-"+id;
+        post(url, {name: 'delete-user-id-'});
+    }
+    function setid(newId) {
+        console.log("1");
+        document.getElementById('postid').value = newId;
+        console.log("2");
+        alert("User id:");
+        alert(document.getElementById('postid').value);
+    }
+</script>
 {{/section}}
 
 <main>
+    <input type="text" id="postid"  value="" style="display: none;">
+
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
     <input type="text" name="" id="urlType" value="{{this.urlType}}" style="display: none;">
@@ -128,7 +170,7 @@
                 </div>
             </div><!-- /.panel-->
         </div><!-- /.col-->
-        <input type="text" id="postid" style="display: none;" value="">
+       
         <div class="col-lg-12">
             <h4>Bootstrap Snipp for Datatable</h4>
             <div class="table-responsive">
@@ -165,8 +207,7 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
-                                    data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                    onclick="setid('{{id}}');" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
 
                             </td>
                         </tr>
@@ -210,7 +251,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
 
                 </div>
             </div>

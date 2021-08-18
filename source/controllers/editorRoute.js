@@ -37,7 +37,17 @@ router.get('/view/reject-post', auth.isEditor, async function (req, res) {
     const list_post = await rejectModel.getRejectPostByEditor(page, req.session.data.userName)
     var totalPage = await rejectModel.getTotalPageByEditor('RejectPost', req.session.data.userName)
     res.render('vwEditor/vieweditorreject', { layout: 'editor.hbs', db: list_post, page: page, totalPage: totalPage });
+})
 
+router.get('/view/reject-post/:id', auth.isEditor, async function (req, res) {
+    id = req.params.id
+    console.log('come hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', id)
+    const post = await rejectModel.getRejectPostByID(id);
+    if (post.userEditor !== req.session.data.userName){
+        res.send('you dont have permission')
+        return;
+    }
+    res.render('vwEditor/viewRejectedPost', {layout: 'editor.hbs', db: post})
 })
 
 // Load các bài đã duyệt từ editor đó
@@ -61,7 +71,7 @@ router.get('/view/post/:id', auth.isEditor, async function (req, res) {
             res.send('You dont have permission')
             return;
         }
-        res.render('vwEditor/viewacceptpost', { layout: 'editor.hbs', db: post });
+        res.render('vwEditor/viewPost', { layout: 'editor.hbs', db: post });
     }
     else {
         post = await waitingModel.getPostByID(id)
@@ -69,7 +79,7 @@ router.get('/view/post/:id', auth.isEditor, async function (req, res) {
             res.send('You dont have permission')
             return;
         }
-        res.render('vwEditor/viewrejectpost', { layout: 'editor.hbs', db: post });
+        res.render('vwEditor/viewPost', { layout: 'editor.hbs', db: post });
     }
 
 })

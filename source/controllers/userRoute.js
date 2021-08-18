@@ -1,11 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const moment = require('moment');
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 const user = require('../models/userModel')
 const auth = require('../middlewares/authMethod')
+const dotenv = require('dotenv');
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -65,7 +66,6 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     userName: data.userName
   });
   const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
-
   const mailOption = {
     from: 'noreply@webapp.com',
     to: data.gmail,

@@ -128,7 +128,7 @@ module.exports = {
             var objCat2 = data.listCat[key]
             listKeyCat2.push(objCat2)
         })
-
+        console.log(listKeyCat2)
         for (let i = 0; i < listKeyCat2.length; i++){
             const cat2 = await db.firestore.collection('Count').where('key', '==', listKeyCat2[i].keyCat2).get()
             if (!cat2.empty){

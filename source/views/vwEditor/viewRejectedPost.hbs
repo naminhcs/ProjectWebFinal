@@ -1,0 +1,358 @@
+{{#section 'css'}}
+<title>Confirm Post</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+
+
+<style>
+  #datepicker>span:hover {
+    cursor: pointer;
+  }
+  img {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .source {
+        display: none;
+    }
+
+    a {
+        color: #212529;
+    }
+
+    .content-post .detail div {
+        text-align: justify;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .imgcaption {
+        text-align: center !important;
+        margin-bottom: 5px;
+    }
+
+    .content-post {
+        width: 100%;
+        padding-right: 50px;
+        padding-left: 50px;
+        margin-right: auto;
+        margin-left: auto
+    }
+
+    @media (min-width:576px) {
+        .content-post {
+            max-width: 540px
+        }
+    }
+
+    @media (min-width:768px) {
+        .content-post {
+            max-width: 720px
+        }
+    }
+
+    @media (min-width:992px) {
+        .content-post {
+            max-width: 1000px
+        }
+    }
+
+    .content-post {
+        background: white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .content-post .ava-post {
+        text-align: center;
+    }
+
+    .title {
+        color: #212529;
+        font-size: 3.6rem;
+        line-height: 130%;
+        padding-top: 10px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .details__author img {
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        margin: 10px;
+
+    }
+
+    .details__author {
+        padding-left: 10px;
+    }
+
+    .date-upload {
+        padding-right: 10px;
+    }
+
+    .list-tag {
+        margin-bottom: 20px !important;
+    }
+
+    .tags {
+        background: rgb(216, 216, 216);
+        padding: 2px;
+        margin-left: 3px;
+        color: black;
+        border: 1px solid rgb(207, 207, 207);
+        box-shadow: 1px 2px rgb(224, 224, 224);
+    }
+
+    #back-top i {
+        color: #FFF;
+    }
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="/assets/admin/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css">
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+
+{{/section}}
+
+{{#section 'js'}}
+
+
+<script type="text/javascript" src="/assets/admin/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js"></script>
+<script type="text/javascript">
+  $('.clockpicker').clockpicker();
+</script>
+
+
+{{!-- Taginput --}}
+{{!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+{{!-- Taginput --}}
+<script type="text/javascript" src="/assets/admin/tinymce/js/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
+<script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
+<script>
+  const title1 = 'Post'; const title2 = 'Reject Post'; const title3 = 'Accepted post';
+  const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+  id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var table = $('#example').DataTable();
+    $('#example tbody').on('click', 'tr', function () {
+      if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+      }
+      else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+      }
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $("#btnsubmit").click(function () {
+
+
+    })
+  })
+</script>
+
+<script>
+  function xoa_dau(str) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/\s\s+/g, ' ');
+    str = str.replace(/  +/g, ' ');
+
+    return str;
+  }
+  function get_key(str) {
+    newstr = xoa_dau(str);
+    var array = newstr.split(' ');
+    newstr = array.join('-');
+    return newstr;
+  }
+
+
+
+  function splitString(stringToSplit, separator) {
+    const arrayOfStrings = stringToSplit.split(separator)
+
+    //console.log('The original string is: ', stringToSplit)
+  //  console.log('The separator is: ', separator)
+ //   console.log(arrayOfStrings)
+    var node= document.getElementById("tagSubmit");
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+    arrayOfStrings.forEach(element => {
+      var input1 = document.createElement("input");
+      input1.type = "text";
+      input1.style = "display: none;";
+      element = xoa_dau(element);
+      input1.value = "#" + element;
+      input1.name = "listNameOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input1);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+      var input2 = document.createElement("input");
+      var key = get_key(element);
+      input2.type = "text";
+      input2.style = "display: none;";
+      input2.value = key;
+      input2.name = "listKeyOfTag[]";
+      document.getElementById("tagSubmit").appendChild(input2);
+      //<input type="text" name="listNameOfTag[]" style="display: none;">
+
+    });
+
+  }
+
+
+  function accept_submit() {
+    //alert("123");
+    splitString($("#tags2").val(), ',');
+    var keyCat1 = $("#modal_Cat1").val();
+    var nameCat1 = $("#modal_Cat1 option:selected").text();
+    var keyCat2 = $("#modal_Cat2").val();
+    var nameCat2 = $("#modal_Cat2 option:selected").text();
+    $("#keyCat1").val(keyCat1);
+    $("#keyCat2").val(keyCat2);
+    $("#nameCat1").val(nameCat1);
+    $("#nameCat2").val(nameCat2);
+    //console.log($("#keyCat1").val(), $("#nameCat1").val(), $("#keyCat2").val(), $("#nameCat2").val());
+    $("#acceptPostForm").submit();
+    //console.log(("#tags").tagsinput('items'));
+  }
+  function reject_submit() {
+    $("#rejectPostForm").submit();
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    $("#tagSubmit").find('input').remove();
+  });
+</script>
+<script>
+  $("input").prop('disabled', true);
+  $("select").prop('disabled', true);
+  $("textarea").prop('disabled', true);
+  $("select").prop('disabled', true);
+  $("#lydotuchoi").prop('disabled', false);
+  $("#datepicker").prop('disabled', false);
+  $("#time").prop('disabled', false);
+  $("#modal_Cat2").prop('disabled', false);
+  $("#tags2").prop('disabled', false);
+  
+  
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+{{/section}}
+<main>
+  {{!-- <p>Date: <input type="text" id="datepicker"></p> --}}
+
+  <div class="form-horizontal">
+    <div class="content-post"  style="padding-bottom: 25px;">
+        {{!-- category name --}}
+        <div class="mr-auto align-self-center pt-3">
+            <b>{{this.db.nameCat2}}</b>
+        </div>
+
+        {{!-- title post --}}
+        <div class="title text-justify">
+            {{this.db.title}}
+        </div>
+
+
+        <div class="d-flex" style="font-size: 25px">
+            {{!-- writer's nickname --}}
+
+            {{!-- public date --}}
+            <div class="date-upload align-self-center">
+                {{this.db.dateUpload}}
+            </div>
+        </div>
+
+        <div class="ava-post">
+            <img src="{{this.db.urlPic}}" alt="">
+            <div class="pswp-content__caption">
+                <div class="imgcaption">
+                    <p> Ảnh đại diện bài viêt </p>
+                </div>
+            </div>
+        </div>
+
+        {{!-- data from DB Start --}}
+        {{{this.db.content}}}
+        {{!-- data from DB End --}}
+
+
+        <hr>
+
+        {{!-- list tags --}}
+        <div class="list-tag">
+            <p>Tags</p>
+
+
+            <div>
+                {{#each this.db.listNameOfTag}}
+                <a href="#" style="overflow-wrap: anywhere;">
+                    <small class="tags">{{.}}</small>
+                </a>
+                {{/each}}
+            </div>
+
+            <!-- 
+            {{#each this.db.listTag}}
+            {{#when @index 'lt' '4'}}
+            <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
+                <small class="tags">{{../this.name}}</small>
+            </a>
+            {{/when}}
+            {{/each}}
+            -->
+
+        </div>
+        <br>
+        <hr>
+        <div class="form-group" style="margin-bottom: 30px;">
+            <label for="exampleFormControlTextarea1" style="color: red; font-size: 25px">Lý do từ chối</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{this.db.rejectReason}}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group" style="text-align: center;">
+        <button type="button" style="display: none;"></button>
+    </div>
+   
+    <div class="form-group" style="text-align: center;">
+          <a href="/editor/view/reject-reason" class="btn btn-success"> Quay lại </a>      
+    </div>
+  </div>
+</main>

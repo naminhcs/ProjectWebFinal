@@ -13,111 +13,152 @@
 
 {{#section 'js'}}
 <script>
-	const title1 = 'edit/user';const title2 = 'Edit user';const title3 = 'Edit user';
-	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
-	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
+  const title1 = 'Add'; const title2 = 'Add user'; const title3 = 'Add user';
+  const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+  id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            var table = $('#example').DataTable();
-            $('#example tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-        });
-    </script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
-    $('#datetimepicker1').datetimepicker();
+  $(document).ready(function () {
+    var table = $('#example').DataTable();
+    $('#example tbody').on('click', 'tr', function () {
+      if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+      }
+      else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+      }
+    });
+  });
 </script>
+<script>
+  function hideAdmincat(myselect) {
+    console.log(myselect.value);
+    var tmp = $("#label_hide").val();
+    if (myselect.value != 2) {
+      $("#label_hide").text("");
+      $("#selectadminCat").hide();
+    }
+    else {
+      $("#label_hide").text("Admin cat");
+      $("#selectadminCat").show();
+    }
+  }
+</script>
+<script>
+  console.log("1");
+  var tmp = $("#permission_tmp").val();
+  console.log("2");
+  $("#selectpermission").val(tmp).change();
+  //console.log(document.getElementById("selectpermission").value());
+  console.log("3");
+  $("#selectadminCat").val($("#adminCat").val()).change();
+  //console.log($("#selectadminCat").val());
+  console.log("4");
+</script>
+
 {{/section}}
 <main>
 
-        
-    <form class="form-horizontal" style="text-align: center;">
-      <div class="form-group" style="text-align: center;">
-      <img src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e" alt="">
-      </div>
+  <input type="text" name="permission_tmp" id="permission_tmp" value="{{this.db.permission}}" style="display: none;">
+  <input type="text" name="" id="adminCat" value="{{this.db.adminCat}}" style="display: none;">
+
+  <form class="form-horizontal" style="text-align: center;" action="" method="POST">
+    <div class="form-group" style="text-align: center;">
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e"
+        alt="">
+    </div>
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">userName</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName" value="">
+        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">password</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="" name="password" value="">
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="nameOfUser" value="">
+        <input type="password" class="form-control" id="" name="password" value="this.db.password">
       </div>
     </div>
 
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">Gmail</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" name="gmail" value=>
+        <input type="text" class="form-control" id="" name="nameOfUser" value="{{this.db.nameOfUser}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Gmail</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="" name="gmail" value="{{this.db.gmail}}">
       </div>
     </div>
     {{!-- <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">Date Init</label>
+      <label class="col-sm-2 control-label">Date Init</label>
       <div class="col-sm-9">
         <input type="password" class="form-control" id="inputPassword3" placeholder="Date Init">
       </div>
     </div> --}}
 
 
-   
+
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+      <label class="col-sm-2 control-label">Phone</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" name="phoneNumber" value="">
+        <input type="text" class="form-control" id="" name="phoneNumber" value="">
       </div>
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">Dayofbirth</label>
+      <label class="col-sm-2 control-label">Dayofbirth</label>
       <div class="col-sm-9">
-         <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" name="dayOfBirth" value=""/>
-            <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-          </div>
+        <div class='input-group date' id='datetimepicker1'>
+          <input type='text' class="form-control" name="dayOfBirth" value="" />
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
         {{!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth"> --}}
       </div>
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">nickname</label>
+      <label class="col-sm-2 control-label">nickname</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="inputPassword3" name="nickName" value="">
       </div>
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-2 control-label">permission</label>
+      <label class="col-sm-2 control-label">Permission</label>
       <div class="col-sm-9">
         {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
-        <select class="form-control" aria-label="Default select example" name="permission" value="">
-            <option value="0" selected>0</option>
-            <option value="1" >1</option>
-            <option value="2" >2</option>
-            <option value="3" >3</option>
+        <select class="form-control" aria-label="Default select example" name="permission" id="selectpermission"
+          onchange="hideAdmincat(this);">
+          <option value="0">User</option>
+          <option value="1">Admin</option>
+          <option value="2">Editor</option>
+          <option value="3">Writer</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label" id="label_hide">Admin cat</label>
+      <div class="col-sm-9">
+        <select class="form-control" aria-label="Default select example" name="adminCat" id="selectadminCat">
+          {{#each lcCategory}}
+          <option value="{{keyCat1}}">{{nameCat1}}</option>
+          {{/each}}
         </select>
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-        <button type="submit" class="btn btn-success">save</button>
+      <button type="submit" class="btn btn-info">Submit</button>
     </div>
-    
+
   </form>
 </main>

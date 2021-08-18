@@ -88,6 +88,7 @@ router.get('/view/writing-post', auth.isWriter, async function (req, res) {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages,
+        page:page,
         isWritingPosts: true,
     });
 })
@@ -133,6 +134,7 @@ router.get('/view/draft-post', auth.isWriter, async function (req, res) {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages,
+        page: page,
         isDraftPosts: true,
     });
 })
@@ -189,6 +191,8 @@ router.get('/view/reject-post', auth.isWriter, async function (req, res) {
     res.render('vwWriter/reject/reject-posts', {
         layout: 'writer.hbs',
         db: obj,
+        totalPage: nPages,
+        page: page,
         isRejectPosts: true,
     });
 })
@@ -262,6 +266,7 @@ router.get('/view/waiting-post', auth.isWriter, async function (req, res) {
         layout: 'writer.hbs',
         db: obj,
         totalPage: nPages,
+        page: page,
         isWaitingPosts: true,
     });
 })
@@ -286,6 +291,7 @@ router.get('/view/public', auth.isWriter, async function (req, res) {
     page = req.query.page || 1
     obj = await saveModel.getPostByWriter(req.session.data.userName, page, 'Post')
     var nPages = await saveModel.getTotalPage('Post', req.session.data.userName)
+
     res.render('vwWriter/public/public-posts', {
         layout: 'writer.hbs',
         db: obj,

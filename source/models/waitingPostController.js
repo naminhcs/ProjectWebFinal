@@ -39,6 +39,7 @@ module.exports = {
         }
         var val;
         val = data.data();
+        console.log(val)
         time = new Date(val['dateUpload'])
         time = time.toGMTString();
         val['dateUpload'] = time

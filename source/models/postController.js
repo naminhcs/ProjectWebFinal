@@ -692,7 +692,11 @@ module.exports = {
     async getTotalPageByEditor(userName){
         const cntPosts = await db.firestore.collection('AmountPostEditor').where('userEditor', '==', userName).get()
         const wait = await db.firestore.collection('WaitingPost').where('userEditor', '==', userName).get()
-        const cnt = cntPosts.docs[0].data().amount + wait.docs.length
+        var cntPost = 0
+        if (!cntPosts.empty){
+            cntPost = cntPosts.docs[0].data().amount
+        }
+        const cnt = cntPost + wait.docs.length
         var nPage = Math.floor(cnt / 15)
         if (cnt % 15 !== 0) nPage++;
         return nPage

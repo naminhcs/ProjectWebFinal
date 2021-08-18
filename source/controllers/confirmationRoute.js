@@ -16,7 +16,6 @@ router.get('/confirmation/:token', async function(req, res){
         }
         token = req.params.token;
         isAvailable = await tokenModel.checkTokenIsAvailable(token);
-        console.log(isAvailable);
         if (isAvailable){
             res.send('token is unavailble')
             return;
@@ -42,8 +41,6 @@ router.get('/confirmation/:token', async function(req, res){
             }
         }
         userModel.updateUserByUserName(userName, userUpdateData);
-        req.session.data.gmail = req.query.gmail
-        res
         res.send('success');
     }) 
 })

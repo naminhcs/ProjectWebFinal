@@ -55,22 +55,22 @@ router.get('/view/cat/:cat1', async function(req, res){
 })
 // --------------------------------------Add cat-------------------------------------------------
 
-//add cat 1
-router.get('/add/cat/', async function(req, res){
-    res.render('vwAdmin/add/addcat1',{layout:'admin.hbs'});
-})
-router.post('/add/cat/', async function(req, res){
-    console.log(req.body);
-})
-//add cat 2
-router.get('/add/cat/:cat1', async function(req, res){
-    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
-    console.log(data);
-    res.render('vwAdmin/add/addcat2',{layout:'admin.hbs',db:data});
-})
-router.post('/add/cat/:cat1', async function(req, res){
-    console.log(req.body);
-})
+// //add cat 1
+// router.get('/add/cat/', async function(req, res){
+//     res.render('vwAdmin/add/addcat1',{layout:'admin.hbs'});
+// })
+// router.post('/add/cat/', async function(req, res){
+//     console.log(req.body);
+// })
+// //add cat 2
+// router.get('/add/cat/:cat1', async function(req, res){
+//     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
+//     console.log(data);
+//     res.render('vwAdmin/add/addcat2',{layout:'admin.hbs',db:data});
+// })
+// router.post('/add/cat/:cat1', async function(req, res){
+//     console.log(req.body);
+// })
 // --------------------------------------Edit cat 1-------------------------------------------------
 router.get('/edit/cat/:cat1', async function(req, res){
     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
@@ -150,9 +150,9 @@ router.post('/del/cat/:cat1/:cat2', async function(req, res){
 })
 
 // -----------------------------Add Cat2 ------------------------------------------------
-router.get('/add/cat/:cat1', async function(req, res){
-    res.render('')
-})
+// router.get('/add/cat/:cat1', async function(req, res){
+//     res.render('')
+// })
 
 router.post('/add/cat/:cat1', async function (req, res){
     const cat1 = req.params.cat1
@@ -160,8 +160,7 @@ router.post('/add/cat/:cat1', async function (req, res){
         keyCat2: req.body.keyCat2,
         nameCat2: req.body.nameCat2
     }
-    // const result = await addCat2(cat1, data)
-    const result = "asdaskljfh"
+    const result = await addCat2(cat1, data)
     res.send(result)
 })
 
@@ -186,9 +185,7 @@ router.post('/add/cat', async function(req, res){
         adminCat: data.adminCat1,
         listCat: listCat2
     }
-    console.log(objCat1)
-    // const result = await catModel.addCat1(objCat1)
-    const result="123"
+    const result = await catModel.addCat1(objCat1)
     res.send(result)
 })
 // //--------------------------End category-----------------------------

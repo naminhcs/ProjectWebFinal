@@ -136,6 +136,15 @@
         $('#frmDelPost').attr('action', url);
     }
 </script>
+
+<script>
+    $(document).ready(function () {
+        var successMessage = '{{successMsg}}'
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
+</script>
 {{/section}}
 
 <form action="" method="POST" id='frmDelPost'></form>

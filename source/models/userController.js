@@ -138,15 +138,15 @@ module.exports = {
         const data = await db.firestore.collection('User').doc(id).get();
         const type = typeof data.data();
         if (type === "undefined"){
-            return "can't find tag"
+            return "Người dùng không tồn tại"
         } else {
             const categories = await db.firestore.collection('Category').where('adminCat','==', data.data().userName).get()
             categories.forEach(async function(category){
                 id = category.id
-                await db.firestore.collection('Category').doc(id).update({adminCat: ''})
+                await db.firestore.collection('Category').doc(id).update({adminCat: 'admin'})
             })
             await db.firestore.collection('User').doc(id).delete();
-            return 'done'
+            return 'Xóa thành công'
         }
     },
 

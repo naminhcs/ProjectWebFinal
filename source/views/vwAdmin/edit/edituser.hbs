@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Edit user</title>
+<title>Quản lý tài khoản</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -13,7 +13,7 @@
 
 {{#section 'js'}}
 <script>
-  const title1 = 'Edit'; const title2 = 'Edit user'; const title3 = 'Edit user';
+  const title1 = 'Chỉnh sửa'; const title2 = 'Chỉnh sửa tài khoản'; const title3 = 'Edit user';
   const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
   id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -43,7 +43,7 @@
       $("#selectadminCat").hide();
     }
     else {
-      $("#label_hide").text("Admin cat");
+      $("#label_hide").text("Chuyên mục quản lý");
       $("#selectadminCat").show();
     }
   }
@@ -73,20 +73,14 @@
         alt="">
     </div>
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">userName</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Tên đăng nhập</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">password</label>
-      <div class="col-sm-9">
-        <input type="password" class="form-control" id="" name="password" value="this.db.password">
+        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}" readonly>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Tên hiển thị</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="" name="nameOfUser" value="{{this.db.nameOfUser}}">
       </div>
@@ -108,13 +102,13 @@
 
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Phone</label>
+      <label class="col-sm-2 control-label">Số điện thoại</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="" name="phoneNumber" value="{{this.db.phoneNumber}}">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">Dayofbirth</label>
+      <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
         <div class='input-group date' id='datetimepicker1'>
           <input type='text' class="form-control" name="dayOfBirth" value="{{this.db.dayOfBirth}}" />
@@ -132,22 +126,22 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">Permission</label>
+      <label class="col-sm-2 control-label">Phân hệ</label>
       <div class="col-sm-9">
         {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
         <select class="form-control" aria-label="Default select example" name="permission" id="selectpermission"
           onchange="hideAdmincat(this);">
-          <option value="0">User</option>
-          <option value="1">Admin</option>
-          <option value="2">Editor</option>
-          <option value="3">Writer</option>
+          <option value="0">Người dùng</option>
+          <option value="1">Quản trị</option>
+          <option value="2">Người kiểm duyệt</option>
+          <option value="3">Nhà báo</option>
         </select>
 
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label" id="label_hide">Admin cat</label>
+      <label class="col-sm-2 control-label" id="label_hide">Chuyên mục quản lý</label>
       <div class="col-sm-9">
         <select class="form-control" aria-label="Default select example" name="adminCat" id="selectadminCat">
           {{#each lcCategory}}
@@ -157,7 +151,7 @@
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <button type="submit" class="btn btn-success">save</button>
+      <button type="submit" class="btn btn-success">Lưu</button>
     </div>
 
   </form>

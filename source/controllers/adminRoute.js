@@ -11,12 +11,27 @@ const postModel = require('../models/postController');
 const tagModel = require('../models/tagController');
 const catModel = require('../models/categoryController');
 const draftModel = require('../models/DrafPostController')
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer')
+dotenv.config();
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_PASSWORD,
+  }
+});
 
 const router = express.Router();
 router.use(bodyParser.json());
 
-
+function generateAccessToken(userName) {
+    return jwt.sign(userName, process.env.TOKEN_SECRET, {
+      expiresIn: '200s'
+    });
+};
 //--------------------------Category---------------------------------
 router.get('/view/cat', async function (req, res){
     const listCat = await catModel.getAllCategory();
@@ -231,8 +246,9 @@ router.post('/add/tag', async function(req, res){
 
 //-------------------------User------------------------------------------
 router.get('/view/user/:type', async function(req, res){
+    res.locals.successMsg = req.session.successMsg
+    req.session.successMsg = ''
     const type = req.params.type
-    
     const page = req.query.page || 1
     var data;
     if (type === 'all'){
@@ -243,15 +259,7 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    console.log(data);
     res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
-})
-
-router.get('/view/user/:id', async function(req, res){
-    id = req.params.id;
-    var data = await userModel.getUserByID(id)
-    delete data['password']
-    res.send(data);
 })
 
 router.get('/edit/user/:id', async function(req, res){
@@ -259,64 +267,62 @@ router.get('/edit/user/:id', async function(req, res){
     var data = await userModel.getUserByID(id)
     delete data['password']
     // res.send(data);
-    console.log(data);
     res.render('vwAdmin/edit/edituser',{layout:'admin.hbs',db:data});
 })
 
 router.post('/edit/user/:id', async function(req, res){
-    const data = req.body;
-    if (req.body.permission === ''){
-        delete req.body.permission
-    }
-    if (req.body.dayEndPremium === ''){
-        delete req.body.dayEndPremium
-    }
-    console.log(req.body)
-    var user = await userModel.getUserByID(req.params.id)
-    result = await userModel.updateUserByUserName(user.userName, data)
-    res.send(result);
+    var data = req.body;
+    data.permission = parseInt(data.permission)
+    result = await userModel.updateUserByUserName(data.userName, data)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/all')
 })
 
-router.post('/add/user', auth.isAdmin, async function(req, res){
+router.post('/add/user', async function(req, res){
     const data = req.body;
     const checkUserName = await userModel.getUserByUserName(data.userName);
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
-    // if (checkGmail !== null) {
-    //     return 'Gmail is used';
-    // }
+    if (checkGmail !== null) {
+        req.session.successMsg =  'Gmail is used';
+        res.redirect('/admin/view/user/all')
+        return;
+    }
 
-    // if (checkUserName !== null) {
-    //     return 'UserName is used';
-    // }
-    // var dataUser = new user(data);
-    // const dataPush = {};
-    // for (x in dataUser) {
-    //     dataPush[x] = dataUser[x];
-    // }
+    if (checkUserName !== null) {
+        req.session.successMsg =  'UserName is used';
+        res.redirect('/admin/view/user/all')
+        return;
+    }
+    var dataUser = new user(data);
+    const dataPush = {};
+    for (x in dataUser) {
+        dataPush[x] = dataUser[x];
+    }
     // Sending Email
-    // const token = generateAccessToken({
-    //     userName: data.userName
-    // });
-    // const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
+    const token = generateAccessToken({
+        userName: data.userName
+    });
+    const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
-    // const mailOption = {
-    //     from: 'noreply@webapp.com',
-    //     to: data.gmail,
-    //     subject: 'Confirm email',
-    //     text: s
-    // }
-    // await transporter.sendMail(mailOption)
-    // // ---- Add user to database
-    // await userModel.addUser(dataPush);
-    //res.send('Check gmail to confirm')
+    const mailOption = {
+        from: 'noreply@webapp.com',
+        to: data.gmail,
+        subject: 'Confirm email',
+        text: s
+    }
+    await transporter.sendMail(mailOption)
+    // ---- Add user to database
+    await userModel.addUser(dataPush);
+    req.session.successMsg = 'Check gmail to confirm';
+    res.redirect('/admin/view/user/all')
 })
 
 router.post('/del/user/:id', async function(req, res){
     id = req.params.id
-    // result = await userModel.delUser(id)
-    res.send(id);
-    // res.send(result)
+    result = await userModel.delUser(id)
+    req.session.successMsg = result
+    res.redirect('/admin/view/user/all')
 })
 
 

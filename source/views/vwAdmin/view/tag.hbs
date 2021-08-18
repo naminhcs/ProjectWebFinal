@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Tag'; const title2 = 'Tag'; const title3 = 'Tag';
+    const title1 = 'Tag'; const title2 = 'Tag'; const title3 = 'List Tag';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -87,10 +87,10 @@
     $('#prevpage').attr("href", "/admin/view/tag?page=" + prevpage.toString());
     $('#nextpage').attr("href", "/admin/view/tag?page=" + nextpage.toString());
     if (curPage == 1) {
-        $('#prevpage').attr("href", "");
+        $('#prevpage').attr("href", "#");
     }
     if (curPage == totalPage) {
-        $('#nextpage').attr("href", "");
+        $('#nextpage').attr("href", "#");
     }
 </script>
 <script src="/assets/admin/js/getlistcat2.js"></script>

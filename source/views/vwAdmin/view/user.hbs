@@ -48,21 +48,6 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var table = $('#example').DataTable();
-        $('#example tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-    });
-</script>
-
 
 
 <script>
@@ -72,10 +57,14 @@
         alert(document.getElementById('postid').value);
     }
     function selectPage() {
+        console.log("click select page##########################################");
+        console.log($("#urlType").val());
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        location.replace("/editor/view/draf-post?page=" + selectedValue)
-
+        var urlType = $("#urlType").val();
+        
+        console.log("/admin/view/user/"+urlType+"?page=" + selectedValue);
+        location.replace("/admin/view/user/"+urlType+"?page=" + selectedValue);
     }
     var totalPage = parseInt($("#totalPage").val());
     var curPage = parseInt($('#Page').val());
@@ -90,13 +79,14 @@
     $('.disabled').click(function (e) {
         e.preventDefault();
     })
-    $('#prevpage').attr("href", "/admin/view/user/all?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/admin/view/user/all?page=" + nextpage.toString());
+    var urlType = $("#urlType").val();
+    $('#prevpage').attr("href", "/admin/view/user/"+urlType+"?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/user/"+urlType+"?page=" + nextpage.toString());
     if (curPage == 1) {
-        $('#prevpage').attr("href", "");
+        $('#prevpage').attr("href", "#");
     }
     if (curPage == totalPage) {
-        $('#nextpage').attr("href", "");
+        $('#nextpage').attr("href", "#");
     }
 </script>
 <script src="/assets/admin/js/getlistcat2.js"></script>
@@ -112,7 +102,7 @@
 <main>
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
-
+    <input type="text" name="" id="urlType" value="{{this.urlType}}" style="display: none;">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -135,10 +125,6 @@
                         <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
                     </div>
                 </div>
-
-
-
-
             </div><!-- /.panel-->
         </div><!-- /.col-->
         <input type="text" id="postid" style="display: none;" value="">

@@ -39,10 +39,21 @@
         }
     }
 </script>
+<script>
+    $("#cat1").val($("#keycat1").val()).change();
+</script>
+<script>
+    function href_edit(key2) {
+        console.log(key2);
+        var key1 = $("#keycat1").val();
+        var url = "/admin/edit/cat/" + key1 + "/" + key2
+        window.location.href = url;
+
+    }
+</script>
 {{/section}}
 <main>
-
-
+    <input type="text" name="" id="keycat1" value="{{keycat1}}" style="display: none;">
 
     <div class="row">
         <div class="col-lg-12">
@@ -88,9 +99,7 @@
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
                         <th>Key</th>
-                        <th>Chuyên Mục cấp 1</th>
-                        <th>Quản Lý</th>
-                        <th style="text-align: center;">Số lượng chuyên mục cấp 2</th>
+                        <th>Chuyên Mục cấp 2</th>
                         <th style="text-align: center;">Số lượng bài viết Premium</th>
                         <th style="text-align: center;">Số lượng bài viết bình thường</th>
                         <th style="text-align: center;">Chỉnh sửa</th>
@@ -98,19 +107,17 @@
                     </thead>
                     <tbody>
                         {{#each this.db}}
+                        
                         <tr>
-                            <td>{{keyCat1}}</td>
-                            <td>{{nameCat1}}</td>
-                            <td>{{adminCat}}</td>
-                            <td style="text-align: center;">{{amountCat2}}</td>
+                            <td>{{keyCat2}}</td>
+                            <td>{{nameCat2}}</td>
                             <td style="text-align: center;">{{amountPre}}</td>
                             <td style="text-align: center;">{{amountNor}}</td>
                             <td style="text-align: center;">
-                                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/admin/edit/cat/{{keyCat1}}" class="btn btn-primary btn-xs" data-title="Edit">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                </p>
+                                <button type="button" class="btn btn-primary btn-xs" data-title="Edit"
+                                    onclick="href_edit('{{keyCat2}}')">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
                             </td>
                             <td style="text-align: center;">
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
@@ -122,7 +129,7 @@
                     </tbody>
                 </table>
                 <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/cat" class="btn btn-success">Add Category</a>
+                    <a href="/admin/add/cat/{{keycat1}}" class="btn btn-success">Add Cat 2</a>
                 </div>
             </div>
         </div>

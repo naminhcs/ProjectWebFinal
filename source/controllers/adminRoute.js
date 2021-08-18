@@ -10,9 +10,8 @@ const userModel = require('../models/userController');
 const postModel = require('../models/postController');
 const tagModel = require('../models/tagController');
 const catModel = require('../models/categoryController');
-const { addCat2, delCat2 } = require('../models/categoryController');
 const db = require('../db');
-const { getAmountTag } = require('../models/tagController');
+
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -126,6 +125,72 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
     res.send(result)
 })
 
+//-------------------Delete Cat1-----------------------------------------------
+router.get('/del/cat/:cat1', async function(req, res){
+    res.render('')
+})
+
+router.post('/del/cat/:cat1', async function (req, res){
+    // const cat1 = req.params.cat1
+    // result = await catModel.delCat1(cat1)
+    // res.send(result)
+    console.log("ok")
+})
+
+//-------------------Delete cat2------------------------------------------------
+router.get('/del/cat/:cat1/:cat2', async function(req, res){
+    res.render('')
+})
+
+router.post('/del/cat/:cat1/:cat2', async function(req, res){
+    // const cat1 = req.params.cat1
+    // const cat2 = req.params.cat2
+    // const result = await delCat2(cat1, cat2)
+    res.send(result)
+})
+
+// -----------------------------Add Cat2 ------------------------------------------------
+router.get('/add/cat/:cat1', async function(req, res){
+    res.render('')
+})
+
+router.post('/add/cat/:cat1', async function (req, res){
+    const cat1 = req.params.cat1
+    const data = {
+        keyCat2: req.body.keyCat2,
+        nameCat2: req.body.nameCat2
+    }
+    // const result = await addCat2(cat1, data)
+    const result = "asdaskljfh"
+    res.send(result)
+})
+
+// ----------------------------Add cat1 ------------------------------------------------
+// router.get('/add/cat', async function(req, res){
+//     res.render('')
+// })
+
+router.post('/add/cat', async function(req, res){
+    const data = req.body
+    var listCat2 = []
+    for (let i = 0; i < data.listKey2.length; i++){
+        var objCat2 = {
+            keyCat2: data.listKey2[i],
+            nameCat2: data.listName2[i]
+        }
+        listCat2.push(objCat2)
+    }
+    const objCat1 = {
+        keyCat1: data.keyCat1,
+        nameCat1: data.nameCat1,
+        adminCat: data.adminCat1,
+        listCat: listCat2
+    }
+    console.log(objCat1)
+    // const result = await catModel.addCat1(objCat1)
+    const result="123"
+    res.send(result)
+})
 // //--------------------------End category-----------------------------
 
 // //--------------------------Tag--------------------------------------

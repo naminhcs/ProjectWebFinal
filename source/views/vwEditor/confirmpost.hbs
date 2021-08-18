@@ -47,29 +47,7 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-  $(document).ready(function () {
-    var table = $('#example').DataTable();
-    $('#example tbody').on('click', 'tr', function () {
-      if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-      }
-      else {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-      }
-    });
-  });
-</script>
 
-<script>
-  $(document).ready(function () {
-    $("#btnsubmit").click(function () {
-
-
-    })
-  })
-</script>
 <script>
   function xoa_dau(str) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");

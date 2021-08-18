@@ -48,12 +48,56 @@
         var key1 = $("#keycat1").val();
         var url = "/admin/edit/cat/" + key1 + "/" + key2
         window.location.href = url;
+    }
+</script>
+<script>
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
 
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function Delete_post() {
+        var id = document.getElementById('postid').value;
+        var keycat1 = document.getElementById('keycat1').value;
+        var url = "/admin/del/cat/" + keycat1 + "/" + id;
+        var report = "delete-cat1-cat2-id-" + id;
+        post(url, { name: report });
+    }
+    function setid(newId) {
+        console.log("1");
+        document.getElementById('postid').value = newId;
+        alert("key cat 1:");
+        alert(document.getElementById('postid').value);
     }
 </script>
 {{/section}}
 <main>
     <input type="text" name="" id="keycat1" value="{{keycat1}}" style="display: none;">
+    <input type="text" id="postid" style="display: none;" value="">
 
     <div class="row">
         <div class="col-lg-12">
@@ -107,7 +151,7 @@
                     </thead>
                     <tbody>
                         {{#each this.db}}
-                        
+
                         <tr>
                             <td>{{keyCat2}}</td>
                             <td>{{nameCat2}}</td>
@@ -120,9 +164,9 @@
                                 </button>
                             </td>
                             <td style="text-align: center;">
-                                <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
-                                    data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button type="button" class="btn btn-danger btn-xs" data-title="Delete" id="btndelete"
+                                    onclick="setid('{{keyCat2}}');" data-toggle="modal" data-target="#delete"><span
+                                        class="glyphicon glyphicon-trash"></span></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -136,4 +180,30 @@
     </div><!-- /.col-->
     </div><!-- /.row -->
     {{!-- page=8 --}}
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
+                        you want to delete this Record?</div>
+
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
+
+                </div>
+            </div>
+
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 </main>

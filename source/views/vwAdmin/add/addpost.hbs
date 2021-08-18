@@ -123,6 +123,20 @@
 <script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
 {{/section}}
 <main>
+
+  <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
+
+
   <form class="form-horizontal" action="" method="POST" id="addPostForm">
     <input type="text" name="views" id="" value="0" style="display: none;">
     {{!-- <input type="text" name="rejectingReason" id="" value="" style="display: none;">
@@ -146,7 +160,7 @@
       <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
       <input type="text" name="nameCat2" id="nameCat2" value="" style="display: none;">
 
-      <label for="inputPassword3" class="col-sm-1 control-label">Topic 1</label>
+      <label  class="col-sm-1 control-label">Topic 1</label>
       <div class="col-lg-2">
 
         <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
@@ -156,7 +170,7 @@
           {{/each}}
         </select>
       </div>
-      <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
+      <label  class="col-sm-1 control-label">Topic 2</label>
       <div class="col-lg-2">
         <select class="form-control" aria-label="Default select example" id="cat2">
         </select>
@@ -164,7 +178,7 @@
 
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
+      <label  class="col-sm-1 control-label">Premium</label>
       <div class="col-sm-2">
         <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);"
           name="permission">
@@ -175,15 +189,15 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
+      <label  class="col-sm-1 control-label">Summary</label>
       <div class="col-sm-10">
-        <textarea name="summary" type="text" class="form-control" id="inputPassword3"
+        <textarea name="summary" type="text" class="form-control" 
           placeholder="Summary">{{this.db.summary}}</textarea>
       </div>
     </div>
     <div class="form-group">
 
-      <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
+      <label  class="col-sm-1 control-label">Tag</label>
       <div class="col-sm-10">
         <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
         <div id='tagSubmit'>
@@ -195,7 +209,7 @@
     </div>
     <textarea class="tinymce" id="texteditor" name="content"></textarea>
     <div class="form-group" style="text-align: center;">
-      <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit()"> Add </button>
+      <button type="button" class="btn btn-info" id="" onclick="_submit();"> Add </button>
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"> Duyệt bài Vượt quyền </button>
 
       {{!-- <a href="./viewpost" class="btn btn-danger">Cancel</a> --}}

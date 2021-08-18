@@ -131,15 +131,13 @@ router.post('/del/cat/:cat1', async function (req, res){
 })
 
 //-------------------Delete cat2------------------------------------------------
-router.get('/del/cat/:cat1/:cat2', async function(req, res){
-    res.render('')
-})
 
 router.post('/del/cat/:cat1/:cat2', async function(req, res){
-    // const cat1 = req.params.cat1
-    // const cat2 = req.params.cat2
+    const cat1 = req.params.cat1
+    const cat2 = req.params.cat2
     // const result = await delCat2(cat1, cat2)
-    res.send(result)
+    res.send(cat1+"  "+cat2);
+    // res.send(result)
 })
 
 // -----------------------------Add Cat2 ------------------------------------------------
@@ -414,6 +412,7 @@ router.get('/view/post/:cat1/:cat2', async function(req, res){
 router.get('/edit/post/:id', async function(req, res){
     id = req.params.id;
     var data = await postModel.getPostByID(id)
+    console.log(data);
     // res.send(data);
     res.render('vwAdmin/edit/editpost',{layout:'admin.hbs',db: data});
 })

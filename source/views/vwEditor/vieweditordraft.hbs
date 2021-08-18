@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Post'; const title2 = 'Draft Posts'; const title3 = 'Draft Posts';
+    const title1 = 'Bài viết chưa duyệt'; const title2 = 'Bài viết chưa duyệt'; const title3 = 'Danh sách';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -147,11 +147,10 @@
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Title</th>
+                        <th>Tiêu đề</th>
                         <th>Người viết</th>
-                        <th>namecat1</th>
-                        <th>namecat2</th>
-                        <th style="text-align: center;">Permission</th>
+                        <th>Chuyên đề cấp 1</th>
+                        <th>Chuyên đề cấp 2</th>
                         <th style="text-align: center;">Duyệt bài</th>
                     </thead>
                     <tbody>
@@ -161,7 +160,6 @@
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-                            <td id='premium' style="text-align: center;">{{permission}}</td>
                             <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/editor/confirm/{{id}}" class="btn btn-primary btn-xs"

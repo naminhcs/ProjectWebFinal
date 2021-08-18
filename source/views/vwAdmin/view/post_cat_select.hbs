@@ -57,11 +57,11 @@
             return;
         }
         else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1;
+            window.location.href = "/admin/view/post/" + keyCat1 +"?page=1";
             return;
         }
         else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 +"?page=1"; 
             return;
         }
     }

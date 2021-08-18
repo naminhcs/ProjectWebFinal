@@ -98,7 +98,37 @@
         </div>
       </div>
     </div>
+
+    <div class="form-group" style="text-align: center;">
+      <div id='myList' class='list-group' style="text-align: center;">
+        <div class="form-group" style="text-align: center;">
+          <label for="inputPassword3" class="col-sm-2 control-label">Key cat 2</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="keyCat2">
+          </div>
+          <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="nameCat2">
+          </div>
+        </div>
+        {{#each this.db.listCat}}
+        <div class="form-group" style="text-align: center;">
+          <label for="inputPassword3" class="col-sm-2 control-label">Key cat 2</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="">
+          </div>
+          <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="">
+          </div>
+        </div>
+        {{/each}}
+      </div>
     </div>
+    <div class="form-group" style="text-align: center;">
+      <button type="button" class="btn btn-primary" onclick="addlist()">Add new category2</button>
+    </div>
+
     <div class="form-group" style="text-align: center;">
       <button type="submit" class="btn btn-info">Submit</button>
     </div>

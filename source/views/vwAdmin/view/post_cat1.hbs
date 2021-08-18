@@ -1,6 +1,44 @@
 {{#section 'css'}}
 <title>Table</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+<style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        /* Gray */
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+
+    .pagination select {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        transition: background-color .3s;
+    }
+
+    .pagination select:hover {
+        background-color: #ddd;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+</style>
 {{/section}}
 
 {{#section 'js'}}
@@ -32,17 +70,42 @@
 
 
 <script>
-
     function setid(newId) {
         document.getElementById('postid').value = newId;
         alert("post id:");
         alert(document.getElementById('postid').value);
     }
-    function prev(pageNum) {
-        alert(pageNum - 1);
+    function selectPage() {
+        console.log("click select page##########################################");
+        console.log($("#cat1").val());
+        var selectBox = document.getElementById("currentPage");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var urlType = $("#cat1").val();
+
+        console.log("/admin/view/post/" + urlType + "?page=" + selectedValue);
+        location.replace("/admin/view/post/" + urlType + "?page=" + selectedValue);
     }
-    function next(pageNum) {
-        alert(pageNum + 1);
+    var totalPage = parseInt($("#totalPage").val());
+    var curPage = parseInt($('#Page').val());
+    $('#currentPage').find('option').remove();
+    for (let i = 1; i <= totalPage; i++) {
+        var newoption = "<option value=\"" + i.toString() + "\"" + ">" + i + '</option>';
+        $('#currentPage').append(newoption);
+    }
+    $('#currentPage').val($('#Page').val());
+    var nextpage = curPage + 1;
+    var prevpage = curPage - 1;
+    $('.disabled').click(function (e) {
+        e.preventDefault();
+    })
+    var urlType = $("#cat1").val();
+    $('#prevpage').attr("href", "/admin/view/post/" + urlType + "?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/post/" + urlType + "?page=" + nextpage.toString());
+    if (curPage == 1) {
+        $('#prevpage').attr("href", "#");
+    }
+    if (curPage == totalPage) {
+        $('#nextpage').attr("href", "#");
     }
 </script>
 <script src="/assets/admin/js/getlistcat2.js"></script>
@@ -56,26 +119,78 @@
             return;
         }
         else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1;
+            window.location.href = "/admin/view/post/" + keyCat1 + "?page=1";
             return;
         }
         else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 + "?page=1";
             return;
         }
     }
 </script>
 <script>
-    var value = $("#keyCat1").val();
+    var value = $("#dbkeyCat1").val();
     //alert(value);
     $("#cat1").val(value).change();
     //alert(value);
 </script>
+
+<script>
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function Delete_post() {
+        var id = document.getElementById('postid').value;
+        var url = "/admin/del/post/"+id;
+        var report = "delete-post-id-"+id;
+        post(url, {name: 'delete-post-id-'});
+    }
+</script>
 {{/section}}
 
 <main>
-    <input type="text" name="" id="keyCat1" value="{{cat1}}" style="display: none;">
+    <input type="text" name="" id="dbkeyCat1" value="{{cat1}}" style="display: none;">
 
+    <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
+    <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
+
+    <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
 
     <div class="row">
         <div class="col-lg-12">
@@ -146,9 +261,8 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
+                                    onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
-
                             </td>
 
                         </tr>
@@ -157,17 +271,17 @@
                 </table>
 
 
-                <ul class="pagination pull-right">
-                    <li class="disabled"><button type="button"><span class="glyphicon glyphicon-chevron-left"
-                                onclick="prev(2)"></span></button></li>
-                    {{!-- <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li> --}}
-                    <li><button type="button"><span class="glyphicon glyphicon-chevron-right"
-                                onclick="next(2)"></span></button></li>
-                </ul>
+                <div class="pagination" style="display: flex; justify-content: flex-end;">
+                    <a href="#" id="prevpage">&laquo; Previous</a>
+                    <select name="" id="currentPage" class="active" style="	appearance: none;"
+                        onchange="selectPage({{totalPage}})">
+                        <option value="{{page}}" selected>{{page}}</option>
+                    </select>
+                    <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
+                </div>
+                {{!-- <div class="col-lg-12" style="text-align: center;">
+                    <a href="/admin/add/user" class="btn btn-success">Add User</a>
+                </div> --}}
                 <div class="col-lg-12" style="text-align: center;">
                     <a href="/admin/add/post" class="btn btn-success">Add Post</a>
                 </div>
@@ -191,7 +305,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
 
                 </div>
             </div>

@@ -55,22 +55,19 @@ router.get('/view/cat/:cat1', async function(req, res){
 })
 // --------------------------------------Add cat-------------------------------------------------
 
-// //add cat 1
-// router.get('/add/cat/', async function(req, res){
-//     res.render('vwAdmin/add/addcat1',{layout:'admin.hbs'});
-// })
+//add cat 1
+router.get('/add/cat/', async function(req, res){
+    res.render('vwAdmin/add/addcat1',{layout:'admin.hbs'});
+})
 // router.post('/add/cat/', async function(req, res){
 //     console.log(req.body);
 // })
-// //add cat 2
-// router.get('/add/cat/:cat1', async function(req, res){
-//     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
-//     console.log(data);
-//     res.render('vwAdmin/add/addcat2',{layout:'admin.hbs',db:data});
-// })
-// router.post('/add/cat/:cat1', async function(req, res){
-//     console.log(req.body);
-// })
+//add cat 2
+router.get('/add/cat/:cat1', async function(req, res){
+    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
+    console.log(data);
+    res.render('vwAdmin/add/addcat2',{layout:'admin.hbs',db:data});
+})
 // --------------------------------------Edit cat 1-------------------------------------------------
 router.get('/edit/cat/:cat1', async function(req, res){
     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
@@ -85,8 +82,7 @@ router.post('/edit/cat/:cat1', async function (req, res){
         nameCat1: req.body.nameCat1,
         adminCat: req.body.adminCat1
     }
-    // const result = await catModel.updateCat1(cat1, data)
-    const result="xxx"
+    const result = await catModel.updateCat1(cat1, data)
     res.send(result)
 })
 
@@ -109,7 +105,7 @@ router.get('/edit/cat/:cat1/:cat2', async function(req, res){
             nameCat1 = cat1.nameCat1
         }
     })
-    console.log(keyCat1+keyCat2+nameCat1+nameCat2);
+    // console.log(keyCat1+keyCat2+nameCat1+nameCat2);
     res.render('vwAdmin/edit/editcat2',{layout:'admin.hbs', keyCat1:keyCat1, keyCat2:keyCat2, nameCat1:nameCat1, nameCat2:nameCat2});
 })
 
@@ -120,21 +116,18 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
         keyCat2: req.body.keyCat2,
         nameCat2: req.body.nameCat2
     }
-    // const result = await catModel.updateCat2(cat1, cat2, data)
-    const result="asdasdasd"
+    const result = await catModel.updateCat2(cat1, cat2, data)
+    // const result="asdasdasd"
     res.send(result)
 })
 
 //-------------------Delete Cat1-----------------------------------------------
-router.get('/del/cat/:cat1', async function(req, res){
-    res.render('')
-})
-
 router.post('/del/cat/:cat1', async function (req, res){
-    // const cat1 = req.params.cat1
-    // result = await catModel.delCat1(cat1)
-    // res.send(result)
-    console.log("ok")
+    const cat1 = req.params.cat1
+    //result = await catModel.delCat1(cat1)
+    res.send(cat1);
+    //res.send(result)
+    
 })
 
 //-------------------Delete cat2------------------------------------------------
@@ -218,15 +211,15 @@ router.get('/edit/tag/:id', async function(req, res){
 })
 router.post('/edit/tag/:id', async function(req, res){
     id = req.params.id;
-    // result = await tagModel.editTag(id, req.body)
-    result="test ok"
+    result = await tagModel.editTag(id, req.body)
     res.send(result);
 })
 
 router.post('/del/tag/:id', async function(req, res){
     id = req.params.id;
-    result = await tagModel.delTag(id)
-    res.send(result)
+    //result = await tagModel.delTag(id)
+    res.send(id);
+    //res.send(result)
 })
 
 
@@ -254,7 +247,7 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    console.log("/view/user/"+type);
+    console.log(data);
     res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
 })
 
@@ -270,6 +263,7 @@ router.get('/edit/user/:id', async function(req, res){
     var data = await userModel.getUserByID(id)
     delete data['password']
     // res.send(data);
+    console.log(data);
     res.render('vwAdmin/edit/edituser',{layout:'admin.hbs',db:data});
 })
 
@@ -282,9 +276,9 @@ router.post('/edit/user/:id', async function(req, res){
         delete req.body.dayEndPremium
     }
     console.log(req.body)
-    // var user = await userModel.getUserByID(req.params.id)
-    // result = await userModel.updateUserByUserName(user.userName, data)
-    // res.send(result);
+    var user = await userModel.getUserByID(req.params.id)
+    result = await userModel.updateUserByUserName(user.userName, data)
+    res.send(result);
 })
 
 router.post('/add/user', auth.isAdmin, async function(req, res){
@@ -323,16 +317,18 @@ router.post('/add/user', auth.isAdmin, async function(req, res){
 })
 
 router.post('/del/user/:id', async function(req, res){
-    id = req.body.id
-    result = await userModel.delUser(id)
-    res.send(result)
+    id = req.params.id
+    // result = await userModel.delUser(id)
+    res.send(id);
+    // res.send(result)
 })
 
 
 // //-------------------------Post-------------------------------------------
 router.get('/view/post/:cat1', async function(req, res){
     cat1 = req.params.cat1
-    page = req.query.page | 1
+    page = req.query.page
+    console.log(page);
     const data = await postModel.getPostPremiumByCat1(cat1, page)
     var obj = []
     for (let i = 0; i < data.length; i++){
@@ -358,7 +354,7 @@ router.get('/view/post/:cat1', async function(req, res){
     //     data: obj,
     //     totalPage: nPages
     // })
-    res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1});
+    res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,page:page});
 })
 
 // //--------------------------------dat--------------------//
@@ -388,7 +384,7 @@ router.get('/add/user',  async function(req, res){
 router.get('/view/post/:cat1/:cat2', async function(req, res){
     cat1 = req.params.cat1;
     cat2 = req.params.cat2;
-    page = req.query.page | 1
+    page = req.query.page;
     const data = await postModel.getPostPremiumByCat2(cat2, page)
     var obj = []
     for (let i = 0; i < data.length; i++){
@@ -411,7 +407,8 @@ router.get('/view/post/:cat1/:cat2', async function(req, res){
     const cnt = await postModel.getPagePremium(cat2);
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
-    res.render('vwAdmin/view/post_cat2',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,cat2:cat2});
+    console.log(cat2);
+    res.render('vwAdmin/view/post_cat2',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,cat2:cat2,page:page});
 })
 
 router.get('/edit/post/:id', async function(req, res){
@@ -441,10 +438,11 @@ router.post('/add/post', async function(req, res){
     // return result;
 })
 
-router.post('/post/del/:id', async function(req, res){
+router.post('/del/post/:id', async function(req, res){
     const id = req.params.id
-    result = await postModel.delPost(id);
-    res.send(result)
+    // result = await postModel.delPost(id);
+    res.send(id);
+    // res.send(result)
 })
 
 module.exports = router;

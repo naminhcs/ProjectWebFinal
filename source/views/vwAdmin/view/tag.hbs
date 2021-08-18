@@ -93,46 +93,63 @@
         $('#nextpage').attr("href", "#");
     }
 </script>
-<script src="/assets/admin/js/getlistcat2.js"></script>
 <script>
-    function myfunction() {
-        var keyCat1 = document.getElementById('cat1').value;
-        var keyCat2 = document.getElementById('cat2').value;
-        // alert(keyCat1+keyCat2);
-        if (keyCat1 == 'all') {
-            window.location.href = "/admin/view/cat";
-            return;
+    
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
         }
-        else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1;
-            return;
-        }
-        else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
-            return;
-        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function Delete_post() {
+        var id = document.getElementById('postid').value;
+        var url = "/admin/del/tag/" + id;
+        var report = "delete-tag-key-" + id;
+        post(url, { name: 'delete-post-id-' });
     }
 </script>
-
+<script>
+    function setid(newId) {
+        document.getElementById('postid').value = newId;
+        alert("key tag:");
+        alert(document.getElementById('postid').value);
+    }
+</script>
 {{/section}}
 
 <main>
     <input type="number" name="" id="totalPage" value="{{this.totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{this.page}}" style="display: none;">
-    
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading" style="display: flex;">
-
                     <p id='title3'></p>
-
                 </div>
-
-
-
-
-
             </div><!-- /.panel-->
         </div><!-- /.col-->
         <input type="text" id="postid" style="display: none;" value="">
@@ -156,14 +173,14 @@
                             {{!-- <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td> --}}
                             <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/admin/edit/tag/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
+                                    <a href="/admin/edit/tag/{{key}}" class="btn btn-primary btn-xs" data-title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
                             <td style="text-align: center;">
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('abs')" id="btndelete" data-toggle="modal"
+                                    onclick="setid('{{key}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
                         </tr>
@@ -201,7 +218,7 @@
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
 
                 </div>
             </div>

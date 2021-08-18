@@ -36,9 +36,14 @@ router.get('/view/cat', async function (req, res){
 })
 
 router.get('/view/cat/:cat1', async function(req, res){
+    res.locals.successMsg = req.session.successMsg;
+    req.session.successMsg = '';
+    console.log( res.locals.successMsg )
+
     const cat1 = req.params.cat1;
+    
     const listCat = await catModel.getAllCat2ByCat1(cat1)
-    console.log(listCat)
+    //console.log(listCat)
     var data = []
     for (let key in Object.keys(listCat)){
         cat2 = listCat[key]
@@ -50,7 +55,7 @@ router.get('/view/cat/:cat1', async function(req, res){
         val['nameCat2'] = cat2.nameCat2
         data.push(val)
     }
-    console.log(data);
+    //console.log(data);
     res.render('vwAdmin/view/category1',{layout:'admin.hbs',db:data,keycat1:cat1});
 })
 // --------------------------------------Add cat-------------------------------------------------
@@ -150,8 +155,10 @@ router.post('/add/cat/:cat1', async function (req, res){
         keyCat2: req.body.keyCat2,
         nameCat2: req.body.nameCat2
     }
-    const result = await addCat2(cat1, data)
-    res.send(result)
+    const result = await catModel.addCat2(cat1, data)
+    //res.send(result)
+    req.session.successMsg = 'Thêm chuyên mục thành công'
+    res.redirect('/admin/view/cat/' + cat1)
 })
 
 // ----------------------------Add cat1 ------------------------------------------------

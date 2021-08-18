@@ -51,6 +51,16 @@
 
     }
 </script>
+<script>
+    $(document).ready(function () {
+        
+        var successMessage = '{{successMsg}}';
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
+
+</script>
 {{/section}}
 <main>
     <input type="text" name="" id="keycat1" value="{{keycat1}}" style="display: none;">
@@ -107,7 +117,7 @@
                     </thead>
                     <tbody>
                         {{#each this.db}}
-                        
+
                         <tr>
                             <td>{{keyCat2}}</td>
                             <td>{{nameCat2}}</td>

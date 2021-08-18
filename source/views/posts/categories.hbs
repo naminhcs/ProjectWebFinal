@@ -110,6 +110,11 @@
                 <div class="col-lg-9 col-md-8 mx-auto">
 
                     <!-- single-job-content -->
+                    {{#if isEmpty}}
+                    <div class="text-center alert alert-danger" role="alert">
+                        <b> Không có dữ liệu!</b>
+                    </div>
+                    {{else}}
                     {{#each data}}
                     <div class="single-job-items mb-30">
 
@@ -157,6 +162,7 @@
                     </div>
                     <hr>
                     {{/each}}
+                    {{/if}}
                 </div>
 
             </div>

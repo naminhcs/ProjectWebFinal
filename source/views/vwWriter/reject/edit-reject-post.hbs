@@ -234,6 +234,18 @@
 
 {{/section}}
 <main>
+
+    <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
     <form class="form-horizontal" action="" method="POST" id="addPostForm" enctype="multipart/form-data">
 
         {{!-- custom input to submit --}}
@@ -353,7 +365,7 @@
 
                 <script>
                     var urlAva = '{{db.urlPic}}' || '';
-                    var defaultPreviewContent = '<img src="' + urlAva + '" style = "height:400px;"  alt="Your Avatar" id = "previewImgAva">'
+                    var defaultPreviewContent = '<img src="' + urlAva + '" style = "height:auto; object-fit: fill; max-width: 100%;"  alt="Your Avatar" id = "previewImgAva">'
                     if (urlAva.length === 0) {
                         defaultPreviewContent = ''
                     }
@@ -387,7 +399,8 @@
         <div class="" style="text-align: center; ">
             <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button>
             <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit(1)"> Submit </button>
-            <button type="button" class="btn btn-danger" id="btncancel" data-toggle="modal" data-target="#modalCancel"> Cancel </button>
+            <button type="button" class="btn btn-danger" id="btncancel" data-toggle="modal" data-target="#modalCancel">
+                Cancel </button>
         </div>
     </form>
     <!-- Modal -->

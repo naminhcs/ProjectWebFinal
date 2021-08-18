@@ -120,6 +120,14 @@
         }
     })
 </script>
+
+<script>
+    function setid(id) {
+        //alert(id)
+        var url = '/writer/del/draft-post/' + String(id)
+        $('#frmDelPost').attr('action', url);
+    }
+</script>
 {{/section}}
 <form action="" method="POST" id='frmDelPost'></form>
 <main>
@@ -128,11 +136,11 @@
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Title</th>
+                        <th>Tiêu đề</th>
                         <th>Người viết</th>
-                        <th>namecat1</th>
-                        <th>namecat2</th>
-                        <th>Permission</th>
+                        <th>Chủ đề cấp 1</th>
+                        <th>Chủ đề cấp 2</th>
+                        <th>Premium</th>
                         <th class="text-center">Chỉnh sửa</th>
                         <th>Xóa</th>
                     </thead>

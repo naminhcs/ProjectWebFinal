@@ -109,7 +109,7 @@
 
                                             <div class="align-self-center form-box f-right mb-0">
                                                 <input class="mb-0" type="text" name="Search" id='inputSearch'
-                                                    placeholder="Search your interest...">
+                                                    placeholder="Tìm kiếm...">
                                                 <div class="search-icon mb-0">
                                                     <i class="ti-search"></i>
                                                 </div>
@@ -139,27 +139,53 @@
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, {{dataUser.nameOfUser}}
+                                                    <img src="{{dataUser.profilePicture}}" alt=""
+                                                        style="width:40px; height:40px; object-fit:cover; border-radius: 50%; margin-right:10px; border:#5e6985 1px solid;">
+                                                    {{dataUser.nameOfUser}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
                                                     <a href="/user/profile" class="dropdown-item dropdown-item-custom">
                                                         <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
                                                     </a>
-                                                    {{#if isPremium}}
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
+                                                    {{#when dataUser.premium 'noteq' 1}}
+                                                    <a href="/user/upgrade-to-premium"
+                                                        class="dropdown-item dropdown-item-custom"><i
                                                             class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
                                                         cấp</a>
-                                                    {{/if}}
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
-                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
-                                                        cấp</a>
+                                                    {{/when}}
+
 
                                                     <a href="#" class="dropdown-item dropdown-item-custom"><i
-                                                            class="fa fa-comments-o mr-10" aria-hidden="true"></i>Góp
+                                                            class="fas fa-comment mr-10"></i>Góp
                                                         ý</a>
 
-                                                    <div class="dropdown-divider dropdown-divider-custom"></div>
+                                                    <div class="dropdown-divider dropdown-divider-custom">
+                                                    </div>
+
+
+                                                    {{!-- admim --}}
+                                                    {{#when dataUser.permission 'eq' 1}}
+                                                    <a href="/admin/" class="dropdown-item dropdown-item-custom"> <i
+                                                            class="fas fa-arrow-circle-right mr-10">
+                                                        </i>Quản lý</a>
+                                                    {{/when}}
+
+                                                    {{!-- editor --}}
+                                                    {{#when dataUser.permission 'eq' 2}}
+                                                    <a href="/editor/" class="dropdown-item dropdown-item-custom"> <i
+                                                            class="fas fa-arrow-circle-right mr-10">
+                                                        </i>Quản lý</a>
+                                                    {{/when}}
+
+                                                    {{!-- writer --}}
+                                                    {{#when dataUser.permission 'eq' 3}}
+                                                    <a href="/writer/" class="dropdown-item dropdown-item-custom"> <i
+                                                            class="fas fa-arrow-circle-right mr-10">
+                                                        </i>Quản lý</a>
+                                                    {{/when}}
+
+
                                                     <a href="javascript: $('#frmLogout').submit();"
                                                         class="dropdown-item dropdown-item-custom"><i
                                                             class="fa fa-sign-out mr-10" aria-hidden="true"></i>
@@ -175,7 +201,7 @@
                                         <li>
                                             <a href="/user/login">
                                                 <button class="genric-btn primary-border radius">
-                                                    Login</button>
+                                                    Đăng nhập</button>
                                             </a>
                                         </li>
 
@@ -253,25 +279,27 @@
                                             <li class="nav-item dropdown">
                                                 <a href="#" class="nav-link dropdown-toggle dropdown-toggle-custom"
                                                     data-toggle="dropdown">
-                                                    Hi, {{dataUser.nameOfUser}}
+                                                    <img src="{{dataUser.profilePicture}}" alt=""
+                                                        style="width:40px; height:40px; object-fit:fill; border-radius: 50%; margin-right:10px; border:#5e6985 1px solid;">
+                                                    {{!-- {{dataUser.nameOfUser}} --}}
                                                 </a>
                                                 <div
                                                     class="dropdown-menu dropdown-menu-custom dropdown-menu-right-custom">
                                                     <a href="/user/profile" class="dropdown-item dropdown-item-custom">
                                                         <i class="fa fa-user mr-10" aria-hidden="true"></i>Profile
                                                     </a>
-                                                    {{#if isPremium}}
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
-                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
-                                                        cấp</a>
-                                                    {{/if}}
-                                                    <a href="#" class="dropdown-item dropdown-item-custom"><i
-                                                            class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
-                                                        cấp</a>
+                                                    {{#when dataUser.premium 'noteq' 1}}
+                                                    <a href="/user/upgrade-to-premium"
+                                                        class="dropdown-item dropdown-item-custom">
+                                                        <i class="fas fa-arrow-alt-circle-up mr-10"></i>Nâng
+                                                        cấp
+                                                    </a>
+                                                    {{/when}}
+
 
                                                     <a href="#" class="dropdown-item dropdown-item-custom"><i
-                                                            class="fa fa-comments-o mr-10" aria-hidden="true"></i>Góp
-                                                        ý</a>
+                                                            class="fas fa-comment mr-10"></i>Góp ý
+                                                    </a>
 
                                                     <div class="dropdown-divider dropdown-divider-custom"></div>
                                                     <a href="javascript: $('#frmLogout').submit();"
@@ -286,7 +314,7 @@
                                 {{else}}
                                 <ul>
                                     <li><a href="/user/login" style="color: rgb(20, 12, 64);"><button
-                                                class="genric-btn primary-border radius"> Login</button></a></li>
+                                                class="genric-btn primary-border radius"> Đăng nhập</button></a></li>
                                 </ul>
                                 {{/if}}
                             </div>
@@ -295,7 +323,7 @@
                         <div class="d-flex justify-content-end">
                             <div class="form-box mb-0 d-flex" style="width: 250px; padding: 0px">
                                 <input class="mb-0" type="text" name="Search" id='inputSearch'
-                                    placeholder="Search your interest...">
+                                    placeholder="Tìm kiếm...">
                                 <div class="search-icon mb-0 align-items-center"
                                     style="height: 50px; width:50px; padding-top:15px; padding-left:15px; border: 1px solid #eaeaea">
                                     <i class="ti-search my-auto"></i>
@@ -360,19 +388,18 @@
                             <!-- Grid column -->
                             <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                                 <!-- Content -->
-                                <h6 class="text-uppercase name-column">Company name</h6>
+                                <h6 class="text-uppercase name-column">Nhóm 11</h6>
                                 <hr class="mb-4 mt-0 d-inline-block mx-auto"
                                     style="width: 60px; background-color: #7c4dff; height: 2px" />
                                 <p style="text-align: justify;">
-                                    Here you can use rows and columns to organize your footer
-                                    content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                                    elit.
+                                    Đây là đồ án đầu web tiên chúng mình làm &#128522; Rất vui khi bạn đã đọc báo của
+                                    chúng mình &#128525;
                                 </p>
                             </div>
                             <!-- Grid column -->
 
                             <!-- Grid column -->
-                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto  mb-4 product">
+                            {{!-- <div class="col-md-2 col-lg-2 col-xl-2 mx-auto  mb-4 product">
                                 <!-- Links -->
                                 <h6 class="text-uppercase name-column">Products</h6>
                                 <hr class="mb-4 mt-0 d-inline-block mx-auto"
@@ -389,40 +416,53 @@
                                 <p>
                                     <a href="#!">Bootstrap Angular</a>
                                 </p>
-                            </div>
+                            </div> --}}
                             <!-- Grid column -->
 
                             <!-- Grid column -->
                             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 product">
                                 <!-- Links -->
-                                <h6 class="text-uppercase name-column">Useful links</h6>
+                                <h6 class="text-uppercase name-column">Trang báo khác</h6>
                                 <hr class="mb-4 mt-0 d-inline-block mx-auto"
                                     style="width: 60px; background-color: #7c4dff; height: 2px" />
                                 <p>
-                                    <a href="#!">Your Account</a>
+                                    <a href="https://thanhnien.vn/">Thanh niên</a>
                                 </p>
                                 <p>
-                                    <a href="#!">Become an Affiliate</a>
+                                    <a href="https://baomoi.com/">Báo mới</a>
                                 </p>
                                 <p>
-                                    <a href="#!">Shipping Rates</a>
+                                    <a href="https://vnexpress.net/">VnExpress</a>
                                 </p>
-                                <p>
-                                    <a href="#!">Help</a>
-                                </p>
+
                             </div>
                             <!-- Grid column -->
 
                             <!-- Grid column -->
-                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 product">
                                 <!-- Links -->
-                                <h6 class="text-uppercase name-column">Contact</h6>
+                                <h6 class="text-uppercase name-column">Liên hệ</h6>
                                 <hr class="mb-4 mt-0 d-inline-block mx-auto"
                                     style="width: 60px; background-color: #7c4dff; height: 2px" />
-                                <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-                                <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
-                                <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-                                <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+                                <p class="">
+                                    <a href="https://www.facebook.com/116ntd">
+                                        <i class="fab fa-facebook"></i>
+                                        Nguyễn Tiến Đạt
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.facebook.com/minh.nguyenanh.58958">
+                                        <i class="fab fa-facebook"></i>
+                                        Nguyễn Anh Minh
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.facebook.com/phandinhkha00">
+                                        <i class="fab fa-facebook"></i>
+                                        Phan Đình Kha
+                                    </a>
+                                </p>
+
                             </div>
                             <!-- Grid column -->
                         </div>

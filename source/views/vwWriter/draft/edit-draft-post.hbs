@@ -233,6 +233,17 @@
 
 {{/section}}
 <main>
+    <div id='processingCat' style="display: none;">
+        {{#each lcCategory}}
+        {{#each listCat}}
+        <input type="text" name="" id="keyCat1" value="{{../keyCat1}}" style="display: none;">
+        <input type="text" name="" id="nameCat1" value="{{../nameCat1}}" style="display: none;">
+        <input type="text" name="" id="keyCat2" value="{{keyCat2}}" style="display: none;">
+        <input type="text" name="" id="nameCat2" value="{{nameCat2}}" style="display: none;">
+        <br>
+        {{/each}}
+        {{/each}}
+    </div>
     <form class="form-horizontal" action="" method="POST" id="addPostForm" enctype="multipart/form-data">
 
         {{!-- custom input to submit --}}
@@ -250,8 +261,8 @@
 
         {{!-- Title --}}
         <div class="form-group" style="text-align: center;">
-            <label for="inputEmail3" class="col-sm-1 control-label">Title</label>
-            <div class="col-sm-10">
+            <label for="inputEmail3" class="col-sm-2 control-label">Tiêu đề</label>
+            <div class="col-sm-9">
                 <input type="text" class="form-control" id="title" name="title" placeholder="Title"
                     value="{{this.db.title}}">
             </div>
@@ -260,8 +271,8 @@
 
         {{!-- Category --}}
         <div class="form-group">
-            <label for="inputPassword3" class="col-sm-1 control-label">Topic 1</label>
-            <div class="col-lg-2">
+            <label for="inputPassword3" class="col-sm-2 control-label">Chủ đề cấp 1</label>
+            <div class="col-lg-3">
                 <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);">
                     <option disabled selected>-Chọn-</option>
                     {{#if db.keyCat1}}
@@ -274,8 +285,8 @@
                 </select>
             </div>
 
-            <label for="inputPassword3" class="col-sm-1 control-label">Topic 2</label>
-            <div class="col-lg-2">
+            <label for="inputPassword3" class="col-sm-2 col-lg-offset-1 control-label">Chủ đề cấp 2</label>
+            <div class="col-lg-3">
                 <select class="form-control" aria-label="Default select example" id="cat2">
                     {{#if db.keyCat2}}
                     <option value="{{db.keyCat2}}" selected>{{db.nameCat2}}</option>
@@ -289,8 +300,8 @@
 
         {{!-- Premium --}}
         <div class="form-group">
-            <label for="inputPassword3" class="col-sm-1 control-label">Premium</label>
-            <div class="col-sm-2">
+            <label for="inputPassword3" class="col-sm-2 control-label">Premium</label>
+            <div class="col-sm-3">
                 <select class="form-control" aria-label="Default select example" id="cat1" onchange="getval(this);"
                     name="permission">
                     {{#when this.db.permission 'eq' 1}}
@@ -305,8 +316,8 @@
 
         {{!-- Summary --}}
         <div class="form-group">
-            <label for="inputPassword3" class="col-sm-1 control-label">Summary</label>
-            <div class="col-sm-10">
+            <label for="inputPassword3" class="col-sm-2 control-label">Tóm tắt</label>
+            <div class="col-sm-9">
                 <textarea name="summary" type="text" class="form-control" id="summary"
                     placeholder="Summary">{{this.db.summary}}</textarea>
             </div>
@@ -314,8 +325,8 @@
 
         {{!-- Tag --}}
         <div class="form-group">
-            <label for="inputPassword3" class="col-sm-1 control-label">Tag</label>
-            <div class="col-sm-10">
+            <label for="inputPassword3" class="col-sm-2 control-label">Tag</label>
+            <div class="col-sm-9">
                 <input type="text" value="" data-role="tagsinput" id="tags" placeholder="Add tags" />
                 <div id='tagSubmit'></div>
                 {{#each this.db.listNameOfTag}}
@@ -332,8 +343,8 @@
 
         {{!-- Avatar post --}}
         <div class="form-group" style="text-align: center;">
-            <label for="inputEmail3" class="col-sm-1 control-label">Avatar</label>
-            <div class="col-sm-10">
+            <label for="inputEmail3" class="col-sm-2 control-label">Avatar</label>
+            <div class="col-sm-9">
                 <input id="input-id" name="urlPic" type="file" data-msg-placeholder="Select image for upload..."
                     style="text-align: center;">
                 <button type="button" class="btn btn-success" id="previewAvaPost"
@@ -341,7 +352,7 @@
 
                 <script>
                     var urlAva = '{{db.urlPic}}' || '';
-                    var defaultPreviewContent = '<img src="' + urlAva + '" style = "height:400px;"  alt="Your Avatar" id = "previewImgAva">'
+                    var defaultPreviewContent = '<img src="' + urlAva + '" style = "height:auto; object-fit: fill; max-width: 100%;"  alt="Your Avatar" id = "previewImgAva">'
                     if (urlAva.length === 0) {
                         defaultPreviewContent = ''
                     }
@@ -364,15 +375,21 @@
         <hr>
 
         {{!-- content --}}
-        <div style="margin-bottom: 20px;">
-            <h4><b>
-                    Content</b></h4>
-            <textarea class="tinymce" id="texteditor" name="content">{{db.content}}</textarea>
+        <div style="margin-bottom: 20px;" class="row">
+
+            <div class="col-md-offset-1">
+                <h4><b>
+                        Nội dung</b></h4>
+            </div>
+            <hr>
+            <div class="col-lg-9 col-lg-offset-2">
+                <textarea class="tinymce" id="texteditor" name="content">{{db.content}}</textarea>
+            </div>
         </div>
 
 
         {{!-- buttons SAVE/SUBMIT/CANCEL --}}
-        <div class="" style="text-align: center; ">
+        <div class="col-md-9 col-md-offset-2" style="text-align: center; ">
             {{!-- <button type="button" class="btn btn-success" id="btnsave" onclick="_submit(0)"> Save </button> --}}
             <button type="button" class="btn btn-info" id="btnsubmit" onclick="_submit(1)"> Submit </button>
             <button type="button" class="btn btn-danger" id="btncancel" data-toggle="modal" data-target="#modalCancel">
@@ -406,5 +423,6 @@
 
         </div>
     </div>
+
 
 </main>

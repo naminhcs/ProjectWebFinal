@@ -52,7 +52,9 @@
     .pagination option {
         color: black;
         text-decoration: none;
-        
+        height: 15px;
+
+
     }
 </style>
 
@@ -89,20 +91,6 @@
     });
 </script>
 
-<script>
-
-    function setid(newId) {
-        document.getElementById('postid').value = newId;
-        alert("post id:");
-        alert(document.getElementById('postid').value);
-    }
-    function prev(pageNum) {
-        alert(pageNum - 1);
-    }
-    function next(pageNum) {
-        alert(pageNum + 1);
-    }
-</script>
 
 <script src="/assets/admin/js/getlistcat2.js"></script>
 
@@ -111,30 +99,47 @@
     function selectPage() {
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        location.replace("/editor/view/draf-post?page=" + selectedValue)
+        location.replace("/writer/view/public?page=" + selectedValue)
 
     }
-    var totalPage = parseInt($("#totalPage").val());
-    var curPage = parseInt($('#Page').val());
-    $('#currentPage').find('option').remove();
-    for (let i = 1; i <= totalPage; i++) {
-        var newoption = "<option value=\"" + i.toString() + "\"" + ">" + i + '</option>';
-        $('#currentPage').append(newoption);
-    }
-    $('#currentPage').val($('#Page').val());
-    var nextpage = curPage + 1;
-    var prevpage = curPage - 1;
-    $('.disabled').click(function (e) {
-        e.preventDefault();
+    $(document).ready(function () {
+        //var totalPage = parseInt($("#totalPage").val());
+        //var curPage = parseInt($('#Page').val());
+        var totalPage = parseInt('{{totalPage}}')
+        var curPage = parseInt('{{page}}')
+
+        $('#currentPage').find('option').remove();
+
+        for (let i = 1; i <= totalPage; i++) {
+            var newoption = "<option value=\"" + i.toString() + "\"";
+            if (i == curPage) {
+                newoption = newoption + ' selected';
+            }
+
+            newoption = newoption + ">" + i + '</option>';
+            $('#currentPage').append(newoption);
+        }
+
+        $('#currentPage').val(curPage);
+
+        var nextpage = curPage + 1;
+        var prevpage = curPage - 1;
+
+        if (curPage == 1) {
+            //alert(curPage)
+            $('#prevpage').attr("href", "#");
+        }
+        else {
+            $('#prevpage').attr("href", "/writer/view/public?page=" + prevpage.toString());
+        }
+
+        if (curPage == totalPage) {
+            $('#nextpage').attr("href", "#");
+        }
+        else {
+            $('#nextpage').attr("href", "/writer/view/public?page=" + nextpage.toString());
+        }
     })
-    $('#prevpage').attr("href", "/editor/view/draf-post?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/editor/view/draf-post?page=" + nextpage.toString());
-    if (curPage == 1) {
-        $('#prevpage').attr("href", "");
-    }
-    if (curPage == totalPage) {
-        $('#nextpage').attr("href", "");
-    }
 </script>
 {{/section}}
 
@@ -157,6 +162,7 @@
 
                     </thead>
                     <tbody>
+                        {{#if this.db}}
                         {{#each this.db}}
                         <tr>
 
@@ -178,23 +184,26 @@
 
                         </tr>
                         {{/each}}
+
+                        {{else}}
+                        <tr>
+                            <td colspan="6">
+                                <div class="text-center">Không có dữ liệu</div>
+                            </td>
+                        </tr>
+                        {{/if}}
                     </tbody>
                 </table>
 
             </div>
 
-            <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
-            <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
+
             <div class="pagination" style="display: flex; justify-content: flex-end;">
-                <a href="#" id="prevpage">&laquo; Previous</a>
+                <a href="" id="prevpage">&laquo; Previous</a>
 
-                <select name="" id="currentPage" class="active" style="	appearance: none;"
-                    onchange="selectPage({{totalPage}})">
-                    <option value="{{page}}" selected>{{page}}</option>
-
+                <select name="" id="currentPage" class="active" style="	appearance: none;" onchange="selectPage()">
                 </select>
-
-                <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
+                <a href="" id="nextpage">Next &raquo;</a>
             </div>
 
         </div>

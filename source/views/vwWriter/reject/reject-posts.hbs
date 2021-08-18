@@ -10,6 +10,54 @@
         text-align: center;
     }
 </style>
+
+
+{{!-- pagination's style --}}
+<style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        /* Gray */
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+
+    .pagination select {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        transition: background-color .3s;
+    }
+
+    .pagination select:hover {
+        background-color: #ddd;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+
+    .pagination option {
+        color: black;
+        text-decoration: none;
+        height: 15px;
+
+
+    }
+</style>
 {{/section}}
 
 {{#section 'js'}}
@@ -41,6 +89,54 @@
         alert(pageNum + 1);
     }
 </script>
+
+{{!-- Pagination's script --}}
+<script>
+    function selectPage() {
+        var selectBox = document.getElementById("currentPage");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        location.replace("/writer/view/public?page=" + selectedValue)
+
+    }
+    $(document).ready(function () {
+        //var totalPage = parseInt($("#totalPage").val());
+        //var curPage = parseInt($('#Page').val());
+        var totalPage = parseInt('{{totalPage}}')
+        var curPage = parseInt('{{page}}')
+
+        $('#currentPage').find('option').remove();
+
+        for (let i = 1; i <= totalPage; i++) {
+            var newoption = "<option value=\"" + i.toString() + "\"";
+            if (i == curPage) {
+                newoption = newoption + ' selected';
+            }
+
+            newoption = newoption + ">" + i + '</option>';
+            $('#currentPage').append(newoption);
+        }
+
+        $('#currentPage').val(curPage);
+
+        var nextpage = curPage + 1;
+        var prevpage = curPage - 1;
+
+        if (curPage == 1) {
+            //alert(curPage)
+            $('#prevpage').attr("href", "#");
+        }
+        else {
+            $('#prevpage').attr("href", "/writer/view/public?page=" + prevpage.toString());
+        }
+
+        if (curPage == totalPage) {
+            $('#nextpage').attr("href", "#");
+        }
+        else {
+            $('#nextpage').attr("href", "/writer/view/public?page=" + nextpage.toString());
+        }
+    })
+</script>
 {{/section}}
 <form action="" method="POST" id='frmDelPost'></form>
 <main>
@@ -58,6 +154,7 @@
                         <th>Xóa</th>
                     </thead>
                     <tbody>
+                        {{#if this.db}}
                         {{#each this.db}}
                         <tr>
 
@@ -84,24 +181,25 @@
 
                         </tr>
                         {{/each}}
+
+                        {{else}}
+                        <tr>
+                            <td colspan="7">
+                                <div class="text-center">Không có dữ liệu</div>
+                            </td>
+                        </tr>
+                        {{/if}}
                     </tbody>
                 </table>
 
 
-                <ul class="pagination pull-right">
-                    <li class="disabled">
-                        <button type="button" style="text-align:center;" onclick="prev(2);">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            Previous
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" style="text-align:right;" onclick="next(2)">
-                            Next
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </button>
-                    </li>
-                </ul>
+                <div class="pagination" style="display: flex; justify-content: flex-end;">
+                    <a href="" id="prevpage">&laquo; Previous</a>
+
+                    <select name="" id="currentPage" class="active" style="	appearance: none;" onchange="selectPage()">
+                    </select>
+                    <a href="" id="nextpage">Next &raquo;</a>
+                </div>
 
 
             </div>

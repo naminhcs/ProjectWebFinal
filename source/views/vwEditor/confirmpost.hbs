@@ -235,10 +235,20 @@
 
       </div>
     </div>
-    <textarea class="tinymce" id="texteditor" name="content">{{this.db.content}}</textarea>
-    <script>
-      console()
-    </script>
+
+    <textarea style="display: none;" name="content">{{this.db.content}}</textarea>
+    <hr>
+    <div style="margin-bottom: 20px;" class="form-group row text-justify">
+      <div style="text-align: center;">
+        <h3><b>
+            Nội dung</b>
+        </h4>
+      </div>
+      <hr>
+      <div class="col-md-10 col-md-offset-1">{{{db.content}}}</div>
+    </div>
+
+
     <input type="text" name="" id="tmp1" value="{{this.db.keyCat1}}" style="display: none;">
     <input type="text" name="" id="tmp2" value="{{this.db.keyCat2}}" style="display: none;">
 

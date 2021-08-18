@@ -23,6 +23,8 @@ router.get('/', auth.isEditor, async function (req, res) {
 // Load các bài báo chờ duyệt
 
 router.get('/view/draf-post', auth.isEditor, async function (req, res) {
+    res.locals.successMsg = req.session.successMsg;
+    req.session.successMsg = ''
     page = req.query.page || 1
     var user = await userModel.getUserByUserName(req.session.data.userName)
     const list_post = await drafModel.getDrafPostByCat1(user.adminCat, page)
@@ -41,7 +43,6 @@ router.get('/view/reject-post', auth.isEditor, async function (req, res) {
 
 router.get('/view/reject-post/:id', auth.isEditor, async function (req, res) {
     id = req.params.id
-    console.log('come hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', id)
     const post = await rejectModel.getRejectPostByID(id);
     if (post.userEditor !== req.session.data.userName){
         res.send('you dont have permission')
@@ -85,20 +86,27 @@ router.get('/view/post/:id', auth.isEditor, async function (req, res) {
 })
 
 // Duyệt bài
-router.get('/confirm/:id', auth.isEditor, async function (req, res) {
+router.get('/confirm/:id', auth.isCensor, async function (req, res) {
     const id = req.params.id
     const post = await drafModel.getDrafPostByID(id)
     res.render('vwEditor/confirmpost', { layout: 'editor.hbs', db: post });
 })
 
-router.post('/confirm/reject/:id', auth.isEditor, async function (req, res) {
+router.post('/confirm/reject/:id', auth.isCensor, async function (req, res) {
     const data = req.body
     const id = req.params.id
     const result = await drafModel.rejectPost(id, data, req.session.data.userName)
-    res.send(result)
+    if (req.session.data.permission === 1){
+        req.session.successMsg = "Đã từ chối bài viết."
+        res.redirect('/admin/view/draft-post')
+
+    } else {
+        req.session.successMsg = "Đã từ chối bài viết."
+        res.redirect('/editor/view/draf-post')
+    }
 })
 
-router.post('/confirm/accept/:id', async function (req, res) {
+router.post('/confirm/accept/:id', auth.isCensor, async function (req, res) {
     var data = req.body
     const id = req.params.id
     const t = new Date(data.dateUpload)
@@ -107,7 +115,14 @@ router.post('/confirm/accept/:id', async function (req, res) {
     data.dateUpload = t.getTime() + hour * 60 * 60 * 1000 + minute * 60 * 1000;
     delete data['timeUpload']
     const result = await drafModel.acceptPost(id, data, req.session.data.userName)
-    res.send(result)
+    if (req.session.data.permission === 1){
+        req.session.successMsg = "Đã duyệt thành công."
+        res.redirect('/admin/view/draft-post')
+
+    } else {
+        req.session.successMsg = "Đã duyệt thành công."
+        res.redirect('/editor/view/draf-post')
+    }
 })
 
 module.exports = router;

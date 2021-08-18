@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Bài viết chưa duyệt'; const title2 = 'Bài viết chưa duyệt'; const title3 = 'Danh sách';
+    const title1 = 'Draft Post'; const title2 = 'Bài báo đang chờ duyệt'; const title3 = 'Posts';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -65,26 +65,27 @@
 
     });
 </script>
+
+
+
 <script>
-    function setid(newId) {
-        document.getElementById('postid').value = newId;
-        alert("post id:");
-        alert(document.getElementById('postid').value);
+    function setid(id) {
+        //alert(id)
+        var url = '/admin/del/draft-post/' + String(id)
+        $('#frmDelPost').attr('action', url);
     }
-    
-    var totalPage = parseInt($("#totalPage").val());
-    var curPage = parseInt($('#Page').val());
-    var urlType = parseInt($('#urlType').val());
     function selectPage() {
-        console.log("selectPage");
+        console.log("click select page##########################################");
+        console.log($("#cat1").val());
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        var urlType = parseInt($('#urlType').val());
-        console.log("/admin/view/user/"+urlType+"?page=" + selectedValue);
-        window.href("/admin/view/user/"+urlType+"?page=" + selectedValue);
-        
+        var urlType = $("#cat1").val();
+        var urlType2 = $("#keyCat2").val();
+        console.log("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
+        location.replace("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
     }
-    
+    var totalPage = parseInt($("#totalPage").val());
+    var curPage = parseInt($('#Page').val());
     $('#currentPage').find('option').remove();
     for (let i = 1; i <= totalPage; i++) {
         var newoption = "<option value=\"" + i.toString() + "\"" + ">" + i + '</option>';
@@ -96,14 +97,15 @@
     $('.disabled').click(function (e) {
         e.preventDefault();
     })
-    var urlType = parseInt($('#urlType').val());
-    $('#prevpage').attr("href", "/admin/view/user/"+urlType+"?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/admin/view/user/"+urlType+"?page=" + nextpage.toString());
+    var urlType = $("#cat1").val();
+    var urlType2 = $("#keyCat2").val();
+    $('#prevpage').attr("href", "/admin/view/draft-post/?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/draft-post/?page=" + nextpage.toString());
     if (curPage == 1) {
-        $('#prevpage').attr("href", "");
+        $('#prevpage').attr("href", "#");
     }
     if (curPage == totalPage) {
-        $('#nextpage').attr("href", "");
+        $('#nextpage').attr("href", "#");
     }
 </script>
 <script src="/assets/admin/js/getlistcat2.js"></script>
@@ -117,72 +119,122 @@
             return;
         }
         else if (keyCat2 == 'all') {
-            window.location.href = "/admin/view/post/" + keyCat1;
+            window.location.href = "/admin/view/post/" + keyCat1 + "?page=1";
             return;
         }
         else {
-            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2;
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 + "?page=1";
             return;
         }
+    }
+</script>
+<script>
+    var value = $("#dbkeyCat1").val();
+    //alert(value);
+    $("#cat1").val(value).change();
+    value = $("#dbkeyCat2").val();
+    console.log(value);
+    $("#cat2").val(value).change();
+    //alert(value);
+</script>
+<script>
+    /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the parameters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+    function post(path, params, method = 'post') {
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less verbose if you use one.
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
     }
 </script>
 
 <script>
     $(document).ready(function () {
-        var successMessage = '{{succesMsg}}'
+        var successMessage = '{{successMsg}}'
         if (successMessage.length !== 0) {
             alert(successMessage)
         }
     })
 </script>
+
 {{/section}}
 
+<form action="" method="POST" id='frmDelPost'></form>
 <main>
+    {{!-- <input type="text" name="" id="dbkeyCat1" value="{{cat1}}" style="display: none;">
+    <input type="text" name="" id="dbkeyCat2" value="{{cat2}}" style="display: none;"> --}}
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
-    <input type="number" name="" id="urlType" value="{{urlType}}" style="display: none;">
 
     <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-
-                    <p id='title3'></p>
-                </div>
-            </div><!-- /.panel-->
-        </div><!-- /.col-->
         <input type="text" id="postid" style="display: none;" value="">
         <div class="col-lg-12">
+            {{!-- <h4>Bootstrap Snipp for Datatable</h4> --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
                         <th>Tiêu đề</th>
                         <th>Người viết</th>
-                        <th>Chuyên đề cấp 1</th>
-                        <th>Chuyên đề cấp 2</th>
-                        <th style="text-align: center;">Duyệt bài</th>
+                        <th>Chuyên mục cấp 1</th>
+                        <th>Chuyên mục cấp 2</th>
+                        <th>Duyệt bài</th>
+                        <th>Xóa</th>
                     </thead>
                     <tbody>
                         {{#each this.db}}
                         <tr>
+
                             <td>{{title}}</td>
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-                            <td style="text-align: center;">
+
+{{!-- Xóa và duyệt bài --}}
+                            <td>    
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/editor/confirm/{{id}}" class="btn btn-primary btn-xs"
-                                        data-title="Duyệt bài">Duyệt bài
+                                    <a href="/admin/view/draft-post/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
+                                    onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
+                                    data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
+
+
                 <div class="pagination" style="display: flex; justify-content: flex-end;">
                     <a href="#" id="prevpage">&laquo; Previous</a>
-                    <select name="" id="currentPage" class="active" style="	appearance: none;" onchange="selectPage()">
+                    <select name="" id="currentPage" class="active" style="	appearance: none;"
+                        onchange="selectPage({{totalPage}})">
+                        <option value="{{page}}" selected>{{page}}</option>
                     </select>
                     <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
                 </div>
@@ -196,20 +248,20 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                    <h4 class="modal-title custom_align" id="Heading">Xóa bài báo</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
-                        you want to delete this Record?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc chắn muốn xóa bài báo này không?</div>
 
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn btn-danger" onclick="javascript:$('#frmDelPost').submit()">Xóa</button>
                 </div>
             </div>
+
+
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->

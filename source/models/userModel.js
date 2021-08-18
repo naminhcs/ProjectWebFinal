@@ -17,6 +17,14 @@ class User {
         this.nameOfUser = user.nameOfUser; 
         this.nickName = 'default'; 
         this.confirmation = false;
+        if (typeof(user.permission) === "undefined"){
+            this.permission = 0
+        } else {
+            this.permission = parseInt(user.permission);
+            if (user.permission == 2){
+                this.adminCat = user.adminCat
+            }
+        }
     }
 }
 

@@ -72,5 +72,34 @@ module.exports = {
             await imgModel.uploadImg('DrafPost', file, id)
         }
         return 'done'
+    },
+
+    async getAllDraftPostByPage(page){
+        var left = (page - 1) * 15;
+        var right = left + 15;
+        const posts = await db.firestore.collection('DrafPost').get()
+        right = Math.min(right, posts.docs.length)
+        var ans = []
+        for (let i = left; i < right; i++){
+            var post = posts.docs[i].data()
+            post['id'] = posts.docs[i].id
+            ans.push(post)
+        }
+        const cnt = posts.docs.length
+        var nPage = Math.floor(cnt / 15);
+        if (cnt % 15 !== 0) nPage++;
+        return {
+            posts: ans,
+            totalPage: nPage
+        }
+    },
+
+    async deletePostByAdmin(id){
+        const post = await db.firestore.collection('DrafPost').doc(id).get()
+        if (typeof(post.data()) === "undefined"){
+            return "Bài viết không tồn tại"
+        }
+        await db.firestore.collection('DrafPost').doc(id).delete()
+        return "Xóa bài viết thành công"
     }
 }

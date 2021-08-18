@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Add category 1</title>
+<title>Thêm chuyên mục cấp 1</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
@@ -16,7 +16,7 @@
 <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
 <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-  const title1 = 'add/cat1'; const title2 = 'Add category 1'; const title3 = 'Add category 1';
+  const title1 = 'add/cat1'; const title2 = 'Thêm chuyên mục cấp 1'; const title3 = 'Thêm chuyên mục cấp 1';
   const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
   id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -35,7 +35,7 @@
 
     var label1 = document.createElement("div");
     label1.className = "col-sm-2 control-label";
-    label1.innerText = "Key cat 2";
+    label1.innerText = "Khóa chuyện mục cấp 2";
     label1.style = "font-weight: bold;";
 
     var div1 = document.createElement("div");
@@ -46,6 +46,7 @@
     input1.className = "form-control";
     input1.value = "";
     input1.name = "listKey2[]"
+    input1.placeholder = "Nhập khóa"
 
     mydiv.appendChild(label1);
     div1.appendChild(input1)
@@ -55,7 +56,7 @@
 
     var label2 = document.createElement("div");
     label2.className = "col-sm-2 control-label";
-    label2.innerText = "Name cat 2";
+    label2.innerText = "Tên chuyện mục cấp 2";
     label2.style = "font-weight: bold;";
 
     var div2 = document.createElement("div");
@@ -66,6 +67,7 @@
     input2.className = "form-control";
     input2.value = "";
     input2.name = "listName2[]"
+    input2.placeholder = "Nhập tên chuyên mục cấp 2"
 
     mydiv.appendChild(label2);
     div2.appendChild(input2);
@@ -80,21 +82,21 @@
   <form class="form-horizontal" action="" method="POST">
     <div class="form-group" style="text-align: center;">
       <div class="form-group" style="text-align: center;">
-        <label for="inputEmail3" class="col-sm-2 control-label">Key Cat 1</label>
+        <label for="inputEmail3" class="col-sm-2 control-label">Khóa chuyên mục cấp 1</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="" value="" name="keyCat1">
+          <input type="text" class="form-control" id="" value="" name="keyCat1" placeholder="Nhập khóa">
         </div>
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="inputEmail3" class="col-sm-2 control-label">Nam Cat 1</label>
+        <label for="inputEmail3" class="col-sm-2 control-label">Tên chuyên mục cấp 1</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="" value="" name="nameCat1">
+          <input type="text" class="form-control" id="" value="" name="nameCat1" placeholder="Nhập tên chuyên mục cấp 1">
         </div>
       </div>
       <div class="form-group" style="text-align: center;">
-        <label for="inputEmail3" class="col-sm-2 control-label">Admin</label>
+        <label for="inputEmail3" class="col-sm-2 control-label">Người quản lý</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="" value="" name="adminCat1">
+          <input type="text" class="form-control" id="" value="" name="adminCat1" placeholder="Nhập tên người quản lý">
         </div>
       </div>
     </div>
@@ -102,35 +104,35 @@
     <div class="form-group" style="text-align: center;">
       <div id='myList' class='list-group' style="text-align: center;">
         <div class="form-group" style="text-align: center;">
-          <label for="inputPassword3" class="col-sm-2 control-label">Key cat 2</label>
+          <label for="inputPassword3" class="col-sm-2 control-label">Khóa chuyện mục cấp 2</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="keyCat2">
+            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="" placeholder="Nhập khóa">
           </div>
-          <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+          <label for="inputPassword3" class="col-sm-2 control-label">Tên chuyên mục cấp 2</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="nameCat2">
+            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="" placeholder="Nhập tên chuyên mục cấp 2">
           </div>
         </div>
         {{#each this.db.listCat}}
         <div class="form-group" style="text-align: center;">
-          <label for="inputPassword3" class="col-sm-2 control-label">Key cat 2</label>
+          <label for="inputPassword3" class="col-sm-2 control-label" placeholder="Nhập khóa"></label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="">
+            <input type="text" class="form-control" id="inputPassword3" name="listKey2[]" value="" placeholder="Nhập khóa">
           </div>
-          <label for="inputPassword3" class="col-sm-2 control-label">Name cat 2</label>
+          <label for="inputPassword3" class="col-sm-2 control-label" ></label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="">
+            <input type="text" class="form-control" id="inputPassword3" name="listName2[]" value="" placeholder="Nhập tên chuyên mục cấp 2">
           </div>
         </div>
         {{/each}}
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <button type="button" class="btn btn-primary" onclick="addlist()">Add new category2</button>
+      <button type="button" class="btn btn-primary" onclick="addlist()">Thêm chuyên mục cấp 2</button>
     </div>
 
     <div class="form-group" style="text-align: center;">
-      <button type="submit" class="btn btn-info">Submit</button>
+      <button type="submit" class="btn btn-info">Thêm</button>
     </div>
   </form>
 </main>

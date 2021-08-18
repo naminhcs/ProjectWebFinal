@@ -6,7 +6,6 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const postModel = require('./models/postController');
 
-
 dotenv.config();
 
 const app = express();
@@ -133,3 +132,5 @@ const PORT = 3000
 app.listen(PORT, function () {
   console.log(`WebMKD app listening at http://localhost:${PORT}`)
 })
+
+// exports.app = functions.https.onRequest(app)

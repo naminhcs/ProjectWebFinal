@@ -274,8 +274,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="#">Trang cá nhân</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -317,7 +317,7 @@
                                 <!-- Button trigger modal -->
                                 <button class="genric-btn primary radius" data-toggle="modal"
                                     data-target="#modalChangeAva" id="btnModalChangeAva">
-                                    Change avatar
+                                    Đổi ảnh đại diện
                                 </button>
 
                                 <!-- Modal -->
@@ -346,16 +346,16 @@
                                                                 </form>
                                                             </div>
                                                             <div class="text-center" style="text-align: center;">
-                                                                <small>Select file your avatar</small>
+                                                                <small>Chọn ảnh đại diện mới</small>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="mt-5">
                                                         <button type="button" class="genric-btn danger radius"
-                                                            data-dismiss="modal">Close</button>
+                                                            data-dismiss="modal">Thoát</button>
                                                         <button id="" type="" class="genric-btn info radius"
-                                                            onclick="javascirpt:$('#frmUploadAva').submit()">Save</button>
+                                                            onclick="javascirpt:$('#frmUploadAva').submit()">Lưu</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -412,22 +412,22 @@
                             </div>
 
                             <div class="about">
-                                <h5>About</h5>
+                                <h5>Giới thiệu</h5>
                                 <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human
                                     experiences.</p>
                             </div>
 
                             {{!-- Kiem tra user co premium hay khong --}}
-                            {{#when dataUser.isPremium 'eq' 1}}
+                            {{#when dataUser.premium 'noteq' 1}}
                             <div class="user-profile btn-upgrade-premium">
                                 <a id='upgrade-to-premium' href="/user/upgrade-to-premium"><button
-                                        class="genric-btn primary radius" id="btnUpgradePremium">Upgrade to
+                                        class="genric-btn primary radius" id="btnUpgradePremium">Nâng cấp
                                         Premium</button></a>
                             </div>
                             {{/when}}
-                            {{#when dataUser.isPremium 'noteq' 1}}
+                            {{#when dataUser.premium 'eq' 1}}
                             <div class="user-profile btn-upgrade-premium">
-                                <button class="genric-btn primary-border circle" id="">Your account is premium</button>
+                                <button class="genric-btn primary-border circle" id="">Tài khoản Premium</button>
                             </div>
                             {{/when}}
 
@@ -445,12 +445,12 @@
                         {{!-- username --}}
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h3 class="mb-2" style="font-weight: bold;">Account</h3>
+                                <h3 class="mb-2" style="font-weight: bold;">Thông tin tài khoản</h3>
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="userName">Username</label>
+                                    <label for="userName">Tên đăng nhập</label>
                                     <input type="text" class="form-control" id="userName" value="{{dataUser.userName}}"
                                         readonly>
                                 </div>
@@ -461,7 +461,7 @@
                         <div class="row gutters">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="phone">Password</label>
+                                    <label for="phone">Mật khẩu</label>
                                     <input type="password" class="form-control" id="password" value="123456_aAA"
                                         readonly>
                                 </div>
@@ -474,8 +474,7 @@
                                     <a href="/user/change-password">
                                         <label for="btnChangePassword">&nbsp;</label>
                                         <button type="button" id="btnChangePassword" name=""
-                                            class="genric-btn primary radius" style="text-align: center;">Change
-                                            password</button>
+                                            class="genric-btn primary radius" style="text-align: center;">Đổi mật khẩu</button>
                                     </a>
                                 </div>
                             </div>
@@ -486,8 +485,7 @@
                                     <a href="/user/change-password">
                                         <label for="btnChangePassword">&nbsp;</label>
                                         <button type="button" id="btnChangePassword" name=""
-                                            class="genric-btn primary radius" style="text-align: center;">Change
-                                            password</button>
+                                            class="genric-btn primary radius" style="text-align: center;">Đổi mật khẩu</button>
                                     </a>
                                 </div>
                             </div>
@@ -498,7 +496,7 @@
                         <div class="row gutters">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="gmail">Email</label>
+                                    <label for="gmail">Gmail</label>
                                     <input type="email" class="form-control" id="gmail" name="gmail"
                                         value="{{dataUser.gmail}}" readonly>
                                 </div>
@@ -511,8 +509,7 @@
                                     <a href="/user/change-gmail">
                                         <label for="btnChangeEmail">&nbsp;</label>
                                         <button type="button" id="btnChangeEmail" name=""
-                                            class="genric-btn primary radius" style="text-align: center;">Change
-                                            Email</button>
+                                            class="genric-btn primary radius" style="text-align: center;">Đổi Gmail</button>
                                     </a>
                                 </div>
                             </div>
@@ -522,8 +519,7 @@
                                     <a href="/user/change-gmail">
                                         <label for="btnChangeEmail">&nbsp;</label>
                                         <button type="button" id="btnChangeEmail" name=""
-                                            class="genric-btn primary radius" style="text-align: center;">Change
-                                            Email</button>
+                                            class="genric-btn primary radius" style="text-align: center;">Đổi Gmail</button>
                                     </a>
                                 </div>
                             </div>
@@ -535,13 +531,13 @@
                         {{!-- row personnal details --}}
                         <form id="frmPersonalDetails" class="row gutters" action="/user/update-profile" method="POST">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h3 class="mb-2" style="font-weight: bold;">Personal Details</h3>
+                                <h3 class="mb-2" style="font-weight: bold;">Thông tin cá nhân</h3>
                             </div>
 
                             {{!-- full name --}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="nameOfUser">Full Name</label>
+                                    <label for="nameOfUser">Tên đầy đủ</label>
                                     <input type="text" class="form-control" id="nameOfUser" name="nameOfUser"
                                         value="{{dataUser.nameOfUser}}" readonly>
                                 </div>
@@ -552,7 +548,7 @@
                             {{!-- phone number --}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="phoneNumber">Phone</label>
+                                    <label for="phoneNumber">Số điện thoại</label>
                                     <input type="" class="form-control" id="phoneNumber" name="phoneNumber"
                                         value="{{dataUser.phoneNumber}}" readonly>
                                 </div>
@@ -561,7 +557,7 @@
                             {{!-- birthday --}}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="dayOfBirth">Birthday</label>
+                                    <label for="dayOfBirth">Ngày sinh</label>
                                     <input type="" class="form-control" id="dayOfBirth" name="dayOfBirth"
                                         value="{{dataUser.dayOfBirth}}" readonly>
                                 </div>
@@ -584,8 +580,7 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="text-right">
                                     <button type="button" id="btnUpdateProfile" name=""
-                                        class="genric-btn primary radius">Update
-                                        Profile</button>
+                                        class="genric-btn primary radius">Cập nhật </button>
                                 </div>
 
                                 {{!-- https://www.w3schools.com/bootstrap4/bootstrap_modal.asp --}}

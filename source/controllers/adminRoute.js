@@ -10,13 +10,28 @@ const userModel = require('../models/userController');
 const postModel = require('../models/postController');
 const tagModel = require('../models/tagController');
 const catModel = require('../models/categoryController');
-const db = require('../db');
+const draftModel = require('../models/DrafPostController')
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer')
+dotenv.config();
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_PASSWORD,
+  }
+});
 
 const router = express.Router();
 router.use(bodyParser.json());
 
-
+function generateAccessToken(userName) {
+    return jwt.sign(userName, process.env.TOKEN_SECRET, {
+      expiresIn: '200s'
+    });
+};
 //--------------------------Category---------------------------------
 router.get('/view/cat', async function (req, res){
     const listCat = await catModel.getAllCategory();
@@ -36,9 +51,14 @@ router.get('/view/cat', async function (req, res){
 })
 
 router.get('/view/cat/:cat1', async function(req, res){
+    res.locals.successMsg = req.session.successMsg;
+    req.session.successMsg = '';
+    console.log( res.locals.successMsg )
+
     const cat1 = req.params.cat1;
+    
     const listCat = await catModel.getAllCat2ByCat1(cat1)
-    console.log(listCat)
+    //console.log(listCat)
     var data = []
     for (let key in Object.keys(listCat)){
         cat2 = listCat[key]
@@ -50,7 +70,7 @@ router.get('/view/cat/:cat1', async function(req, res){
         val['nameCat2'] = cat2.nameCat2
         data.push(val)
     }
-    console.log(data);
+    //console.log(data);
     res.render('vwAdmin/view/category1',{layout:'admin.hbs',db:data,keycat1:cat1});
 })
 // --------------------------------------Add cat-------------------------------------------------
@@ -151,8 +171,10 @@ router.post('/add/cat/:cat1', async function (req, res){
         keyCat2: req.body.keyCat2,
         nameCat2: req.body.nameCat2
     }
-    const result = await addCat2(cat1, data)
-    res.send(result)
+    const result = await catModel.addCat2(cat1, data)
+    //res.send(result)
+    req.session.successMsg = 'Thêm chuyên mục thành công'
+    res.redirect('/admin/view/cat/' + cat1)
 })
 
 // ----------------------------Add cat1 ------------------------------------------------
@@ -196,7 +218,6 @@ router.get('/view/tag', async function(req, res){
     //     data: data,
     //     totalPage: nPage
     // });
-    console.log(page);
     res.render('vwAdmin/view/tag',{layout:'admin.hbs',db: data,totalPage: nPage,page:page});
 })
 
@@ -233,8 +254,9 @@ router.post('/add/tag', async function(req, res){
 
 //-------------------------User------------------------------------------
 router.get('/view/user/:type', async function(req, res){
+    res.locals.successMsg = req.session.successMsg
+    req.session.successMsg = ''
     const type = req.params.type
-    
     const page = req.query.page || 1
     var data;
     if (type === 'all'){
@@ -245,15 +267,7 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    console.log(data);
     res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
-})
-
-router.get('/view/user/:id', async function(req, res){
-    id = req.params.id;
-    var data = await userModel.getUserByID(id)
-    delete data['password']
-    res.send(data);
 })
 
 router.get('/edit/user/:id', async function(req, res){
@@ -261,35 +275,32 @@ router.get('/edit/user/:id', async function(req, res){
     var data = await userModel.getUserByID(id)
     delete data['password']
     // res.send(data);
-    console.log(data);
     res.render('vwAdmin/edit/edituser',{layout:'admin.hbs',db:data});
 })
 
 router.post('/edit/user/:id', async function(req, res){
-    const data = req.body;
-    if (req.body.permission === ''){
-        delete req.body.permission
-    }
-    if (req.body.dayEndPremium === ''){
-        delete req.body.dayEndPremium
-    }
-    console.log(req.body)
-    var user = await userModel.getUserByID(req.params.id)
-    result = await userModel.updateUserByUserName(user.userName, data)
-    res.send(result);
+    var data = req.body;
+    data.permission = parseInt(data.permission)
+    result = await userModel.updateUserByUserName(data.userName, data)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/all')
 })
 
-router.post('/add/user', auth.isAdmin, async function(req, res){
+router.post('/add/user', async function(req, res){
     const data = req.body;
     const checkUserName = await userModel.getUserByUserName(data.userName);
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
     if (checkGmail !== null) {
-        return 'Gmail is used';
+        req.session.successMsg =  'Gmail is used';
+        res.redirect('/admin/view/user/all')
+        return;
     }
 
     if (checkUserName !== null) {
-        return 'UserName is used';
+        req.session.successMsg =  'UserName is used';
+        res.redirect('/admin/view/user/all')
+        return;
     }
     var dataUser = new user(data);
     const dataPush = {};
@@ -311,14 +322,15 @@ router.post('/add/user', auth.isAdmin, async function(req, res){
     await transporter.sendMail(mailOption)
     // ---- Add user to database
     await userModel.addUser(dataPush);
-    res.send('Check gmail to confirm')
+    req.session.successMsg = 'Check gmail to confirm';
+    res.redirect('/admin/view/user/all')
 })
 
 router.post('/del/user/:id', async function(req, res){
     id = req.params.id
-    // result = await userModel.delUser(id)
-    res.send(id);
-    // res.send(result)
+    result = await userModel.delUser(id)
+    req.session.successMsg = result
+    res.redirect('/admin/view/user/all')
 })
 
 
@@ -442,6 +454,30 @@ router.post('/del/post/:id', async function(req, res){
     // result = await postModel.delPost(id);
     res.send(id);
     // res.send(result)
+})
+
+// --------------------------------------------------DraftPost-----------------------------------------------------------------
+
+router.get('/view/draft-post', async function(req, res){
+    res.locals.successMsg = req.session.successMsg
+    req.session.successMsg = ''
+    console.log(res.locals.successMsg)
+    var page = req.query.page || 1
+    const posts = await draftModel.getAllDraftPostByPage(page)
+    res.render('vwAdmin/view/draftPost', {layout: 'admin.hbs', db: posts.posts, totalPage: posts.totalPage, page: page})
+})
+
+router.get('/view/draft-post/:id', async function(req, res){
+    var id = req.params.id
+    const post = await draftModel.getDrafPostByID(id);
+    res.render('vwEditor/confirmpost', { layout: 'admin.hbs', db: post });
+})
+
+router.post('/del/draft-post/:id', async function(req, res){
+    var id = req.params.id
+    const result = await draftModel.deletePostByAdmin(id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/draft-post')
 })
 
 module.exports = router;

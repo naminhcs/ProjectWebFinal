@@ -1,11 +1,11 @@
 {{#section 'css'}}
-<title>Post</title>
+<title>Quản lý chuyên mục</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Category'; const title2 = 'Category'; const title3 = 'Lọc';
+    const title1 = 'Category'; const title2 = 'Quản lý chuyên mục'; const title3 = 'Lọc';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -51,7 +51,7 @@
     function myfunction() {
         var keyCat1 = document.getElementById('cat1').value;
         var keyCat2 = document.getElementById('cat2').value;
-        // alert(keyCat1+keyCat2);
+        { { !--alert(keyCat1 + keyCat2); --} }
         if (keyCat1 == 'all') {
             window.location.href = "/admin/view/cat";
             return;
@@ -66,6 +66,8 @@
         }
     }
 </script>
+
+
 {{/section}}
 <main>
     <div class="row">
@@ -95,7 +97,7 @@
                         <div class="form-group" style="display: none;">
                             <label class="col-sm-5 control-label">Chuyên mục cấp 2</label>
                             <div class="col-lg-2">
-                                <select class="form-control" aria-label="Default select example" id="cat2" >
+                                <select class="form-control" aria-label="Default select example" id="cat2">
                                     <option value="all" selected>Tất cả</option>
                                 </select>
                             </div>
@@ -104,7 +106,7 @@
 
 
                     <div class="col-lg-10" style="text-align: center;">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
 

@@ -12,7 +12,13 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
     nPages = Math.floor(nPages)
     page = +page
     // console.log(page)
-    // console.log(nPages)
+    //console.log(nPages)
+
+    if (nPages <= 1 || isNaN(nPages)) {
+        return {
+            page_numbers
+        }
+    }
     if (nPages <= 6) {
         for (i = 1; i <= nPages; i++) {
             page_numbers.push({
@@ -79,14 +85,23 @@ function processingNumberOfPagesToView(nPages, page) { // needing to get total p
             }
         }
     }
-    // console.log(page_numbers)
+    //console.log(page_numbers)
     return {
         page_numbers
     }
 }
 
+Object.size = function (obj) {
+    var size = 0,
+        key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
 // get 10post/page    (category2
-async function getPostPremiumByCat2(cat2, page) {
+async function getPostPremiumByCat2(cat1, cat2, page) {
     var ans = await postModel.getPostPremiumByCat2(cat2, page)
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
@@ -99,13 +114,14 @@ async function getPostPremiumByCat2(cat2, page) {
         isEmpty: jsonAns.length,
         page_numbers: paging.page_numbers,
         pageCurrent: page,
-        nameCat1: jsonAns['0']['nameCat1'],
-        nameCat2: jsonAns['0']['nameCat2'],
+        nameCat1: cat1,
+        nameCat2: cat2,
+        isEmpty: Object.size(jsonAns) === 0,
     }
     return obj
 }
 
-async function getPostByCat2(cat2, page) {
+async function getPostByCat2(cat1, cat2, page) {
     var ans = await postModel.getPostByCat2(cat2, page);
     var stringAns = JSON.stringify(Object.assign({}, ans));
     var jsonAns = JSON.parse(stringAns)
@@ -113,16 +129,17 @@ async function getPostByCat2(cat2, page) {
     const cnt = await postModel.getPage(cat2)
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
-    console.log(+cnt)
-    console.log(nPages)
+    // console.log(+cnt)
+    // console.log(nPages)
     var paging = processingNumberOfPagesToView(nPages, page);
     const obj = {
         data: jsonAns,
         isEmpty: jsonAns.length,
         page_numbers: paging.page_numbers,
         pageCurrent: page,
-        nameCat1: jsonAns['0']['nameCat1'],
-        nameCat2: jsonAns['0']['nameCat2'],
+        nameCat1: cat1,
+        nameCat2: cat2,
+        isEmpty: Object.size(jsonAns) === 0,
     }
     return obj
 }
@@ -140,7 +157,8 @@ async function getPostPremiumByCat1(cat1, page) {
         isEmpty: jsonAns.length,
         page_numbers: paging.page_numbers,
         pageCurrent: page,
-        nameCat1: jsonAns['0']['nameCat1'],
+        nameCat1: cat1,
+        isEmpty: Object.size(jsonAns) === 0,
     }
     return obj
 }
@@ -153,12 +171,15 @@ async function getPostByCat1(cat1, page) {
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
     var paging = processingNumberOfPagesToView(nPages, page)
+
+
     const obj = {
         data: jsonAns,
         isEmpty: jsonAns.length,
         page_numbers: paging.page_numbers,
         pageCurrent: page,
-        nameCat1: jsonAns['0']['nameCat1'],
+        nameCat1: cat1,
+        isEmpty: Object.size(jsonAns) === 0,
     }
     return obj;
 }
@@ -170,16 +191,16 @@ router.get('/:cat1/:cat2', async function (req, res) {
     const page = req.query.page || 1
     var obj = {}
     var premium = 0;
-    console.log(typeof(req.session.data));
-    if (typeof(req.session.data) === 'undefined' || req.session.data === null){
+    console.log(typeof (req.session.data));
+    if (typeof (req.session.data) === 'undefined' || req.session.data === null) {
         premium = 0
     } else premium = req.session.data.premium;
-    
+
     console.log(premium)
-    if (premium){
-        obj = await getPostPremiumByCat2(cat2, page)
+    if (premium) {
+        obj = await getPostPremiumByCat2(cat1, cat2, page)
     } else {
-        obj = await getPostByCat2(cat2, page)
+        obj = await getPostByCat2(cat1, cat2, page)
     }
     // res.send(jsonAns)
     res.render('posts/categories', obj)
@@ -193,11 +214,11 @@ router.get('/:cat1', async function (req, res) {
     const page = req.query.page || 1
     var obj = {}
     var premium = 0;
-    if (typeof(req.session.data) === 'undefined' || req.session.data === null){
+    if (typeof (req.session.data) === 'undefined' || req.session.data === null) {
         premium = 0
     } else premium = req.session.data.premium;
     console.log(req.session.data)
-    if (premium){
+    if (premium) {
         obj = await getPostPremiumByCat1(cat1, page)
     } else {
         obj = await getPostByCat1(cat1, page)

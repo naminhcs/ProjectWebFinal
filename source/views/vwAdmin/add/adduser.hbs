@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Edit user</title>
+<title>Quản lý người dùng</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -13,7 +13,7 @@
 
 {{#section 'js'}}
 <script>
-  const title1 = 'Add'; const title2 = 'Add user'; const title3 = 'Add user';
+  const title1 = 'Thêm người dùng'; const title2 = 'Thêm người dùng'; const title3 = 'Add user';
   const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
   id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -43,7 +43,7 @@
       $("#selectadminCat").hide();
     }
     else {
-      $("#label_hide").text("Admin cat");
+      $("#label_hide").text("Quản lý chuyên mục");
       $("#selectadminCat").show();
     }
   }
@@ -73,29 +73,29 @@
         alt="">
     </div>
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">userName</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Tên đăng nhập</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}">
+        <input type="text" class="form-control" id="" name="userName" value="" placeholder="Nhập tên người dùng">
       </div>
     </div>
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">password</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Mật khẩu</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="" name="password" value="this.db.password">
+        <input type="password" class="form-control" id="" name="password" value="" placeholder="Nhập mật khẩu">
       </div>
     </div>
 
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Tên hiển thị</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="nameOfUser" value="{{this.db.nameOfUser}}">
+        <input type="text" class="form-control" id="" name="nameOfUser" value="" placeholder="Nhập tên hiển thị">
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Gmail</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="gmail" value="{{this.db.gmail}}">
+        <input type="text" class="form-control" id="" name="gmail" value="" placeholder="Nhập địa chỉ Gmail">
       </div>
     </div>
     {{!-- <div class="form-group">
@@ -108,16 +108,16 @@
 
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Phone</label>
+      <label class="col-sm-2 control-label">Số điện thoại</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="phoneNumber" value="">
+        <input type="text" class="form-control" id="" name="phoneNumber" value="" placeholder="Nhập số điện thoại">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">Dayofbirth</label>
+      <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
         <div class='input-group date' id='datetimepicker1'>
-          <input type='text' class="form-control" name="dayOfBirth" value="" />
+          <input type='text' class="form-control" name="dayOfBirth" value="" placeholder="Nhập ngày sinh">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -126,28 +126,22 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">nickname</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" name="nickName" value="">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Permission</label>
+      <label class="col-sm-2 control-label">Phân hệ</label>
       <div class="col-sm-9">
         {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
         <select class="form-control" aria-label="Default select example" name="permission" id="selectpermission"
           onchange="hideAdmincat(this);">
-          <option value="0">User</option>
-          <option value="1">Admin</option>
-          <option value="2">Editor</option>
-          <option value="3">Writer</option>
+          <option value="0">Người dùng</option>
+          <option value="1">Quản lý</option>
+          <option value="2">Người kiểm duyệt</option>
+          <option value="3">Nhà báo</option>
         </select>
 
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label" id="label_hide">Admin cat</label>
+      <label class="col-sm-2 control-label" id="label_hide">Quản lý chuyên mục</label>
       <div class="col-sm-9">
         <select class="form-control" aria-label="Default select example" name="adminCat" id="selectadminCat">
           {{#each lcCategory}}
@@ -157,7 +151,7 @@
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <button type="submit" class="btn btn-info">Submit</button>
+      <button type="submit" class="btn btn-info">Tạo</button>
     </div>
 
   </form>

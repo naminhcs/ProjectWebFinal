@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Add Tag</title>
+<title>Quản lý Tag</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
@@ -15,7 +15,7 @@
   <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
   <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-	const title1 = 'tag/add';const title2 = 'Add tag';const title3 = 'Add tag';
+	const title1 = 'Quản lý Tag';const title2 = 'Thêm Tag';const title3 = 'Add tag';
 	const id1 = document.getElementById('title1');const id2 = document.getElementById('title2');const id3 = document.getElementById('title3');
 	id1.innerHTML=title1;id2.innerHTML=title2;id3.innerHTML=title3;
 </script>
@@ -46,13 +46,13 @@
 <main>
     <form class="form-horizontal" method="POST" action="">
     <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Key</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Khóa Tag</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="key" placeholder="Key" name="key">
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <label for="inputEmail3" class="col-sm-2 control-label">Tag name</label>
+      <label for="inputEmail3" class="col-sm-2 control-label">Tên Tag</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="name" placeholder="Tag name" name="name">
       </div>
@@ -60,7 +60,7 @@
       <div class="form-group" style="text-align: center;">
           {{!-- <a href="./edit" class="btn btn-success">Edit</a>
           <a href="./viewpost" class="btn btn-danger">Return</a> --}}
-        <button type="submit" href="" class="btn btn-info">Submit</button>
+        <button type="submit" href="" class="btn btn-info">Thêm</button>
        
       </div>
       {{!-- <div id="data-container"></div> --}}

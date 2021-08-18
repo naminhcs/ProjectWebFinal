@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Table</title>
+<title>Quản lý Tag</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 <style>
@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Tag'; const title2 = 'Tag'; const title3 = 'List Tag';
+    const title1 = 'Tag'; const title2 = 'Tag'; const title3 = 'Danh sách tag';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -158,8 +158,8 @@
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Key Tag</th>
-                        <th>Name Tag</th>
+                        <th>Khóa Tag</th>
+                        <th>Tên của Tag</th>
                         {{!-- <th>Số lượng bài viết liên quan</th> --}}
                         <th style="text-align: center;">Chỉnh sửa</th>
                         <th style="text-align: center;">Xóa</th>
@@ -196,7 +196,7 @@
                     <a href="#" onclick="next({{this.page}})" id="nextpage">Next &raquo;</a>
                 </div>
                 <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/tag" class="btn btn-success">Add Tag</a>
+                    <a href="/admin/add/tag" class="btn btn-success">Thêm Tag</a>
                 </div>
             </div>
         </div>

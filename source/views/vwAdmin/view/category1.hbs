@@ -1,11 +1,11 @@
 {{#section 'css'}}
-<title>Category</title>
+<title>Quản lý chuyên mục</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Category'; const title2 = 'Category'; const title3 = 'Category';
+    const title1 = 'Category'; const title2 = 'Quản lý chuyên mục cấp 1'; const title3 = 'Category';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -94,6 +94,16 @@
         alert(document.getElementById('postid').value);
     }
 </script>
+<script>
+    $(document).ready(function () {
+        
+        var successMessage = '{{successMsg}}';
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
+
+</script>
 {{/section}}
 <main>
     <input type="text" name="" id="keycat1" value="{{keycat1}}" style="display: none;">
@@ -125,7 +135,7 @@
                         </select>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
 
@@ -173,7 +183,7 @@
                     </tbody>
                 </table>
                 <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/cat/{{keycat1}}" class="btn btn-success">Add Cat 2</a>
+                    <a href="/admin/add/cat/{{keycat1}}" class="btn btn-success">Thêm chuyên mục cấp 2</a>
                 </div>
             </div>
         </div>

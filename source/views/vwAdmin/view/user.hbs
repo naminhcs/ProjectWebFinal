@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Table</title>
+<title>Quản lý tài khoản</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <style>
     .pagination {
@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'User'; const title2 = 'User management'; const title3 = 'Lọc';
+    const title1 = 'Quản lý tài khoản'; const title2 = 'Quản lý tài khoản'; const title3 = 'Lọc';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -130,16 +130,24 @@
         var report = "delete-user-id-"+id;
         post(url, {name: 'delete-user-id-'});
     }
-    function setid(newId) {
-        console.log("1");
-        document.getElementById('postid').value = newId;
-        console.log("2");
-        alert("User id:");
-        alert(document.getElementById('postid').value);
+    function setid(id) {
+        //alert(id)
+        var url = '/admin/del/user/' + String(id)
+        $('#frmDelPost').attr('action', url);
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var successMessage = '{{successMsg}}'
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
 </script>
 {{/section}}
 
+<form action="" method="POST" id='frmDelPost'></form>
 <main>
     <input type="text" id="postid"  value="" style="display: none;">
 
@@ -159,30 +167,29 @@
                     <div class="col-lg-2">
                         <select class="form-control" aria-label="Default select example" id="userSelect">
                             <option value="all" selected>Tất cả</option>
-                            <option value="editor">Editor</option>
-                            <option value="user">User</option>
-                            <option value="writer">Writer</option>
+                            <option value="editor">Người kiếm duyệt</option>
+                            <option value="user">Người dùng</option>
+                            <option value="writer">Nhà báo</option>
                         </select>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
             </div><!-- /.panel-->
         </div><!-- /.col-->
        
         <div class="col-lg-12">
-            <h4>Bootstrap Snipp for Datatable</h4>
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Name</th>
+                        <th>Tên đầy đủ</th>
                         <th>Gmail</th>
-                        <th>Date Init</th>
-                        <th>Phone</th>
-                        <th>Dayofbirth</th>
-                        <th>nickname</th>
-                        <th>Permission</th>
+                        <th>Ngày tạo tài khoản</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày sinh</th>
+                        <th>Ngày hết premium</th>
+                        <th>Phân hệ</th>
                         <th>Chỉnh sửa</th>
                         <th>Xóa</th>
 
@@ -196,8 +203,22 @@
                             <td>{{dayInit}}</td>
                             <td>{{phoneNumber}}</td>
                             <td>{{dayOfBirth}}</td>
-                            <td>{{nickName}}</td>
-                            <td>{{permission}}</td>
+                            <td>{{dayEndPremium}}</td>
+                            <td>
+                                {{#when permission 'eq' 0}}
+                                Người dùng
+                                {{/when}}
+                                {{#when permission 'eq' 1}}
+                                Người quản lý
+                                {{/when}}
+                                {{#when permission 'eq' 2}}
+                                Người kiểm duyệt
+                                {{/when}}
+                                {{#when permission 'eq' 3}}
+                                Nhà báo
+                                {{/when}}
+
+                            </td>
                             <td>
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/admin/edit/user/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
@@ -226,7 +247,7 @@
                     <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
                 </div>
                 <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/user" class="btn btn-success">Add User</a>
+                    <a href="/admin/add/user" class="btn btn-success">Thêm tài khoản</a>
                 </div>
             </div>
 
@@ -241,17 +262,16 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                    <h4 class="modal-title custom_align" id="Heading">Xóa tài khoản</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
-                        you want to delete this Record?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc chắn muốn xóa tài khoản này không?</div>
 
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn btn-danger" onclick="javascript:$('#frmDelPost').submit()">Xóa</button>
 
                 </div>
             </div>

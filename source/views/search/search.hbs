@@ -31,6 +31,8 @@
 
     #inputSearch1 {
         color: black !important;
+        text-decoration: none;
+        text-transform: none;
     }
 </style>
 {{/section}}
@@ -80,7 +82,7 @@
     <div id="textSearch">
         <input {{#if key}}{{else}} placeholder="Nhập nội dung tìm kiếm" {{/if}} style="width: 50%;"
             value="{{#if key}}{{key}}{{/if}}" id='inputSearch1'>
-        <button class="genric-btn primary-border radius" type="button" id='btnSearch'>SEARCH</button>
+        <button class="genric-btn primary-border radius" type="button" id='btnSearch' >Tìm kiếm</button>
     </div>
 
 

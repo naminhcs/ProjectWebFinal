@@ -296,7 +296,7 @@ router.get('/view/post/:cat1', async function(req, res){
     //     data: obj,
     //     totalPage: nPages
     // })
-    res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1});
+    res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,page:page});
 })
 
 // //--------------------------------dat--------------------//

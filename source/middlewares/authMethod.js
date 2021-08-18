@@ -32,6 +32,17 @@ module.exports = {
         }
         next();
     },
+    isCensor(req, res ,next){
+        if (req.session.auth !== true){
+            req.session.urlRedirect = req.originalUrl;
+            return res.redirect('/user/login');
+        }
+        if (req.session.data.permission === 0 || req.session.data.permission === 3){
+            return res.redirect('/');
+        }
+        next();
+    },
+    
     isWriter(req, res, next){
         if (req.session.auth !== true){
             req.session.urlRedirect = req.originalUrl;

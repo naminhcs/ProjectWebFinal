@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Quản lý tài khoản</title>
+<title>Table</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <style>
     .pagination {
@@ -42,24 +42,47 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Quản lý tài khoản'; const title2 = 'Quản lý tài khoản'; const title3 = 'Lọc';
+    const title1 = 'Draft Post'; const title2 = 'Bài báo đang chờ duyệt'; const title3 = 'Posts';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#example').DataTable();
+        $('#example tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        var premium = $('#premium').val()
+
+    });
+</script>
+
 
 
 <script>
+    function setid(id) {
+        //alert(id)
+        var url = '/admin/del/draft-post/' + String(id)
+        $('#frmDelPost').attr('action', url);
+    }
     function selectPage() {
         console.log("click select page##########################################");
-        console.log($("#urlType").val());
+        console.log($("#cat1").val());
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        var urlType = $("#urlType").val();
-        
-        console.log("/admin/view/user/"+urlType+"?page=" + selectedValue);
-        location.replace("/admin/view/user/"+urlType+"?page=" + selectedValue);
+        var urlType = $("#cat1").val();
+        var urlType2 = $("#keyCat2").val();
+        console.log("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
+        location.replace("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
     }
     var totalPage = parseInt($("#totalPage").val());
     var curPage = parseInt($('#Page').val());
@@ -74,9 +97,10 @@
     $('.disabled').click(function (e) {
         e.preventDefault();
     })
-    var urlType = $("#urlType").val();
-    $('#prevpage').attr("href", "/admin/view/user/"+urlType+"?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/admin/view/user/"+urlType+"?page=" + nextpage.toString());
+    var urlType = $("#cat1").val();
+    var urlType2 = $("#keyCat2").val();
+    $('#prevpage').attr("href", "/admin/view/draft-post/?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/draft-post/?page=" + nextpage.toString());
     if (curPage == 1) {
         $('#prevpage').attr("href", "#");
     }
@@ -87,13 +111,32 @@
 <script src="/assets/admin/js/getlistcat2.js"></script>
 <script>
     function myfunction() {
-        var userSelected = document.getElementById('userSelect').value;
-        window.location.href = "/admin/view/user/" + userSelected + "?page=1";
-        return;
+        var keyCat1 = document.getElementById('cat1').value;
+        var keyCat2 = document.getElementById('cat2').value;
+        // alert(keyCat1+keyCat2);
+        if (keyCat1 == 'all') {
+            window.location.href = "/admin/view/post";
+            return;
+        }
+        else if (keyCat2 == 'all') {
+            window.location.href = "/admin/view/post/" + keyCat1 + "?page=1";
+            return;
+        }
+        else {
+            window.location.href = "/admin/view/post/" + keyCat1 + "/" + keyCat2 + "?page=1";
+            return;
+        }
     }
-    $("#userSelect").val($("#urlType").val());
 </script>
-
+<script>
+    var value = $("#dbkeyCat1").val();
+    //alert(value);
+    $("#cat1").val(value).change();
+    value = $("#dbkeyCat2").val();
+    console.log(value);
+    $("#cat2").val(value).change();
+    //alert(value);
+</script>
 <script>
     /**
  * sends a request to the specified url from a form. this will change the window location.
@@ -124,107 +167,65 @@
         document.body.appendChild(form);
         form.submit();
     }
-    function Delete_post() {
-        var id = document.getElementById('postid').value;
-        var url = "/admin/del/user/"+id;
-        var report = "delete-user-id-"+id;
-        post(url, {name: 'delete-user-id-'});
-    }
-    function setid(id) {
-        //alert(id)
-        var url = '/admin/del/user/' + String(id)
-        $('#frmDelPost').attr('action', url);
-    }
 </script>
+
+<script>
+    $(document).ready(function () {
+        var successMessage = '{{successMsg}}'
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+    })
+</script>
+
 {{/section}}
 
 <form action="" method="POST" id='frmDelPost'></form>
 <main>
-    <input type="text" id="postid"  value="" style="display: none;">
-
+    {{!-- <input type="text" name="" id="dbkeyCat1" value="{{cat1}}" style="display: none;">
+    <input type="text" name="" id="dbkeyCat2" value="{{cat2}}" style="display: none;"> --}}
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
-    <input type="text" name="" id="urlType" value="{{this.urlType}}" style="display: none;">
+
     <div class="row">
+        <input type="text" id="postid" style="display: none;" value="">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="display: flex;">
-
-                    <p id='title3'></p>
-
-                </div>
-
-                <div class="panel-body">
-                    <div class="col-lg-2">
-                        <select class="form-control" aria-label="Default select example" id="userSelect">
-                            <option value="all" selected>Tất cả</option>
-                            <option value="editor">Người kiếm duyệt</option>
-                            <option value="user">Người dùng</option>
-                            <option value="writer">Nhà báo</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-2">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
-                    </div>
-                </div>
-            </div><!-- /.panel-->
-        </div><!-- /.col-->
-       
-        <div class="col-lg-12">
+            {{!-- <h4>Bootstrap Snipp for Datatable</h4> --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Tên đầy đủ</th>
-                        <th>Gmail</th>
-                        <th>Ngày tạo tài khoản</th>
-                        <th>Số điện thoại</th>
-                        <th>Ngày sinh</th>
-                        <th>Ngày hết premium</th>
-                        <th>Phân hệ</th>
-                        <th>Chỉnh sửa</th>
+                        <th>Tiêu đề</th>
+                        <th>Người viết</th>
+                        <th>Chuyên mục cấp 1</th>
+                        <th>Chuyên mục cấp 2</th>
+                        <th>Duyệt bài</th>
                         <th>Xóa</th>
-
                     </thead>
                     <tbody>
                         {{#each this.db}}
-
                         <tr>
-                            <td>{{nameOfUser}}</td>
-                            <td>{{gmail}}</td>
-                            <td>{{dayInit}}</td>
-                            <td>{{phoneNumber}}</td>
-                            <td>{{dayOfBirth}}</td>
-                            <td>{{dayEndPremium}}</td>
-                            <td>
-                                {{#when permission 'eq' 0}}
-                                Người dùng
-                                {{/when}}
-                                {{#when permission 'eq' 1}}
-                                Người quản lý
-                                {{/when}}
-                                {{#when permission 'eq' 2}}
-                                Người kiểm duyệt
-                                {{/when}}
-                                {{#when permission 'eq' 3}}
-                                Nhà báo
-                                {{/when}}
 
-                            </td>
-                            <td>
+                            <td>{{title}}</td>
+                            <td>{{nickName}}</td>
+                            <td>{{nameCat1}}</td>
+                            <td>{{nameCat2}}</td>
+
+{{!-- Xóa và duyệt bài --}}
+                            <td>    
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/admin/edit/user/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
+                                    <a href="/admin/view/draft-post/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('{{id}}');" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
-
+                                    onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
+                                    data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
+
                         </tr>
                         {{/each}}
-
                     </tbody>
                 </table>
 
@@ -237,13 +238,7 @@
                     </select>
                     <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
                 </div>
-                <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/user" class="btn btn-success">Thêm tài khoản</a>
-                </div>
             </div>
-
-
-
         </div>
     </div>
     </div><!-- /.row -->
@@ -253,17 +248,16 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Xóa tài khoản</h4>
+                    <h4 class="modal-title custom_align" id="Heading">Xóa bài báo</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc chắn muốn xóa tài khoản này không?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc chắn muốn xóa bài báo này không?</div>
 
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
                     <button type="button" class="btn btn-danger" onclick="javascript:$('#frmDelPost').submit()">Xóa</button>
-
                 </div>
             </div>
 

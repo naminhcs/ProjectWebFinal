@@ -10,7 +10,7 @@ const userModel = require('../models/userController');
 const postModel = require('../models/postController');
 const tagModel = require('../models/tagController');
 const catModel = require('../models/categoryController');
-const db = require('../db');
+const draftModel = require('../models/DrafPostController')
 
 
 const router = express.Router();
@@ -131,9 +131,6 @@ router.post('/del/cat/:cat1', async function (req, res){
 })
 
 //-------------------Delete cat2------------------------------------------------
-router.get('/del/cat/:cat1/:cat2', async function(req, res){
-    res.render('')
-})
 
 router.post('/del/cat/:cat1/:cat2', async function(req, res){
     // const cat1 = req.params.cat1
@@ -198,7 +195,6 @@ router.get('/view/tag', async function(req, res){
     //     data: data,
     //     totalPage: nPage
     // });
-    console.log(page);
     res.render('vwAdmin/view/tag',{layout:'admin.hbs',db: data,totalPage: nPage,page:page});
 })
 
@@ -286,34 +282,34 @@ router.post('/add/user', auth.isAdmin, async function(req, res){
     const checkUserName = await userModel.getUserByUserName(data.userName);
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
-    if (checkGmail !== null) {
-        return 'Gmail is used';
-    }
+    // if (checkGmail !== null) {
+    //     return 'Gmail is used';
+    // }
 
-    if (checkUserName !== null) {
-        return 'UserName is used';
-    }
-    var dataUser = new user(data);
-    const dataPush = {};
-    for (x in dataUser) {
-        dataPush[x] = dataUser[x];
-    }
+    // if (checkUserName !== null) {
+    //     return 'UserName is used';
+    // }
+    // var dataUser = new user(data);
+    // const dataPush = {};
+    // for (x in dataUser) {
+    //     dataPush[x] = dataUser[x];
+    // }
     // Sending Email
-    const token = generateAccessToken({
-        userName: data.userName
-    });
-    const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
+    // const token = generateAccessToken({
+    //     userName: data.userName
+    // });
+    // const s = `http://localhost:3000/confirmation/${token}?type=confirm-account`;
 
-    const mailOption = {
-        from: 'noreply@webapp.com',
-        to: data.gmail,
-        subject: 'Confirm email',
-        text: s
-    }
-    await transporter.sendMail(mailOption)
-    // ---- Add user to database
-    await userModel.addUser(dataPush);
-    res.send('Check gmail to confirm')
+    // const mailOption = {
+    //     from: 'noreply@webapp.com',
+    //     to: data.gmail,
+    //     subject: 'Confirm email',
+    //     text: s
+    // }
+    // await transporter.sendMail(mailOption)
+    // // ---- Add user to database
+    // await userModel.addUser(dataPush);
+    //res.send('Check gmail to confirm')
 })
 
 router.post('/del/user/:id', async function(req, res){
@@ -443,6 +439,30 @@ router.post('/del/post/:id', async function(req, res){
     // result = await postModel.delPost(id);
     res.send(id);
     // res.send(result)
+})
+
+// --------------------------------------------------DraftPost-----------------------------------------------------------------
+
+router.get('/view/draft-post', async function(req, res){
+    res.locals.successMsg = req.session.successMsg
+    req.session.successMsg = ''
+    console.log(res.locals.successMsg)
+    var page = req.query.page || 1
+    const posts = await draftModel.getAllDraftPostByPage(page)
+    res.render('vwAdmin/view/draftPost', {layout: 'admin.hbs', db: posts.posts, totalPage: posts.totalPage, page: page})
+})
+
+router.get('/view/draft-post/:id', async function(req, res){
+    var id = req.params.id
+    const post = await draftModel.getDrafPostByID(id);
+    res.render('vwEditor/confirmpost', { layout: 'admin.hbs', db: post });
+})
+
+router.post('/del/draft-post/:id', async function(req, res){
+    var id = req.params.id
+    const result = await draftModel.deletePostByAdmin(id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/draft-post')
 })
 
 module.exports = router;

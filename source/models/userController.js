@@ -12,6 +12,10 @@ module.exports = {
             obj = data.docs[i].data()
             delete obj.password
             obj['id'] = data.docs[i].id
+            const t = new Date(obj['dayInit'])
+            obj['dayInit'] = t.toLocaleString();
+            const time = new Date(obj['dayEndPremium'])
+            obj['dayEndPremium'] = time.toLocaleString();
             ans.push(obj)
         }
         return ans;
@@ -55,6 +59,10 @@ module.exports = {
             obj = data.docs[i].data()
             delete obj.password
             obj['id'] = data.docs[i].id
+            const t = new Date(obj['dayInit'])
+            obj['dayInit'] = t.toLocaleString();
+            const time = new Date(obj['dayEndPremium'])
+            obj['dayEndPremium'] = time.toLocaleString();
             ans.push(obj)
         }
         return ans;

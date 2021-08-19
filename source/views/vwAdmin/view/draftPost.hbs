@@ -198,8 +198,8 @@
                         <th>Người viết</th>
                         <th>Chuyên mục cấp 1</th>
                         <th>Chuyên mục cấp 2</th>
-                        <th>Duyệt bài</th>
-                        <th>Xóa</th>
+                        <th style="text-align: center;">Duyệt bài</th>
+                        <th style="text-align: center;">Xóa</th>
                     </thead>
                     <tbody>
                         {{#each this.db}}
@@ -209,16 +209,15 @@
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-
 {{!-- Xóa và duyệt bài --}}
-                            <td>    
+                            <td style="text-align: center;">    
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/admin/view/draft-post/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
-                            <td>
+                            <td style="text-align: center;">    
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
                                     onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -228,8 +227,6 @@
                         {{/each}}
                     </tbody>
                 </table>
-
-
                 <div class="pagination" style="display: flex; justify-content: flex-end;">
                     <a href="#" id="prevpage">&laquo; Previous</a>
                     <select name="" id="currentPage" class="active" style="	appearance: none;"
@@ -260,8 +257,6 @@
                     <button type="button" class="btn btn-danger" onclick="javascript:$('#frmDelPost').submit()">Xóa</button>
                 </div>
             </div>
-
-
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->

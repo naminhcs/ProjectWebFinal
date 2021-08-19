@@ -198,7 +198,8 @@ router.get('/view/tag', async function (req, res) {
     var data = await tagModel.getAllTag(page)
     var cnt = await tagModel.getAmountTag()
     var nPage = Math.floor(cnt / 15)
-    if (cnt % 15 !== 0) nPage++
+    if (cnt % 15 !== 0) nPage++;
+    console.log(data);
     res.render('vwAdmin/view/tag', { layout: 'admin.hbs', db: data, totalPage: nPage, page: page });
 })
 

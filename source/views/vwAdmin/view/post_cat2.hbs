@@ -71,8 +71,7 @@
 <script>
     function setid(newId) {
         document.getElementById('postid').value = newId;
-        alert("post id:");
-        alert(document.getElementById('postid').value);
+     
     }
     function selectPage() {
         console.log("click select page##########################################");
@@ -113,7 +112,6 @@
     function myfunction() {
         var keyCat1 = document.getElementById('cat1').value;
         var keyCat2 = document.getElementById('cat2').value;
-        // alert(keyCat1+keyCat2);
         if (keyCat1 == 'all') {
             window.location.href = "/admin/view/post";
             return;
@@ -298,17 +296,16 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                    <h4 class="modal-title custom_align" id="Heading">Lưu ý!</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
-                        you want to delete this Record?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc muốn xóa bài viết?</div>
 
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn btn-danger" onclick="Delete_post();">Xóa</button>
                 </div>
             </div>
 

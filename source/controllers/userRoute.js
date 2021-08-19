@@ -41,7 +41,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     console.log('Gmail is used')
     res.render('vwAccount/register', {
       data: data,
-      error: 'Gmail is used',
+      error: 'Gmail đã được sử dụng',
       errorGmail: true
     })
     return;
@@ -51,7 +51,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
     console.log('Username is used')
     res.render('vwAccount/register', {
       data: data,
-      error: 'Username is used',
+      error: 'Tên đăng nhập đã tồn tại',
       errorUserName: true
     })
     return;
@@ -77,7 +77,7 @@ router.post('/register', auth.isNotLogin, async function (req, res) {
   await userModel.addUser(dataPush);
 
   //res.send(data);
-  const successNotification = 'Check your mail and click link to confirm account!';
+  const successNotification = 'Đăng nhập gmail của bạn để kích hoạt tài khoản';
   res.redirect(`/login?successNotification=${successNotification}`);
 })
 
@@ -96,7 +96,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
   console.log(req.body)
   if (user === null) {
     res.render('vwAccount/login', {
-      error: "Username isn't avaiable"
+      error: "Tên tài khoản không tồn tại"
     })
     return;
   }
@@ -105,14 +105,13 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
     if (user.confirmation === false) {
       // res.send('U need to confirm your email.')
       res.render('vwAccount/login', {
-        error: "You need to confirm your email to active account"
+        error: "Bạn cần kích hoạt tài khoản trong gmail"
       })
       return;
     }
     const d = new Date();
     var isPremium = 0;
     if (user.dayEndPremium > d.getTime()) isPremium = 1;
-    console.log('user', user.dayEndPremium, isPremium)
     req.session.data = {
       id: user.id,
       userName: user.userName,
@@ -127,7 +126,6 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
       profilePicture: user.profilePicture,
     }
 
-    console.log('user when login', req.session.data)
     req.session.auth = true;
 
     res.locals.auth = req.session.auth;
@@ -140,7 +138,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
   } else {
     // res.send('password incorrect');
     res.render('vwAccount/login', {
-      error: "Password is not correct"
+      error: "Mật khẩu sai"
     })
     return;
   }
@@ -177,7 +175,7 @@ router.post('/forget', auth.isNotLogin, async function (req, res) {
 
   if (user === null) {
     res.render('vwAccount/forgetPassword', {
-      error: 'User does not exists!'
+      error: 'Người dùng không tồn tại'
     })
     return;
   }
@@ -195,8 +193,8 @@ router.post('/forget', auth.isNotLogin, async function (req, res) {
     text: s
   }
   await transporter.sendMail(mailOption);
-  const successNotification = 'Check your mail and click link to confirm account!';
-  res.redirect(`./login?successNotification=${successNotification}`);
+  const successNotification = 'Đăng nhập gmail để xác nhận';
+  res.redirect(`/login?successNotification=${successNotification}`);
 })
 
 //----------------------------Change password via token-------------------------------------------
@@ -268,7 +266,6 @@ router.get('/profile', auth.isLogin, async function (req, res) {
     phoneNumber: user.phoneNumber,
     profilePicture: user.profilePicture,
   }
-  console.log('user when go to profile', req.session.data)
   res.locals.dataUser = req.session.data
   // res.send(req.session.data);
   // console.log(res.locals.dataUser)
@@ -294,7 +291,7 @@ router.post('/update-profile', async function (req, res) {
 
   res.locals.dataUser = req.session.data
 
-  req.session.successMessage = 'Your personal detail haved been updated!'
+  req.session.successMessage = 'Thông tin cá nhân của bạn đã được cập nhật'
   res.redirect('/user/profile')
 })
 
@@ -311,10 +308,10 @@ router.post('/change-password', auth.isLogin, async function (req, res) {
       password: password
     }
     await userModel.updateUserByUserName(data['userName'], dataChange);
-    req.session.successMessage = 'Your password haved been changed!'
+    req.session.successMessage = 'Mật khẩu đã được thay đổi'
     res.redirect('/user/profile')
   } else {
-    res.locals.errorMessage = 'Current password is not correct!'
+    res.locals.errorMessage = 'Sai mật khẩu'
     res.render('vwAccount/changePassword')
   }
 })
@@ -401,14 +398,8 @@ router.post('/upgrade', auth.isLogin, async function (req, res) {
   const now = d.getTime();
   dayEndPremium = Math.max(req.session.data.dayEndPremium, now)
   const newTime = dayEndPremium + data;
-  const updateData = {
-    'dayEndPremium': newTime
-  }
-  result = await userModel.updateUserByUserName(req.session.data.userName, updateData)
-  req.session.data.dayEndPremium = newTime;
-  req.session.data.premium = 1
-  // res.send(result)
-  req.session.successMessage = 'Your account have been upgraded!';
+  result = await userModel.addRequestUpgradeAccountForAdmin(req.session.data.userName, req.body.days)
+  req.session.successMessage = result;
   res.redirect('/user/profile')
 })
 

@@ -8,6 +8,10 @@
     select {
         color: black !important
     }
+
+    .facebookLogin a:hover {
+        color: #4d67a3 !important;
+    }
 </style>
 
 {{/section}}
@@ -86,7 +90,7 @@
                             <!-- Login Heading -->
                             <div class="login-heading">
                                 <span>Đăng nhập</span>
-                                
+
                             </div>
 
                             {{#if this.error}}
@@ -127,7 +131,19 @@
                             </div>
                             <!-- form Footer -->
                             <div class="login-footer">
-                                <p>Bạn chưa có mật khẩu? <a href="/user/register">Đăng kí</a> ngay! </p>
+                                <div>
+                                    <p>Bạn chưa có mật khẩu? <a href="/user/register"><b> Đăng kí </b></a> ngay! </p>
+                                    <div class="facebookLogin d-flex align-items-center">
+                                        <div class="">
+                                            <p>Đăng nhập bằng
+                                                <a href="/auth/facbook" style="color: #140C40;">
+                                                    <i class="fab fa-facebook-f fa-2x" style=""></i>
+                                                    <b> Facebook</b>
+                                                </a> ngay!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="submit-btn3">Đăng nhập</button>
                             </div>
                         </div>

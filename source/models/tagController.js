@@ -35,6 +35,7 @@ module.exports = {
             var ans = [];
             data.forEach(doc =>{
                 ans.push(doc.data())
+                ans[ans.length - 1]["id"] = doc.id; 
             })
             return ans
         }

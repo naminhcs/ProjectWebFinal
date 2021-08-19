@@ -13,7 +13,8 @@ const catModel = require('../models/categoryController');
 const draftModel = require('../models/DrafPostController')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const db = require('../db');
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -240,6 +241,12 @@ router.get('/view/user/:type', async function (req, res) {
     const type = req.params.type
     const page = req.query.page || 1
     var data;
+    if (type === 'upgrade'){
+        const data = await userModel.getAllAccountUpgrade();
+        const nPage = 1;
+        res.render()
+        return;
+    }
     if (type === 'all') {
         data = await userModel.getAllUser(page)
     } else {
@@ -273,13 +280,13 @@ router.post('/add/user', async function (req, res) {
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
     if (checkGmail !== null) {
-        req.session.successMsg = 'Gmail is used';
+        req.session.successMsg =  'Gmail đã được sử dụng';
         res.redirect('/admin/view/user/all')
         return;
     }
 
     if (checkUserName !== null) {
-        req.session.successMsg = 'UserName is used';
+        req.session.successMsg =  'Tên tài khoản đã tồn tại';
         res.redirect('/admin/view/user/all')
         return;
     }
@@ -303,7 +310,7 @@ router.post('/add/user', async function (req, res) {
     await transporter.sendMail(mailOption)
     // ---- Add user to database
     await userModel.addUser(dataPush);
-    req.session.successMsg = 'Check gmail to confirm';
+    req.session.successMsg = 'Kiểm tra tài khoản để xác nhận';
     res.redirect('/admin/view/user/all')
 })
 
@@ -452,6 +459,23 @@ router.post('/del/draft-post/:id', async function (req, res) {
     res.redirect('/admin/view/draft-post')
 })
 
+// --------------------------------------------Upgrade----------------------------------------------------------------
+
+router.post('/upgrade/accept/:id', async function(req, res){
+    const userName = req.body.userName
+    const days = req.body.days
+    const id = req.params.id
+    const result = await userModel.upgradeAccount(userName, days, id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/upgrade')
+})
+
+router.post('/upgrade/reject/:id', async function(req, res){
+    const id = req.params.id
+    result = await userModel.rejectAccount(id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/upgrade')
+})
 module.exports = router;
 
 

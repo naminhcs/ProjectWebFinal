@@ -45,21 +45,36 @@ router.get('/search', async function (req, res) {
         premium = 0
     } else premium = req.session.data.premium;
     const textQuery = req.query.key;
+    const type = req.query.type || 'all';
+
     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
     var index = client.initIndex('Post');
     // console.log(textQuery),
     var ans = await index.search(textQuery);
     var returnData = ans['hits']
     var data = []
-    for (let i = 0 ; i < returnData.length; i++){
-        delete returnData[i]['_highlightResult']
-        const t = new Date(returnData[i]['dateUpload'])
-        returnData[i]['dateUpload'] = t.toGMTString()
-        if (returnData[i]['permission'] == 1){
-            if (premium === 1){
-                data.push(returnData[i])
-            }
-        } else data.push(returnData[i])
+    if (type === 'all'){
+        for (let i = 0 ; i < returnData.length; i++){
+            delete returnData[i]['_highlightResult']
+            const t = new Date(returnData[i]['dateUpload'])
+            returnData[i]['dateUpload'] = t.toGMTString()
+            if (returnData[i]['permission'] == 1){
+                if (premium === 1){
+                    data.push(returnData[i])
+                }
+            } else data.push(returnData[i])
+        }
+    } else {
+        for (let i = 0 ; i < returnData.length; i++){
+            if (returnData[i]['_highlightResult'][type]['matchLevel'] !== 'full') continue;
+            const t = new Date(returnData[i]['dateUpload'])
+            returnData[i]['dateUpload'] = t.toGMTString()
+            if (returnData[i]['permission'] == 1){
+                if (premium === 1){
+                    data.push(returnData[i])
+                }
+            } else data.push(returnData[i])
+        }
     }
     data.sort(function (a, b){
         return b.permission - a.permission 

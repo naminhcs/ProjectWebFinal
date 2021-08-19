@@ -178,6 +178,66 @@ module.exports = {
         }
     },
 
+    async addUserViaFacebook(profile){
+        const d = new Date();
+        const newUser = {
+            userName: profile.id,
+            nameOfUser: profile.displayName,
+            profilePicture: profile.photos[0].value,
+            gmail: profile._json.email,
+            nickName: profile.displayName,
+            dayInit: d.getTime(),
+            dayInitPremium: d.getTime(),
+            dayEndPremium: d.getTime() + 7 * 24 * 60 * 60 * 1000,
+            confirmation: true,
+            permission: 0,
+            phoneNumber: null,
+            dayOfBirth: null
+        }
+        const data = await db.firestore.collection('User').doc()
+        const id = data.id
+        await data.set(newUser)
+        newUser['id'] = id;
+        return newUser
+    },
+//           admin method
+
+    async addRequestUpgradeAccountForAdmin(userName, days){
+        await db.firestore.collection('Upgrade').doc().set({userName: userName, days: days})
+        return 'Yêu cầu của bạn đã được gửi'
+    },
+
+    async getAllAccountUpgrade(){
+        const users = await db.firestore.collection('Upgrade').get()
+        var ans = []
+        users.forEach(doc =>{
+            var userData = doc.data()
+            userData['id'] = doc.id
+            ans.push(userData)
+        })
+        return ans;
+    },
+
+    async upgradeAccount(userName, days, id){
+        const userAccount = await db.firestore.collection('User').where('userName', '==', userName).get()
+        if (userAccount.empty){
+            return 'Tài khoản không tồn tại'
+        } else{
+            var idUser = userAccount.docs[0].id
+            var dataUser = userAccount.docs[0].data()
+            const t = new Date()
+            const newTime = Math.max(t.getTime(), dataUser.dayEndPremium) + days * 24 * 60 * 60 * 1000 ;
+            await db.firestore.collection('Upgrade').doc(id).delete()
+            await db.firestore.collection('User').doc(idUser).update({dayEndPremium: newTime})
+            return 'Phê duyệt thành công'
+        }
+    },
+
+    async rejectAccount(id){
+        await db.firestore.collection('Upgrade').doc(id).delete()
+        return 'Từ chối nâng cấp thành công'
+    },
+
 // ------------------------------------------UPDATE-DATABSE--------------------------------------
 
     async updateDatabase(allCat){

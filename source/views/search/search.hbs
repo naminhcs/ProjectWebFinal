@@ -156,8 +156,17 @@
                             </div>
 
                             <div class="job-tittle">
+
+                                {{#if permission}}
+                                <div class=" d-flex justify-content-start align-items-center mr-5 mb-0 mt-2">
+                                    <i class="fa fa-star" aria-hidden="true" style="color: rgb(210, 175, 38);"></i>
+                                    <span style="color: rgb(210, 175, 38); font-weight:bold; margin:0px">Premium</span>
+                                </div>
+                                {{/if}}
+
                                 <div class="d-flex d-flex justify-content-between align-items-center mr-5">
                                     <div class="">
+
                                         <a href="/cat/{{keyCat1}}/{{keyCat2}}">
                                             <p style="text-transform: uppercase;"> {{nameCat2}}</p>
                                         </a>

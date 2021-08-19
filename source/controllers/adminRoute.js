@@ -30,7 +30,7 @@ router.use(bodyParser.json());
 
 function generateAccessToken(userName) {
     return jwt.sign(userName, process.env.TOKEN_SECRET, {
-        expiresIn: '200s'
+        expiresIn: '2000000s'
     });
 };
 //--------------------------Category---------------------------------
@@ -116,7 +116,7 @@ router.post('/edit/cat/:cat1',auth.isAdmin, async function (req, res) {
         adminCat: req.body.adminCat1
     }
     const result = await catModel.updateCat1(cat1, data)
-    res.send(result)
+    res.redirect('/admin/view/cat')
 })
 
 // -----------------------------------Edit cat2 ------------------------------------------------------
@@ -155,14 +155,14 @@ router.post('/edit/cat/:cat1/:cat2',auth.isAdmin, async function (req, res) {
         nameCat2: req.body.nameCat2
     }
     const result = await catModel.updateCat2(cat1, cat2, data)
-    res.send(result)
+    res.redirect('/admin/view/cat')
 })
 
 //-------------------Delete Cat1-----------------------------------------------
 router.post('/del/cat/:cat1',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     result = await catModel.delCat1(cat1)
-    res.send(result)
+    res.redirect('/admin/view/cat')
 })
 
 //-------------------Delete cat2------------------------------------------------
@@ -170,8 +170,8 @@ router.post('/del/cat/:cat1',auth.isAdmin, async function (req, res) {
 router.post('/del/cat/:cat1/:cat2',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     const cat2 = req.params.cat2
-    const result = await delCat2(cat1, cat2)
-    res.send(result)
+    const result = await catModel.delCat2(cat1, cat2)
+    res.redirect('/admin/view/cat')
 })
 
 // -----------------------------Add Cat2 ------------------------------------------------
@@ -183,7 +183,6 @@ router.post('/add/cat/:cat1',auth.isAdmin , async function (req, res) {
         nameCat2: req.body.nameCat2
     }
     const result = await catModel.addCat2(cat1, data)
-    //res.send(result)
     req.session.successMsg = 'Thêm chuyên mục thành công'
     res.redirect('/admin/view/cat/' + cat1)
 })
@@ -207,7 +206,7 @@ router.post('/add/cat',auth.isAdmin, async function (req, res) {
         listCat: listCat2
     }
     const result = await catModel.addCat1(objCat1)
-    res.send(result)
+    res.redirect('/admin/view/cat')
 })
 // //--------------------------End category-----------------------------
 
@@ -243,13 +242,13 @@ router.get('/edit/tag/:id',auth.isAdmin, async function (req, res) {
 router.post('/edit/tag/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     result = await tagModel.editTag(id, req.body)
-    res.send(result);
+    res.redirect('/admin/view/tag')
 })
 
 router.post('/del/tag/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     result = await tagModel.delTag(id)
-    res.send(result)
+    res.redirect('/admin/view/tag')
 })
 
 
@@ -262,7 +261,7 @@ router.get('/add/tag',auth.isAdmin, async function (req, res) {
 router.post('/add/tag',auth.isAdmin, async function (req, res) {
     result = await tagModel.addTag(req.body)
     //const result = "testok";
-    res.send(result)
+    res.redirect('/admin/view/tag')
 })
 
 //-------------------------User------------------------------------------
@@ -497,23 +496,20 @@ router.post('/edit/post/:id',auth.isAdmin, async function (req, res) {
     const id = req.params.id
     var data = req.body;
     result = await postModel.editPostForAdmin(id, data)
-    res.send(result)
+    res.redirect('/admin/post')
 })
 
-router.get('/post/add',auth.isAdmin, async function (req, res) {
-    res.send('direct')
-})
 
 router.post('/add/post',auth.isAdmin, async function (req, res) {
     const data = req.body;
     result = await postModel.addPost(data)
-    return result;
+    res.redirect('/admin/post')
 })
 
 router.post('/del/post/:id',auth.isAdmin, async function (req, res) {
     const id = req.params.id
     result = await postModel.delPost(id);
-    res.send(result)
+    res.redirect('/admin/post')
 })
 
 // --------------------------------------------------DraftPost-----------------------------------------------------------------

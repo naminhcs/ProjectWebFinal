@@ -23,7 +23,7 @@ router.use(bodyParser.json());
 
 function generateAccessToken(userName) {
   return jwt.sign(userName, process.env.TOKEN_SECRET, {
-    expiresIn: '200s'
+    expiresIn: '200000s'
   });
 };
 
@@ -146,6 +146,7 @@ router.post('/login', auth.isNotLogin, async function (req, res) {
 
 //-----------------Logout---------------------------------------
 router.post('/logout', auth.isLogin, async function (req, res) {
+  req.user = undefined
   req.session.auth = false;
   req.session.data = null;
   res.locals.auth = false;
@@ -280,7 +281,6 @@ router.post('/update-profile', async function (req, res) {
     dayOfBirth: req.body.dayOfBirth,
     nickName: req.body.nickName
   }
-  console.log(req.body)
   const result = await userModel.updateUserByUserName(req.session.data.userName, dataUpdate)
 
   req.session.data.nameOfUser = req.body.nameOfUser

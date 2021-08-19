@@ -18,7 +18,7 @@ const upload = multer({
 const router = express.Router();
 router.use(bodyParser.json())
 
-router.get('/', async function (req, res) {
+router.get('/', auth.isWriter, async function (req, res) {
     // const data = await postModel.getAllPostByNickName(req.session.data.nickName)
     // res.send(data)
     res.render('vwWriter/writing/writing-posts', {
@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
 })
 
 // =========================================== add post =================================================
-router.get('/add', function (req, res) {
+router.get('/add', auth.isWriter, function (req, res) {
     var obj = ''
     res.render('vwWriter/CreatePOst/createPost', {
         layout: 'writer.hbs',

@@ -72,15 +72,13 @@
 <script>
     function setid(newId) {
         document.getElementById('postid').value = newId;
-        alert("post id:");
-        alert(document.getElementById('postid').value);
     }
     function selectPage() {
         console.log("click select page##########################################");
         console.log($("#cat1").val());
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        var urlType = $("#cat1").val();
+        var urlType = $("#dbkeyCat1").val();
 
         console.log("/admin/view/post/" + urlType + "?page=" + selectedValue);
         location.replace("/admin/view/post/" + urlType + "?page=" + selectedValue);
@@ -98,7 +96,7 @@
     $('.disabled').click(function (e) {
         e.preventDefault();
     })
-    var urlType = $("#cat1").val();
+    var urlType = $("#dbkeyCat1").val();
     $('#prevpage').attr("href", "/admin/view/post/" + urlType + "?page=" + prevpage.toString());
     $('#nextpage').attr("href", "/admin/view/post/" + urlType + "?page=" + nextpage.toString());
     if (curPage == 1) {
@@ -113,7 +111,6 @@
     function myfunction() {
         var keyCat1 = document.getElementById('cat1').value;
         var keyCat2 = document.getElementById('cat2').value;
-        // alert(keyCat1+keyCat2);
         if (keyCat1 == 'all') {
             window.location.href = "/admin/view/post";
             return;
@@ -130,9 +127,7 @@
 </script>
 <script>
     var value = $("#dbkeyCat1").val();
-    //alert(value);
     $("#cat1").val(value).change();
-    //alert(value);
 </script>
 
 <script>
@@ -167,9 +162,9 @@
     }
     function Delete_post() {
         var id = document.getElementById('postid').value;
-        var url = "/admin/del/post/"+id;
-        var report = "delete-post-id-"+id;
-        post(url, {name: 'delete-post-id-'});
+        var url = "/admin/del/post/" + id;
+        var report = "delete-post-id-" + id;
+        post(url, { name: 'delete-post-id-' });
     }
 </script>
 <script>
@@ -179,7 +174,6 @@
 
 <main>
     <input type="text" name="" id="dbkeyCat1" value="{{cat1}}" style="display: none;">
-
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
 
@@ -199,11 +193,8 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading" style="display: flex;">
-
                     <p id='title3'></p>
-
                 </div>
-
                 <div class="panel-body">
                     <div class="col-lg-2">
                         <select class="form-control" aria-label="Default select example" id="cat1"
@@ -214,7 +205,6 @@
                         </select>
 
                     </div>
-
                     <div class="col-lg-2">
                         <select class="form-control" aria-label="Default select example" id="cat2">
                             <option value="all" selected>Tất cả</option>
@@ -224,15 +214,10 @@
                         <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
-
-
-
-
             </div><!-- /.panel-->
         </div><!-- /.col-->
         <input type="text" id="postid" style="display: none;" value="">
         <div class="col-lg-12">
-            {{!-- <h4>Bootstrap Snipp for Datatable</h4> --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
@@ -253,8 +238,6 @@
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
                             <td id='premium' style="text-align: center;">{{permission}}</td>
-
-
                             <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/admin/edit/post/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
@@ -267,13 +250,10 @@
                                     onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
-
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
-
-
                 <div class="pagination" style="display: flex; justify-content: flex-end;">
                     <a href="#" id="prevpage">&laquo; Previous</a>
                     <select name="" id="currentPage" class="active" style="	appearance: none;"
@@ -301,19 +281,14 @@
                     <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
                 </div>
                 <div class="modal-body">
-
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
                         you want to delete this Record?</div>
-
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
                     <button type="button" class="btn btn-danger" onclick="Delete_post();">Delete</button>
-
                 </div>
             </div>
-
-
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->

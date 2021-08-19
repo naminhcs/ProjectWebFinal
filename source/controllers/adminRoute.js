@@ -204,7 +204,9 @@ router.get('/view/tag', async function (req, res) {
 
 router.get('/edit/tag/:id', async function (req, res) {
     id = req.params.id;
+    console.log(id);
     result = await tagModel.getTagByID(id)
+    console.log(result);
     res.render('vwAdmin/edit/edittag', { layout: 'admin.hbs', db: result });
 })
 router.post('/edit/tag/:id', async function (req, res) {

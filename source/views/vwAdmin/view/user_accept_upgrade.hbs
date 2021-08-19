@@ -132,15 +132,14 @@
     }
     function setIdReject(id) {
         //alert(id)
-        var url = '/admin/upgarde/reject/' + String(id)
+        var url = '/admin/upgrade/reject/' + String(id)
         $('#frmReject').attr('action', url);
     }
 
-    function setIdAccept(id) {
-        alert(id)
-        var url = '/admin/upgarde/accept/' + String(id)
-        $('#frmAccept').attr('action', url);
-        //$('#frmAccept').submit()
+    function setIdAccept(id, days, userName) {
+        //alert(id)
+        var url = '/admin/upgrade/accept/' + String(id)
+        $('#frmAccept').submit()
     }
 </script>
 
@@ -159,7 +158,8 @@
 
 <main>
     <form action="" method="POST" id='frmReject' style="display: none;"></form>
-    <form action="" method="POST" id='frmAccept' style="display: none;"></form>
+    <form action="" method="POST" id='frmAccept' style="display: none;">
+    </form>
 
     <input type="text" id="postid" value="" style="display: none;">
 
@@ -182,7 +182,7 @@
                             <option value="editor">Người kiểm duyệt</option>
                             <option value="writer">Nhà báo</option>
                             <option value="user">Người dùng</option>
-                            <option value="upgarde">Người dùng nâng cấp</option>
+                            <option value="upgrade">Người dùng nâng cấp</option>
                         </select>
                     </div>
                     <div class="col-lg-2">
@@ -220,8 +220,8 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setIdReject('{{id}}');" data-toggle="modal" data-target="#delete"><span
-                                        class="fa fa-times"></span></button>
+                                    onclick="setIdReject('{{id}}, {{userName}}, {{days}}');" data-toggle="modal"
+                                    data-target="#delete"><span class="fa fa-times"></span></button>
 
                             </td>
                         </tr>

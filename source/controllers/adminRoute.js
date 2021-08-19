@@ -272,22 +272,12 @@ router.get('/view/user/:type', async function (req, res) {
     const type = req.params.type
     const page = req.query.page || 1
     var data;
-    if (type === 'upgrade'){
+    console.log(type, typeof (type))
+    if (type === 'upgrade') {
+        console.log('Ok')
         const data = await userModel.getAllAccountUpgrade();
         const nPage = 1;
-        res.render()
-        return;
-    }
-    if (type === 'all') {
-        data = await userModel.getAllUser(page)
-    } else {
-        data = await userModel.getUserByPermission(type, page)
-    }
-    var cnt = await userModel.countUserByPermission(type)
-    var nPage = Math.floor(cnt / 15)
 
-    console.log(type, typeof(type))
-    if (type === "upgarde") {
         res.render('vwAdmin/view/user_accept_upgrade', {
             layout: 'admin.hbs',
             db: data,
@@ -295,9 +285,19 @@ router.get('/view/user/:type', async function (req, res) {
             page: page,
             urlType: type
         });
-        if (cnt % 15 !== 0) nPage++
         return;
     }
+    
+    if (type === 'all') {
+        data = await userModel.getAllUser(page)
+    } else {
+        data = await userModel.getUserByPermission(type, page)
+    }
+    var cnt = await userModel.countUserByPermission(type)
+    var nPage = Math.floor(cnt / 15)
+    if (cnt % 15 !== 0) nPage++
+
+
 
     res.render('vwAdmin/view/user', {
         layout: 'admin.hbs',
@@ -333,13 +333,13 @@ router.post('/add/user', async function (req, res) {
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
     if (checkGmail !== null) {
-        req.session.successMsg =  'Gmail đã được sử dụng';
+        req.session.successMsg = 'Gmail đã được sử dụng';
         res.redirect('/admin/view/user/all')
         return;
     }
 
     if (checkUserName !== null) {
-        req.session.successMsg =  'Tên tài khoản đã tồn tại';
+        req.session.successMsg = 'Tên tài khoản đã tồn tại';
         res.redirect('/admin/view/user/all')
         return;
     }
@@ -550,7 +550,7 @@ router.post('/del/draft-post/:id', async function (req, res) {
 
 // --------------------------------------------Upgrade----------------------------------------------------------------
 
-router.post('/upgrade/accept/:id', async function(req, res){
+router.post('/upgrade/accept/:id', async function (req, res) {
     const userName = req.body.userName
     const days = req.body.days
     const id = req.params.id
@@ -559,7 +559,7 @@ router.post('/upgrade/accept/:id', async function(req, res){
     res.redirect('/admin/view/user/upgrade')
 })
 
-router.post('/upgrade/reject/:id', async function(req, res){
+router.post('/upgrade/reject/:id', async function (req, res) {
     const id = req.params.id
     result = await userModel.rejectAccount(id)
     req.session.successMsg = result;

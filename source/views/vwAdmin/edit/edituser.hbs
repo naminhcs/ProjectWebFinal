@@ -60,15 +60,74 @@
   console.log("4");
 </script>
 <script>
-    $("#li_4").addClass('active');
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  function check_tel() {
+    var vnf_regex = /((0)+(([0-9]{9})|([0-9]{10}))\b)/g;
+    var mobile = $('#_phoneNumber').val();
+    if (mobile !== '') {
+      if (vnf_regex.test(mobile) == false) {
+        alert('Số điện thoại của bạn không đúng định dạng!\nSĐT gồm 10-11 số và được bắt đầu bởi số 0.');
+      } else {
+        return false;
+      }
+    } else {
+      alert('Bạn chưa điền số điện thoại!');
+    }
+    return true;
+  }
+  function check_submit() {
+    var listId = ["_userName", "_nameOfUser", "_gmail", "_phoneNumber", "_dayOfBirth", "selectpermission","_nickName"];
+    var check_null = false;
+    console.log("1");
+    for (let i = 0; i < listId.length; i++) {
+      if (document.getElementById(listId[i]).value == "") check_null = true;
+    }
+    console.log("2");
+    if (!validateEmail(document.getElementById("_gmail").value)) {
+      alert("Gmail không hợp lệ!");
+    }
+    else if (check_tel()) {
+
+    }
+    else if (check_null) {
+      alert("Dữ liệu nhập vào không được để trống!");
+    }
+
+    else {
+      $("#formSubmit").submit();
+    }
+
+
+  }
 </script>
+<script>
+  $("#li_4").addClass('active');
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+    $("#_dayOfBirth").datepicker();
+  });
+</script>
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 {{/section}}
 <main>
 
   <input type="text" name="permission_tmp" id="permission_tmp" value="{{this.db.permission}}" style="display: none;">
   <input type="text" name="" id="adminCat" value="{{this.db.adminCat}}" style="display: none;">
 
-  <form class="form-horizontal" style="text-align: center;" action="" method="POST">
+  <form class="form-horizontal" style="text-align: center;" action="" method="POST" id="formSubmit">
     <div class="form-group" style="text-align: center;">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e"
@@ -77,60 +136,44 @@
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Tên đăng nhập</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName" value="{{this.db.userName}}" readonly>
+        <input type="text" class="form-control" id="_userName" name="userName" value="{{this.db.userName}}" readonly>
       </div>
     </div>
 
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Tên hiển thị</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="nameOfUser" value="{{this.db.nameOfUser}}">
+        <input type="text" class="form-control" id="_nameOfUser" name="nameOfUser" value="{{this.db.nameOfUser}}">
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Gmail</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="gmail" value="{{this.db.gmail}}">
+        <input type="text" class="form-control" id="_gmail" name="gmail" value="{{this.db.gmail}}">
       </div>
     </div>
-    {{!-- <div class="form-group">
-      <label class="col-sm-2 control-label">Date Init</label>
-      <div class="col-sm-9">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Date Init">
-      </div>
-    </div> --}}
-
-
-
     <div class="form-group">
       <label class="col-sm-2 control-label">Số điện thoại</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="phoneNumber" value="{{this.db.phoneNumber}}">
+        <input type="text" class="form-control" id="_phoneNumber" name="phoneNumber" value="{{this.db.phoneNumber}}">
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
-        <div class='input-group date' id='datetimepicker1'>
-          <input type='text' class="form-control" name="dayOfBirth" value="{{this.db.dayOfBirth}}" />
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
-        {{!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth"> --}}
+        <input type="text" class="form-control" id="_dayOfBirth" name="dayOfBirth" readonly="" value="{{this.db.dayOfBirth}}">
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">nickname</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="inputPassword3" name="nickName" value="{{this.db.nickName}}">
+        <input type="text" class="form-control" id="_nickName" name="nickName" value="{{this.db.nickName}}">
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">Phân hệ</label>
       <div class="col-sm-9">
-        {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
         <select class="form-control" aria-label="Default select example" name="permission" id="selectpermission"
           onchange="hideAdmincat(this);">
           <option value="0">Người dùng</option>
@@ -138,7 +181,6 @@
           <option value="2">Người kiểm duyệt</option>
           <option value="3">Nhà báo</option>
         </select>
-
       </div>
     </div>
 
@@ -153,7 +195,8 @@
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <button type="submit" class="btn btn-success">Lưu</button>
+      {{!-- <button type="submit" class="btn btn-success">Lưu</button> --}}
+      <button type="button" class="btn btn-info" onclick="check_submit();">Lưu</button>
     </div>
 
   </form>

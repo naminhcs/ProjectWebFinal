@@ -80,7 +80,7 @@
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
         var urlType = $("#cat1").val();
-        var urlType2 = $("#keyCat2").val();
+        var urlType2 = $("#dbkeyCat2").val();
         console.log("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
         location.replace("/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + selectedValue);
     }
@@ -98,7 +98,7 @@
         e.preventDefault();
     })
     var urlType = $("#cat1").val();
-    var urlType2 = $("#keyCat2").val();
+    var urlType2 = $("#dbkeyCat2").val();
     $('#prevpage').attr("href", "/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + prevpage.toString());
     $('#nextpage').attr("href", "/admin/view/post/" + urlType + "/" + urlType2 + "?page=" + nextpage.toString());
     if (curPage == 1) {

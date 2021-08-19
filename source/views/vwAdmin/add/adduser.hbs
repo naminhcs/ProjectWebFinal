@@ -114,9 +114,17 @@
     $("#_dayOfBirth").datepicker();
   });
 </script>
-{{/section}}
-<main>
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 
+{{/section}}
+
+<main>
+  
   <input type="text" name="permission_tmp" id="permission_tmp" value="{{this.db.permission}}" style="display: none;">
   <input type="text" name="" id="adminCat" value="{{this.db.adminCat}}" style="display: none;">
 
@@ -166,14 +174,7 @@
       <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" id="_dayOfBirth" name="dayOfBirth" readonly="">
-        {{!-- <div class='input-group date' id='datetimepicker1'>
-          <input type='text' class="form-control" id="_dayOfBirth" name="dayOfBirth" value=""
-            placeholder="Nhập ngày sinh">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div> --}}
-        {{!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth"> --}}
+    {{!-- <input class="form-control" id="_dayOfBirth1" name="dayOfBirth1" type="text" readonly="" /> --}}
       </div>
     </div>
     <div class="form-group">

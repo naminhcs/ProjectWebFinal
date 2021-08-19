@@ -129,6 +129,21 @@
         }
     })
 </script>
+
+
+<script>
+    $(document).ready(function () {
+        var successMessage = '{{successMsg}}'
+        if (successMessage.length !== 0) {
+            alert(successMessage)
+        }
+
+        var errorMsg = '{{errorMsg}}'
+        if (errorMsg.length !== 0) {
+            alert(errorMsg)
+        }
+    })
+</script>
 {{/section}}
 <form action="" method="POST" id='frmDelPost'></form>
 <main>

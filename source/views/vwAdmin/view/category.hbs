@@ -14,13 +14,6 @@
 <script src="/assets/admin/js/getlistcat2.js"></script>
 
 <script>
-    function myfn(page) {
-        alert(page);
-        page = +page + 1;
-        window.location.href = "/admin/view/cat?page=" + String(page);
-    }
-</script>
-<script>
     function myfunction() {
         var keyCat1 = document.getElementById('cat1').value;
         var keyCat2 = document.getElementById('cat2').value;
@@ -79,8 +72,6 @@
     function setid(newId) {
         console.log("1");
         document.getElementById('postid').value = newId;
-        alert("key cat 1:");
-        alert(document.getElementById('postid').value);
     }
 </script>
 <script>

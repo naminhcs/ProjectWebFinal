@@ -200,6 +200,43 @@ module.exports = {
         newUser['id'] = id;
         return newUser
     },
+//           admin method
+
+    async addRequestUpgradeAccountForAdmin(userName, days){
+        await db.firestore.collection('Upgrade').doc().set({userName: userName, days: days})
+        return 'Yêu cầu của bạn đã được gửi'
+    },
+
+    async getAllAccountUpgrade(){
+        const users = await db.firestore.collection('Upgrade').get()
+        var ans = []
+        users.forEach(doc =>{
+            var userData = doc.data()
+            userData['id'] = doc.id
+            ans.push(userData)
+        })
+        return ans;
+    },
+
+    async upgradeAccount(userName, days, id){
+        const userAccount = await db.firestore.collection('User').where('userName', '==', userName).get()
+        if (userAccount.empty){
+            return 'Tài khoản không tồn tại'
+        } else{
+            var idUser = userAccount.docs[0].id
+            var dataUser = userAccount.docs[0].data()
+            const t = new Date()
+            const newTime = Math.max(t.getTime(), dataUser.dayEndPremium) + days * 24 * 60 * 60 * 1000 ;
+            await db.firestore.collection('Upgrade').doc(id).delete()
+            await db.firestore.collection('User').doc(idUser).update({dayEndPremium: newTime})
+            return 'Phê duyệt thành công'
+        }
+    },
+
+    async rejectAccount(id){
+        await db.firestore.collection('Upgrade').doc(id).delete()
+        return 'Từ chối nâng cấp thành công'
+    },
 
 // ------------------------------------------UPDATE-DATABSE--------------------------------------
 

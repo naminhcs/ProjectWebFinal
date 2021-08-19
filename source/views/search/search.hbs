@@ -33,6 +33,16 @@
         color: black !important;
         text-decoration: none;
         text-transform: none;
+
+    }
+
+    .nice-select {
+        padding-top: 5px !important;
+        color: black;
+    }
+
+    .nice-select .option {
+        color: black !important;
     }
 </style>
 {{/section}}
@@ -42,10 +52,16 @@
     $(document).ready(function () {
         $('#btnSearch').click(function () {
             var inputSearch = $('#inputSearch1').val();
-            var url = '/post/search?key=' + inputSearch;
-            alert(url)
+            var key = $('#selectSearch :selected').val();
+            var url = '/post/search?key=' + inputSearch + '&type=' + key;
+            //alert(url)
             window.location = url;
         })
+
+        $('#selectSearch').change(function () {
+            //alert($('#selectSearch :selected').text());
+        })
+
     })
 </script>
 {{/section}}
@@ -79,16 +95,32 @@
     <!-- breadcrumb End -->
 
     <!-- Search bar -->
-    <div id="textSearch">
-        <input {{#if key}}{{else}} placeholder="Nhập nội dung tìm kiếm" {{/if}} style="width: 50%;"
-            value="{{#if key}}{{key}}{{/if}}" id='inputSearch1'>
-        <button class="genric-btn primary-border radius" type="button" id='btnSearch' >Tìm kiếm</button>
+    <div id="textSearch" class="row">
+        <div class="col-12 col-md-7 d-flex">
+            <input {{#if key}}{{else}} placeholder="Nhập nội dung tìm kiếm" {{/if}} style=""
+                value="{{#if key}}{{key}}{{/if}}" id='inputSearch1'>
+
+            <button class="genric-btn primary-border radius" type="button" id='btnSearch' style="height:50px;"><i
+                    class="ti-search"></i></button>
+        </div>
+        <div class="row col-12 col-md-3">
+            <div class="col">
+                <label for=""></label>
+                <select id="selectSearch" name="select" class="mb-15">
+                    <option value="all" selected disabled="disabled">Tiêu chí tìm kiếm</option>
+                    <option value="all">Tất cả</option>
+                    <option value="title">Tiêu đề</option>
+                    <option value="content">Nội dung </option>
+                    <option value="summary">Tóm tắt </option>
+                </select>
+            </div>
+        </div>
     </div>
 
 
     <div class="container text-center mt-5 mb-5">
         <div class="row">
-            <div class="col-3 col-xl-5 my-auto" >
+            <div class="col-3 col-xl-5 my-auto">
                 <hr style=" border-top:black solid 2px; ">
             </div>
             <div class="col-6 col-xl-2  my-auto">

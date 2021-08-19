@@ -13,15 +13,16 @@ const catModel = require('../models/categoryController');
 const draftModel = require('../models/DrafPostController')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const db = require('../db');
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_PASSWORD,
-  }
+    service: 'gmail',
+    auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+    }
 });
 
 const router = express.Router();
@@ -29,14 +30,14 @@ router.use(bodyParser.json());
 
 function generateAccessToken(userName) {
     return jwt.sign(userName, process.env.TOKEN_SECRET, {
-      expiresIn: '200s'
+        expiresIn: '200s'
     });
 };
 //--------------------------Category---------------------------------
-router.get('/view/cat', async function (req, res){
+router.get('/view/cat', async function (req, res) {
     const listCat = await catModel.getAllCategory();
     var data = []
-    for (let key in Object.keys(listCat)){
+    for (let key in Object.keys(listCat)) {
         var val = {}
         var doc = listCat[key]
         val['adminCat'] = doc.adminCat
@@ -47,20 +48,19 @@ router.get('/view/cat', async function (req, res){
         val['amountCat2'] = Object.keys(doc.listCat).length
         data.push(val)
     }
-    res.render('vwAdmin/view/category',{layout:'admin.hbs',db:data,page:1});
+    res.render('vwAdmin/view/category', { layout: 'admin.hbs', db: data, page: 1 });
 })
 
-router.get('/view/cat/:cat1', async function(req, res){
+router.get('/view/cat/:cat1', async function (req, res) {
     res.locals.successMsg = req.session.successMsg;
     req.session.successMsg = '';
-    console.log( res.locals.successMsg )
+    console.log(res.locals.successMsg)
 
     const cat1 = req.params.cat1;
-    
     const listCat = await catModel.getAllCat2ByCat1(cat1)
-    //console.log(listCat)
+
     var data = []
-    for (let key in Object.keys(listCat)){
+    for (let key in Object.keys(listCat)) {
         cat2 = listCat[key]
         var val = {}
         val['amountPre'] = await postModel.getAmountPostPremiumByCat(cat2.keyCat2)
@@ -70,32 +70,29 @@ router.get('/view/cat/:cat1', async function(req, res){
         val['nameCat2'] = cat2.nameCat2
         data.push(val)
     }
-    //console.log(data);
-    res.render('vwAdmin/view/category1',{layout:'admin.hbs',db:data,keycat1:cat1});
+    res.render('vwAdmin/view/category1', { layout: 'admin.hbs', db: data, keycat1: cat1 });
 })
 // --------------------------------------Add cat-------------------------------------------------
 
 //add cat 1
-router.get('/add/cat/', async function(req, res){
-    res.render('vwAdmin/add/addcat1',{layout:'admin.hbs'});
-})
-// router.post('/add/cat/', async function(req, res){
-//     console.log(req.body);
-// })
-//add cat 2
-router.get('/add/cat/:cat1', async function(req, res){
-    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
-    console.log(data);
-    res.render('vwAdmin/add/addcat2',{layout:'admin.hbs',db:data});
-})
-// --------------------------------------Edit cat 1-------------------------------------------------
-router.get('/edit/cat/:cat1', async function(req, res){
-    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
-    console.log(data);
-    res.render('vwAdmin/edit/editcat1',{layout:'admin.hbs',db:data});
+router.get('/add/cat/', async function (req, res) {
+    res.render('vwAdmin/add/addcat1', { layout: 'admin.hbs' });
 })
 
-router.post('/edit/cat/:cat1', async function (req, res){
+//add cat 2
+router.get('/add/cat/:cat1', async function (req, res) {
+    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
+    console.log(data);
+    res.render('vwAdmin/add/addcat2', { layout: 'admin.hbs', db: data });
+})
+// --------------------------------------Edit cat 1-------------------------------------------------
+router.get('/edit/cat/:cat1', async function (req, res) {
+    const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
+    console.log(data);
+    res.render('vwAdmin/edit/editcat1', { layout: 'admin.hbs', db: data });
+})
+
+router.post('/edit/cat/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     const data = {
         keyCat1: req.body.keyCat1,
@@ -107,29 +104,28 @@ router.post('/edit/cat/:cat1', async function (req, res){
 })
 
 // -----------------------------------Edit cat2 ------------------------------------------------------
-router.get('/edit/cat/:cat1/:cat2', async function(req, res){
+router.get('/edit/cat/:cat1/:cat2', async function (req, res) {
     const keyCat1 = req.params.cat1
     const keyCat2 = req.params.cat2
     var namecat1 = '';
     var nameCat2 = '';
     const allCat = res.locals.lcCategory;
-    Object.keys(allCat).forEach(key =>{
+    Object.keys(allCat).forEach(key => {
         var cat1 = allCat[key]
-        if (cat1.keyCat1 === keyCat1){
-            Object.keys(cat1.listCat).forEach(key2 =>{
+        if (cat1.keyCat1 === keyCat1) {
+            Object.keys(cat1.listCat).forEach(key2 => {
                 var objCat2 = cat1.listCat[key2]
-                if (objCat2.keyCat2 === keyCat2){
+                if (objCat2.keyCat2 === keyCat2) {
                     nameCat2 = objCat2.nameCat2
                 }
             })
             nameCat1 = cat1.nameCat1
         }
     })
-    // console.log(keyCat1+keyCat2+nameCat1+nameCat2);
-    res.render('vwAdmin/edit/editcat2',{layout:'admin.hbs', keyCat1:keyCat1, keyCat2:keyCat2, nameCat1:nameCat1, nameCat2:nameCat2});
+    res.render('vwAdmin/edit/editcat2', { layout: 'admin.hbs', keyCat1: keyCat1, keyCat2: keyCat2, nameCat1: nameCat1, nameCat2: nameCat2 });
 })
 
-router.post('/edit/cat/:cat1/:cat2', async function(req, res){
+router.post('/edit/cat/:cat1/:cat2', async function (req, res) {
     const cat1 = req.params.cat1
     const cat2 = req.params.cat2
     const data = {
@@ -137,35 +133,28 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
         nameCat2: req.body.nameCat2
     }
     const result = await catModel.updateCat2(cat1, cat2, data)
-    // const result="asdasdasd"
     res.send(result)
 })
 
 //-------------------Delete Cat1-----------------------------------------------
-router.post('/del/cat/:cat1', async function (req, res){
+router.post('/del/cat/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     result = await catModel.delCat1(cat1)
-    //res.send(cat1);
     res.send(result)
-    
 })
 
 //-------------------Delete cat2------------------------------------------------
 
-router.post('/del/cat/:cat1/:cat2', async function(req, res){
+router.post('/del/cat/:cat1/:cat2', async function (req, res) {
     const cat1 = req.params.cat1
     const cat2 = req.params.cat2
-    // const result = await delCat2(cat1, cat2)
-    res.send(cat1+"  "+cat2);
-    // res.send(result)
+    const result = await delCat2(cat1, cat2)
+    res.send(result)
 })
 
 // -----------------------------Add Cat2 ------------------------------------------------
-// router.get('/add/cat/:cat1', async function(req, res){
-//     res.render('')
-// })
 
-router.post('/add/cat/:cat1', async function (req, res){
+router.post('/add/cat/:cat1', async function (req, res) {
     const cat1 = req.params.cat1
     const data = {
         keyCat2: req.body.keyCat2,
@@ -178,14 +167,11 @@ router.post('/add/cat/:cat1', async function (req, res){
 })
 
 // ----------------------------Add cat1 ------------------------------------------------
-// router.get('/add/cat', async function(req, res){
-//     res.render('')
-// })
 
-router.post('/add/cat', async function(req, res){
+router.post('/add/cat', async function (req, res) {
     const data = req.body
     var listCat2 = []
-    for (let i = 0; i < data.listKey2.length; i++){
+    for (let i = 0; i < data.listKey2.length; i++) {
         var objCat2 = {
             keyCat2: data.listKey2[i],
             nameCat2: data.listName2[i]
@@ -208,58 +194,59 @@ router.post('/add/cat', async function(req, res){
 
 
 
-router.get('/view/tag', async function(req, res){
+router.get('/view/tag', async function (req, res) {
     page = req.query.page || 1
     var data = await tagModel.getAllTag(page)
     var cnt = await tagModel.getAmountTag()
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    // res.send({
-    //     data: data,
-    //     totalPage: nPage
-    // });
-    res.render('vwAdmin/view/tag',{layout:'admin.hbs',db: data,totalPage: nPage,page:page});
+    res.render('vwAdmin/view/tag', { layout: 'admin.hbs', db: data, totalPage: nPage, page: page });
 })
 
-router.get('/edit/tag/:id', async function(req, res){
+router.get('/edit/tag/:id', async function (req, res) {
     id = req.params.id;
+    console.log(id);
     result = await tagModel.getTagByID(id)
-    // res.send(result)
-    res.render('vwAdmin/edit/edittag',{layout:'admin.hbs',db:result});
-
+    console.log(result);
+    res.render('vwAdmin/edit/edittag', { layout: 'admin.hbs', db: result });
 })
-router.post('/edit/tag/:id', async function(req, res){
+router.post('/edit/tag/:id', async function (req, res) {
     id = req.params.id;
     result = await tagModel.editTag(id, req.body)
     res.send(result);
 })
 
-router.post('/del/tag/:id', async function(req, res){
+router.post('/del/tag/:id', async function (req, res) {
     id = req.params.id;
     result = await tagModel.delTag(id)
-    //res.send(id);
     res.send(result)
 })
 
 
-router.get('/add/tag', async function(req, res){
-    res.render('vwAdmin/add/addtag',{layout:'admin.hbs'});
+router.get('/add/tag', async function (req, res) {
+    res.render('vwAdmin/add/addtag', { layout: 'admin.hbs' });
 })
 
-router.post('/add/tag', async function(req, res){
-    // result = await tagModel.addTag(req.body)
-    const result = "testok";
+router.post('/add/tag', async function (req, res) {
+    result = await tagModel.addTag(req.body)
+    //const result = "testok";
     res.send(result)
 })
 
 //-------------------------User------------------------------------------
-router.get('/view/user/:type', async function(req, res){
+router.get('/view/user/:type', async function (req, res) {
     res.locals.successMsg = req.session.successMsg
     req.session.successMsg = ''
     const type = req.params.type
     const page = req.query.page || 1
     var data;
-    if (type === 'all'){
+    if (type === 'upgrade'){
+        const data = await userModel.getAllAccountUpgrade();
+        const nPage = 1;
+        res.render()
+        return;
+    }
+    if (type === 'all') {
         data = await userModel.getAllUser(page)
     } else {
         data = await userModel.getUserByPermission(type, page)
@@ -267,18 +254,17 @@ router.get('/view/user/:type', async function(req, res){
     var cnt = await userModel.countUserByPermission(type)
     var nPage = Math.floor(cnt / 15)
     if (cnt % 15 !== 0) nPage++
-    res.render('vwAdmin/view/user',{layout:'admin.hbs',db:data,totalPage: nPage,page:page,urlType:type});
+    res.render('vwAdmin/view/user', { layout: 'admin.hbs', db: data, totalPage: nPage, page: page, urlType: type });
 })
 
-router.get('/edit/user/:id', async function(req, res){
+router.get('/edit/user/:id', async function (req, res) {
     id = req.params.id;
     var data = await userModel.getUserByID(id)
     delete data['password']
-    // res.send(data);
-    res.render('vwAdmin/edit/edituser',{layout:'admin.hbs',db:data});
+    res.render('vwAdmin/edit/edituser', { layout: 'admin.hbs', db: data });
 })
 
-router.post('/edit/user/:id', async function(req, res){
+router.post('/edit/user/:id', async function (req, res) {
     var data = req.body;
     data.permission = parseInt(data.permission)
     result = await userModel.updateUserByUserName(data.userName, data)
@@ -286,7 +272,7 @@ router.post('/edit/user/:id', async function(req, res){
     res.redirect('/admin/view/user/all')
 })
 
-router.post('/add/user', async function(req, res){
+router.post('/add/user', async function (req, res) {
     const data = req.body;
     console.log(data);
     const checkUserName = await userModel.getUserByUserName(data.userName);
@@ -327,7 +313,7 @@ router.post('/add/user', async function(req, res){
     res.redirect('/admin/view/user/all')
 })
 
-router.post('/del/user/:id', async function(req, res){
+router.post('/del/user/:id', async function (req, res) {
     id = req.params.id
     result = await userModel.delUser(id)
     req.session.successMsg = result
@@ -336,24 +322,24 @@ router.post('/del/user/:id', async function(req, res){
 
 
 // //-------------------------Post-------------------------------------------
-router.get('/view/post/:cat1', async function(req, res){
+router.get('/view/post/:cat1', async function (req, res) {
     cat1 = req.params.cat1
     page = req.query.page
     console.log(page);
     const data = await postModel.getPostPremiumByCat1(cat1, page)
     var obj = []
-    for (let i = 0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
         var val = data[i]
         const t = new Date(val.dateUpload)
         const s = t.toGMTString()
         var dataPush = {
             id: val.id,
-            nameCat1: val.nameCat1, 
+            nameCat1: val.nameCat1,
             nameCat2: val.nameCat2,
-            title: val.title, 
-            nickName: val.nickName, 
-            dateUpload: s, 
-            view: val.view, 
+            title: val.title,
+            nickName: val.nickName,
+            dateUpload: s,
+            view: val.view,
             permission: val.permission
         }
         obj.push(dataPush)
@@ -361,126 +347,134 @@ router.get('/view/post/:cat1', async function(req, res){
     const cnt = await postModel.getPagePremium(cat1);
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
-    // res.send({
-    //     data: obj,
-    //     totalPage: nPages
-    // })
-    res.render('vwAdmin/view/post_cat1',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,page:page});
+    res.render('vwAdmin/view/post_cat1', { layout: 'admin.hbs', db: obj, totalPage: nPages, cat1: cat1, page: page });
 })
 
 // //--------------------------------dat--------------------//
 
-router.get('/post',  async function(req, res){
-    res.render('vwAdmin/view/post_cat_select',{layout:'admin.hbs'});
+router.get('/post', async function (req, res) {
+    res.render('vwAdmin/view/post_cat_select', { layout: 'admin.hbs' });
 })
-router.get('/',  async function(req, res){
-    res.render('vwAdmin/view/cat_select',{layout:'admin.hbs'});
+router.get('/', async function (req, res) {
+    res.render('vwAdmin/view/cat_select', { layout: 'admin.hbs' });
 })
-router.get('/cat',  async function(req, res){
-    res.render('vwAdmin/view/cat_select',{layout:'admin.hbs'});
-})
-
-router.get('/add/post',  async function(req, res){
-    res.render('vwAdmin/add/addpost',{layout:'admin.hbs'});
-})
-router.get('/category',  async function(req, res){
-    res.render('vwAdmin/view/cat_select',{layout:'admin.hbs'});
-})
-router.get('/add/user',  async function(req, res){
-    res.render('vwAdmin/add/adduser',{layout:'admin.hbs'});
+router.get('/cat', async function (req, res) {
+    res.render('vwAdmin/view/cat_select', { layout: 'admin.hbs' });
 })
 
-// ------------------------------------------------------dat
+router.get('/add/post', async function (req, res) {
+    res.render('vwAdmin/add/addpost', { layout: 'admin.hbs' });
+})
+router.get('/category', async function (req, res) {
+    res.render('vwAdmin/view/cat_select', { layout: 'admin.hbs' });
+})
+router.get('/add/user', async function (req, res) {
+    res.render('vwAdmin/add/adduser', { layout: 'admin.hbs' });
+})
 
-router.get('/view/post/:cat1/:cat2', async function(req, res){
+// ------------------------------------------------------Post
+
+router.get('/view/post/:cat1/:cat2', async function (req, res) {
     cat1 = req.params.cat1;
     cat2 = req.params.cat2;
     page = req.query.page;
     const data = await postModel.getPostPremiumByCat2(cat2, page)
     var obj = []
-    for (let i = 0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
         var val = data[i]
         const t = new Date(val.dateUpload)
         const s = t.toGMTString()
         var dataPush = {
             id: val.id,
-            nameCat1: val.nameCat1, 
+            nameCat1: val.nameCat1,
             nameCat2: val.nameCat2,
-            title: val.title, 
-            nickName: val.nickName, 
-            dateUpload: s, 
-            view: val.view, 
+            title: val.title,
+            nickName: val.nickName,
+            dateUpload: s,
+            view: val.view,
             permission: val.permission
         }
         obj.push(dataPush)
-        
+
     }
     const cnt = await postModel.getPagePremium(cat2);
     var nPages = Math.floor(cnt / 10);
     if (cnt % 10 !== 0) nPages++;
     console.log(cat2);
-    res.render('vwAdmin/view/post_cat2',{layout:'admin.hbs',db: obj,totalPage: nPages,cat1:cat1,cat2:cat2,page:page});
+    res.render('vwAdmin/view/post_cat2', { layout: 'admin.hbs', db: obj, totalPage: nPages, cat1: cat1, cat2: cat2, page: page });
 })
 
-router.get('/edit/post/:id', async function(req, res){
+router.get('/edit/post/:id', async function (req, res) {
     id = req.params.id;
     var data = await postModel.getPostByID(id)
     console.log(data);
-    // res.send(data);
-    res.render('vwAdmin/edit/editpost',{layout:'admin.hbs',db: data});
+    res.render('vwAdmin/edit/editpost', { layout: 'admin.hbs', db: data });
 })
 
-router.post('/edit/post/:id', async function(req, res){
+router.post('/edit/post/:id', async function (req, res) {
     const id = req.params.id
     var data = req.body;
-    
-    // result = await postModel.editPostForAdmin(id, data)
-    result="test ok"
+    result = await postModel.editPostForAdmin(id, data)
     res.send(result)
 })
 
-router.get('/post/add', async function(req, res){
+router.get('/post/add', async function (req, res) {
     res.send('direct')
 })
 
-router.post('/add/post', async function(req, res){
+router.post('/add/post', async function (req, res) {
     const data = req.body;
-    // result = await postModel.addPost(data)
-    console.log(req.body);
-    // return result;
+    result = await postModel.addPost(data)
+    return result;
 })
 
-router.post('/del/post/:id', async function(req, res){
+router.post('/del/post/:id', async function (req, res) {
     const id = req.params.id
     result = await postModel.delPost(id);
-    // res.send(id);
     res.send(result)
 })
 
 // --------------------------------------------------DraftPost-----------------------------------------------------------------
 
-router.get('/view/draft-post', async function(req, res){
+router.get('/view/draft-post', async function (req, res) {
     res.locals.successMsg = req.session.successMsg
     req.session.successMsg = ''
     console.log(res.locals.successMsg)
     var page = req.query.page || 1
     const posts = await draftModel.getAllDraftPostByPage(page)
-    res.render('vwAdmin/view/draftPost', {layout: 'admin.hbs', db: posts.posts, totalPage: posts.totalPage, page: page})
+    res.render('vwAdmin/view/draftPost', { layout: 'admin.hbs', db: posts.posts, totalPage: posts.totalPage, page: page })
 })
 
-router.get('/view/draft-post/:id', async function(req, res){
+router.get('/view/draft-post/:id', async function (req, res) {
     var id = req.params.id
     const post = await draftModel.getDrafPostByID(id);
     res.render('vwEditor/confirmpost', { layout: 'admin.hbs', db: post });
 })
 
-router.post('/del/draft-post/:id', async function(req, res){
+router.post('/del/draft-post/:id', async function (req, res) {
     var id = req.params.id
     const result = await draftModel.deletePostByAdmin(id)
     req.session.successMsg = result;
     res.redirect('/admin/view/draft-post')
 })
 
+// --------------------------------------------Upgrade----------------------------------------------------------------
+
+router.post('/upgrade/accept/:id', async function(req, res){
+    const userName = req.body.userName
+    const days = req.body.days
+    const id = req.params.id
+    const result = await userModel.upgradeAccount(userName, days, id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/upgrade')
+})
+
+router.post('/upgrade/reject/:id', async function(req, res){
+    const id = req.params.id
+    result = await userModel.rejectAccount(id)
+    req.session.successMsg = result;
+    res.redirect('/admin/view/user/upgrade')
+})
 module.exports = router;
 
 

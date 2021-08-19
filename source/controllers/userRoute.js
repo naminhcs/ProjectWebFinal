@@ -398,14 +398,8 @@ router.post('/upgrade', auth.isLogin, async function (req, res) {
   const now = d.getTime();
   dayEndPremium = Math.max(req.session.data.dayEndPremium, now)
   const newTime = dayEndPremium + data;
-  const updateData = {
-    'dayEndPremium': newTime
-  }
-  result = await userModel.updateUserByUserName(req.session.data.userName, updateData)
-  req.session.data.dayEndPremium = newTime;
-  req.session.data.premium = 1
-  // res.send(result)
-  req.session.successMessage = 'Your account have been upgraded!';
+  result = await userModel.addRequestUpgradeAccountForAdmin(req.session.data.userName, req.body.days)
+  req.session.successMessage = result;
   res.redirect('/user/profile')
 })
 

@@ -5,6 +5,9 @@ var hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const postModel = require('./models/postController');
+const userModel = require('./models/userController')
+const passport = require('passport')
+const facebookStrategy = require('passport-facebook').Strategy
 
 dotenv.config();
 
@@ -83,8 +86,70 @@ require('./middlewares/imgMiddle')(app)
 require('./middlewares/commentMiddle')(app)
 
 
+//---------------------------------------Login via facebook-------------------------------------------------------
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new facebookStrategy({
+  clientID        : "1065470963986577",
+  clientSecret    : "6793dddef2d4fa16ce288f2e42cc83ea",
+  callbackURL     : "http://localhost:3000/facebook/callback",
+  profileFields   : ['id','displayName','name','picture.type(large)','email']
+},
+
+// facebook will send back the token and profile
+async function(token, refreshToken, profile, done) {
+  const isUserAvailable = await userModel.getUserByUserName(profile.id)
+  if (isUserAvailable !== null){
+    return done(null, isUserAvailable)
+  } else {
+      const newUser = await userModel.addUserViaFacebook(profile)
+    return done(null, newUser)
+  }
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  return done(null,id)
+});
+
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email,user_photos' }));
+
+app.get('/facebook/callback',
+      passport.authenticate('facebook', {
+          successRedirect : '/',
+          failureRedirect : '/user/login'
+      }));
+
+//---------------------------------------------------------------------------------------------------------------------------------
+
 
 app.get('/', async function (req, res) {
+  if (typeof(req.user) !== "undefined"){
+    req.session.data = {
+          userName: req.user.userName,
+          nameOfUser: req.user.nameOfUser,
+          profilePicture: req.user.profilePicture,
+          gmail: req.user.email,
+          nickName: req.user.nickName,
+          dayInit: req.user.dayInit,
+          dayInitPremium: req.user.dayInitPremium,
+          dayEndPremium: req.user.dayEndPremium,
+          confirmation: req.user.confirmation,
+          permission: req.user.permission,
+          phoneNumber: req.user.phoneNumber,
+          dayOfBirth: req.user.dayOfBirth,
+          id: req.user.id
+        }
+        res.locals.dataUser = req.session.data
+        req.session.auth = true;
+        res.locals.auth = req.session.auth;
+  }
   // console.log(res.locals.dataUser)
   // const bai_viet_noi_bat_nhat = require('./assets/json_file/bai_viet_noi_bat.json');
   // const bai_viet_moi_nhat = require('./assets/json_file/bai_viet_moi_nhat.json');

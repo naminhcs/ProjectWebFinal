@@ -178,6 +178,29 @@ module.exports = {
         }
     },
 
+    async addUserViaFacebook(profile){
+        const d = new Date();
+        const newUser = {
+            userName: profile.id,
+            nameOfUser: profile.displayName,
+            profilePicture: profile.photos[0].value,
+            gmail: profile._json.email,
+            nickName: profile.displayName,
+            dayInit: d.getTime(),
+            dayInitPremium: d.getTime(),
+            dayEndPremium: d.getTime() + 7 * 24 * 60 * 60 * 1000,
+            confirmation: true,
+            permission: 0,
+            phoneNumber: null,
+            dayOfBirth: null
+        }
+        const data = await db.firestore.collection('User').doc()
+        const id = data.id
+        await data.set(newUser)
+        newUser['id'] = id;
+        return newUser
+    },
+
 // ------------------------------------------UPDATE-DATABSE--------------------------------------
 
     async updateDatabase(allCat){

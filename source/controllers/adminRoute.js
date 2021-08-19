@@ -293,13 +293,13 @@ router.post('/add/user', async function(req, res){
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
     if (checkGmail !== null) {
-        req.session.successMsg =  'Gmail is used';
+        req.session.successMsg =  'Gmail đã được sử dụng';
         res.redirect('/admin/view/user/all')
         return;
     }
 
     if (checkUserName !== null) {
-        req.session.successMsg =  'UserName is used';
+        req.session.successMsg =  'Tên tài khoản đã tồn tại';
         res.redirect('/admin/view/user/all')
         return;
     }
@@ -320,10 +320,10 @@ router.post('/add/user', async function(req, res){
         subject: 'Confirm email',
         text: s
     }
-    //await transporter.sendMail(mailOption)
+    await transporter.sendMail(mailOption)
     // ---- Add user to database
     await userModel.addUser(dataPush);
-    req.session.successMsg = 'Check gmail to confirm';
+    req.session.successMsg = 'Kiểm tra tài khoản để xác nhận';
     res.redirect('/admin/view/user/all')
 })
 

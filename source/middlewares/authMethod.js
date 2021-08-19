@@ -1,5 +1,6 @@
 module.exports = {
     isLogin(req, res, next){
+        console.log(req.user)
         if (req.session.auth !== true){
             req.session.urlRedirect = req.originalUrl;
             return res.redirect('/user/login');

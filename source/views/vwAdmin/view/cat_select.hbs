@@ -5,7 +5,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Category'; const title2 = 'Quản lý chuyên mục'; const title3 = 'Lọc';
+    const title1 = 'Quản lý chuyên mục'; const title2 = 'Quản lý chuyên mục'; const title3 = 'Lọc';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -51,7 +51,7 @@
     function myfunction() {
         var keyCat1 = document.getElementById('cat1').value;
         var keyCat2 = document.getElementById('cat2').value;
-        { { !--alert(keyCat1 + keyCat2); --} }
+       
         if (keyCat1 == 'all') {
             window.location.href = "/admin/view/cat";
             return;
@@ -67,7 +67,9 @@
     }
 </script>
 
-
+<script>
+    $("#li_1").addClass('active');
+</script>
 {{/section}}
 <main>
     <div class="row">

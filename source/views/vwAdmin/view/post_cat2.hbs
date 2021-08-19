@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Table</title>
+<title>Quản lý bài báo</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <style>
     .pagination {
@@ -42,7 +42,7 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Post'; const title2 = 'Posts'; const title3 = 'Posts';
+    const title1 = 'Quản lý bài báo'; const title2 = 'Quản lý bài báo'; const title3 = 'Lọc';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -138,6 +138,9 @@
     //alert(value);
 </script>
 <script>
+    $("#li_3").addClass('active');
+</script>
+<script>
     /**
  * sends a request to the specified url from a form. this will change the window location.
  * @param {string} path the path to send the post request to
@@ -221,7 +224,7 @@
                         </select>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
 
@@ -240,9 +243,9 @@
                         <th>Người viết</th>
                         <th>namecat1</th>
                         <th>namecat2</th>
-                        <th>Permission</th>
-                        <th>Chỉnh sửa</th>
-                        <th>Xóa</th>
+                        <th style="text-align: center;">Permission</th>
+                        <th style="text-align: center;">Chỉnh sửa</th>
+                        <th style="text-align: center;">Xóa</th>
                     </thead>
                     <tbody>
                         {{#each this.db}}
@@ -252,17 +255,17 @@
                             <td>{{nickName}}</td>
                             <td>{{nameCat1}}</td>
                             <td>{{nameCat2}}</td>
-                            <td id='premium'>{{permission}}</td>
+                            <td id='premium' style="text-align: center;">{{permission}}</td>
 
 
-                            <td>
+                            <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/admin/edit/post/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
                                     onclick="setid('{{id}}')" id="btndelete" data-toggle="modal"
                                     data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -283,7 +286,7 @@
                     <a href="#" onclick="next({{page}})" id="nextpage">Next &raquo;</a>
                 </div>
                 <div class="col-lg-12" style="text-align: center;">
-                    <a href="/admin/add/post" class="btn btn-success">Add Post</a>
+                    <a href="/admin/add/post" class="btn btn-success">Thêm bài báo</a>
                 </div>
             </div>
         </div>

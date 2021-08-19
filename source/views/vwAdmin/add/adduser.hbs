@@ -59,14 +59,31 @@
   //console.log($("#selectadminCat").val());
   console.log("4");
 </script>
+<script>
+  function check_submit() {
+    var listId = ["_userName", "_password", "_nameOfUser", "_gmail", "_phoneNumber", "_dayOfBirth", "selectpermission"];
+    var check_null=false;
+    for (let i = 0; i < listId.length; i++) {
+      if(document.getElementById(listId[i]).value=="") check_null=true;
+    }
+    if(check_null) alert("Dữ liệu nhập vào không được để trống!");
+    else
+    {
+      $("#formSubmit").submit();
+    }
 
+  }
+</script>
+<script>
+    $("#li_4").addClass('active');
+</script>
 {{/section}}
 <main>
 
   <input type="text" name="permission_tmp" id="permission_tmp" value="{{this.db.permission}}" style="display: none;">
   <input type="text" name="" id="adminCat" value="{{this.db.adminCat}}" style="display: none;">
 
-  <form class="form-horizontal" style="text-align: center;" action="" method="POST">
+  <form class="form-horizontal" style="text-align: center;" action="" method="POST" id="formSubmit">
     <div class="form-group" style="text-align: center;">
       <img
         src="https://firebasestorage.googleapis.com/v0/b/web-app-484e0.appspot.com/o/avatar%2Fdefault.png?alt=media&token=42426b0d-ea36-4dc9-90d3-f21217b05e0e"
@@ -75,49 +92,45 @@
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Tên đăng nhập</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="userName" value="" placeholder="Nhập tên người dùng">
+        <input type="text" class="form-control" id="_userName" name="userName" value=""
+          placeholder="Nhập tên người dùng">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Mật khẩu</label>
       <div class="col-sm-9">
-        <input type="password" class="form-control" id="" name="password" value="" placeholder="Nhập mật khẩu">
+        <input type="password" class="form-control" id="_password" name="password" value="" placeholder="Nhập mật khẩu">
       </div>
     </div>
 
     <div class="form-group">
       <label for="inputEmail3" class="col-sm-2 control-label">Tên hiển thị</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="nameOfUser" value="" placeholder="Nhập tên hiển thị">
+        <input type="text" class="form-control" id="_nameOfUser" name="nameOfUser" value=""
+          placeholder="Nhập tên hiển thị">
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Gmail</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="gmail" value="" placeholder="Nhập địa chỉ Gmail">
+        <input type="text" class="form-control" id="_gmail" name="gmail" value="" placeholder="Nhập địa chỉ Gmail">
       </div>
     </div>
-    {{!-- <div class="form-group">
-      <label class="col-sm-2 control-label">Date Init</label>
-      <div class="col-sm-9">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Date Init">
-      </div>
-    </div> --}}
-
-
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Số điện thoại</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="" name="phoneNumber" value="" placeholder="Nhập số điện thoại">
+        <input type="tel" class="form-control" id="_phoneNumber" name="phoneNumber" value=""
+          placeholder="Nhập số điện thoại" pattern="[0-9]{10}">
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
         <div class='input-group date' id='datetimepicker1'>
-          <input type='text' class="form-control" name="dayOfBirth" value="" placeholder="Nhập ngày sinh">
+          <input type='text' class="form-control" id="_dayOfBirth" name="dayOfBirth" value=""
+            placeholder="Nhập ngày sinh">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -131,6 +144,7 @@
         {{!-- <input type="password" class="form-control" id="inputPassword3" name="permission"> --}}
         <select class="form-control" aria-label="Default select example" name="permission" id="selectpermission"
           onchange="hideAdmincat(this);">
+          <option value="">-- Chọn phân hệ người dùng --</option>
           <option value="0">Người dùng</option>
           <option value="1">Quản lý</option>
           <option value="2">Người kiểm duyệt</option>
@@ -151,7 +165,7 @@
       </div>
     </div>
     <div class="form-group" style="text-align: center;">
-      <button type="submit" class="btn btn-info">Tạo</button>
+      <button type="button" class="btn btn-info" onclick="check_submit();">Tạo</button>
     </div>
 
   </form>

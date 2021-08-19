@@ -1,11 +1,11 @@
 {{#section 'css'}}
-<title>Post</title>
+<title>Quản lý bài báo</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {{/section}}
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Post'; const title2 = 'Post'; const title3 = 'Lọc';
+    const title1 = 'Quản lý bài báo'; const title2 = 'Quản lý bài báo'; const title3 = 'Lọc';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
@@ -69,6 +69,9 @@
 <script>
     $("#cat1").val('van-hoa').change();
 </script>
+<script>
+    $("#li_3").addClass('active');
+</script>
 {{/section}}
 <main>
 
@@ -118,7 +121,7 @@
                         </div>
                     </form>
                     <div class="col-lg-10" style="text-align: center;">
-                        <button type="button" class="btn btn-success" onclick="myfunction()">Search</button>
+                        <button type="button" class="btn btn-success" onclick="myfunction()">Tìm kiếm</button>
                     </div>
                 </div>
 

@@ -155,11 +155,14 @@
     $("#datepicker").datepicker();
   });
 </script>
+<script>
+    $("#li_3").addClass('active');
+</script>
 {{/section}}
 <main>
   {{!-- <p>Date: <input type="text" id="datepicker"></p> --}}
 
-  <div class="form-horizontal">
+  <form class="form-horizontal" action="" method="POST">
     <input type="text" name="views" id="" value="0" style="display: none;">
     {{!-- <input type="text" name="rejectingReason" id="" value="" style="display: none;">
     <input type="text" name="status" id="" value="" style="display: none;">
@@ -241,122 +244,8 @@
     <input type="text" name="" id="tmp2" value="{{this.db.keyCat2}}" style="display: none;">
 
     <div class="form-group " style="text-align: center; margin-top:2%;">
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"> Duyệt bài </button>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_reject" id="btnsubmit">Từ
-        chối</a>
+      <button type="summit" class="btn btn-success"> Lưu </button>
     </div>
 
-
-
-
-    <form class="form-horizontal" action="/editor/confirm/accept/{{db.id}}" method="POST" id="acceptPostForm">
-      <input type="text" name="keyCat1" id="keyCat1" value="" style="display: none;">
-      <input type="text" name="nameCat1" id="nameCat1" value="" style="display: none;">
-      <input type="text" name="keyCat2" id="keyCat2" value="" style="display: none;">
-      <input type="text" name="nameCat2" id="nameCat2" value="" style="display: none;">
-      <!-- Modal -->
-      <div class="modal fade" id="myModal" role="dialog" style="align-items: center; justify-content: center;">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Hiệu chỉnh bài viết</h4>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Topic 1</label>
-                <div class="col-sm-4">
-                  <select class="form-control" aria-label="Default select example" onchange="getval(this);"
-                    id="modal_Cat1">
-                    <option value="{{this.db.keyCat1}}" selected>{{this.db.nameCat1}}</option>
-                  </select>
-                </div>
-                <label class="col-sm-2 control-label">Topic 2</label>
-                <div class="col-sm-4">
-                  <select class="form-control" aria-label="Default select example" id="modal_Cat2">
-                    <option value="{{this.db.keyCat2}}" selected>{{this.db.nameCat2}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Tag</label>
-                <div class="col-sm-9">
-                  <input type="text" value="" data-role="tagsinput" id="tags2" placeholder="Add tags" />
-                  {{#each this.db.listNameOfTag}}
-                  <textarea id="tagName">{{this}}</textarea>
-                  <script>
-                    var tags = document.getElementById("tags2");
-                    var tagName = document.getElementById("tagName");
-                    tags.value = tags.value + tagName.value + ", ";
-                    tagName.remove();
-                  </script>
-                  {{/each}}
-                  <div id='tagSubmit'>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Date Upload</label>
-                <div class='col-sm-4'>
-                  <input type="text" class="form-control" id="datepicker" name="dateUpload" readonly="">
-                </div>
-
-                <label class="col-sm-2 control-label">Time</label>
-                <div class='col-sm-4'>
-                  <div class="input-group clockpicker">
-                    <input type="text" class="form-control" name="timeUpload" id="time" readonly="">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div class="form-group" style="text-align: center;">
-                <button type="button" class="btn btn-info" onclick="accept_submit()">Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-
-
-
-    <form class="form-horizontal" action="/editor/confirm/reject/{{db.id}}" method="POST" id="rejectPostForm">
-      <!-- Modal -->
-      <div class="modal fade" id="myModal_reject" role="dialog" style="align-items: center; justify-content: center;">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Từ chối bài báo</h4>
-            </div>
-            {{!-- <div class="modal-body"> --}}
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Lý do từ chối</label>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-1">
-
-                </div>
-                <div class="col-sm-9">
-                  <textarea type="text" class="form-control" name="rejectReason" id="lydotuchoi"></textarea>
-                </div>
-              </div>
-
-              {{!--
-            </div> --}}
-            <div class="modal-footer">
-              <div class="form-group" style="text-align: center;">
-                <button type="button" class="btn btn-info" onclick="reject_submit()">Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-
-
-  </div>
+  </form>
 </main>

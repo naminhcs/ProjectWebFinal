@@ -141,35 +141,12 @@
 <script type="text/javascript" src="/assets/admin/tinymce/plugin/tinymce/init-tinymce-none-edit.js"></script>
 <script type="text/javascript" src="/assets/admin/tinymce/js/getdata.js"></script>
 <script>
-  const title1 = 'Post'; const title2 = 'Accepted post'; const title3 = 'Accepted post';
+  const title1 = 'Bài viết'; const title2 = 'Bài viết đã duyệt thành công'; const title3 = 'Bài viết đã duyệt';
   const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
   id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-  $(document).ready(function () {
-    var table = $('#example').DataTable();
-    $('#example tbody').on('click', 'tr', function () {
-      if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-      }
-      else {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-      }
-    });
-  });
-</script>
-
-<script>
-  $(document).ready(function () {
-    $("#btnsubmit").click(function () {
-
-
-    })
-  })
-</script>
 
 <script>
   function xoa_dau(str) {
@@ -327,16 +304,6 @@
                 </a>
                 {{/each}}
             </div>
-
-            <!-- 
-            {{#each this.db.listTag}}
-            {{#when @index 'lt' '4'}}
-            <a href="/tag/{{../this.key}}" style="overflow-wrap: anywhere;">
-                <small class="tags">{{../this.name}}</small>
-            </a>
-            {{/when}}
-            {{/each}}
-            -->
 
         </div>
         <br>

@@ -29,6 +29,7 @@ router.get('/view/draf-post', auth.isEditor, async function (req, res) {
     var user = await userModel.getUserByUserName(req.session.data.userName)
     const list_post = await drafModel.getDrafPostByCat1(user.adminCat, page)
     var totalPage = drafModel.getTotalPageDraftPost(user.adminCat)
+    console.log(list_post);
     res.render('vwEditor/vieweditordraft',{layout:'editor.hbs',db:list_post,page:page,totalPage:totalPage});
 })
 

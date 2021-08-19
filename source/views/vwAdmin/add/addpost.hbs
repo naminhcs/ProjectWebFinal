@@ -121,6 +121,9 @@
   });
 </script>
 <script src="/assets/admin/js/getlistcat2_exceptAll.js"></script>
+<script>
+    $("#li_3").addClass('active');
+</script>
 {{/section}}
 <main>
 
@@ -209,8 +212,8 @@
     </div>
     <textarea class="tinymce" id="texteditor" name="content"></textarea>
     <div class="form-group" style="text-align: center;">
-      <button type="button" class="btn btn-info" id="" onclick="_submit();"> Add </button>
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"> Duyệt bài Vượt quyền </button>
+      <button type="submit" class="btn btn-info" > Thêm bài báo </button>
+     
 
       {{!-- <a href="./viewpost" class="btn btn-danger">Cancel</a> --}}
     </div>

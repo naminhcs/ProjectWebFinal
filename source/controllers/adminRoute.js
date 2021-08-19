@@ -144,9 +144,9 @@ router.post('/edit/cat/:cat1/:cat2', async function(req, res){
 //-------------------Delete Cat1-----------------------------------------------
 router.post('/del/cat/:cat1', async function (req, res){
     const cat1 = req.params.cat1
-    //result = await catModel.delCat1(cat1)
-    res.send(cat1);
-    //res.send(result)
+    result = await catModel.delCat1(cat1)
+    //res.send(cat1);
+    res.send(result)
     
 })
 
@@ -236,9 +236,9 @@ router.post('/edit/tag/:id', async function(req, res){
 
 router.post('/del/tag/:id', async function(req, res){
     id = req.params.id;
-    //result = await tagModel.delTag(id)
-    res.send(id);
-    //res.send(result)
+    result = await tagModel.delTag(id)
+    //res.send(id);
+    res.send(result)
 })
 
 
@@ -288,6 +288,7 @@ router.post('/edit/user/:id', async function(req, res){
 
 router.post('/add/user', async function(req, res){
     const data = req.body;
+    console.log(data);
     const checkUserName = await userModel.getUserByUserName(data.userName);
     const checkGmail = await userModel.getUserByGmail(data.gmail);
 
@@ -451,9 +452,9 @@ router.post('/add/post', async function(req, res){
 
 router.post('/del/post/:id', async function(req, res){
     const id = req.params.id
-    // result = await postModel.delPost(id);
-    res.send(id);
-    // res.send(result)
+    result = await postModel.delPost(id);
+    // res.send(id);
+    res.send(result)
 })
 
 // --------------------------------------------------DraftPost-----------------------------------------------------------------

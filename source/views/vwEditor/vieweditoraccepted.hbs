@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<title>Table</title>
+<title>Danh sách bài viết đã duyệt</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <style>
     .pagination {
@@ -42,29 +42,12 @@
 
 {{#section 'js'}}
 <script>
-    const title1 = 'Post'; const title2 = 'Accept Posts'; const title3 = 'Accept Posts';
+    const title1 = 'Bài viết đã duyệt'; const title2 = 'Bài viết đã duyệt'; const title3 = 'Danh sách';
     const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
     id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var table = $('#example').DataTable();
-        $('#example tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-
-        var premium = $('#premium').val()
-
-    });
-</script>
 <script>
     function setid(newId) {
         document.getElementById('postid').value = newId;
@@ -119,6 +102,9 @@
         }
     }
 </script>
+<script>
+    $("#li_2").addClass('active');
+</script>
 {{/section}}
 
 <main>
@@ -139,10 +125,10 @@
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
-                        <th>Title</th>
+                        <th>Tiêu Đề</th>
                         <th>Người viết</th>
-                        <th>namecat1</th>
-                        <th>namecat2</th>
+                        <th>Chuyên mục cấp 1</th>
+                        <th>Chuyên mục cấp 2</th>
                         <th style="text-align: center;">Duyệt bài</th>
                         <th style="text-align: center;">Xem chi tiết</th>
                     </thead>

@@ -145,6 +145,9 @@
         }
     })
 </script>
+<script>
+    $("#li_4").addClass('active');
+</script>
 {{/section}}
 
 <form action="" method="POST" id='frmDelPost'></form>
@@ -167,7 +170,7 @@
                     <div class="col-lg-2">
                         <select class="form-control" aria-label="Default select example" id="userSelect">
                             <option value="all" selected>Tất cả</option>
-                            <option value="editor">Người kiếm duyệt</option>
+                            <option value="editor">Người kiểm duyệt</option>
                             <option value="user">Người dùng</option>
                             <option value="writer">Nhà báo</option>
                         </select>
@@ -190,7 +193,7 @@
                         <th>Ngày sinh</th>
                         <th>Ngày hết premium</th>
                         <th>Phân hệ</th>
-                        <th>Chỉnh sửa</th>
+                        <th style="text-align: center;">Chỉnh sửa</th>
                         <th>Xóa</th>
 
                     </thead>
@@ -219,7 +222,7 @@
                                 {{/when}}
 
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
                                     <a href="/admin/edit/user/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>

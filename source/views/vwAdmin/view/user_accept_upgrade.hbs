@@ -57,9 +57,9 @@
         var selectBox = document.getElementById("currentPage");
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
         var urlType = $("#urlType").val();
-        
-        console.log("/admin/view/user/"+urlType+"?page=" + selectedValue);
-        location.replace("/admin/view/user/"+urlType+"?page=" + selectedValue);
+
+        console.log("/admin/view/user/" + urlType + "?page=" + selectedValue);
+        location.replace("/admin/view/user/" + urlType + "?page=" + selectedValue);
     }
     var totalPage = parseInt($("#totalPage").val());
     var curPage = parseInt($('#Page').val());
@@ -75,8 +75,8 @@
         e.preventDefault();
     })
     var urlType = $("#urlType").val();
-    $('#prevpage').attr("href", "/admin/view/user/"+urlType+"?page=" + prevpage.toString());
-    $('#nextpage').attr("href", "/admin/view/user/"+urlType+"?page=" + nextpage.toString());
+    $('#prevpage').attr("href", "/admin/view/user/" + urlType + "?page=" + prevpage.toString());
+    $('#nextpage').attr("href", "/admin/view/user/" + urlType + "?page=" + nextpage.toString());
     if (curPage == 1) {
         $('#prevpage').attr("href", "#");
     }
@@ -126,14 +126,21 @@
     }
     function Delete_post() {
         var id = document.getElementById('postid').value;
-        var url = "/admin/del/user/"+id;
-        var report = "delete-user-id-"+id;
-        post(url, {name: 'delete-user-id-'});
+        var url = "/admin/del/user/" + id;
+        var report = "delete-user-id-" + id;
+        post(url, { name: 'delete-user-id-' });
     }
-    function setid(id) {
+    function setIdReject(id) {
         //alert(id)
-        var url = '/admin/del/user/' + String(id)
-        $('#frmDelPost').attr('action', url);
+        var url = '/admin/upgarde/reject/' + String(id)
+        $('#frmReject').attr('action', url);
+    }
+
+    function setIdAccept(id) {
+        alert(id)
+        var url = '/admin/upgarde/accept/' + String(id)
+        $('#frmAccept').attr('action', url);
+        //$('#frmAccept').submit()
     }
 </script>
 
@@ -151,9 +158,10 @@
 {{/section}}
 
 <main>
-    <form action="" method="POST" id='frmDelPost' style="display: none;"></form>
+    <form action="" method="POST" id='frmReject' style="display: none;"></form>
+    <form action="" method="POST" id='frmAccept' style="display: none;"></form>
 
-    <input type="text" id="postid"  value="" style="display: none;">
+    <input type="text" id="postid" value="" style="display: none;">
 
     <input type="number" name="" id="totalPage" value="{{totalPage}}" style="display: none;">
     <input type="number" name="" id="Page" value="{{page}}" style="display: none;">
@@ -183,19 +191,15 @@
                 </div>
             </div><!-- /.panel-->
         </div><!-- /.col-->
-       
+
         <div class="col-lg-12">
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
                     <thead>
                         <th>Tên đầy đủ</th>
-                        <th>Gmail</th>
-                        <th>Ngày tạo tài khoản</th>
-                        <th>Số điện thoại</th>
-                        <th>Ngày sinh</th>
-                        <th>Ngày hết premium</th>
-                        <th>Phân hệ</th>
-                        <th style="text-align: center;">Chỉnh sửa</th>
+                        <th>Số ngày Premium</th>
+
+                        <th style="text-align: center;">Duyệt</th>
                         <th>Xóa</th>
 
                     </thead>
@@ -203,37 +207,21 @@
                         {{#each this.db}}
 
                         <tr>
-                            <td>{{nameOfUser}}</td>
-                            <td>{{gmail}}</td>
-                            <td>{{dayInit}}</td>
-                            <td>{{phoneNumber}}</td>
-                            <td>{{dayOfBirth}}</td>
-                            <td>{{dayEndPremium}}</td>
-                            <td>
-                                {{#when permission 'eq' 0}}
-                                Người dùng
-                                {{/when}}
-                                {{#when permission 'eq' 1}}
-                                Người quản lý
-                                {{/when}}
-                                {{#when permission 'eq' 2}}
-                                Người kiểm duyệt
-                                {{/when}}
-                                {{#when permission 'eq' 3}}
-                                Nhà báo
-                                {{/when}}
+                            <td>{{userName}}</td>
+                            <td>{{days}}</td>
 
-                            </td>
                             <td style="text-align: center;">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a href="/admin/edit/user/{{id}}" class="btn btn-primary btn-xs" data-title="Edit">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
+                                    <button onclick="setIdAccept('{{id}}');" class="btn btn-primary btn-xs"
+                                        data-title="Edit">
+                                        <span class="fa fa-check"></span>
+                                    </button>
                                 </p>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-xs" data-title="Delete"
-                                    onclick="setid('{{id}}');" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                    onclick="setIdReject('{{id}}');" data-toggle="modal" data-target="#delete"><span
+                                        class="fa fa-times"></span></button>
 
                             </td>
                         </tr>
@@ -267,16 +255,18 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    <h4 class="modal-title custom_align" id="Heading">Xóa tài khoản</h4>
+                    <h4 class="modal-title custom_align" id="Heading">Xóa yêu cầu</h4>
                 </div>
                 <div class="modal-body">
 
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc chắn muốn xóa tài khoản này không?</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Bạn có chắc
+                        chắn muốn xóa yêu cầu này không?</div>
 
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Quay lại</button>
-                    <button type="button" class="btn btn-danger" onclick="javascript:$('#frmDelPost').submit()">Xóa</button>
+                    <button type="button" class="btn btn-danger"
+                        onclick="javascript:$('#frmReject').submit()">Xóa</button>
 
                 </div>
             </div>

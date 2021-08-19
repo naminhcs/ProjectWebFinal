@@ -34,7 +34,7 @@ function generateAccessToken(userName) {
     });
 };
 //--------------------------Category---------------------------------
-router.get('/view/cat', async function (req, res) {
+router.get('/view/cat',auth.isAdmin , async function (req, res) {
     const listCat = await catModel.getAllCategory();
     var data = []
     for (let key in Object.keys(listCat)) {
@@ -55,7 +55,7 @@ router.get('/view/cat', async function (req, res) {
     });
 })
 
-router.get('/view/cat/:cat1', async function (req, res) {
+router.get('/view/cat/:cat1',auth.isAdmin, async function (req, res) {
     res.locals.successMsg = req.session.successMsg;
     req.session.successMsg = '';
     console.log(res.locals.successMsg)
@@ -83,14 +83,14 @@ router.get('/view/cat/:cat1', async function (req, res) {
 // --------------------------------------Add cat-------------------------------------------------
 
 //add cat 1
-router.get('/add/cat/', async function (req, res) {
+router.get('/add/cat/',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/add/addcat1', {
         layout: 'admin.hbs'
     });
 })
 
 //add cat 2
-router.get('/add/cat/:cat1', async function (req, res) {
+router.get('/add/cat/:cat1',auth.isAdmin, async function (req, res) {
     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
     console.log(data);
     res.render('vwAdmin/add/addcat2', {
@@ -99,7 +99,7 @@ router.get('/add/cat/:cat1', async function (req, res) {
     });
 })
 // --------------------------------------Edit cat 1-------------------------------------------------
-router.get('/edit/cat/:cat1', async function (req, res) {
+router.get('/edit/cat/:cat1',auth.isAdmin, async function (req, res) {
     const data = await catModel.getCat1ByKeyCat1(req.params.cat1)
     console.log(data);
     res.render('vwAdmin/edit/editcat1', {
@@ -108,7 +108,7 @@ router.get('/edit/cat/:cat1', async function (req, res) {
     });
 })
 
-router.post('/edit/cat/:cat1', async function (req, res) {
+router.post('/edit/cat/:cat1',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     const data = {
         keyCat1: req.body.keyCat1,
@@ -120,7 +120,7 @@ router.post('/edit/cat/:cat1', async function (req, res) {
 })
 
 // -----------------------------------Edit cat2 ------------------------------------------------------
-router.get('/edit/cat/:cat1/:cat2', async function (req, res) {
+router.get('/edit/cat/:cat1/:cat2',auth.isAdmin, async function (req, res) {
     const keyCat1 = req.params.cat1
     const keyCat2 = req.params.cat2
     var namecat1 = '';
@@ -147,7 +147,7 @@ router.get('/edit/cat/:cat1/:cat2', async function (req, res) {
     });
 })
 
-router.post('/edit/cat/:cat1/:cat2', async function (req, res) {
+router.post('/edit/cat/:cat1/:cat2',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     const cat2 = req.params.cat2
     const data = {
@@ -159,7 +159,7 @@ router.post('/edit/cat/:cat1/:cat2', async function (req, res) {
 })
 
 //-------------------Delete Cat1-----------------------------------------------
-router.post('/del/cat/:cat1', async function (req, res) {
+router.post('/del/cat/:cat1',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     result = await catModel.delCat1(cat1)
     res.send(result)
@@ -167,7 +167,7 @@ router.post('/del/cat/:cat1', async function (req, res) {
 
 //-------------------Delete cat2------------------------------------------------
 
-router.post('/del/cat/:cat1/:cat2', async function (req, res) {
+router.post('/del/cat/:cat1/:cat2',auth.isAdmin, async function (req, res) {
     const cat1 = req.params.cat1
     const cat2 = req.params.cat2
     const result = await delCat2(cat1, cat2)
@@ -176,7 +176,7 @@ router.post('/del/cat/:cat1/:cat2', async function (req, res) {
 
 // -----------------------------Add Cat2 ------------------------------------------------
 
-router.post('/add/cat/:cat1', async function (req, res) {
+router.post('/add/cat/:cat1',auth.isAdmin , async function (req, res) {
     const cat1 = req.params.cat1
     const data = {
         keyCat2: req.body.keyCat2,
@@ -190,7 +190,7 @@ router.post('/add/cat/:cat1', async function (req, res) {
 
 // ----------------------------Add cat1 ------------------------------------------------
 
-router.post('/add/cat', async function (req, res) {
+router.post('/add/cat',auth.isAdmin, async function (req, res) {
     const data = req.body
     var listCat2 = []
     for (let i = 0; i < data.listKey2.length; i++) {
@@ -216,7 +216,7 @@ router.post('/add/cat', async function (req, res) {
 
 
 
-router.get('/view/tag', async function (req, res) {
+router.get('/view/tag',auth.isAdmin, async function (req, res) {
     page = req.query.page || 1
     var data = await tagModel.getAllTag(page)
     var cnt = await tagModel.getAmountTag()
@@ -230,7 +230,7 @@ router.get('/view/tag', async function (req, res) {
     });
 })
 
-router.get('/edit/tag/:id', async function (req, res) {
+router.get('/edit/tag/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     console.log(id);
     result = await tagModel.getTagByID(id)
@@ -240,33 +240,33 @@ router.get('/edit/tag/:id', async function (req, res) {
         db: result
     });
 })
-router.post('/edit/tag/:id', async function (req, res) {
+router.post('/edit/tag/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     result = await tagModel.editTag(id, req.body)
     res.send(result);
 })
 
-router.post('/del/tag/:id', async function (req, res) {
+router.post('/del/tag/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     result = await tagModel.delTag(id)
     res.send(result)
 })
 
 
-router.get('/add/tag', async function (req, res) {
+router.get('/add/tag',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/add/addtag', {
         layout: 'admin.hbs'
     });
 })
 
-router.post('/add/tag', async function (req, res) {
+router.post('/add/tag',auth.isAdmin, async function (req, res) {
     result = await tagModel.addTag(req.body)
     //const result = "testok";
     res.send(result)
 })
 
 //-------------------------User------------------------------------------
-router.get('/view/user/:type', async function (req, res) {
+router.get('/view/user/:type',auth.isAdmin, async function (req, res) {
     res.locals.successMsg = req.session.successMsg
     req.session.successMsg = ''
     const type = req.params.type
@@ -308,7 +308,7 @@ router.get('/view/user/:type', async function (req, res) {
     });
 })
 
-router.get('/edit/user/:id', async function (req, res) {
+router.get('/edit/user/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     var data = await userModel.getUserByID(id)
     delete data['password']
@@ -318,7 +318,7 @@ router.get('/edit/user/:id', async function (req, res) {
     });
 })
 
-router.post('/edit/user/:id', async function (req, res) {
+router.post('/edit/user/:id',auth.isAdmin, async function (req, res) {
     var data = req.body;
     data.permission = parseInt(data.permission)
     result = await userModel.updateUserByUserName(data.userName, data)
@@ -326,7 +326,7 @@ router.post('/edit/user/:id', async function (req, res) {
     res.redirect('/admin/view/user/all')
 })
 
-router.post('/add/user', async function (req, res) {
+router.post('/add/user',auth.isAdmin, async function (req, res) {
     const data = req.body;
     console.log(data);
     const checkUserName = await userModel.getUserByUserName(data.userName);
@@ -367,7 +367,7 @@ router.post('/add/user', async function (req, res) {
     res.redirect('/admin/view/user/all')
 })
 
-router.post('/del/user/:id', async function (req, res) {
+router.post('/del/user/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id
     result = await userModel.delUser(id)
     req.session.successMsg = result
@@ -376,7 +376,7 @@ router.post('/del/user/:id', async function (req, res) {
 
 
 // //-------------------------Post-------------------------------------------
-router.get('/view/post/:cat1', async function (req, res) {
+router.get('/view/post/:cat1',auth.isAdmin, async function (req, res) {
     cat1 = req.params.cat1
     page = req.query.page
     console.log(page);
@@ -412,33 +412,33 @@ router.get('/view/post/:cat1', async function (req, res) {
 
 // //--------------------------------dat--------------------//
 
-router.get('/post', async function (req, res) {
+router.get('/post',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/view/post_cat_select', {
         layout: 'admin.hbs'
     });
 })
-router.get('/', async function (req, res) {
+router.get('/',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/view/cat_select', {
         layout: 'admin.hbs'
     });
 })
-router.get('/cat', async function (req, res) {
+router.get('/cat',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/view/cat_select', {
         layout: 'admin.hbs'
     });
 })
 
-router.get('/add/post', async function (req, res) {
+router.get('/add/post',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/add/addpost', {
         layout: 'admin.hbs'
     });
 })
-router.get('/category', async function (req, res) {
+router.get('/category',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/view/cat_select', {
         layout: 'admin.hbs'
     });
 })
-router.get('/add/user', async function (req, res) {
+router.get('/add/user',auth.isAdmin, async function (req, res) {
     res.render('vwAdmin/add/adduser', {
         layout: 'admin.hbs'
     });
@@ -446,7 +446,7 @@ router.get('/add/user', async function (req, res) {
 
 // ------------------------------------------------------Post
 
-router.get('/view/post/:cat1/:cat2', async function (req, res) {
+router.get('/view/post/:cat1/:cat2',auth.isAdmin, async function (req, res) {
     cat1 = req.params.cat1;
     cat2 = req.params.cat2;
     page = req.query.page;
@@ -483,7 +483,7 @@ router.get('/view/post/:cat1/:cat2', async function (req, res) {
     });
 })
 
-router.get('/edit/post/:id', async function (req, res) {
+router.get('/edit/post/:id',auth.isAdmin, async function (req, res) {
     id = req.params.id;
     var data = await postModel.getPostByID(id)
     console.log(data);
@@ -493,24 +493,24 @@ router.get('/edit/post/:id', async function (req, res) {
     });
 })
 
-router.post('/edit/post/:id', async function (req, res) {
+router.post('/edit/post/:id',auth.isAdmin, async function (req, res) {
     const id = req.params.id
     var data = req.body;
     result = await postModel.editPostForAdmin(id, data)
     res.send(result)
 })
 
-router.get('/post/add', async function (req, res) {
+router.get('/post/add',auth.isAdmin, async function (req, res) {
     res.send('direct')
 })
 
-router.post('/add/post', async function (req, res) {
+router.post('/add/post',auth.isAdmin, async function (req, res) {
     const data = req.body;
     result = await postModel.addPost(data)
     return result;
 })
 
-router.post('/del/post/:id', async function (req, res) {
+router.post('/del/post/:id',auth.isAdmin, async function (req, res) {
     const id = req.params.id
     result = await postModel.delPost(id);
     res.send(result)
@@ -518,7 +518,7 @@ router.post('/del/post/:id', async function (req, res) {
 
 // --------------------------------------------------DraftPost-----------------------------------------------------------------
 
-router.get('/view/draft-post', async function (req, res) {
+router.get('/view/draft-post',auth.isAdmin, async function (req, res) {
     res.locals.successMsg = req.session.successMsg
     req.session.successMsg = ''
     console.log(res.locals.successMsg)
@@ -532,7 +532,7 @@ router.get('/view/draft-post', async function (req, res) {
     })
 })
 
-router.get('/view/draft-post/:id', async function (req, res) {
+router.get('/view/draft-post/:id',auth.isAdmin, async function (req, res) {
     var id = req.params.id
     const post = await draftModel.getDrafPostByID(id);
     res.render('vwEditor/confirmpost', {
@@ -541,7 +541,7 @@ router.get('/view/draft-post/:id', async function (req, res) {
     });
 })
 
-router.post('/del/draft-post/:id', async function (req, res) {
+router.post('/del/draft-post/:id',auth.isAdmin, async function (req, res) {
     var id = req.params.id
     const result = await draftModel.deletePostByAdmin(id)
     req.session.successMsg = result;
@@ -550,7 +550,7 @@ router.post('/del/draft-post/:id', async function (req, res) {
 
 // --------------------------------------------Upgrade----------------------------------------------------------------
 
-router.post('/upgrade/accept/:id', async function (req, res) {
+router.post('/upgrade/accept/:id',auth.isAdmin, async function (req, res) {
     const userName = req.body.userName
     const days = req.body.days
     const id = req.params.id
@@ -559,7 +559,7 @@ router.post('/upgrade/accept/:id', async function (req, res) {
     res.redirect('/admin/view/user/upgrade')
 })
 
-router.post('/upgrade/reject/:id', async function (req, res) {
+router.post('/upgrade/reject/:id',auth.isAdmin, async function (req, res) {
     const id = req.params.id
     result = await userModel.rejectAccount(id)
     req.session.successMsg = result;

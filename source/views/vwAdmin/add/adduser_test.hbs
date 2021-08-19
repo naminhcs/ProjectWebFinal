@@ -1,0 +1,25 @@
+{{#section 'css'}}
+<title>Quản lý người dùng</title>
+
+{{/section}}
+
+{{#section 'js'}}
+<script>
+  const title1 = 'Thêm người dùng'; const title2 = 'Thêm người dùng'; const title3 = 'Add user';
+  const id1 = document.getElementById('title1'); const id2 = document.getElementById('title2'); const id3 = document.getElementById('title3');
+  id1.innerHTML = title1; id2.innerHTML = title2; id3.innerHTML = title3;
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
+{{/section}}
+<main>
+  <p>Date: <input type="text" id="datepicker"></p>
+
+</main>

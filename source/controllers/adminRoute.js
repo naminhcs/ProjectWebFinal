@@ -320,7 +320,7 @@ router.post('/add/user', async function(req, res){
         subject: 'Confirm email',
         text: s
     }
-    await transporter.sendMail(mailOption)
+    //await transporter.sendMail(mailOption)
     // ---- Add user to database
     await userModel.addUser(dataPush);
     req.session.successMsg = 'Check gmail to confirm';

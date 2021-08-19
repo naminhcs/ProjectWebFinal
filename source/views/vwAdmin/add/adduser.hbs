@@ -60,22 +60,59 @@
   console.log("4");
 </script>
 <script>
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  function check_tel() {
+    var vnf_regex = /((0)+(([0-9]{9})|([0-9]{10}))\b)/g;
+    var mobile = $('#_phoneNumber').val();
+    if (mobile !== '') {
+      if (vnf_regex.test(mobile) == false) {
+        alert('Số điện thoại của bạn không đúng định dạng!');
+      } else {
+        return false;
+      }
+    } else {
+      alert('Bạn chưa điền số điện thoại!');
+    }
+    return true;
+  }
   function check_submit() {
     var listId = ["_userName", "_password", "_nameOfUser", "_gmail", "_phoneNumber", "_dayOfBirth", "selectpermission"];
-    var check_null=false;
+    var check_null = false;
     for (let i = 0; i < listId.length; i++) {
-      if(document.getElementById(listId[i]).value=="") check_null=true;
+      if (document.getElementById(listId[i]).value == "") check_null = true;
     }
-    if(check_null) alert("Dữ liệu nhập vào không được để trống!");
-    else
-    {
+
+    if (!validateEmail(document.getElementById("_gmail").value)) {
+      alert("Gmail không hợp lệ!");
+    }
+    else if (check_tel()) {
+
+    }
+    else if (check_null) {
+      alert("Dữ liệu nhập vào không được để trống!");
+    }
+
+    else {
       $("#formSubmit").submit();
     }
+
 
   }
 </script>
 <script>
-    $("#li_4").addClass('active');
+  $("#li_4").addClass('active');
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+    $("#_dayOfBirth").datepicker();
+  });
 </script>
 {{/section}}
 <main>
@@ -128,13 +165,14 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Ngày sinh</label>
       <div class="col-sm-9">
-        <div class='input-group date' id='datetimepicker1'>
+        <input type="text" class="form-control" id="_dayOfBirth" name="dayOfBirth" readonly="">
+        {{!-- <div class='input-group date' id='datetimepicker1'>
           <input type='text' class="form-control" id="_dayOfBirth" name="dayOfBirth" value=""
             placeholder="Nhập ngày sinh">
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
-        </div>
+        </div> --}}
         {{!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Dayofbirth"> --}}
       </div>
     </div>
